@@ -212,4 +212,3 @@ DateOfPurchase DATE,Price FLOAT);
 
 ALTER TABLE OrderDetail ALTER COLUMN ProductID INTEGER NOT NULL
 ```
-check
