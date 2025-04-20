@@ -1,0 +1,9 @@
+# Ignore Obsidian config folder
+.obsidian/
+
+# Ignore workspace data
+workspace.json
+
+# Optional: Ignore temporary files or OS files
+.DS_Store
+Thumbs.db
