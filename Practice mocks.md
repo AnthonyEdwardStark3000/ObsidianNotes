@@ -97,3 +97,41 @@ However, it’s important to note that the primary key isn’t just about unique
 
 _"A primary key in MySQL is a column (or a set of columns) that uniquely identifies each row in a table. It ensures that no two rows can have the same value in the primary key column(s). The primary key also automatically creates an index on that column for fast lookups. Additionally, the primary key can be used in other tables as a foreign key to establish relationships between tables, which helps maintain referential integrity."_
 
+### ❓Q5.
+
+**How would you retrieve the top 5 highest-paid employees from an `Employees` table in MySQL?**
+### **Conceptual Feedback**:
+
+- You mentioned using `ORDER BY`, which is correct! To retrieve the top 5 highest-paid employees, you would:
+    
+    1. **Sort the employees** by salary in descending order using `ORDER BY salary DESC`.
+        
+    2. **Limit the result** to the top 5 rows using `LIMIT 5`.
+        
+
+Here’s a more detailed explanation and example:
+
+sql
+
+CopyEdit
+
+`SELECT * FROM Employees ORDER BY salary DESC LIMIT 5;`
+
+- This query will retrieve the top 5 employees based on their salary, ordered from highest to lowest.### **Conceptual Feedback**:
+
+- You mentioned using `ORDER BY`, which is correct! To retrieve the top 5 highest-paid employees, you would:
+    
+    1. **Sort the employees** by salary in descending order using `ORDER BY salary DESC`.
+        
+    2. **Limit the result** to the top 5 rows using `LIMIT 5`.
+        
+
+Here’s a more detailed explanation and example:
+
+sql
+
+CopyEdit
+
+`SELECT * FROM Employees ORDER BY salary DESC LIMIT 5;`
+
+- This query will retrieve the top 5 employees based on their salary, ordered from highest to lowest.
