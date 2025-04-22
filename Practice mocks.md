@@ -168,3 +168,39 @@ Here’s an improved and more detailed answer:
     4. **`ngOnDestroy()`**: Called just before Angular destroys the component. It’s useful for cleanup, like unsubscribing from observables or cleaning up timers.
        
     "Lifecycle hooks in Angular are methods that occur at specific points during a component's life. For example, `ngOnInit()` is called when a component is initialized, and `ngOnDestroy()` is called when a component is destroyed. These hooks help manage actions related to the component's lifecycle, such as initialization, property changes, and cleanup. Services don’t have lifecycle hooks because they aren’t tied to the lifecycle of the view like components are."
+    - **Components**: Have lifecycle hooks because they are tied to the view (UI).
+    
+- **Services**: Are typically singleton objects that exist for the lifetime of the application, so they don’t have lifecycle hooks like components.
+  ### ❓Q7.
+
+**What is dependency injection in .NET, and why is it important in modern application development?**
+- **Dependency Injection (DI)** is an **Inversion of Control** (IoC) pattern. The core idea is that instead of manually creating objects (like a service or a repository), we rely on an external container to manage the instantiation and lifecycle of these objects.
+    
+- You correctly mentioned that DI is related to **constructor injection** — this is a common form of DI in .NET, where dependencies are provided through a class constructor rather than the class creating them directly.
+    
+- The three **lifetime types** for DI in .NET are:
+    
+    1. **Singleton**: A single instance is created and shared throughout the application’s lifetime.
+        
+    2. **Scoped**: A new instance is created per scope, often tied to a single request (in web applications).
+        
+    3. **Transient**: A new instance is created each time it is requested.
+        
+
+These lifetimes determine how and when the objects are created and disposed of.
+### **Improved Answer**:
+
+_"Dependency Injection (DI) is an Inversion of Control (IoC) pattern where the creation of an object is delegated to a container or framework, rather than the class itself. In .NET, DI helps improve **decoupling** between components, making code more testable and maintainable. The main methods of dependency injection in .NET are:_
+
+- **Singleton**: The same instance is shared throughout the application’s lifetime.
+    
+- **Scoped**: A new instance is created for each request or scope (usually within the context of a web request).
+    
+- **Transient**: A new instance is created each time it’s requested.
+    
+
+Using DI promotes **loose coupling** and makes the application easier to manage, test, and extend."_
+_"Dependency Injection is an Inversion of Control (IoC) pattern that allows objects to be created by a container rather than the class itself. This helps decouple components, making the application easier to manage and test. There are three main lifetimes in DI: Singleton, Scoped, and Transient. These lifetimes determine how often instances of a service are created."_
+- **Inversion of Control (IoC)**: This principle means that the flow of control is inverted. Instead of a class controlling its own dependencies, an external container (like the built-in DI container in .NET) provides the necessary objects.
+    
+- DI in .NET helps in building **testable**, **maintainable**, and **flexible applications**. It allows you to easily swap out implementations (e.g., for testing) without modifying the dependent class.
