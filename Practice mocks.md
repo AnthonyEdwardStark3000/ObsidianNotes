@@ -135,3 +135,36 @@ CopyEdit
 `SELECT * FROM Employees ORDER BY salary DESC LIMIT 5;`
 
 - This query will retrieve the top 5 employees based on their salary, ordered from highest to lowest.
+### ❓Q6.
+
+**In Angular, what are lifecycle hooks? Can you name a few and explain their purpose?**
+- **Lifecycle hooks** in Angular are methods that are invoked at specific stages of a component’s lifecycle. They give developers control over the initialization, update, and destruction of components.
+    
+- You mentioned `ngOnInit()` and `ngOnDestroy()`, which are two common lifecycle hooks.
+    
+- However, the distinction you made between a component and a service needs clarification:
+    
+    - A **component** has lifecycle hooks because it’s tied to the view and its lifecycle events (like initialization and destruction).
+        
+    - A **service**, on the other hand, doesn’t have lifecycle hooks because it typically exists for the lifetime of the application (or until it’s explicitly destroyed via dependency injection).
+        
+
+You could mention other common lifecycle hooks like `ngOnChanges()` and `ngAfterViewInit()` as well.
+
+### **Full Explanation**:
+
+Here’s an improved and more detailed answer:
+
+- **Lifecycle hooks** are methods that Angular calls at various points during the life of a component. They allow you to tap into specific stages of the component's lifecycle to perform actions.
+    
+- **Common lifecycle hooks include**:
+    
+    1. **`ngOnInit()`**: Called once after the component’s input properties are set. It’s used for component initialization.
+        
+    2. **`ngOnChanges()`**: Called when input properties change. It’s useful for reacting to changes in input data.
+        
+    3. **`ngAfterViewInit()`**: Called after the component’s view has been initialized. It’s often used to interact with the component’s view elements.
+        
+    4. **`ngOnDestroy()`**: Called just before Angular destroys the component. It’s useful for cleanup, like unsubscribing from observables or cleaning up timers.
+       
+    "Lifecycle hooks in Angular are methods that occur at specific points during a component's life. For example, `ngOnInit()` is called when a component is initialized, and `ngOnDestroy()` is called when a component is destroyed. These hooks help manage actions related to the component's lifecycle, such as initialization, property changes, and cleanup. Services don’t have lifecycle hooks because they aren’t tied to the lifecycle of the view like components are."
