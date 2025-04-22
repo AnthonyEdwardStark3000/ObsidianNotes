@@ -280,10 +280,8 @@ The **SOLID** principles are five key design guidelines in object-oriented progr
   private EmailSender _emailSender = new EmailSender();
   // ...
 }
-    ``
-    **Good**:
-    
-    
+        **Good**:
+```
     public interface IEmailSender {
   void Send(string to, string subject, string body);
 }
@@ -299,7 +297,7 @@ public class UserService {
   }
   // ...
 }
-
+```
 ### ❓Q10.
 
 **How do you ensure your application is secure against SQL Injection, especially when using Dapper?**
