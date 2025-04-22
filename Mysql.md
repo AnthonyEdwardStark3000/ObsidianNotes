@@ -215,11 +215,18 @@ ALTER TABLE OrderDetail ALTER COLUMN ProductID INTEGER NOT NULL
 #### Unique Constraints
 ![[Pasted image 20250422214911.png |400 |400]]
 ```
+-- Unique constraint while creating a table
 CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),
 LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),AadharNumber BIGINT UNIQUE);
 
-
+-- Unique constraint while altering a table
 CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),
 LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),AadharNumber BIGINT, 
 CONSTRAINT Uc_students UNIQUE(StudentID));
+
+
+-- Unique constraint for two or more columns while altering a table
+CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),
+LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),AadharNumber BIGINT, 
+CONSTRAINT Uc_students UNIQUE(StudentID,AadharNumber));
 ```
