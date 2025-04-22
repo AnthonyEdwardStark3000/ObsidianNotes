@@ -308,4 +308,38 @@ public class UserService {
     
 - **Dapper** helps prevent SQL injection by using parameterized queries. In a parameterized query, placeholders (e.g., `@param`) are used in the SQL query instead of directly concatenating user input into the query string. This way, user input is treated as a value and not as executable SQL code.
 
+### **Clarified Explanation**:
+
+- When you use **query parameters** with Dapper, you’re essentially preventing SQL injection because Dapper will automatically handle sanitizing the user input.
     
+- Instead of concatenating raw user input directly into your SQL query string, you pass the input as parameters, like `@Username`, `@Password`, and so on.
+    
+- This ensures that the values are treated safely, and the query structure (i.e., the SQL command itself) remains fixed, with values being passed as separate parameters.
+
+### **Improved Answer**:
+
+_"To prevent SQL injection when using Dapper, I use **parameterized queries**. Instead of concatenating raw user input directly into SQL queries, I pass the input as parameters. For example, in a query like `SELECT * FROM Users WHERE Username = @Username`, I use placeholders (like `@Username`) in the SQL query, and Dapper automatically replaces them with the actual values from the parameters during execution. This ensures that the input is treated as data, not executable SQL, which prevents malicious injection."_
+
+### **Best Practices**:
+
+- **Always use parameters**: Never concatenate user inputs directly into SQL queries.
+    
+- **Use parameterized methods in Dapper** like `Query`, `Execute`, and `QueryFirstOrDefault`, passing parameters as an anonymous object or a dictionary.
+    
+- **Avoid dynamic SQL**: If possible, avoid building SQL queries dynamically from user input.
+
+### ❓Q11.
+
+**Explain how you would implement transaction management in a .NET application using Dapper, and why transactions are important.**
+
+- **Transaction management** is essential in database operations to ensure data consistency, especially when multiple operations need to be performed atomically (i.e., either all succeed or all fail).
+    
+- In .NET, with **Dapper**, you can manage transactions by starting a transaction, committing it if everything goes well, or rolling it back if something goes wrong.
+
+### **Improved Answer**:
+
+_"To implement transaction management in a .NET application using Dapper, I first establish a connection to the database. Then, I begin a transaction using the `BeginTransaction()` method. Inside the transaction, I perform the necessary database operations, passing the transaction object to each query. Once all queries are executed successfully, I commit the transaction using `commit()`. If any error occurs during the process, I catch the exception and roll back the transaction using `rollback()`. This ensures that either all changes are applied, or none are, maintaining the integrity of the database."_
+
+```
+
+```
