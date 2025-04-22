@@ -247,3 +247,49 @@ The **SOLID** principles are five key design guidelines in object-oriented progr
 4. **I**nterface Segregation Principle
     
 5. **D**ependency Inversion Principle
+#### 1. Single Responsibility Principle (SRP)
+
+- **Definition**: A class should have only one reason to change, meaning it should have only one job or responsibility.
+    
+- **Example**:
+    
+    - **Bad**: A `ReportManager` class that handles both generating report data _and_ formatting that report for display.
+        
+    - **Good**:
+        
+        - `ReportGenerator` class that only collects and processes the data.
+            
+        - `ReportFormatter` class that only handles converting that data into PDF, HTML, or other formats.
+            
+
+**Why it matters**: When responsibilities are separated, changes in one area (e.g., formatting) don’t affect unrelated parts (e.g., data generation).
+
+#### 2. Dependency Inversion Principle (DIP)
+
+- **Definition**:
+    
+    - High-level modules should not depend on low-level modules; both should depend on abstractions.
+        
+    - Abstractions should not depend on details; details should depend on abstractions.
+        
+- **Example**:
+    
+    - **Bad**: A `UserService` class directly instantiates a concrete `EmailSender` class to send emails:
+    ```
+    public class UserService {
+  private EmailSender _emailSender = new EmailSender();
+  // ...
+}
+    ```
+    
+    **Good**:
+    ```
+    public interface IEmailSender {
+  void Send(string to, string subject, string body);
+}
+
+public class SmtpEmailSender : IEmailSender {
+  public void Send(...) { /* SMTP logic */ }
+}
+```
+    
