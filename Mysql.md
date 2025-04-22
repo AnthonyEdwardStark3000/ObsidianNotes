@@ -231,5 +231,9 @@ LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),AadharNumber BIGINT,
 CONSTRAINT Uc_students UNIQUE(StudentID,AadharNumber));
 
 -- Unique constraint while altering a table
-ALTER TABLE students ADD CONSTRAINT UNIQUE(AadharNumber);
+ALTER TABLE students ADD UNIQUE(AadharNumber);
+ALTER TABLE students ADD CONSTRAINT UcUNIQUE(AadharNumber);
+
+-- Drop constraint
+ALTER TABLE students DROP CONSTRAINT();
 ```
