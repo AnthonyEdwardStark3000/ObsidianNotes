@@ -204,3 +204,46 @@ _"Dependency Injection is an Inversion of Control (IoC) pattern that allows obje
 - **Inversion of Control (IoC)**: This principle means that the flow of control is inverted. Instead of a class controlling its own dependencies, an external container (like the built-in DI container in .NET) provides the necessary objects.
     
 - DI in .NET helps in building **testable**, **maintainable**, and **flexible applications**. It allows you to easily swap out implementations (e.g., for testing) without modifying the dependent class.
+### ❓Q8.
+
+**In Angular, what are Observables and how do they differ from Promises?**
+Both **Observables** and **Promises** deal with **asynchronous operations**, but there are some key differences:
+
+1. **Promises**:
+    
+    - A **Promise** represents a single value that will be resolved in the future. It either resolves with a value or rejects with an error, and you can only handle it once.
+        
+    - Promises are **eager** — they start executing as soon as they are created, and you can only use `.then()` or `.catch()` to handle their results.
+        
+2. **Observables**:
+    
+    - **Observables** are more powerful because they allow **multiple asynchronous events** over time (not just one like Promises). They can emit multiple values (or none), and you can listen for updates continuously.
+        
+    - They are **lazy** — they don't start executing until you subscribe to them.
+        
+    - Observables are often used in Angular for handling things like HTTP requests, event listeners, etc. You can use `.subscribe()` to get the emitted values.
+    **Observables** are commonly used for **data sharing** between components, especially in Angular. For example, a parent component can emit data to a child component through an **Observable**, and the child can subscribe to that data.
+    "In Angular, **Observables** and **Promises** both handle asynchronous operations, but they differ in important ways. A **Promise** is used for a single asynchronous value that resolves once, whereas an **Observable** can emit multiple values over time. Promises are **eager** — they execute immediately when created, and you handle them with `.then()` or `.catch()`. On the other hand, Observables are **lazy** — they don’t start executing until you **subscribe** to them, and they allow you to receive multiple values over time. This makes Observables useful for handling things like HTTP responses, events, or data sharing between components in Angular."
+    - **Observables** are part of the **ReactiveX (RxJS)** library, which is a set of tools for working with asynchronous data streams.
+    
+- **Use cases for Observables in Angular** include:
+    
+    - **HTTP requests**: Angular’s HTTP client returns an Observable, which you can subscribe to.
+        
+    - **Event handling**: Like mouse clicks or keyboard events.
+        
+    - **Component communication**: Sharing data between parent and child components using Observables allows for more flexible and dynamic data flows.
+### ❓Q9.
+
+**Can you explain the SOLID principles? Please pick any two principles and describe them with examples.**
+The **SOLID** principles are five key design guidelines in object-oriented programming that help make code more maintainable, extensible, and robust. The acronym stands for:
+
+1. **S**ingle Responsibility Principle
+    
+2. **O**pen/Closed Principle
+    
+3. **L**iskov Substitution Principle
+    
+4. **I**nterface Segregation Principle
+    
+5. **D**ependency Inversion Principle
