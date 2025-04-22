@@ -341,5 +341,78 @@ _"To prevent SQL injection when using Dapper, I use **parameterized queries**. I
 _"To implement transaction management in a .NET application using Dapper, I first establish a connection to the database. Then, I begin a transaction using the `BeginTransaction()` method. Inside the transaction, I perform the necessary database operations, passing the transaction object to each query. Once all queries are executed successfully, I commit the transaction using `commit()`. If any error occurs during the process, I catch the exception and roll back the transaction using `rollback()`. This ensures that either all changes are applied, or none are, maintaining the integrity of the database."_
 
 ```
+using (var connection = new SqlConnection(connectionString))
+{
+    connection.Open();
+    var transaction = connection.BeginTransaction();
+
+    try
+    {
+        var query1 = "UPDATE Users SET Name = @Name WHERE Id = @Id";
+        connection.Execute(query1, new { Name = "John", Id = 1 }, transaction: transaction);
+
+        var query2 = "UPDATE Orders SET Status = @Status WHERE OrderId = @OrderId";
+        connection.Execute(query2, new { Status = "Shipped", OrderId = 101 }, transaction: transaction);
+
+        transaction.Commit();  // Commit the transaction if everything is successful
+    }
+    catch (Exception ex)
+    {
+        transaction.Rollback();  // Rollback if an error occurs
+        Console.WriteLine("Transaction failed: " + ex.Message);
+    }
+}
 
 ```
+
+### **Why Transactions Are Important**:
+
+- **Atomicity**: All the operations within a transaction are treated as a single unit of work. Either all succeed, or none are applied.
+    
+- **Consistency**: The database will remain in a valid state, even if there’s a failure during an operation.
+    
+- **Isolation**: Ensures that intermediate changes within the transaction are not visible to other transactions, preventing inconsistencies.
+    
+- **Durability**: Once committed, the changes are permanent and will not be lost.
+
+### ❓Q12.
+
+**Explain how data binding works in Angular. What are the different types of data binding available?**
+
+- **Data Binding in Angular** is a mechanism that allows you to synchronize the model (the data in your component) with the view (the UI). It’s used to connect your component's class properties with the DOM (Document Object Model).
+    
+- **Types of Data Binding** in Angular:
+    
+    - **One-Way Data Binding**: The data flows in one direction — either from the component to the view, or from the view to the component.
+        
+    - **Two-Way Data Binding**: This is more interactive. The data flows both ways — from the component to the view, and vice versa.
+      
+ - **One-Way Data Binding**:
+    
+    1. **String Interpolation**: This is used for binding data from the component to the view. The value from the component is inserted into the HTML.
+        
+        - Syntax: `{{ variable }}`
+            
+        - Example: `<h1>{{ title }}</h1>` will display the value of the `title` variable in the component.
+            
+    2. **Property Binding**: This binds a property in the component to a property in the DOM.
+        
+        - Syntax: `[property]="expression"`
+            
+        - Example: `<img [src]="imageUrl">` will set the `src` attribute of the `img` tag to the value of `imageUrl` in the component.
+            
+    3. **Event Binding**: This allows you to handle events in the view and send them to the component.
+        
+        - Syntax: `(event)="expression"`
+            
+        - Example: `<button (click)="onClick()">Click Me</button>` will call `onClick()` in the component when the button is clicked.
+            
+- **Two-Way Data Binding**:
+    
+    - Achieved with the `[(ngModel)]` directive, which allows synchronization between the view and the component. Changes in the view are automatically reflected in the component and vice versa.
+        
+    - Syntax: `[(ngModel)]="variable"`
+        
+    - Example: `<input [(ngModel)]="name">` binds the `name` property to the input field, so if the user types in the field, it updates the component’s `name` variable, and vice versa.
+      
+      
