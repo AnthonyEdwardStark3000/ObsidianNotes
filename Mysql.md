@@ -212,7 +212,8 @@ DateOfPurchase DATE,Price FLOAT);
 
 ALTER TABLE OrderDetail ALTER COLUMN ProductID INTEGER NOT NULL
 ```
-#### Unique Constraints
+**Unique Constraints
+
 ![[Pasted image 20250422214911.png |400 |400]]
 ```
 -- Unique constraint while creating a table
@@ -232,8 +233,8 @@ CONSTRAINT Uc_students UNIQUE(StudentID,AadharNumber));
 
 -- Unique constraint while altering a table
 ALTER TABLE students ADD UNIQUE(AadharNumber);
-ALTER TABLE students ADD CONSTRAINT UcUNIQUE(AadharNumber);
+ALTER TABLE students ADD CONSTRAINT Uc_students UNIQUE(AadharNumber);
 
 -- Drop constraint
-ALTER TABLE students DROP CONSTRAINT();
+ALTER TABLE students DROP CONSTRAINT(Uc_students);
 ```
