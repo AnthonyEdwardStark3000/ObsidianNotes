@@ -212,3 +212,5 @@ DateOfPurchase DATE,Price FLOAT);
 
 ALTER TABLE OrderDetail ALTER COLUMN ProductID INTEGER NOT NULL
 ```
+### Unique Constraints
+![[Pasted image 20250422214911.png]]
