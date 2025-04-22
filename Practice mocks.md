@@ -282,7 +282,7 @@ The **SOLID** principles are five key design guidelines in object-oriented progr
 }
     ```
     
-    **Good**:
+    ***Good**:
     ```
     public interface IEmailSender {
   void Send(string to, string subject, string body);
@@ -291,5 +291,21 @@ The **SOLID** principles are five key design guidelines in object-oriented progr
 public class SmtpEmailSender : IEmailSender {
   public void Send(...) { /* SMTP logic */ }
 }
+
+public class UserService {
+  private readonly IEmailSender _emailSender;
+  public UserService(IEmailSender emailSender) {
+    _emailSender = emailSender;
+  }
+  // ...
+}
 ```
+### ❓Q10.
+
+**How do you ensure your application is secure against SQL Injection, especially when using Dapper?**
+
+- **SQL Injection** is an attack where a malicious user can manipulate SQL queries by injecting harmful SQL code through user inputs.
+    
+- **Dapper** helps prevent SQL injection by using parameterized queries. In a parameterized query, placeholders (e.g., `@param`) are used in the SQL query instead of directly concatenating user input into the query string. This way, user input is treated as a value and not as executable SQL code.
+
     
