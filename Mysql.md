@@ -251,4 +251,8 @@ Salary>3000 AND DateOfBirth >= '1980-01-01'));
 
 -- Check constraint using alter statement
 ALTER TABLE employee ADD CHECK(Salary>3000);
+ALTER TABLE employee ADD CONSTRAINT CHK_Employee CHECK(Salary>3000 AND DateOfBirth>='1980-01-02');
+
+-- Drop the check constraint
+ALTER TABLE employee DROP CONSTRAINT CHK_Employee;
 ```
