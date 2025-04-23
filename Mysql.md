@@ -248,4 +248,7 @@ DateOfBirth DATE,Gender CHAR(1),Salary INT CHECK(Salary>3000));
 CREATE TABLE employee(EmployeeID INTEGER PRIMARY KEY,FirstName VARCHAR(200),LastName VARCHAR(200),
 DateOfBirth DATE,Gender CHAR(1),Salary INT,CONSTRAINT CHK_EMPLOYEE CHECK(
 Salary>3000 AND DateOfBirth >= '1980-01-01'));
+
+-- Check constraint using alter statement
+ALTER TABLE employee ADD CHECK(Salary>3000);
 ```
