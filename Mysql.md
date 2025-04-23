@@ -238,3 +238,5 @@ ALTER TABLE students ADD CONSTRAINT Uc_students UNIQUE(AadharNumber);
 -- Drop constraint
 ALTER TABLE students DROP CONSTRAINT(Uc_students);
 ```
+**Check Constraints
+For applying restrictions for particular column in a table check constraints are used . 

@@ -35,8 +35,7 @@
               "title": "Practice mocks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -185,11 +184,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "fb15ded4eb0f1b69",
+  "active": "6074ec120d747bf6",
   "lastOpenFiles": [
+    "Practice mocks.md",
     "Mysql.md",
     "Pasted image 20250422214911.png",
-    "Practice mocks.md",
     "Docker basics.md",
     "Pasted image 20250420112826.png",
     "test.txt",
