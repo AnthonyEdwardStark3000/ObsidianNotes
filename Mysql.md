@@ -242,5 +242,7 @@ ALTER TABLE students DROP CONSTRAINT(Uc_students);
 For applying restrictions for particular column in a table check constraints are used . 
 
 ```
+CREATE TABLE employee(EmployeeID INTEGER PRIMARY KEY, FirstName VARCHAR(200),LastName VARCHAR(200),
+DateOfBirth DATE,Gender CHAR(1),Salary INT CHECK(Salary>3000));
 
 ```
