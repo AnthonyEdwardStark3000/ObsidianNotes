@@ -3,3 +3,4 @@
 
 Here the asp-for automatically generates the type attribute, for attribute, id and value attributes .
 ==Predefined tag helpers available==
+![[Pasted image 20250423221535.png|500]]

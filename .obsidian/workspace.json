@@ -50,7 +50,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -198,12 +198,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "645f960e74204819",
+  "active": "fb15ded4eb0f1b69",
   "lastOpenFiles": [
+    "Dotnet Intermediate Topics.md",
+    "Pasted image 20250423221535.png",
     "Pasted image 20250423221400.png",
     "Pasted image 20250423221129.png",
     "Mysql.md",
-    "Dotnet Intermediate Topics.md",
     "Practice mocks.md",
     "Pasted image 20250422214911.png",
     "Docker basics.md",
