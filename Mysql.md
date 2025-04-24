@@ -258,4 +258,4 @@ ALTER TABLE employee DROP CONSTRAINT CHK_Employee;
 ```
 **Default constraint
 
-Assigns the default value to the column 
+Assigns the default value to the column if no value is provided to that column during insertion of data .
