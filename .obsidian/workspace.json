@@ -49,8 +49,7 @@
               "title": "Practice mocks"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -198,14 +197,14 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "fb15ded4eb0f1b69",
+  "active": "6074ec120d747bf6",
   "lastOpenFiles": [
+    "Practice mocks.md",
     "Dotnet Intermediate Topics.md",
     "Pasted image 20250423221535.png",
     "Pasted image 20250423221400.png",
     "Pasted image 20250423221129.png",
     "Mysql.md",
-    "Practice mocks.md",
     "Pasted image 20250422214911.png",
     "Docker basics.md",
     "Pasted image 20250420112826.png",

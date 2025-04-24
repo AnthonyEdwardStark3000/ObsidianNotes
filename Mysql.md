@@ -257,3 +257,5 @@ ALTER TABLE employee ADD CONSTRAINT CHK_Employee CHECK(Salary>3000 AND DateOfBir
 ALTER TABLE employee DROP CONSTRAINT CHK_Employee;
 ```
 **Default constraint
+
+Assigns the default value to the column 
