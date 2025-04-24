@@ -259,3 +259,13 @@ ALTER TABLE employee DROP CONSTRAINT CHK_Employee;
 **Default constraint
 
 Assigns the default value to the column if no value is provided to that column during insertion of data .
+
+```
+CREATE TABLE NewStudents(StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(100),
+LastName VARCHAR(100),DateOfBirth DATE,Gender CHAR(1),Country VARCHAR(10) DEFAULT 'India');
+
+INSERT INTO NewStudents(StudentID,FirstName,LastName,DateOfBirth,Gender)
+VALUES(12,'FName','LName','12-02-24','M');
+
+SELECT * FROM NewStudents;
+```
