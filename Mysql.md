@@ -272,4 +272,9 @@ SELECT * FROM NewStudents;
 -- Adding default constraint using alter statement
 
 ALTER TABLE NewStudents ADD CONSTRAINT Df_students DEFAULT 'India' FOR Country;
+
+-- Drop constraint
+ALTER TABLE NewStudents DROP CONSTRAINT Df_students;
 ```
+
+**
