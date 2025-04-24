@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Dotnet Intermediate Topics.md",
+                "file": "Practice mocks.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Dotnet Intermediate Topics"
+              "title": "Practice mocks"
             }
           },
           {
@@ -35,8 +35,7 @@
               "title": "Mysql"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -184,13 +183,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "fb15ded4eb0f1b69",
+  "active": "645f960e74204819",
   "lastOpenFiles": [
+    "Dotnet Intermediate Topics.md",
+    "Mysql.md",
     "Pasted image 20250424223041.png",
     "Pasted image 20250424223039.png",
     "Practice mocks.md",
-    "Dotnet Intermediate Topics.md",
-    "Mysql.md",
     "Pasted image 20250423221535.png",
     "Pasted image 20250423221400.png",
     "Pasted image 20250423221129.png",
