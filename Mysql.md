@@ -164,7 +164,7 @@ SELECT * FROM Person.Address WHERE AddressLine1 LIKE '%[_]%';
 
 
 #### Primary Key constraints
-##### SQL constraints
+##### SQL constraints .
 Applying rules for the data in the table is known as constraints .
 ![[Pasted image 20250420112826.png]]****
 ```
@@ -187,7 +187,7 @@ ALTER TABLE students ADD CONSTRAINT Pk_students PRIMARY KEY(StudentID);
 
 ALTER TABLE students DROP CONSTRAINT Pk_students;
 ```
-**Composite key - Making two or more columns as Primary key
+**Composite key - Making two or more columns as Primary key .
 
 ```
 CREATE TABLE OrderDetail (OrderID INTEGER,ProductID INTEGER,
@@ -200,7 +200,7 @@ DateOfPurchase DATE,Price FLOAT);
 
 ALTER TABLE OrderDetail ADD CONSTRAINT pk_orderdetail PRIMARY KEY(OrderID,ProductID);
 ```
-**NOT NULL Constraint
+**NOT NULL Constraint . 
 
 By default an table can have null values in it's fields , for restricting this ==NOT NULL constraint== can be used .
 
@@ -212,7 +212,7 @@ DateOfPurchase DATE,Price FLOAT);
 
 ALTER TABLE OrderDetail ALTER COLUMN ProductID INTEGER NOT NULL
 ```
-**Unique Constraints
+**Unique Constraints .
 
 ![[Pasted image 20250422214911.png |400 |400]]
 ```
@@ -256,7 +256,7 @@ ALTER TABLE employee ADD CONSTRAINT CHK_Employee CHECK(Salary>3000 AND DateOfBir
 -- Drop the check constraint
 ALTER TABLE employee DROP CONSTRAINT CHK_Employee;
 ```
-**Default constraint
+**Default constraint .
 
 Assigns the default value to the column if no value is provided to that column during insertion of data .
 
@@ -277,4 +277,5 @@ ALTER TABLE NewStudents ADD CONSTRAINT Df_students DEFAULT 'India' FOR Country;
 ALTER TABLE NewStudents DROP CONSTRAINT Df_students;
 ```
 
-**
+**Foreign Key Constraint .
+
