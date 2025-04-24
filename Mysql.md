@@ -270,5 +270,6 @@ VALUES(12,'FName','LName','12-02-24','M');
 SELECT * FROM NewStudents;
 
 -- Adding default constraint using alter statement
+
 ALTER TABLE NewStudents ADD CONSTRAINT Df_students DEFAULT 'India' FOR Country;
 ```
