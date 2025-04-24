@@ -279,4 +279,5 @@ ALTER TABLE NewStudents DROP CONSTRAINT Df_students;
 
 **Foreign Key Constraint .
 
-Particular column of a table referring PK of another table is known as Foreign Key 
+Particular column of a table referring PK of another table is known as Foreign Key .
+![[Pasted image 20250424223041.png]]
