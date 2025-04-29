@@ -303,5 +303,7 @@ Course(CourseID));
 
 INSERT INTO Students VALUES(1,'FName','LName','12-01-2024','M',3);
 
--- This will ca
+-- This will cause Foreign Key constraint error
+
+INSERT INTO Students VALUES(1,'FName','LName','12-01-2024','M',53);
 ```
