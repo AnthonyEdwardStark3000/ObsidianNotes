@@ -290,4 +290,18 @@ StaffName VARCHAR(100)
 
 INSERT INTO Course(CourseID,CourseName,StaffName)VALUES(1,'Physics','Name');
 INSERT INTO Course VALUES(2,'Maths','Name'),(3,'Computer','Name'),(4,'Tamil','Name');
+
+--  Foreign Key
+CREATE TABLE Students(StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(100),LastName VARCHAR(100),
+DateOfBirth DATE,Gender CHAR(1),CourseID INTEGER FOREIGN KEY REFERENCES Course(CourseID));
+
+-- Or
+CREATE TABLE Students(StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(100),LastName VARCHAR(100),
+DateOfBirth DATE,Gender CHAR(1),CourseID INTEGER,CONSTRAINT FK_Students FOREIGN KEY(CourseID)
+REFERENCES
+Course(CourseID));
+
+INSERT INTO Students VALUES(1,'FName','LName','12-01-2024','M',3);
+
+-- This will ca
 ```
