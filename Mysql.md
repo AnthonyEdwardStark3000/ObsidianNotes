@@ -281,3 +281,13 @@ ALTER TABLE NewStudents DROP CONSTRAINT Df_students;
 
 Particular column of a table referring PK of another table is known as Foreign Key .
 ![[Pasted image 20250424223041.png]]
+```
+CREATE TABLE Course(
+CourseID INTEGER PRIMARY KEY,
+CourseName VARCHAR(100),
+StaffName VARCHAR(100)
+);
+
+INSERT INTO Course(CourseID,CourseName,StaffName)VALUES(1,'Physics','Name');
+INSERT INTO Course VALUES(2,'Maths','Name'),(3,'Computer','Name'),(4,'Tamil','Name');
+```
