@@ -5,3 +5,4 @@ Here the asp-for automatically generates the type attribute, for attribute, id a
 ==Predefined tag helpers available==
 ![[Pasted image 20250423221535.png|500]]
 ![[Pasted image 20250429234828.png|560]]
+![[Pasted image 20250429234942.png|550]]
