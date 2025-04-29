@@ -22,18 +22,6 @@
             }
           },
           {
-            "id": "a195305b4a91b9ab",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.8.10"
-              },
-              "icon": "lucide-book-up",
-              "title": "Release Notes 1.8.10"
-            }
-          },
-          {
             "id": "fb15ded4eb0f1b69",
             "type": "leaf",
             "state": {
@@ -105,7 +93,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "3ec1aa54122ae31f",
@@ -196,7 +185,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a195305b4a91b9ab",
+  "active": "fb15ded4eb0f1b69",
   "lastOpenFiles": [
     "Dotnet Intermediate Topics.md",
     "Mysql.md",
