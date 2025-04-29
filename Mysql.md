@@ -307,7 +307,8 @@ INSERT INTO Students VALUES(1,'FName','LName','12-01-2024','M',3);
 
 INSERT INTO Students VALUES(1,'FName','LName','12-01-2024','M',53);
 ```
-![[Pasted image 20250429220927.png]]
+![[Pasted image 20250429220927.png|1000]]
 ```
-
+DELETE FROM Course WHERE CourseID = 3;
 ```
+![[Pasted image 20250429221224.png|900]]
