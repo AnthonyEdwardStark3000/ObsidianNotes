@@ -413,4 +413,5 @@ using (var connection = new SqlConnection(connectionString))
         
     - Example: `<input [(ngModel)]="name">` binds the `name` property to the input field, so if the user types in the field, it updates the component’s `name` variable, and vice versa.
       
-      
+    **Grok
+     
