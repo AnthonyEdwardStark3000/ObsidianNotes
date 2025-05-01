@@ -313,5 +313,7 @@ DELETE FROM Course WHERE CourseID = 3;
 ```
 ![[Pasted image 20250429221224.png|900]]
 ```
+-- Using alter statement to create constraint
+ALTER TABLE Students ADD CONSTRAINT Fk_Students FOREIGN KEY (CourseID) REFERENCES Course(CourseID);
 
 ```
