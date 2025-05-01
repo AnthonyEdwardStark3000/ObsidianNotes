@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Dotnet Intermediate Topics.md",
+                "file": "Mysql.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Dotnet Intermediate Topics"
+              "title": "Mysql"
             }
           }
         ]
@@ -172,6 +172,7 @@
   },
   "active": "645f960e74204819",
   "lastOpenFiles": [
+    "Dotnet Intermediate Topics.md",
     "Pasted image 20250429235230.png",
     "Pasted image 20250429235143.png",
     "Pasted image 20250429235128.png",
@@ -181,11 +182,9 @@
     "Mysql.md",
     "Pasted image 20250429221224.png",
     "Pasted image 20250429220927.png",
-    "Dotnet Intermediate Topics.md",
     "Pasted image 20250424223041.png",
     "Pasted image 20250424223039.png",
     "Pasted image 20250423221535.png",
-    "Pasted image 20250423221400.png",
     "Docker basics.md",
     "test.txt",
     "New Text Document.txt"
