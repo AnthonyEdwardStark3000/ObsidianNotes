@@ -335,4 +335,5 @@ SELECT MIN(ListPrice) FROM Production.Product WHERE ListPrice > 0;
 SELECT MAX(ListPrice) FROM Production.Product;
 SELECT AVG(ListPrice) FROM Production.Product
 ```
-Using the Aggregate function with GroupBy clause .
+**Using the Aggregate function with GroupBy clause .**
+Group By is used for grouping a particular column having same value and performing operations based on that value .
