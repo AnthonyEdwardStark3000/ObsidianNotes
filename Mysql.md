@@ -326,5 +326,13 @@ ALTER TABLE Students DROP CONSTRAINT Fk_Students;
 **Aggregate Functions
 ![[Pasted image 20250501104753.png|580]]
 ![[Pasted image 20250501104831.png]]
-***Aggregate Functions - ==Reads an set of values as Input and returns an single value as output.
+***Aggregate Functions - ==Reads an set of values as Input and returns an single value as output.==
 
+```
+SELECT COUNT(ProductID) FROM Production.Product;
+SELECT SUM(ListPrice) FROM Production.Product;
+SELECT MIN(ListPrice) FROM Production.Product WHERE ListPrice > 0;
+SELECT MAX(ListPrice) FROM Production.Product;
+SELECT AVG(ListPrice) FROM Production.Product
+```
+Using the Aggregate function with GroupBy clause .
