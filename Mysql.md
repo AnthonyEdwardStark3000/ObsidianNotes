@@ -318,4 +318,13 @@ ALTER TABLE Students ADD CONSTRAINT Fk_Students FOREIGN KEY (CourseID) REFERENCE
 
 -- or
 ALTER TABLE Students ADD FOREIGN KEY(CourseID)REFERENCES Course(CourseID);
+
+-- Drop constraint
+ALTER TABLE Students DROP CONSTRAINT Fk_Students;
 ```
+
+**Aggregate Functions
+![[Pasted image 20250501104753.png|580]]
+![[Pasted image 20250501104831.png]]
+**Aggregate Func
+
