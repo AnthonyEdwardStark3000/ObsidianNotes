@@ -316,4 +316,6 @@ DELETE FROM Course WHERE CourseID = 3;
 -- Using alter statement to create constraint
 ALTER TABLE Students ADD CONSTRAINT Fk_Students FOREIGN KEY (CourseID) REFERENCES Course(CourseID);
 
+-- or
+ALTER TABLE Students ADD FOREIGN KEY(CourseID)REFERENCES Course(CourseID);
 ```
