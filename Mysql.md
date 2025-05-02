@@ -350,10 +350,10 @@ SELECT Color,SUM(ListPrice) AS total_list_price FROM Production.Product WHERE Co
 SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color,Size;
 SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL 
    GROUP BY Color,Size ORDER BY Color,Size;
-   
+   ```
+```
 ```
 **Having With GroupBy
+Where clause is used for normally applying condition to the table and Having clause is used for applying conditions on an Aggregate functions. Having clause is always used along with Group By clause.
 
-	Where clause is used for normally applying condition to the table and Having clause is used for applying conditions on an Aggregate functions. Having clause is always used along with Group By clause.
-	
 	
