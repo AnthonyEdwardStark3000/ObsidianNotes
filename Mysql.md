@@ -337,3 +337,21 @@ SELECT AVG(ListPrice) FROM Production.Product
 ```
 **Using the Aggregate function with GroupBy clause .**
 Group By is used for grouping a particular column having same value and performing operations based on that value .
+```
+
+SELECT Color,COUNT(Color) AS CountInNumbers FROM Production.Product GROUP BY Color;
+SELECT Color,COUNT(Color) AS num_of_products FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;
+SELECT Color,SUM(ListPrice) AS total_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;
+SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color,Size;
+SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL GROUP BY
+Color,Size ORDER BY Color,Size;
+SELECT Color,COUNT(ProductID) AS num_of_products FROM Production.Product GROUP BY Color;
+SELECT Color,SUM(ListPrice) AS total_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color; 
+SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color,Size;
+SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL 
+   GROUP BY Color,Size ORDER BY Color,Size;
+   
+```
+**Having With GroupBy
+
+	Where clause is used for normally appl
