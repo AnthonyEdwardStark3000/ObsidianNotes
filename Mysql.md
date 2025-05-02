@@ -337,8 +337,8 @@ SELECT AVG(ListPrice) FROM Production.Product
 ```
 **Using the Aggregate function with GroupBy clause .**
 Group By is used for grouping a particular column having same value and performing operations based on that value .
-```
 
+```
 SELECT Color,COUNT(Color) AS CountInNumbers FROM Production.Product GROUP BY Color;
 SELECT Color,COUNT(Color) AS num_of_products FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;
 SELECT Color,SUM(ListPrice) AS total_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;
@@ -351,9 +351,24 @@ SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE
 SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL 
    GROUP BY Color,Size ORDER BY Color,Size;
    ```
-```
-```
-**Having With GroupBy
+**Having With GroupBy**
 Where clause is used for normally applying condition to the table and Having clause is used for applying conditions on an Aggregate functions. Having clause is always used along with Group By clause.
 
+```
+   -- Having clause
+SELECT Color,COUNT(ProductID) AS num_of_products FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color
+	HAVING COUNT(ProductID)>10;
+
+SELECT Color,COUNT(ProductID) AS num_of_products FROM Production.Product WHERE Color IS NOT NULL 
+GROUP BY Color HAVING SUM(ListPrice)>300;
+
+SELECT Color AS distinct_color FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;
+SELECT Color,Size FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL GROUP BY
+	Color,Size ORDER BY Color,Size;
+SELECT DISTINCT Color FROM Production.Product;
+SELECT DISTINCT Color,Size FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL ORDER BY Color,Size;
+```
+
+**Joins in SQL**
+Joining two rows ne
 	
