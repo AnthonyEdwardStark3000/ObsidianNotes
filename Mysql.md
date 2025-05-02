@@ -354,5 +354,6 @@ SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE
 ```
 **Having With GroupBy
 
-	Where clause is used for normally applying condition to the table and Having clause is used for applying conditions on an Aggregate functions. Having clause is always used along with 
+	Where clause is used for normally applying condition to the table and Having clause is used for applying conditions on an Aggregate functions. Having clause is always used along with Group By clause.
+	
 	
