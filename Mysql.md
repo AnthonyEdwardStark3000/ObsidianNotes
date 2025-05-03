@@ -440,4 +440,7 @@ Here Employees are managed by Managers denotes by ManagerID , where they themsel
 
 Here self join can be used to find the manager name of each employees .
 ![[Pasted image 20250503232918.png]]
+```
+ALTER TABLE Employee ADD ManagerID INTEGER;
 
+```
