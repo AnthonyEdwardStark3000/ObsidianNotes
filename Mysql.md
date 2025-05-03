@@ -406,4 +406,9 @@ SELECT * FROM Department;
 SELECT * FROM Employee INNER JOIN Department ON Employee.DepartmentID = Department.DepartmentID;
 -- or
 SELECT * FROM Employee e INNER JOIN Department d ON e.DepartmentID = d.DepartmentID;
+
+SELECT e.FirstName,e.LastName,d.DepartmentName FROM Employee e  INNER JOIN Department d on e.DepartmentID = d.DepartmentID;
 ```
+
+**Outer Join**
+****
