@@ -424,4 +424,5 @@ SELECT * FROM Department d RIGHT JOIN Employee e ON d.DepartmentID = e.Departmen
 ```
 ![[Pasted image 20250503231853.png]]
 **Full outer Join** : - 
-	Here the table in the  .
+	Here the matching records from both the tables will get displayed along with the non-matching records from the left table and the non-matching records from the right table  .
+	
