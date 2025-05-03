@@ -416,3 +416,4 @@ SELECT e.FirstName,e.LastName,d.DepartmentName FROM Employee e  INNER JOIN Depar
 ```
 SELECT * FROM Department d LEFT JOIN Employee e ON d.DepartmentID = e.DepartmentID;
 ```
+![[Pasted image 20250503230133.png]]
