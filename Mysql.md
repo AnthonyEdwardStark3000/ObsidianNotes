@@ -372,3 +372,4 @@ SELECT DISTINCT Color,Size FROM Production.Product WHERE Color IS NOT NULL AND S
 **Joins in SQL**
  Joining rows between two tables by using the related columns in those two tables.
 ![[Pasted image 20250502231010.png]]	
+![[Pasted image 20250503223644.png]]
