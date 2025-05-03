@@ -411,4 +411,6 @@ SELECT e.FirstName,e.LastName,d.DepartmentName FROM Employee e  INNER JOIN Depar
 ```
 
 **Outer Join**
-****
+**Left outer Join** : - 
+	Here the table in the left side takes advantage as it takes the non-matching records along with the matching records from the table in the right side.
+	 
