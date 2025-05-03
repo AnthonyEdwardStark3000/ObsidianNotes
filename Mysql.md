@@ -379,3 +379,19 @@ SELECT DISTINCT Color,Size FROM Production.Product WHERE Color IS NOT NULL AND S
 Used to retrieve the records that are common in both the left and the right table .
 ![[Pasted image 20250503224023.png]]
 So the records related to DepartmentID's 11,12,13,14 will be retrieved and displayed.
+
+```
+CREATE TABLE Employee(EmployeeID INTEGER PRIMARY KEY,FirstName VARCHAR(100),LastName VARCHAR(100),DateOfBirth DATE,
+Gender CHAR(1),DepartmentID INTEGER);
+
+INSERT INTO Employee VALUES(1001,'Aishwarya','Jayaram','2005-05-24','F',11),
+(1002,'Anand','Venkat','2005-05-22','M',22),
+(1003,'Bala','Sundaram','2004-11-02','M',22),
+(1004,'Deepa','Mani','2004-12-09','F',22),
+(1005,'Deepa','Mahesh','2005-05-29','F',22),
+(1006,'Gokul','Ram','2004-11-27','M',22),
+(1007,'Shreya','Gopi','2005-06-20','F',22),
+(1008,'Abdul','Rahman','2005-07-30','M',22);
+
+SELECT * FROM Employee;
+```
