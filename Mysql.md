@@ -377,3 +377,5 @@ SELECT DISTINCT Color,Size FROM Production.Product WHERE Color IS NOT NULL AND S
 ![[Pasted image 20250503223830.png|360]]
 **Inner Join**
 Used to retrieve the records that are common in both the left and the right table .
+![[Pasted image 20250503224023.png]]
+So the records related to DepartmentID's 11,12,13,14 will be retrieved and displayed.
