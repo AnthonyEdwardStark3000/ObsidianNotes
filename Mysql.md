@@ -413,3 +413,6 @@ SELECT e.FirstName,e.LastName,d.DepartmentName FROM Employee e  INNER JOIN Depar
 **Outer Join**
 **Left outer Join** : - 
 	Here the table in the ==left side takes advantage as it takes the non-matching records from the table in the  left side along with the matching records from the table in the right side==.
+```
+SELECT * FROM Department d LEFT JOIN Employee e ON d.DepartmentID = e.DepartmentID;
+```
