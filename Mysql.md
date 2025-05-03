@@ -419,4 +419,7 @@ SELECT * FROM Department d LEFT JOIN Employee e ON d.DepartmentID = e.Department
 ![[Pasted image 20250503230133.png]]
 **Right outer Join** : - 
 	Here the table in the ==right side takes advantage as it takes the non-matching records from the table in the right side along with the matching records from the table in the left side==.
-	
+```
+SELECT * FROM Department d RIGHT JOIN Employee e ON d.DepartmentID = e.DepartmentID;
+```
+![[Pasted image 20250503231853.png]]
