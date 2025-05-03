@@ -432,4 +432,5 @@ SELECT * FROM Department d FULL JOIN Employee e ON d.DepartmentID = e.Department
 ![[Pasted image 20250503232334.png|590]]
 
 **Self Join**
-![[Pasted image 20250503232516.png]]
+![[Pasted image 20250503232516.png|150]]
+To Join a table with itself self join is used.
