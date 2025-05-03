@@ -443,4 +443,9 @@ Here self join can be used to find the manager name of each employees .
 ```
 ALTER TABLE Employee ADD ManagerID INTEGER;
 
+SELECT e1.EmployeeID,e1.FirstName,e1.LastName,e1.ManagerID,e2.FirstName+''+e2.LastName AS ManagerName
+	FROM Employee e1 JOIN Employee e2 ON e1.EmployeeID = e2.ManagerID;
+
 ```
+![[Pasted image 20250503234227.png]]
+
