@@ -423,3 +423,5 @@ SELECT * FROM Department d LEFT JOIN Employee e ON d.DepartmentID = e.Department
 SELECT * FROM Department d RIGHT JOIN Employee e ON d.DepartmentID = e.DepartmentID;
 ```
 ![[Pasted image 20250503231853.png]]
+**Full outer Join** : - 
+	Here the table in the  .
