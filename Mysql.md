@@ -394,4 +394,11 @@ INSERT INTO Employee VALUES(1001,'Aishwarya','Jayaram','2005-05-24','F',11),
 (1008,'Abdul','Rahman','2005-07-30','M',22);
 
 SELECT * FROM Employee;
+
+
+CREATE TABLE Department(DepartmentID INTEGER,DepartmentName VARCHAR(100));
+INSERT INTO Department VALUES(11,'Engineering'),
+(12,'Finance'),(13,'Sales'),(14,'Marketing');
+
+SELECT * FROM Department;
 ```
