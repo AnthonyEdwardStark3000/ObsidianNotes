@@ -375,4 +375,5 @@ SELECT DISTINCT Color,Size FROM Production.Product WHERE Color IS NOT NULL AND S
 ![[Pasted image 20250503223644.png]]
 ![[Pasted image 20250503223752.png|350]]
 ![[Pasted image 20250503223830.png|360]]
-**Inner J**
+**Inner Join**
+Used to retrieve the records that are common in both the left and the right table .
