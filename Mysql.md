@@ -401,4 +401,9 @@ INSERT INTO Department VALUES(11,'Engineering'),
 (12,'Finance'),(13,'Sales'),(14,'Marketing');
 
 SELECT * FROM Department;
+
+
+SELECT * FROM Employee INNER JOIN Department ON Employee.DepartmentID = Department.DepartmentID;
+-- or
+SELECT * FROM Employee e INNER JOIN Department d ON e.DepartmentID = d.DepartmentID;
 ```
