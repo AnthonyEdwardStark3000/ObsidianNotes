@@ -434,3 +434,6 @@ SELECT * FROM Department d FULL JOIN Employee e ON d.DepartmentID = e.Department
 **Self Join**
 ![[Pasted image 20250503232516.png|150]]
 To Join a table with itself self join is used.
+
+![[Pasted image 20250503232644.png|500]]
+Here Employees are managed by Managers denotes by ManagerID , where they themselves are Employees at the end. 1001 employee is managed by 1002
