@@ -499,4 +499,4 @@ SELECT * FROM employee_details;
 ```
 ALTER VIEW employee_details AS SELECT * FROM Employee WHERE EmployeeID <> 1001;
 ```
-
+==If the view definition points to an particular row we can even perform insert operation also.==
