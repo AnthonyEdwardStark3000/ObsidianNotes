@@ -486,5 +486,11 @@ CREATE VIEW employee_dept_details AS
 
 SELECT * FROM employee_dept_details;
 
+
+CREATE VIEW employee_details AS
+	SELECT * FROM Employee;
+
+SELECT * FROM employee_details;
 ```
+> Views are also known as virtual tables as views doesn't take physical memory 
 
