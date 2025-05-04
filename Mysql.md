@@ -448,4 +448,10 @@ SELECT e1.EmployeeID,e1.FirstName,e1.LastName,e1.ManagerID,e2.FirstName+' '+e2.L
 
 ```
 ![[Pasted image 20250503234227.png]]
-
+```
+SELECT e1.EmployeeID,e1.FirstName,e1.LastName,e1.ManagerID,e2.FirstName+' '+e2.LastName AS ManagerName FROM employee e1
+	LEFT JOIN Employee e2 ON e1.EmployeeID = e2.ManagerID;
+```
+**Cross Join**
+![[Pasted image 20250504081418.png|450]]
+When we wa
