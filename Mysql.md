@@ -464,10 +464,11 @@ Cross Join doesn't need any ON condition as all the records from Table A will be
 
 > Cross Join is also known as Cartesian product. As the result will be the product of the number of records in each tables and no-filter is used while selecting the data's (8 x 8  =64, 5 x 6 =30) .
 
+```
 SELECT e1.FirstName+' '+e1.LastName AS Employee_1,e2.FirstName+' '+e2.LastName AS Employee_2 FROM employee e1
-	CROSS JOIN Employee e2;```
-
+	CROSS JOIN Employee e2 WHERE e1.EmployeeID <> e2.EmployeeID;
 ```
 **Views**
-![[Pasted image 20250504162755.png]]
+![[Pasted image 20250504162755.png|560]]
+
 
