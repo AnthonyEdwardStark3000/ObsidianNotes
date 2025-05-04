@@ -497,5 +497,6 @@ SELECT * FROM employee_details;
 ![[Pasted image 20250504171324.png]]
 **altering a view definition**
 ```
-
+ALTER VIEW employee_details AS SELECT * FROM Employee WHERE EmployeeID <> 1001;
 ```
+
