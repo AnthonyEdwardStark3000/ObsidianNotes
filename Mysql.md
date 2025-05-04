@@ -470,5 +470,6 @@ SELECT e1.FirstName+' '+e1.LastName AS Employee_1,e2.FirstName+' '+e2.LastName A
 ```
 **Views**
 ![[Pasted image 20250504162755.png|560]]
-
+![[Pasted image 20250504165248.png]]
+We use Joins for associating 
 
