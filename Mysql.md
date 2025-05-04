@@ -464,4 +464,3 @@ Cross Join doesn't need any ON condition as all the records from Table A will be
 
 > Cross Join is also known as cartition product. As the result will be the product of the number of records in each tables and no-filter is used while selecting the data's (8 x 8  =64, 5 x 6 =30) .
 
-c
