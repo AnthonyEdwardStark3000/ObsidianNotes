@@ -471,7 +471,7 @@ SELECT e1.FirstName+' '+e1.LastName AS Employee_1,e2.FirstName+' '+e2.LastName A
 **Views**
 ![[Pasted image 20250504162755.png|560]]
 ![[Pasted image 20250504165248.png]]
-We use Joins for associating the Department with Employee, so this process can be implemented by creating it as an view and that view can be executed whenever needed .
+We use Joins for associating the Department with Employee, so this process can be implemented by creating it as an view and that view can be executed whenever needed . Views are used for hiding the PIA details
 
 ```
 SELECT e.EmployeeID,e.FirstName,e.LastName,e.DepartmentID,d.DepartmentName
