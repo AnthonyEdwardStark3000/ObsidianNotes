@@ -511,7 +511,6 @@ UPDATE employee_details SET FirstName = 'Stark',LastName = 'Tony' WHERE Employee
 DELETE FROM employee_details WHERE EmployeeID = 1009;
 ```
 **Delete the view**
-
 ```
-DROP VIEW 
+DROP VIEW employee_details;
 ```
