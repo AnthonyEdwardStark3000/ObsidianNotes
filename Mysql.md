@@ -454,4 +454,4 @@ SELECT e1.EmployeeID,e1.FirstName,e1.LastName,e1.ManagerID,e2.FirstName+' '+e2.L
 ```
 **Cross Join**
 ![[Pasted image 20250504081418.png|450]]
-When we wa
+When we want to Join all the records from Table A with all the records in Table B Cross Join can be used.
