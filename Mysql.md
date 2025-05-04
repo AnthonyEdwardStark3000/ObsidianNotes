@@ -504,3 +504,8 @@ ALTER VIEW employee_details AS SELECT * FROM Employee WHERE EmployeeID <> 1001;
 ```
 INSERT INTO employee_details VALUES(1009,'Suresh','Babu','2000-03-09','M',12,NULL);
 ```
+Similarly we can also perform other operations like update and delete as well
+```
+UPDATE employee_details SET FirstName = 'Stark',LastName = 'Tony' WHERE EmployeeID = 1009;
+
+```
