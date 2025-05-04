@@ -499,7 +499,7 @@ SELECT * FROM employee_details;
 ```
 ALTER VIEW employee_details AS SELECT * FROM Employee WHERE EmployeeID <> 1001;
 ```
-==If the view definition points to an particular row we can even perform insert operation also. Cannot be used if the view definition contains multiple tables and perform ==
+==If the view definition points to an particular row we can even perform insert operation also. Cannot be used if the view definition contains multiple tables and perform JOINS in it and if the table retrieves DISTINCT values .==
 
 ```
 INSERT INTO employee_details VALUES(1009,'Suresh','Babu','2000-03-09','M',12,NULL);
