@@ -494,5 +494,6 @@ SELECT * FROM employee_details;
 ```
 > Views are also known as virtual tables as views doesn't take physical memory .
 
+![[Pasted image 20250504171324.png]]
 
 
