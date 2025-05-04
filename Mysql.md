@@ -508,4 +508,5 @@ Similarly we can also perform other operations like update and delete as well
 ```
 UPDATE employee_details SET FirstName = 'Stark',LastName = 'Tony' WHERE EmployeeID = 1009;
 
+DELETE FROM employee_details WHERE EmployeeID = 1009;
 ```
