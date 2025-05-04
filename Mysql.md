@@ -457,5 +457,7 @@ SELECT e1.EmployeeID,e1.FirstName,e1.LastName,e1.ManagerID,e2.FirstName+' '+e2.L
 When we want to Join all the records from Table A with all the records in Table B Cross Join can be used.
 ![[Pasted image 20250504081703.png]]
 ```
- 
+ SELECT e1.EmployeeID,e1.FirstName,e1.LastName,e1.ManagerID,e2.FirstName+' '+e2.LastName AS ManagerName FROM employee e1
+	CROSS JOIN Employee e2;
 ```
+Cross Join doesn't need any ON condition as all the records from Table A will be Joined with all the records from Table B.
