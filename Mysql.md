@@ -515,3 +515,14 @@ DELETE FROM employee_details WHERE EmployeeID = 1009;
 DROP VIEW employee_details;
 ```
 **Creating user access**
+```
+CREATE LOGIN test_login WITH PASSWORD = 'test1234';
+CREATE USER test_user FOR LOGIN test_login;
+
+-- Grant permission to access this view
+GRANT SELECT ON employee_details TO test_user;
+```
+Here the user entered by using this login will have access to open the employee_details view only.
+
+**SubQueries**
+
