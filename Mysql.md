@@ -535,4 +535,8 @@ SELECT * FROM Sales.SalesTerritory WHERE TerritoryID = (
 	SELECT TerritoryID FROM Sales.SalesPerson WHERE rowguid = '52A5179D-3239-4157-AE29-17E868296DC0'
 );
 
+SELECT * FROM Sales.SalesTerritory WHERE TerritoryID IN (
+	SELECT TerritoryID FROM Sales.SalesPerson WHERE CommissionPct = '0.01'
+);
+
 ```
