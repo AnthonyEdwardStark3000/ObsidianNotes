@@ -539,4 +539,7 @@ SELECT * FROM Sales.SalesTerritory WHERE TerritoryID IN (
 	SELECT TerritoryID FROM Sales.SalesPerson WHERE CommissionPct = '0.01'
 );
 
+SELECT * FROM Employees WHERE departmentID IN (
+	SELECT departmentID FROM departments WHERE LocationID IN 
+	  (SELECT LocationID FROM Locations WHERE LocationName='TORONTO'));
 ```
