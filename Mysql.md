@@ -526,3 +526,13 @@ Here the user entered by using this login will have access to open the employee_
 
 **SubQueries**
 
+```
+-- Select all the sales territory where rowguid = '52A5179D-3239-4157-AE29-17E868296DC0'
+SELECT * FROM Sales.SalesPerson WHERE rowguid = '52A5179D-3239-4157-AE29-17E868296DC0';
+SELECT * FROM Sales.SalesTerritory WHERE TerritoryID = 5;
+
+SELECT * FROM Sales.SalesTerritory WHERE TerritoryID = (
+	SELECT TerritoryID FROM Sales.SalesPerson WHERE rowguid = '52A5179D-3239-4157-AE29-17E868296DC0'
+);
+
+```
