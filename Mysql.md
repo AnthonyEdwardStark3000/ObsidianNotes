@@ -563,6 +563,7 @@ DELETE FROM Employees WHERE Department_ID IN(
 ```
 **Correlated subquery**
 
+SubQueries cannot be executed separately here. Inner Query depends on the Outer Query for it's execution .
 ```
 -- List all employees whose salary is less than the avg salary in that department
 SELECT * FROM Employees 
