@@ -563,3 +563,10 @@ DELETE FROM Employees WHERE Department_ID IN(
 ```
 **Correlated subquery**
 
+```
+-- List all employees whose salary is less than the avg salary in that department
+SELECT * FROM Employees 
+E1 WHERE Salary < (SELECT AVG(Salary) FROM Employees E2 WHERE E2.Department_ID = E1.Department_ID);
+
+
+```
