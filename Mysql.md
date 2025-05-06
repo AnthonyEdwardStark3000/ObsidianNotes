@@ -571,3 +571,14 @@ E1 WHERE Salary < (SELECT AVG(Salary) FROM Employees E2 WHERE E2.Department_ID =
 ```
 **Exists / Not Exists**
 ![[Pasted image 20250506222856.png]]
+```
+SELECT * FROM Salesman s WHERE EXISTS (
+	SELECT 1 FROM orders o WHERE s.salesman_id = o.salesman_id
+);
+
+
+SELECT * FROM Salesman s WHERE NOT EXISTS(
+	SELECT 1 FROM orders o WHERE s.salesman_id = o.salesman_id
+);
+```
+****
