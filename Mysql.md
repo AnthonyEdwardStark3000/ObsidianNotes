@@ -607,3 +607,5 @@ DepartmentId 30
 SELECT * FROM employees WHERE salary < ALL (
 SELECT salary FROM employees WHERE department_id = 30);
 ```
+**CTE**
+![[Pasted image 20250506231050.png]]
