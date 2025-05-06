@@ -550,5 +550,10 @@ INSERT INTO employees_toronto SELECT * FROM employees WHERE Department_ID IN (
 	SELECT Department_ID FROM departments WHERE Location_ID IN(
 	SELECT Location_ID FROM Locations WHERE City='Toronto'
 ));
+
+-- Update salary of all employees whose salary is less than the average salary to average salary
+
+UPDATE Employees SET salary = ( SELECT AVG(salary) FROM Employees )
+WHERE salary < ( SELECT AVG(salary) FROM Employees );
 ```
 
