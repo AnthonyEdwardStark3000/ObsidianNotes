@@ -546,6 +546,9 @@ SELECT * FROM Employees WHERE departmentID IN (
 -- create a new table called as employee toronto and insert all the employees from Toronto
 SELECT * INTO employees_toronto FROM Employees WHERE 1=0; -- creates a table structure similar to Employees into employees_toronto
 
-
+INSERT INTO employees_toronto SELECT * FROM employees WHERE Department_ID IN (
+	SELECT Department_ID FROM departments WHERE Location_ID IN(
+	SELECT Location_ID FROM Locations WHERE City='Toronto'
+));
 ```
 
