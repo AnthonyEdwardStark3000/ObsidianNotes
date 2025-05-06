@@ -598,3 +598,12 @@ SELECT * FROM employees WHERE Salary > ANY(
 ```
 ![[Pasted image 20250506230015.png]]
 All is also similar to Any but all the values should get satisfied.
+```
+/*
+List of all employees whose salary is less than the salary of all the employees working for 
+DepartmentId 30
+*/
+
+SELECT * FROM employees WHERE salary < ALL (
+SELECT salary FROM employees WHERE department_id = 30);
+```
