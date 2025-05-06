@@ -584,3 +584,17 @@ SELECT * FROM Salesman s WHERE NOT EXISTS(
 **Any/All**
 ![[Pasted image 20250506224210.png]]
 Any operator is used for comparing a particular column of an record with a list of values .
+
+```
+/*
+	List all employees whose salary is greater than the avg salary of any of the Departments
+*/
+
+SELECT * FROM employees WHERE Salary > ANY(
+	SELECT avg_salary FROM ( 
+	 SELECT department_id, AVG(salary) AS avg_salary FROM employees GROUP BY department_id) AS temp
+);
+
+```
+![[Pasted image 20250506230015.png]]
+All is also similar to 
