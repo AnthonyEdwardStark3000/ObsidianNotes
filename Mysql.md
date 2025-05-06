@@ -544,6 +544,8 @@ SELECT * FROM Employees WHERE departmentID IN (
 	  (SELECT LocationID FROM Locations WHERE LocationName='TORONTO'));
 
 -- create a new table called as employee toronto and insert all the employees from Toronto
-SELECT * INTO employees_toronto FROM Employees WHERE 1=0;
+SELECT * INTO employees_toronto FROM Employees WHERE 1=0; -- creates a table structure similar to Employees into employees_toronto
+
+
 ```
 
