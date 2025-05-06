@@ -597,4 +597,4 @@ SELECT * FROM employees WHERE Salary > ANY(
 
 ```
 ![[Pasted image 20250506230015.png]]
-All is also similar to 
+All is also similar to Any but all the values should get satisfied.
