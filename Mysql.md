@@ -542,4 +542,8 @@ SELECT * FROM Sales.SalesTerritory WHERE TerritoryID IN (
 SELECT * FROM Employees WHERE departmentID IN (
 	SELECT departmentID FROM departments WHERE LocationID IN 
 	  (SELECT LocationID FROM Locations WHERE LocationName='TORONTO'));
+
+-- create a new table called as employee toronto and insert all the employees from Toronto
+SELECT * INTO employees_toronto FROM Employees WHERE 1=0;
 ```
+
