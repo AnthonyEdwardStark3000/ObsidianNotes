@@ -581,4 +581,6 @@ SELECT * FROM Salesman s WHERE NOT EXISTS(
 	SELECT 1 FROM orders o WHERE s.salesman_id = o.salesman_id
 );
 ```
-****
+**Any/All**
+![[Pasted image 20250506224210.png]]
+Any operator is used for comparing a paritcular column of an record with a list of values 
