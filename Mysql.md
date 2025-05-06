@@ -555,5 +555,11 @@ INSERT INTO employees_toronto SELECT * FROM employees WHERE Department_ID IN (
 
 UPDATE Employees SET salary = ( SELECT AVG(salary) FROM Employees )
 WHERE salary < ( SELECT AVG(salary) FROM Employees );
+
+-- DELETE All employees whose department is either 'Administration' or 'Marketing'
+DELETE FROM Employees WHERE Department_ID IN(
+	SELECT Department_ID FROM Departments WHERE DepartmentName IN(
+	'Administration','Marketing'));
 ```
+**Correlated subquery**
 
