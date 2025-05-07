@@ -626,3 +626,5 @@ GROUP BY ProductID HAVING SUM(Quantity)<100)
 SELECT QP.ProductID,Total_Quantity,PV.StandardPrice,PV.BusinessEntityID FROM low_quantity_product
 QP JOIN Purchasing.ProductVendor PV ON QP.ProductID = PV.ProductID;
 ```
+
+CTE is used for breaking complex queries into smaller simpler one's for better readability and understanf
