@@ -652,3 +652,5 @@ SELECT *,SUM(Salary) OVER(PARTITION BY department_id ORDER BY employee_id)
 AS TOTAL_SALARY FROM employees;
 
 ```
+![[Pasted image 20250507234132.png]]
+
