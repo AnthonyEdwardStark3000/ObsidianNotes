@@ -653,4 +653,5 @@ AS TOTAL_SALARY FROM employees;
 
 ```
 ![[Pasted image 20250507234132.png]]
+![[Pasted image 20250507234411.png]]
 
