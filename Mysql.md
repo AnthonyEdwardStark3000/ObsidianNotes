@@ -609,3 +609,4 @@ SELECT salary FROM employees WHERE department_id = 30);
 ```
 **CTE**
 ![[Pasted image 20250506231050.png]]
+CTE is known as ==Temporary named Result set .==
