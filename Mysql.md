@@ -627,4 +627,7 @@ SELECT QP.ProductID,Total_Quantity,PV.StandardPrice,PV.BusinessEntityID FROM low
 QP JOIN Purchasing.ProductVendor PV ON QP.ProductID = PV.ProductID;
 ```
 
-CTE is used for breaking complex queries into smaller simpler one's for better readability and understanf
+CTE is used for breaking complex queries into smaller simpler one's for better readability and understanding .
+
+**Window functions .**
+![[Pasted image 20250507232415.png]]
