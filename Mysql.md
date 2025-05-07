@@ -640,3 +640,9 @@ SELECT *,SUM(Salary) OVER() AS TOTAL_SALARY FROM employees;
 
 ![[Pasted image 20250507233120.png]]
 Consider a scenario where we want to display the total salary of each department based on the department ID
+
+```
+-- Performing Aggregation based on particular column
+SELECT *,SUM(Salary) OVER(PARTITION BY department_id) AS TOTAL_SALARY FROM employees;
+```
+![[Pasted image 20250507233528.png]]
