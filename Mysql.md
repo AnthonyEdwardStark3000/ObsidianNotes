@@ -632,3 +632,10 @@ CTE is used for breaking complex queries into smaller simpler one's for better r
 **Window functions .**
 ![[Pasted image 20250507232415.png]]
 A **window function** in MySQL performs a **calculation across a set of table rows** that are somehow related to the current row. Unlike aggregate functions, which return a single result for a group, **window functions return a value for each row** while retaining the individual row details.
+
+```
+SELECT *,SUM(Salary) OVER() AS TOTAL_SALARY FROM employees;
+
+```
+
+![[Pasted image 20250507233120.png]]
