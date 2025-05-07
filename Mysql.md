@@ -612,9 +612,17 @@ SELECT salary FROM employees WHERE department_id = 30);
 CTE is known as ==Temporary named Result set .==
 
 ```
+-- Complex Query with subquery in it
+SELECT PI.ProductID,Total_Quantity,PV.StandardPrice,PV.BusinessEntityID FROM
+(SELECT ProductID,SUM(Quantity) AS Total_Quantity FROM Production.ProductInventory
+GROUP BY ProductID HAVING SUM(Quantity)<100 ) PI JOIN Purchasing.ProductVendor 
+PV ON PI.ProductID = PV.ProductID;
+
+-- This can be split into CTE for easy understanding
 WITH low_quantity_product AS 
 (SELECT ProductID,SUM(Quantity) AS Total_Quantity FROM Production.ProductInventory
 GROUP BY ProductID HAVING SUM(Quantity)<100)
 
-SELECT * FROM low_quantity_product;
+SELECT QP.ProductID,Total_Quantity,PV.StandardPrice,PV.BusinessEntityID FROM low_quantity_product
+QP JOIN Purchasing.ProductVendor PV ON QP.ProductID = PV.ProductID;
 ```
