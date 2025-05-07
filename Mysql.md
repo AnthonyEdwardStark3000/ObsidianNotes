@@ -610,3 +610,11 @@ SELECT salary FROM employees WHERE department_id = 30);
 **CTE**
 ![[Pasted image 20250506231050.png]]
 CTE is known as ==Temporary named Result set .==
+
+```
+WITH low_quantity_product AS 
+(SELECT ProductID,SUM(Quantity) AS Total_Quantity FROM Production.ProductInventory
+GROUP BY ProductID HAVING SUM(Quantity)<100)
+
+SELECT * FROM low_quantity_product;
+```
