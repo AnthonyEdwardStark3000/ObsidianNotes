@@ -657,4 +657,6 @@ AS TOTAL_SALARY FROM employees;
 **Value window functions**
 1. FIRST_VALUE
 2. LAST_VALUE
-3. 
+3. LAG
+4. LEAD 
+
