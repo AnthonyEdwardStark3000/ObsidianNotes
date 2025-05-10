@@ -800,6 +800,10 @@ SELECT * INTO ##tmp_person_global FROM Production.Product;
 
 SELECT * FROM ##tmp_person_global;
 ```
+![[Pasted image 20250510162959.png]]
+
+**Store Procedure**
+
 
 
 
