@@ -744,4 +744,11 @@ SELECT *,RANK()OVER(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC) AS RANK FRO
 
 ==And In-order to avoid the above mentioned process and allot consecutive numbers DENSE_RANK can be used==
 
-***)
+**DENSE RANK** : -
+```
+-- Dense rank
+SELECT *, DENSE_RANK()OVER(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC) 
+AS DENSE_RANK FROM EmployeesManager;
+```
+![[Pasted image 20250510133522.png]]
+
