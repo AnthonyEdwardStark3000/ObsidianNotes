@@ -720,3 +720,14 @@ FROM Production.ProductCostHistory;
 
 ```
 ![[Pasted image 20250510130728.png]]
+```
+WITH Latest_data AS (
+SELECT ProductID,StandardCost,ModifiedDate,ROW_NUMBER()
+OVER(PARTITION BY ProductID ORDER BY ModifiedDate DESC) AS Rno
+FROM Production.ProductCostHistory
+)
+SELECT * FROM Latest_data WHERE Rno =1;
+
+```
+![[Pasted image 20250510131130.png]]
+ROW_NUMBER() is mostly used for removing duplicate data and retriev
