@@ -711,3 +711,10 @@ LEAD() LAG() By default sees one value before the current value and after the cu
 LAG(StandardCost,2,0) sees and displays two values before the current value and displays 0.00 instead of NULL and the same can be applied for LEAD() as well.
 ![[Pasted image 20250510112943.png]]
 ![[Pasted image 20250510113039.png]]
+ROW_NUMBER
+```
+SELECT ProductID,StandardCost,ModifiedDate,ROW_NUMBER()
+OVER(PARTITION BY ProductID ORDER BY ModifiedDate) AS Rno
+FROM Production.ProductCostHistory;
+
+```
