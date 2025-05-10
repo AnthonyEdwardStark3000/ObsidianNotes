@@ -667,3 +667,4 @@ ORDER BY ProductID,ModifiedDate; --This displays the product details with its or
 -- its Date of modification.
 
 ```
+![[Pasted image 20250510105020.png]]
