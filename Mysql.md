@@ -738,4 +738,7 @@ ROW_NUMBER() is mostly used for removing duplicate data and retrieving the lates
 ```
 SELECT *,RANK()OVER(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC) AS RANK FROM EmployeesManager;
 ```
+![[Pasted image 20250510132904.png]]
+
+> Here if there is an duplicate in Rank , like there are 2 employees having same rank 11 , then the next employee will have rank 13 , if three employees having rank 11 then the next will have 14.
 
