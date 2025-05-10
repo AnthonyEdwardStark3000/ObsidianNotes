@@ -774,4 +774,16 @@ Temp table can be created using any of the following two ways
 SELECT * INTO #tmp_person FROM Production.Product;
 
 SELECT * FROM #tmp_person
+
+-- Or
+CREATE TABLE #tmp_person_id(
+	ProductID INTEGER
+);
+
+INSERT INTO #tmp_person_id SELECT ProductID FROM Production.Product WHERE ProductModelID = 23;
+
+
+SELECT * FROM #tmp_person_id;
+
 ```
+
