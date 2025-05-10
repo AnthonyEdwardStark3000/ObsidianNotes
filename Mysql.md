@@ -822,8 +822,10 @@ AS BEGIN
 SELECT * FROM Person.Person WHERE BusinessEntityID=@personID
 END
 
-
 EXEC GetEmployeeDataByDeptID 10;
+-- or
+EXEC GetEmployeeDataByDeptID @personID=10;
+
 ```
 
 
