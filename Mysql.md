@@ -768,3 +768,10 @@ AS DENSE_RANK FROM EmployeesManager WINDOW win AS(PARTITION BY DEPARTMENT_ID ORD
 ```
 **Temp Table** : - Used for temporarily storing the data without creating a table using physical memory .
 ![[Pasted image 20250510135239.png]]
+Temp table can be created using any of the following two ways
+```
+-- Temporary table will be created
+SELECT * INTO #tmp_person FROM Production.Product;
+
+SELECT * FROM #tmp_person
+```
