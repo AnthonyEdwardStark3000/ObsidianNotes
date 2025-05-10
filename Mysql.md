@@ -847,6 +847,7 @@ DECLARE @count INT
 EXEC GetEmployeeDataByDeptID 20,@count OUT
 SELECT @count;
 ```
+![[Pasted image 20250510165444.png]]
 
 
 
