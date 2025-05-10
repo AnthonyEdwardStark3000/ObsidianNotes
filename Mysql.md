@@ -668,3 +668,10 @@ ORDER BY ProductID,ModifiedDate; --This displays the product details with its or
 
 ```
 ![[Pasted image 20250510105020.png]]
+```
+-- First value
+SELECT ProductID,StandardCost,ModifiedDate,FIRST_VALUE(StandardCost) OVER(PARTITION BY ProductID
+ORDER BY ModifiedDate) AS Initial_value FROM Production.ProductCostHistory
+ORDER BY ProductID,ModifiedDate;
+```
+![[Pasted image 20250510105452.png]]
