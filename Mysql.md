@@ -792,7 +792,8 @@ SELECT * FROM #tmp_person_id;
 ![[Pasted image 20250510161841.png]]
 ==Local temporary tables are accessible only at that particular session and  are automatically dropped (deleted/disposed) at the end of the session . Or can be deleted explicitly using the DROP table query. ==
 
-> Global temporary tables are accessible from other sessions as
+> Global temporary tables are created using ## instead of # before it's name and are accessible from other sessions as well
+
 
 
 
