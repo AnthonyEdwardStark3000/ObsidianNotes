@@ -735,4 +735,7 @@ ROW_NUMBER() is mostly used for removing duplicate data and retrieving the lates
 **Rank** : -
 	The RANK() window function assigns a rank to each row within a partition of a result set, based on the order specified in the ORDER BY clause. Rows with equal values for the ordering criteria receive the same rank, but the function leaves gaps in the ranking sequence for duplicate values (unlike DENSE_RANK()).
 
+```
+SELECT *,RANK()OVER(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC) AS RANK FROM EmployeesManager;
+```
 
