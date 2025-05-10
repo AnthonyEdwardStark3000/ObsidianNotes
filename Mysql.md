@@ -804,7 +804,7 @@ SELECT * FROM ##tmp_person_global;
 
 **Store Procedure**
 
-> Store procedure is known as ==Pre-compiled code== as it will get compiled and stored in executable form. So 
+> Store procedure is known as ==Pre-compiled code== as it will get compiled and stored in executable form. So it will not get compiled during every execution thus making it perform better. 
 
 
 ![[Pasted image 20250510163113.png]]
