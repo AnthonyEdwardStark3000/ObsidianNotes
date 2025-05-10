@@ -730,4 +730,6 @@ SELECT * FROM Latest_data WHERE Rno =1;
 
 ```
 ![[Pasted image 20250510131130.png]]
-ROW_NUMBER() is mostly used for removing duplicate data and retriev
+ROW_NUMBER() is mostly used for removing duplicate data and retrieving the latest record.
+
+
