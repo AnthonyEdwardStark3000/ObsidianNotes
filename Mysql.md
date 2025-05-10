@@ -660,3 +660,4 @@ AS TOTAL_SALARY FROM employees;
 3. LAG
 4. LEAD 
 
+**First Value** : - To check the initial value when it was created.
