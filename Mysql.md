@@ -754,3 +754,8 @@ AS DENSE_RANK FROM EmployeesManager;
 
 **NTILE** : -
 	NTILE window function divides an ordered result set into a specified number of approximately equal buckets (or tiles) and assigns each row a bucket number from 1 to the number of buckets. It’s useful for tasks like ranking data into quartiles, deciles, or other quantiles.
+	
+```
+SELECT *, NTILE(10)OVER(ORDER BY SALARY DESC) AS GroupBucket FROM EmployeesManager;
+```
+![[Pasted image 20250510134117.png]]
