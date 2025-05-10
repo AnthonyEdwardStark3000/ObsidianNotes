@@ -822,11 +822,18 @@ AS BEGIN
 SELECT * FROM Person.Person WHERE BusinessEntityID=@personID
 END
 
-EXEC GetEmployeeDataByDeptID 10;
+EXEC GetEmployeeDataByDeptID 10; -- Input parameter
 -- or
 EXEC GetEmployeeDataByDeptID @personID=10;
 
+-- default parameter
+ALTER PROCEDURE GetEmployeeDataByDeptID @personID INT =10
+AS BEGIN
+SELECT * FROM Person.Person WHERE BusinessEntityID=@personID
+END
 ```
+
+**Output parameter for Store Procedure**
 
 
 
