@@ -803,7 +803,7 @@ SELECT * FROM ##tmp_person_global;
 ![[Pasted image 20250510162959.png]]
 
 **Store Procedure**
-
+![[Pasted image 20250510163113.png]]
 
 
 
