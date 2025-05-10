@@ -814,6 +814,16 @@ END
 
 
 EXEC GetEmployeeData;
+
+-- with parameter
+
+CREATE PROCEDURE GetEmployeeDataByDeptID @personID INT
+AS BEGIN
+SELECT * FROM Person.Person WHERE BusinessEntityID=@personID
+END
+
+
+EXEC GetEmployeeDataByDeptID 10;
 ```
 
 
