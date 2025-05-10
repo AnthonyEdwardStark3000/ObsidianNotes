@@ -692,3 +692,6 @@ ORDER BY ModifiedDate RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)
 FROM Production.ProductCostHistory 
 ORDER BY ProductID,ModifiedDate;
 ```
+![[Pasted image 20250510111517.png]]
+
+**LAG** : - 
