@@ -660,7 +660,7 @@ AS TOTAL_SALARY FROM employees;
 3. LAG
 4. LEAD 
 
-**First Value** : - To check the initial value when it was created.
+**First Value** : - This window function is used to check the initial value when it was created.
 ```
 SELECT ProductID,StandardCost,ModifiedDate FROM Production.ProductCostHistory
 ORDER BY ProductID,ModifiedDate; --This displays the product details with its order according to
