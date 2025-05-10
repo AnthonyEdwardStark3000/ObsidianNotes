@@ -742,3 +742,4 @@ SELECT *,RANK()OVER(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC) AS RANK FRO
 
 > Here if there is an duplicate in Rank , like there are 2 employees having same rank 11 , then the next employee will have rank 13 , if three employees having rank 11 then the next will have 14.
 
+And inorder to av
