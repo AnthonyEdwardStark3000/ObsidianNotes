@@ -707,4 +707,5 @@ ORDER BY ModifiedDate)AS Previous_value,LEAD(StandardCost)OVER(PARTITION BY Prod
 ORDER BY ModifiedDate)AS Next_value FROM Production.ProductCostHistory ORDER BY ProductID,ModifiedDate;
 ```
 ![[Pasted image 20250510112429.png]]
-LEAD() LAG() By default sees one value before the current value and after the current value but can be made to see custom values before and adre
+LEAD() LAG() By default sees one value before the current value and after the current value but can be made to see custom values before and after and to show custom results instead of NULL if no value is present .
+LEAD(StandardCost,2,0) sees and displays two values before the current value and displays 0.00 ui
