@@ -787,6 +787,7 @@ SELECT * FROM #tmp_person_id;
 
 ```
 ![[Pasted image 20250510161841.png]]
-Temp tables are automatically dropped (deleted) at the end of the session . 
+==Temp tables are automatically dropped (deleted/disposed) at the end of the session . Or can be deleted explicitly using the DROP table query. ==
+
 
 
