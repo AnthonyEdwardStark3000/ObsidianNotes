@@ -766,3 +766,5 @@ PARTITION BY can be replaced using WINDOW()
 SELECT *, DENSE_RANK()OVER win 
 AS DENSE_RANK FROM EmployeesManager WINDOW win AS(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC);
 ```
+**Temp Table** : - Used for temporarily storing the data without creating a table using physical memory .
+![[Pasted image 20250510135239.png]]
