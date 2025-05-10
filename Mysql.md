@@ -661,3 +661,9 @@ AS TOTAL_SALARY FROM employees;
 4. LEAD 
 
 **First Value** : - To check the initial value when it was created.
+```
+SELECT ProductID,StandardCost,ModifiedDate FROM Production.ProductCostHistory
+ORDER BY ProductID,ModifiedDate; --This displays the product details with its order according to
+-- its Date of modification.
+
+```
