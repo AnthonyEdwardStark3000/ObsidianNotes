@@ -786,4 +786,6 @@ INSERT INTO #tmp_person_id SELECT ProductID FROM Production.Product WHERE Produc
 SELECT * FROM #tmp_person_id;
 
 ```
+![[Pasted image 20250510161841.png]]
+
 
