@@ -706,3 +706,5 @@ SELECT ProductID,StandardCost,ModifiedDate,LAG(StandardCost)OVER(PARTITION BY Pr
 ORDER BY ModifiedDate)AS Previous_value,LEAD(StandardCost)OVER(PARTITION BY ProductID
 ORDER BY ModifiedDate)AS Next_value FROM Production.ProductCostHistory ORDER BY ProductID,ModifiedDate;
 ```
+![[Pasted image 20250510112429.png]]
+
