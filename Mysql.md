@@ -719,3 +719,4 @@ OVER(PARTITION BY ProductID ORDER BY ModifiedDate) AS Rno
 FROM Production.ProductCostHistory;
 
 ```
+![[Pasted image 20250510130728.png]]
