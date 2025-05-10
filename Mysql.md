@@ -683,4 +683,4 @@ ORDER BY ModifiedDate) AS Final_value FROM Production.ProductCostHistory
 ORDER BY ProductID,ModifiedDate;
 ```
 ![[Pasted image 20250510110501.png]]
-This is displaying final value for each ProductID based on its previous entries data. This is not the expected result so the LAST
+This is displaying final value for each ProductID based on its previous entries data. This is not the expected result so the ==LAST_VALUE() should be used along with ==
