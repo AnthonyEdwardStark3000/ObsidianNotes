@@ -676,3 +676,11 @@ ORDER BY ProductID,ModifiedDate;
 ```
 ![[Pasted image 20250510105452.png]]
 **Last Value** : - This window function is used to check the final value of the field.
+```
+SELECT ProductID,StandardCost,ModifiedDate,FIRST_VALUE(StandardCost)OVER(PARTITION BY ProductID
+ORDER BY ModifiedDate)AS Initital_value, LAST_VALUE(StandardCost)OVER(PARTITION BY ProductID 
+ORDER BY ModifiedDate) AS Final_value FROM Production.ProductCostHistory 
+ORDER BY ProductID,ModifiedDate;
+```
+![[Pasted image 20250510110501.png]]
+This is displaying final value for each ProductID based on its previous entries data. This is not the expected result so the LAST
