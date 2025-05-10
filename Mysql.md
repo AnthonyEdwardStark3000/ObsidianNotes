@@ -835,6 +835,19 @@ END
 
 **Output parameter for Store Procedure**
 
+```
+-- output parameter
+ALTER PROCEDURE GetEmployeeDataByDeptID @personID INT =10, @personCount INT OUT
+AS
+BEGIN
+SELECT @personCount = COUNT(*) FROM Person.Person WHERE BusinessEntityID = @personID
+END
+
+DECLARE @count INT
+EXEC GetEmployeeDataByDeptID 20,@count OUT
+SELECT @count;
+```
+
 
 
 
