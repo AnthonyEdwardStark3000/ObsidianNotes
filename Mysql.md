@@ -675,3 +675,4 @@ ORDER BY ModifiedDate) AS Initial_value FROM Production.ProductCostHistory
 ORDER BY ProductID,ModifiedDate;
 ```
 ![[Pasted image 20250510105452.png]]
+**Last Value** : - This window function is used to check the final value of the field.
