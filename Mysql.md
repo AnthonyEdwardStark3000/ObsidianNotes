@@ -699,3 +699,10 @@ The `LAG()` function is a **window function** that allows you to **look back at 
 
 **LEAD** : -
 The `LEAD()` function lets you **look forward** to a **next row’s value** within the result set similar to how `LAG()` looks backward.
+
+```
+-- LEAD AND LAG
+SELECT ProductID,StandardCost,ModifiedDate,LAG(StandardCost)OVER(PARTITION BY ProductID
+ORDER BY ModifiedDate)AS Previous_value,LEAD(StandardCost)OVER(PARTITION BY ProductID
+ORDER BY ModifiedDate)AS Next_value FROM Production.ProductCostHistory ORDER BY ProductID,ModifiedDate;
+```
