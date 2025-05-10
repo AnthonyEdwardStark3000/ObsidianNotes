@@ -695,3 +695,4 @@ ORDER BY ProductID,ModifiedDate;
 ![[Pasted image 20250510111517.png]]
 
 **LAG** : - 
+The `LAG()` function is a **window function** that allows you to **look back at a previous row's value** within the result set  **without using a self-join**.
