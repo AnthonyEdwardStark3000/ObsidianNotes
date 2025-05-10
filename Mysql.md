@@ -759,3 +759,5 @@ AS DENSE_RANK FROM EmployeesManager;
 SELECT *, NTILE(10)OVER(ORDER BY SALARY DESC) AS GroupBucket FROM EmployeesManager;
 ```
 ![[Pasted image 20250510134117.png]]
+
+PARTITION BY can be replaced using WINDOW()
