@@ -767,6 +767,9 @@ SELECT *, DENSE_RANK()OVER win
 AS DENSE_RANK FROM EmployeesManager WINDOW win AS(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC);
 ```
 **Temp Table** : - Used for temporarily storing the data without creating a table using physical memory .
+Temporary tables can be classified into two types
+1. Local temporary table and
+2. Global temporary table. 
 ![[Pasted image 20250510135239.png]]
 Temp table can be created using any of the following two ways
 ```
@@ -788,6 +791,7 @@ SELECT * FROM #tmp_person_id;
 ```
 ![[Pasted image 20250510161841.png]]
 ==Temp tables are automatically dropped (deleted/disposed) at the end of the session . Or can be deleted explicitly using the DROP table query. ==
+
 
 
 
