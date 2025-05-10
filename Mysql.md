@@ -805,6 +805,17 @@ SELECT * FROM ##tmp_person_global;
 **Store Procedure**
 ![[Pasted image 20250510163113.png]]
 
+```
+-- Store procedure without parameters
+CREATE PROCEDURE GetEmployeeData
+AS BEGIN
+SELECT * FROM Person.Person
+END
+
+
+EXEC GetEmployeeData;
+```
+
 
 
 
