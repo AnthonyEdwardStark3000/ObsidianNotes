@@ -696,3 +696,6 @@ ORDER BY ProductID,ModifiedDate;
 
 **LAG** : - 
 The `LAG()` function is a **window function** that allows you to **look back at a previous row's value** within the result set  **without using a self-join**.
+
+**LEAD** : -
+The `LEAD()` function lets you **look forward** to a **next row’s value** within the result set similar to how `LAG()` looks backward.
