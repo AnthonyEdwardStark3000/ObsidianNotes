@@ -856,7 +856,8 @@ SELECT @count;
 **Index**
 	An **index** in MySQL is a database structure that improves the speed of data retrieval operations on a table by providing a quick lookup mechanism. It works like an index in a book, allowing the database to find rows faster without scanning the entire table. However, indexes come with trade-offs: they speed up SELECT queries but can slow down INSERT, UPDATE, and DELETE operations because the index must be updated.
 	
-> Clustered index - is physically arranging the data in that particular order Eg: Super marjket
+> Clustered index - is physically arranging the data in that particular order Eg: Super market.
+> Non clustered index - has a pointer pointing to the data for easy retrieval
 
 
 
