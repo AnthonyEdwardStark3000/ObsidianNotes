@@ -923,3 +923,4 @@ Now this will arrange the values in alphabetical order according to their first 
 
 F_Nm L_Nm
 ![[Pasted image 20250511183758.png]]
+And this kind of index are useful for the following queries
