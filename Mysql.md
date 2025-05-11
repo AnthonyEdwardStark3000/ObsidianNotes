@@ -991,3 +991,4 @@ END
 SELECT * FROM employees_copy;
 DELETE FROM employees_copy WHERE EmployeeID = 1003;
 ```
+![[Pasted image 20250511220753.png]]
