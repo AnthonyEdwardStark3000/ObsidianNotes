@@ -892,4 +892,9 @@ SELECT * INTO EmployeeIndexNonClusteredIndex FROM EmployeeIndex;
 CREATE INDEX idx_lastName ON EmployeeIndexNonClusteredIndex(LastName);
 ```
 ![[Pasted image 20250511181551.png]]
+Non clustered unique index can be created using 
+```
+CREATE UNIQUE INDEX idx_firstName ON EmployeeIndexNonClusteredIndex(FirstName);
+```
+![[Pasted image 20250511181726.png]]
 
