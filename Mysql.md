@@ -1004,5 +1004,5 @@ Functions can be classified into
 	![[Pasted image 20250511223418.png|250]]
 2. Custom functions (User defined functions)
 		![[Pasted image 20250511223521.png|350]]
-		- Scalar functions
+.Scalar functions - 
 		
