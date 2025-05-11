@@ -890,7 +890,6 @@ Explicitly non-clustered index can be created using the following
 SELECT * INTO EmployeeIndexNonClusteredIndex FROM EmployeeIndex;
 
 CREATE INDEX idx_lastName ON EmployeeIndexNonClusteredIndex(LastName);
-
 ```
-
+![[Pasted image 20250511181551.png]]
 
