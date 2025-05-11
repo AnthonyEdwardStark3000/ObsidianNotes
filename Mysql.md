@@ -919,4 +919,7 @@ Multiple index
 CREATE INDEX multiple_index ON EmployeeIndexNonClusteredIndex(FirstName,LastName);
 ```
 ![[Pasted image 20250511183700.png]]
-Now this will arrange the values in alphabetical ord
+Now this will arrange the values in alphabetical order according to their first name then by their last name in that arranged result.
+
+F_Nm L_Nm
+![[Pasted image 20250511183758.png]]
