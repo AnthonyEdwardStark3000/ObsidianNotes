@@ -937,3 +937,4 @@ SELECT * FROM EmployeeIndexNonClusteredIndex WHERE FirstName = 'aaa' AND LastNam
 Triggers will generate two virtual tables.
 ![[Pasted image 20250511213531.png]]
 
+![[Pasted image 20250511214648.png]]
