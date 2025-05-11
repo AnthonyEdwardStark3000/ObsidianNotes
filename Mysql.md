@@ -928,3 +928,4 @@ And this kind of index are useful for the following queries
 SELECT * FROM EmployeeIndexNonClusteredIndex WHERE FirstName = 'aaa' AND LastName = 'bbb';
 ```
 **Trigger**
+	A special type of Store Procedure that automatically runs when an event occurs in the database server .
