@@ -902,4 +902,4 @@ Clustered index can be created using
 CREATE CLUSTERED INDEX idx_clstr_lastName ON EmployeeIndexNonClusteredIndex(LastName);
 ```
 ![[Pasted image 20250511182316.png]]
-> A table can have only one clustered index in it.
+> A table can have ==only one clustered index== in it, and if the ==Primary key is created after creating clustered index it will be created as an non clustered index ==.
