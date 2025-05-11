@@ -961,5 +961,17 @@ SELECT * FROM employees_audit;
 ![[Pasted image 20250511214648.png]]
 Altering a trigger
 ```
+-- Alter trigger
+ALTER TRIGGER trg_emp_audit ON Employee
+AFTER INSERT,DELETE AS
+BEGIN
+	INSERT INTO employees_audit 
+	SELECT EmployeeID,'Insert',GETDATE() FROM inserted
+UNION ALL
+	SELECT EmployeeID,'Deleted',GETDATE() FROM deleted
+END
 
+DELETE FROM Employee WHERE EmployeeID = 1002;
 ```
+![[Pasted image 20250511215549.png]]
+ 
