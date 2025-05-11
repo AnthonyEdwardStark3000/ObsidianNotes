@@ -914,4 +914,9 @@ Dropping Index
 DROP INDEX EmployeeIndexNonClusteredIndex.idx_clstr_lastName;
 -- Drop index tableName.IndexName
 ```
-
+Multiple index
+```
+CREATE INDEX multiple_index ON EmployeeIndexNonClusteredIndex(FirstName,LastName);
+```
+![[Pasted image 20250511183700.png]]
+Now this will arrange the values in alphabetical ord
