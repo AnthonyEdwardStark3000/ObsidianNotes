@@ -898,3 +898,8 @@ CREATE UNIQUE INDEX idx_firstName ON EmployeeIndexNonClusteredIndex(FirstName);
 ```
 ![[Pasted image 20250511181726.png]]
 Clustered index can be created using
+```
+CREATE CLUSTERED INDEX idx_clstr_lastName ON EmployeeIndexNonClusteredIndex(LastName);
+```
+![[Pasted image 20250511182316.png]]
+> A table can have only one clustered index in it.
