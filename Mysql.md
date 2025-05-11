@@ -875,6 +875,15 @@ SELECT @count;
 
     > By default the database creates a ==clustered index on Primary Key and non-clustered index on Unique key constraint .== 
 
+```
+CREATE TABLE EmployeeIndex(
+	EmployeeID INTEGER PRIMARY KEY,
+	FirstName VARCHAR(200),
+	LastName VARCHAR(200) UNIQUE,
+	DateOfBirth DATE,
+	Gender CHAR(1),
+	DepartmentID INTEGER);
+```
 ![[Pasted image 20250511180949.png]]
 
 
