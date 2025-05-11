@@ -998,5 +998,8 @@ DELETE FROM employees_copy WHERE EmployeeID = 1003;
 Set of SQL statements that does an action and returns an output value based on the Input parameters provided.
 Functions can be classified into
 1. System functions (Build in functions)
-	![[Pasted image 20250511223418.png|300]]
+	![[Pasted image 20250511223418.png|250]]
 2. Custom functions (User defined functions)
+		![[Pasted image 20250511223521.png|350]]
+		
+		
