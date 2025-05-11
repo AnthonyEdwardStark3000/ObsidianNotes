@@ -872,7 +872,8 @@ SELECT @count;
     - In MySQL, indexes like INDEX, UNIQUE, or FULLTEXT (on non-primary key columns) are non-clustered.
     - **Benefit**: Speeds up queries on columns not part of the clustered index, but slightly slower than a clustered index because it requires an extra step to follow the pointer.
     - **Example**: An index on the city column in the users table stores city values and pointers to the corresponding rows.
-    
+
+    > By default the database creates a ==clustered index on Primary Key==
 
 
 
