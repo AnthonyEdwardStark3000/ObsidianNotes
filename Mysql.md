@@ -912,4 +912,5 @@ pk_const PRIMARY KEY(EmployeeID);
 Dropping Index
 ```
 DROP INDEX EmployeeIndexNonClusteredIndex.idx_clstr_lastName;
+-- Drop index tableName.IndexName
 ```
