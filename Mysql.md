@@ -929,6 +929,8 @@ SELECT * FROM EmployeeIndexNonClusteredIndex WHERE FirstName = 'aaa' AND LastNam
 ```
 **Trigger**
 	A special type of Store Procedure that automatically runs when an event occurs in the database server .
-Trigger contains an set of SQL statements in it . 
+	A **trigger** is a database object associated with a table that automatically executes a predefined set of SQL statements when certain events (CRUD operations) occur on that table.
+	Trigger contains an set of SQL statements in it . 
 ![[Pasted image 20250511184531.png]]
+- Automatically update the last_updated column whenever a user’s first_name or city is updated.
 
