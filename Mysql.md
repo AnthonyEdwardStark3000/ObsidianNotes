@@ -929,3 +929,6 @@ SELECT * FROM EmployeeIndexNonClusteredIndex WHERE FirstName = 'aaa' AND LastNam
 ```
 **Trigger**
 	A special type of Store Procedure that automatically runs when an event occurs in the database server .
+Trigger contains an set of SQL statements in it . 
+![[Pasted image 20250511184531.png]]
+
