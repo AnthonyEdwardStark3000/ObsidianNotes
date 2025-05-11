@@ -927,3 +927,4 @@ And this kind of index are useful for the following queries
 ```
 SELECT * FROM EmployeeIndexNonClusteredIndex WHERE FirstName = 'aaa' AND LastName = 'bbb';
 ```
+**Trigger**
