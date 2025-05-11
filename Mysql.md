@@ -1006,4 +1006,16 @@ Functions can be classified into
 		![[Pasted image 20250511223521.png|350]]
 -Scalar functions - If the retuned value of a function is an single row value then such functions are known as Scalar functions .
 
+```
+CREATE FUNCTION
+	udf_add_numbers(@a INT,@b INT)
+	RETURNS INT
+	BEGIN
+		RETURN @a + @b
+	END
+
+SELECT dbo.udf_add_numbers(2,10) AS Result;	
+```
+![[Pasted image 20250511224409.png]]
+
 		
