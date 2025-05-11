@@ -934,4 +934,6 @@ SELECT * FROM EmployeeIndexNonClusteredIndex WHERE FirstName = 'aaa' AND LastNam
 ![[Pasted image 20250511184531.png]]
 - Automatically update the last_updated column whenever a user’s first_name or city is updated.
 ![[Pasted image 20250511213344.png]]
+Triggers will generate two virtual tables.
+![[Pasted image 20250511213531.png]]
 
