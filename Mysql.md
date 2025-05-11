@@ -903,3 +903,9 @@ CREATE CLUSTERED INDEX idx_clstr_lastName ON EmployeeIndexNonClusteredIndex(Last
 ```
 ![[Pasted image 20250511182316.png]]
 > A table can have ==only one clustered index== in it, and if the ==Primary key is created after creating clustered index it will be created as an non clustered index ==.
+
+```
+ALTER TABLE EmployeeIndexNonClusteredIndex ADD CONSTRAINT
+pk_const PRIMARY KEY(EmployeeID);
+```
+![[Pasted image 20250511182805.png]]
