@@ -936,5 +936,26 @@ SELECT * FROM EmployeeIndexNonClusteredIndex WHERE FirstName = 'aaa' AND LastNam
 ![[Pasted image 20250511213344.png]]
 Triggers will generate two virtual tables.
 ![[Pasted image 20250511213531.png]]
+```
+-- Creating table to make an entry after insert operation in Employee Table.
 
+CREATE TABLE employees_audit(
+	Employee_ID INTEGER,
+	Operation VARCHAR(100),
+	UpdatedDate DATETIME
+);
+
+-- Creating trigger
+CREATE TRIGGER trg_emp_audit
+ON Employee
+AFTER INSERT AS BEGIN 
+INSERT INTO employees_audit
+SELECT EmployeeID,'INSERT',GETDATE() FROM inserted
+END;
+
+SELECT * FROM Employee;
+INSERT INTO Employee VALUES(3000,'Trigger','Check','2025-05-11','M',11,1002);
+
+SELECT * FROM employees_audit;
+```
 ![[Pasted image 20250511214648.png]]
