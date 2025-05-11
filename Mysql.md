@@ -909,3 +909,8 @@ ALTER TABLE EmployeeIndexNonClusteredIndex ADD CONSTRAINT
 pk_const PRIMARY KEY(EmployeeID);
 ```
 ![[Pasted image 20250511182805.png]]
+Dropping Index
+```
+DROP INDEX EmployeeIndexNonClusteredIndex.idx_clstr_lastName;
+
+```
