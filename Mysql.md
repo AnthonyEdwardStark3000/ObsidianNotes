@@ -885,6 +885,9 @@ CREATE TABLE EmployeeIndex(
 	DepartmentID INTEGER);
 ```
 ![[Pasted image 20250511180949.png]]
+Explicitly non-clustered index can be created using the following
+```
 
+```
 
 
