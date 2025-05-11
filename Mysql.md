@@ -887,6 +887,9 @@ CREATE TABLE EmployeeIndex(
 ![[Pasted image 20250511180949.png]]
 Explicitly non-clustered index can be created using the following
 ```
+SELECT * INTO EmployeeIndexNonClusteredIndex FROM EmployeeIndex;
+
+CREATE INDEX idx_lastName ON EmployeeIndexNonClusteredIndex(LastName);
 
 ```
 
