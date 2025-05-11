@@ -875,6 +875,7 @@ SELECT @count;
 
     > By default the database creates a ==clustered index on Primary Key and non-clustered index on Unique key constraint .== 
 
+![[Pasted image 20250511180949.png]]
 
 
 
