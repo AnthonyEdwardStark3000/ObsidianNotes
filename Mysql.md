@@ -996,10 +996,13 @@ DELETE FROM employees_copy WHERE EmployeeID = 1003;
 **Functions in SQL**
 ![[Pasted image 20250511223202.png]]
 Set of SQL statements that does an action and returns an output value based on the Input parameters provided.
+
+> Functions may or may not have an Input parameter but should definitely return a value .
+
 Functions can be classified into
 1. System functions (Build in functions)
 	![[Pasted image 20250511223418.png|250]]
 2. Custom functions (User defined functions)
 		![[Pasted image 20250511223521.png|350]]
-		
+		- Scalar functions
 		
