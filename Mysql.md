@@ -995,3 +995,4 @@ DELETE FROM employees_copy WHERE EmployeeID = 1003;
 ![[Pasted image 20250511220835.png]]
 **Functions in SQL**
 ![[Pasted image 20250511223202.png]]
+Set of SQL statements that does an action and returns an output value based on the Input parameters provided.
