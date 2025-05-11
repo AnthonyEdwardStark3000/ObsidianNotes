@@ -856,8 +856,23 @@ SELECT @count;
 **Index**
 	An **index** in MySQL is a database structure that improves the speed of data retrieval operations on a table by providing a quick lookup mechanism. It works like an index in a book, allowing the database to find rows faster without scanning the entire table. However, indexes come with trade-offs: they speed up SELECT queries but can slow down INSERT, UPDATE, and DELETE operations because the index must be updated.
 	
-> Clustered index - is physically arranging the data in that particular order Eg: Super market.
-> Non clustered index - has a pointer pointing to the data for easy retrieval
+### Clustered Index
+
+- **Definition**: A clustered index determines the **physical order** of data rows in the table. The table's data is stored in the same order as the index, meaning the data is physically sorted based on the indexed column(s).
+- **Key Points**:
+    - There can be **only one clustered index** per table because the data can only be physically arranged in one order.
+    - In MySQL, the **primary key** is typically the clustered index (e.g., in InnoDB). If no primary key exists, the first unique index with non-null columns may be used, or InnoDB creates an internal clustered index.
+    - **Benefit**: Fast retrieval for range queries, searches, or joins on the indexed column since the data is already sorted.
+    - **Example**: In a users table with a primary key on id, the rows are physically stored in
+### Non-Clustered Index
+
+- **Definition**: A non-clustered index is a separate structure that stores a copy of the indexed column(s) along with **pointers** (references) to the actual data rows in the table. The table's data remains in its original order (or clustered index order), and the non-clustered index acts like a lookup table.
+- **Key Points**:
+    - A table can have **multiple non-clustered indexes** because they don't affect the physical data order.
+    - In MySQL, indexes like INDEX, UNIQUE, or FULLTEXT (on non-primary key columns) are non-clustered.
+    - **Benefit**: Speeds up queries on columns not part of the clustered index, but slightly slower than a clustered index because it requires an extra step to follow the pointer.
+    - **Example**: An index on the city column in the users table stores city values and pointers to the corresponding rows.
+    
 
 
 
