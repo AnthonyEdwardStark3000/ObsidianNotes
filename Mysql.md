@@ -873,7 +873,7 @@ SELECT @count;
     - **Benefit**: Speeds up queries on columns not part of the clustered index, but slightly slower than a clustered index because it requires an extra step to follow the pointer.
     - **Example**: An index on the city column in the users table stores city values and pointers to the corresponding rows.
 
-    > By default the database creates a ==clustered index on Primary Key==
+    > By default the database creates a ==clustered index on Primary Key and non-clustered index on Unique key constraint .== 
 
 
 
