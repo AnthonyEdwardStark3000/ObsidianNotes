@@ -1017,5 +1017,6 @@ CREATE FUNCTION
 SELECT dbo.udf_add_numbers(2,10) AS Result;	
 ```
 ![[Pasted image 20250511224409.png]]
+![[Pasted image 20250511224457.png]]
 
 		
