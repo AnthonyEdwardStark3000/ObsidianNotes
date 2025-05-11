@@ -974,4 +974,20 @@ END
 DELETE FROM Employee WHERE EmployeeID = 1002;
 ```
 ![[Pasted image 20250511215549.png]]
- 
+ ```
+ SELECT * INTO employees_copy FROM Employee;
+ALTER TABLE employees_copy ADD active BIT,EndDate DATETIME;
+SELECT * FROM employees_copy;
+
+CREATE TRIGGER trg_emp_delete
+ON employees_copy 
+INSTEAD OF DELETE AS
+BEGIN
+	update employees_copy SET active = 0,EndDate=GETDATE() WHERE EmployeeID IN(
+		SELECT EmployeeID FROM deleted
+	)
+END
+
+SELECT * FROM employees_copy;
+DELETE FROM employees_copy WHERE EmployeeID = 1003;
+```
