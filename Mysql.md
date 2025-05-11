@@ -959,3 +959,7 @@ INSERT INTO Employee VALUES(3000,'Trigger','Check','2025-05-11','M',11,1002);
 SELECT * FROM employees_audit;
 ```
 ![[Pasted image 20250511214648.png]]
+Altering a trigger
+```
+
+```
