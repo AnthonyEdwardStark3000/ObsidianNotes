@@ -897,4 +897,4 @@ Non clustered unique index can be created using
 CREATE UNIQUE INDEX idx_firstName ON EmployeeIndexNonClusteredIndex(FirstName);
 ```
 ![[Pasted image 20250511181726.png]]
-
+Clustered index can be created using
