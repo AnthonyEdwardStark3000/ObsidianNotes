@@ -1176,4 +1176,4 @@ The value needs to be updated in the target table .
 ![[Pasted image 20250513232253.png]]
 These values needs to be inserted in the target table .
 ![[Pasted image 20250513232357.png]]
-These values needs to b
+These values needs to be deleted from the target table .
