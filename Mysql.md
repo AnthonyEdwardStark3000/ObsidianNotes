@@ -1136,3 +1136,13 @@ SELECT * FROM employees WHERE employee_id = 103
 ROLLBACK TRANSACTION
 ```
 ![[Pasted image 20250513225512.png]]
+```
+BEGIN TRANSACTION
+UPDATE BankAccount SET Balance = Balance - 1000 WHERE AccountNumber = 3456789012;
+UPDATE BankAccount SET Balance = Balance + 1000 WHERE AccountNumber = 1122334455;
+
+IF @@ERROR<>0
+	ROLLBACK TRANSACTION
+ELSE
+	COMMIT TRANSACTION
+```
