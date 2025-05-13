@@ -1126,6 +1126,13 @@ DELETE FROM employees WHERE employee_id = 101
 ROLLBACK TRANSACTION
 SELECT * FROM employees WHERE employee_id = 101
 
+-- commit transaction to make changes permanent
+BEGIN TRANSACTION
+UPDATE employees SET department_id = 1 WHERE employee_id = 103
+COMMIT TRANSACTION
 
 
+SELECT * FROM employees WHERE employee_id = 103
+ROLLBACK TRANSACTION
 ```
+![[Pasted image 20250513225512.png]]
