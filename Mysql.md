@@ -1082,5 +1082,10 @@ SELECT * FROM dbo.udf_Persons()
 ![[Pasted image 20250513214002.png]]
 ![[Pasted image 20250513214017.png]]
 ![[Pasted image 20250513214033.png]]
+![[Pasted image 20250513214046.png]]
+![[Pasted image 20250513214103.png]]
+![[Pasted image 20250513214122.png]]
+
+**Cursor** : -
 
    
