@@ -1053,6 +1053,8 @@ Table valued functions are classified into two types
 2. Multi-valued table valued functions .
 
 ```
+-- Inline table valued functions
+
 CREATE FUNCTION dbo.udf_EmpByDept(@deptID INT)
 RETURNS TABLE
 AS
