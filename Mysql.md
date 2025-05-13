@@ -1018,5 +1018,17 @@ SELECT dbo.udf_add_numbers(2,10) AS Result;
 ```
 ![[Pasted image 20250511224409.png]]
 ![[Pasted image 20250511224457.png]]
-
+```
+CREATE FUNCTION
+	dbo.udf_PassOrFail(@marks INT)
+	RETURNS CHAR(1) AS
+	BEGIN
+		DECLARE @grade CHAR(1)
+		IF (@marks>=35)
+			SET @grade = 'P'
+        ELSE
+			SET @grade = 'F'	
+	RETURN @grade
+	END
+```
 		
