@@ -1057,3 +1057,6 @@ RETURN SELECT * FROM Employee WHERE EmployeeID = @deptID
 
 SELECT * FROM dbo.udf_EmpByDept(1003);
 ```
+Table valued functions are classified into two types
+1. Inline table valued functions and
+2. Multi-valued table valued functions
