@@ -1048,3 +1048,12 @@ SELECT * FROM studentMarks WHERE dbo.udf_PassOrFail(Biology) ='P';
 
 > Table valued functions are also known as ==Parameterized views== .
 
+```
+CREATE FUNCTION dbo.udf_EmpByDept(@deptID INT)
+RETURNS TABLE
+AS
+RETURN SELECT * FROM Employee WHERE EmployeeID = @deptID
+
+
+SELECT * FROM dbo.udf_EmpByDept(1003);
+```
