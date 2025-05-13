@@ -1030,5 +1030,13 @@ CREATE FUNCTION
 			SET @grade = 'F'	
 	RETURN @grade
 	END
+
+SELECT StudentID,Name,
+dbo.udf_PassOrFail(Tamil) AS Tamil,
+dbo.udf_PassOrFail(Physics) AS Physics,
+dbo.udf_PassOrFail(Chemistry) AS Chemistry,
+dbo.udf_PassOrFail(English) AS English,
+dbo.udf_PassOrFail(Biology) AS Biology,
+dbo.udf_PassOrFail(Maths) AS Maths FROM StudentMarks;
 ```
 		
