@@ -1172,4 +1172,8 @@ ELSE
 ![[Pasted image 20250513232134.png|350]]
 ![[Pasted image 20250513232152.png]]
 ![[Pasted image 20250513232231.png]]
+The value needs to be updated in the target table .
 ![[Pasted image 20250513232253.png]]
+These values needs to be inserted in the target table .
+![[Pasted image 20250513232357.png]]
+These values needs to b
