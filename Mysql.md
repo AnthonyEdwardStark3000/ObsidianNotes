@@ -1116,3 +1116,4 @@ DEALLOCATE RunningTotalCursor
 ![[Pasted image 20250513221440.png|300]]
 
 **Transactions** : -
+![[Pasted image 20250513224732.png|600]]
