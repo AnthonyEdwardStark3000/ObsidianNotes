@@ -1148,3 +1148,19 @@ ELSE
 ```
 **Save Transaction** - You want to save transactions using MySQL’s transaction control to ensure data integrity (e.g., if a transaction fails, it rolls back).
 ![[Pasted image 20250513231404.png]]
+```
+BEGIN TRANSACTION
+INSERT INTO BankAccount (AccountID, AccountNumber, Balance) VALUES
+(4, 3456789014, 18000.60);
+SAVE TRANSACTION First_Insert
+INSERT INTO BankAccount (AccountID, AccountNumber, Balance) VALUES
+(5, 3756789014, 19000);
+
+SELECT (1/0)
+IF @@ERROR <> 0
+	ROLLBACK TRANSACTION First_Insert
+ELSE
+	COMMIT TRANSACTION
+```
+![[Pasted image 20250513231505.png]]
+![[Pasted image 20250513231515.png]]
