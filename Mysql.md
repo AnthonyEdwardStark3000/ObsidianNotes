@@ -1146,4 +1146,4 @@ IF @@ERROR<>0
 ELSE
 	COMMIT TRANSACTION
 ```
-**Save Transaction** - 
+**Save Transaction** - You want to save transactions using MySQL’s transaction control to ensure data integrity (e.g., if a transaction fails, it rolls back).
