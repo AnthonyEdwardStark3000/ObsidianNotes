@@ -1118,3 +1118,14 @@ DEALLOCATE RunningTotalCursor
 **Transactions** : -
 ![[Pasted image 20250513224732.png|600]]
 ![[Pasted image 20250513224846.png|500]]
+```
+BEGIN TRANSACTION
+DELETE FROM employees WHERE employee_id = 101
+
+-- The transaction will be reverted now.
+ROLLBACK TRANSACTION
+SELECT * FROM employees WHERE employee_id = 101
+
+
+
+```
