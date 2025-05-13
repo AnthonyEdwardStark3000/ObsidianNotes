@@ -1048,6 +1048,10 @@ SELECT * FROM studentMarks WHERE dbo.udf_PassOrFail(Biology) ='P';
 
 > Table valued functions are also known as ==Parameterized views== .
 
+Table valued functions are classified into two types
+1. Inline table valued functions and
+2. Multi-valued table valued functions .
+
 ```
 CREATE FUNCTION dbo.udf_EmpByDept(@deptID INT)
 RETURNS TABLE
@@ -1057,7 +1061,5 @@ RETURN SELECT * FROM Employee WHERE EmployeeID = @deptID
 
 SELECT * FROM dbo.udf_EmpByDept(1003);
 ```
-Table valued functions are classified into two types
-1. Inline table valued functions and
-2. Multi-valued table valued functions .
+
    
