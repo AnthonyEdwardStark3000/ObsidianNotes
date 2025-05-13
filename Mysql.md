@@ -1039,4 +1039,4 @@ dbo.udf_PassOrFail(English) AS English,
 dbo.udf_PassOrFail(Biology) AS Biology,
 dbo.udf_PassOrFail(Maths) AS Maths FROM StudentMarks;
 ```
-		
+![[Pasted image 20250513080819.png]]
