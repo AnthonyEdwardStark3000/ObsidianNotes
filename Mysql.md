@@ -1046,4 +1046,5 @@ SELECT * FROM studentMarks WHERE dbo.udf_PassOrFail(Biology) ='P';
 ```
 **Table valued functions** - Unlike scalar functions table valued function does not return a single value , instead it returns the table itself.
 
-> Table valued functions are also known as 
+> Table valued functions are also known as ==Parameterized views== .
+
