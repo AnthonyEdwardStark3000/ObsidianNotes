@@ -1078,5 +1078,9 @@ END
 
 SELECT * FROM dbo.udf_Persons()
 ```
+![[Pasted image 20250513213953.png]]
+![[Pasted image 20250513214002.png]]
+![[Pasted image 20250513214017.png]]
+![[Pasted image 20250513214033.png]]
 
    
