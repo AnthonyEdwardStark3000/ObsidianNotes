@@ -1093,4 +1093,22 @@ SELECT * FROM dbo.udf_Persons()
 This can be considered as ==Cursor==
 ![[Pasted image 20250513214404.png]]
 ![[Pasted image 20250513214412.png]]
-   
+```
+DECLARE @id INT
+DECLARE @value INT
+DECLARE @runningTotal INT = 0
+DECLARE RunningTotalCursor CURSOR FOR
+SELECT ID,Value FROM SalesData ORDER BY ID
+
+OPEN RunningTotalCursor
+FETCH NEXT FROM RunningTotalCursor INTO @id,@value
+WHILE @@FETCH_STATUS = 0 
+BEGIN 
+	SET @runningTotal = @runningTotal + @value
+	UPDATE SalesData SET RunningTotal = @runningTotal WHERE ID = @id
+	FETCH NEXT FROM RunningTotalCursor INTO @id,@value
+END
+CLOSE RunningTotalCursor
+DEALLOCATE RunningTotalCursor
+```   
+![[Pasted image 20250513220434.png]]
