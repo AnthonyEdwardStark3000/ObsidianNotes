@@ -1062,6 +1062,21 @@ RETURN SELECT * FROM Employee WHERE EmployeeID = @deptID
 
 
 SELECT * FROM dbo.udf_EmpByDept(1003);
+
+-- Multi valued table functions
+CREATE FUNCTION dbo.udf_Persons()
+RETURNS	@personData TABLE(ID INT,PersonName VARCHAR(100))
+AS 
+BEGIN
+INSERT INTO @personData
+SELECT EmployeeID,FirstName FROM Employee
+INSERT INTO @personData
+SELECT StudentID, FirstName FROM NewStudents
+RETURN 
+END
+
+
+SELECT * FROM dbo.udf_Persons()
 ```
 
    
