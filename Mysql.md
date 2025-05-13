@@ -1042,6 +1042,6 @@ dbo.udf_PassOrFail(Maths) AS Maths FROM StudentMarks;
 ![[Pasted image 20250513080819.png]]
 > scalar value functions can be used as how columns are used in a table .
 ```
-SELECT * FROM studentMarks WHERE dbo.udf_PassOrFail(Biology)=='P'
-
+SELECT * FROM studentMarks WHERE dbo.udf_PassOrFail(Biology) ='P';
 ```
+**Table valued functions ** - Unlik
