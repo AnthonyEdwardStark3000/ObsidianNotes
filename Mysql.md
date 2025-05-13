@@ -1040,4 +1040,8 @@ dbo.udf_PassOrFail(Biology) AS Biology,
 dbo.udf_PassOrFail(Maths) AS Maths FROM StudentMarks;
 ```
 ![[Pasted image 20250513080819.png]]
-> scalar value functions can be used as 
+> scalar value functions can be used as how columns are used in a table .
+```
+SELECT * FROM studentMarks WHERE dbo.udf_PassOrFail(Biology)=='P'
+
+```
