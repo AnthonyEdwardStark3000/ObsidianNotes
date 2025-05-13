@@ -1089,4 +1089,8 @@ SELECT * FROM dbo.udf_Persons()
 **Cursor** : -
 ![[Pasted image 20250513214223.png|360]]
 ==This scenario can be considered with set operations==
+![[Pasted image 20250513214330.png]]
+This can be considered as ==Cursor==
+![[Pasted image 20250513214404.png]]
+![[Pasted image 20250513214412.png]]
    
