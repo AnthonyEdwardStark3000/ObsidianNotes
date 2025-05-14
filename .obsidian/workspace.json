@@ -35,8 +35,7 @@
               "title": "Micro Services in DOTNET"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -185,8 +184,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b72e94e692da01f3",
+  "active": "640a2cc771a3bfa1",
   "lastOpenFiles": [
+    "Micro Services in DOTNET.md",
     "Mysql.md",
     "Pasted image 20250513232357.png",
     "Pasted image 20250513232253.png",
@@ -198,7 +198,6 @@
     "Pasted image 20250513231840.png",
     "Pasted image 20250513231515.png",
     "Pasted image 20250513231505.png",
-    "Micro Services in DOTNET.md",
     "Dotnet Intermediate Topics.md",
     "Practice mocks.md",
     "Docker basics.md",
