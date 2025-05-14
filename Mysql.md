@@ -1202,5 +1202,6 @@ WHEN NOT MATCHED BY SOURCE THEN DELETE;
 ![[Pasted image 20250514224716.png|450]]
 
 **Scheduling Jobs in SqlServer** : -
+![[Pasted image 20250514224858.png|240]]
 
 
