@@ -1210,5 +1210,6 @@ WHEN NOT MATCHED BY SOURCE THEN DELETE;
 ![[Pasted image 20250514230312.png|430]]
 ![[Pasted image 20250514230429.png|430]]
 ![[Pasted image 20250514230522.png|430]]
-
+![[Pasted image 20250514230719.png|430]]
+![[Pasted image 20250514230758.png|430]]
 
