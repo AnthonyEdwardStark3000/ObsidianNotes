@@ -1180,3 +1180,23 @@ These values needs to be deleted from the target table .
 
 > MERGE statement should always be terminated by a semicolon. 
 
+```
+MERGE EmployeeTarget AS T
+USING EmployeeSource AS S
+ON T.Employee_ID = S.Employee_ID -- all PK's should be used here using AND statement
+
+WHEN MATCHED THEN
+UPDATE SET
+T.FIRST_NAME = S.FIRST_NAME,
+T.LAST_NAME = S.LAST_NAME,
+T.SALARY = S.SALARY,
+T.MANAGER_ID = S.MANAGER_ID,
+T.DEPARTMENT_ID = S.DEPARTMENT_ID
+
+WHEN NOT MATCHED BY TARGET THEN 
+INSERT(Employee_ID,FIRST_NAME,LAST_NAME,SALARY,MANAGER_ID,DEPARTMENT_ID)
+VALUES(S.Employee_ID,S.FIRST_NAME,S.LAST_NAME,S.SALARY,S.MANAGER_ID,S.DEPARTMENT_ID)
+
+WHEN NOT MATCHED BY SOURCE THEN DELETE;
+```
+
