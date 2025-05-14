@@ -1177,3 +1177,6 @@ The value needs to be updated in the target table .
 These values needs to be inserted in the target table .
 ![[Pasted image 20250513232357.png]]
 These values needs to be deleted from the target table .
+
+> MERGE statement should always be terminated by a semicolon. 
+
