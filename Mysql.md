@@ -1237,4 +1237,5 @@ There are 4 types of Set operations in SQL
 3. Intersect
 4. Except 
 ![[Pasted image 20250515230529.png|320]]
+Union and Union All - Combines and returns Results of both the tables , Where Union removes the duplicates and Union All includes duplicates as well .
 
