@@ -1229,5 +1229,12 @@ The following Normal Forms are available for achieving this normalization.
 ![[Pasted image 20250515225705.png]]
 ![[Pasted image 20250515225803.png]]
 ![[Pasted image 20250515225858.png]]
+**Set Operations**
+![[Pasted image 20250515230224.png]]
+There are 4 types of Set operations in SQL
+1. Union
+2. Union All
+3. Intersect
+4. Except 
 
 
