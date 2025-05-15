@@ -1216,6 +1216,7 @@ WHEN NOT MATCHED BY SOURCE THEN DELETE;
 **Normalization** : -
 ![[Pasted image 20250515223733.png]]
 ![[Pasted image 20250515223758.png]]
+![[Pasted image 20250515223836.png]]
 
 
 
