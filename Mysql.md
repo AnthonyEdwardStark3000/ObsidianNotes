@@ -1222,5 +1222,6 @@ WHEN NOT MATCHED BY SOURCE THEN DELETE;
 ![[Pasted image 20250515224225.png]]
 The following Normal Forms are available for achieving this normalization. 
 ![[Pasted image 20250515224251.png|430]]
+![[Pasted image 20250515224442.png]]
 
 
