@@ -1241,4 +1241,5 @@ Union and Union All - Combines and returns Results of both the tables , Where Un
 ![[Pasted image 20250515230756.png|350]]
 Intersect - Returns the common records from both the tables .
 ![[Pasted image 20250515230855.png|350]]
-Except - 
+Except - Returns the records from both the tables which are not common among them .
+
