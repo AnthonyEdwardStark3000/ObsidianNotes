@@ -1228,5 +1228,6 @@ The following Normal Forms are available for achieving this normalization.
 ![[Pasted image 20250515225235.png]]
 ![[Pasted image 20250515225705.png]]
 ![[Pasted image 20250515225803.png]]
+![[Pasted image 20250515225858.png]]
 
 
