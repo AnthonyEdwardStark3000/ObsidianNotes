@@ -1236,5 +1236,5 @@ There are 4 types of Set operations in SQL
 2. Union All
 3. Intersect
 4. Except 
-
+![[Pasted image 20250515230529.png|320]]
 
