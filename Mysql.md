@@ -1238,4 +1238,7 @@ There are 4 types of Set operations in SQL
 4. Except 
 ![[Pasted image 20250515230529.png|320]]
 Union and Union All - Combines and returns Results of both the tables , Where Union removes the duplicates and Union All includes duplicates as well .
-![[Pasted image 20250515230756.png]]
+![[Pasted image 20250515230756.png|350]]
+Intersect - Returns the common records from both the tables .
+![[Pasted image 20250515230855.png|350]]
+Except - 
