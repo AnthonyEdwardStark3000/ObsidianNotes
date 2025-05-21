@@ -1269,4 +1269,6 @@ WITH generative_numbers AS(
 SELECT * FROM generative_numbers OPTION (
 	MAXRECURSION 250
 );
+
+-- Default limit is 100 and max
 ```
