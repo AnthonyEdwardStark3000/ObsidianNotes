@@ -1248,4 +1248,8 @@ Except - Returns the records from both the tables which are not common among the
 ![[Pasted image 20250515231522.png]]
 **Recursive CTE**
 ![[Pasted image 20250521225035.png]]
-In the above mentioned hierarchical data how to find a level 1 employee . level 2 employee and so on .
+In the above mentioned Hierarchical data how to find a level 1 employee . level 2 employee and so on . We use recursive CTE for such process .
+
+> CTE is an temporary result set .
+
+![[Pasted image 20250521225219.png|300]]
