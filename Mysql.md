@@ -1254,3 +1254,10 @@ In the above mentioned Hierarchical data how to find a level 1 employee . level 
 
 ![[Pasted image 20250521225219.png|300]]
 ![[Pasted image 20250521225300.png|300]]
+```
+WITH generative_numbers AS(
+	SELECT 1 AS number UNION ALL
+	SELECT number + 1 FROM generative_numbers
+	WHERE number < 50)
+SELECT * FROM generative_numbers;
+```
