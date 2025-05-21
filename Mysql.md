@@ -1272,4 +1272,13 @@ SELECT * FROM generative_numbers OPTION (
 
 -- Default limit is 100 and max limit is 32767
 ```
+```
+WITH generate_date AS(
+	SELECT CAST('2025-01-01' AS DATE) AS dateCreated
+	UNION ALL
+	SELECT DATEADD(DAY,1,dateCreated) FROM generate_date
+	WHERE dateCreated < '2025-03-01'
+)
+SELECT * FROM generate_date;
+```
 
