@@ -1261,3 +1261,12 @@ WITH generative_numbers AS(
 	WHERE number < 50)
 SELECT * FROM generative_numbers;
 ```
+```
+WITH generative_numbers AS(
+	SELECT 1 AS number UNION ALL
+	SELECT number + 1 FROM generative_numbers
+	WHERE number < 200)
+SELECT * FROM generative_numbers OPTION (
+	MAXRECURSION 250
+);
+```
