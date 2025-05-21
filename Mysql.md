@@ -1253,3 +1253,4 @@ In the above mentioned Hierarchical data how to find a level 1 employee . level 
 > CTE is an temporary result set .
 
 ![[Pasted image 20250521225219.png|300]]
+![[Pasted image 20250521225300.png|300]]
