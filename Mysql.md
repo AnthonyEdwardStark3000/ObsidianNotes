@@ -1270,5 +1270,6 @@ SELECT * FROM generative_numbers OPTION (
 	MAXRECURSION 250
 );
 
--- Default limit is 100 and max
+-- Default limit is 100 and max limit is 32767
 ```
+
