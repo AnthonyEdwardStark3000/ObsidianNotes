@@ -1309,4 +1309,13 @@ SET @sql2 = 'SELECT * FROM employees WHERE employee_id = '+CAST(@emp_id AS VARCH
 EXEC sp_executesql @sql2;
 ```
 
+```
+DECLARE @sql3 NVARCHAR(MAX)
+DECLARE @emp_name VARCHAR(100)
+SET @emp_name = '''Chris Green'''
+SET @sql3 = 'SELECT * FROM employees WHERE employee_name = '+@emp_name
+-- SELECT @sql3
+EXEC sp_executesql @sql3;
+```
+
 
