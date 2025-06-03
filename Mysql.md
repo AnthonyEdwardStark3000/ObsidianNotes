@@ -1318,4 +1318,14 @@ SET @sql3 = 'SELECT * FROM employees WHERE employee_name = '+@emp_name
 EXEC sp_executesql @sql3;
 ```
 
+```
+DECLARE @sql4 NVARCHAR(MAX)
+DECLARE @employee_name VARCHAR(100)
+DECLARE @columns NVARCHAR(MAX)
+
+SET @employee_name = 'John Doe'
+SET @columns = 'employee_name, department_id'
+SET @sql4 = 'SELECT '+ @columns +' FROM employees WHERE employee_name = '''+ @employee_name+ ''''
+EXEC sp_executesql @sql4;
+```
 
