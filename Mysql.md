@@ -1283,3 +1283,4 @@ SELECT * FROM generate_date;
 ```
 ![[Pasted image 20250521231229.png]]
 
+**Dynamic SQL **
