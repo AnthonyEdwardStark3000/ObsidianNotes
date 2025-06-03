@@ -1289,7 +1289,19 @@ SELECT * FROM generate_date;
 
 ![[Pasted image 20250603232016.png]]
 ```
+-- sp_executesql is an default sp for executing queries .
+
 EXEC sp_executesql N'SELECT * FROM employees';
+```
+
+```
+DECLARE @sql NVARCHAR(MAX)
+SET @sql = 'SELECT * FROM employees'
+EXEC sp_executesql @sql;
+```
+
+```
+
 ```
 
 
