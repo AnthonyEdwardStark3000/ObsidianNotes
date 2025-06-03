@@ -1301,7 +1301,12 @@ EXEC sp_executesql @sql;
 ```
 
 ```
-
+DECLARE @sql2 NVARCHAR(MAX)
+DECLARE @emp_id INT
+SET @emp_id = 105
+SET @sql2 = 'SELECT * FROM employees WHERE employee_id = '+CAST(@emp_id AS VARCHAR)
+-- SELECT @sql2
+EXEC sp_executesql @sql2;
 ```
 
 
