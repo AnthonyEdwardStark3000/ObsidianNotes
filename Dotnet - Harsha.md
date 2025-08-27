@@ -1,6 +1,6 @@
 	ASP .NET Core | Asp.Net Core Projects | Bootcamp | Advanced | Interview Questions | Web API | MVC | SOLID Principles
 	
 **Custom Model Binder
-![Alt text](./images/Pasted%20image%2020250412154834.png)
 
-![Pasted image](./images/Pasted%20image%2020250827152422.png)
+
+
