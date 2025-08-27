@@ -3,4 +3,4 @@
 **Custom Model Binder
 ![Alt text](./images/Pasted%20image%2020250412154834.png)
 
-![[Pasted image 20250827152422.png]]
+![Alt text](./images/Pasted%20%image%20%20250827152422.png)
