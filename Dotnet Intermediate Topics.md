@@ -1,7 +1,7 @@
 **Tag Helpers
 
 
-![Screenshot](20250423221400.png|600)
+![screenshot](images/pasted_20250423221400.png)
 
 Here the asp-for automatically generates the type attribute, for attribute, id and value attributes .
 ==Predefined tag helpers available==
