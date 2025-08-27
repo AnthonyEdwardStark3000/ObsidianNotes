@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Dotnet - Harsha.md",
+                "file": "Mysql.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Dotnet - Harsha"
+              "title": "Mysql"
             }
           },
           {
@@ -200,8 +200,8 @@
   },
   "active": "98fac49fc228e636",
   "lastOpenFiles": [
-    "Dotnet Intermediate Topics.md",
     "Dotnet - Harsha.md",
+    "Dotnet Intermediate Topics.md",
     "Mysql.md",
     "Pasted image 20250603232016.png",
     "Pasted image 20250603231845.png",
