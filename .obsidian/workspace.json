@@ -20,6 +20,18 @@
               "icon": "lucide-file",
               "title": "Dotnet - Harsha"
             }
+          },
+          {
+            "id": "e617cc2527d0d459",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "images/Pasted image 20250829000130.png"
+              },
+              "icon": "lucide-image",
+              "title": "Pasted image 20250829000130"
+            }
           }
         ]
       }
@@ -171,9 +183,10 @@
   },
   "active": "710a72a408af2f52",
   "lastOpenFiles": [
+    "images/Pasted image 20250829000249.png",
     "images/Pasted image 20250829000130.png",
-    "images/Pasted.md",
     "Dotnet - Harsha.md",
+    "images/Pasted.md",
     "().md",
     "images/Pasted image 20250828235202.png",
     "images/Pasted image 20250828225331.png",
@@ -192,7 +205,6 @@
     "images/Pasted image 20250513221356.png",
     "images/Pasted image 20250513220434.png",
     "images/Pasted image 20250513220432.png",
-    "images/Pasted image 20250513214412.png",
     "images",
     "Mysql.md",
     "Practice mocks.md",

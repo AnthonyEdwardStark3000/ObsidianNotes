@@ -1,8 +1,9 @@
 	ASP .NET Core | Asp.Net Core Projects | Bootcamp | Advanced | Interview Questions | Web API | MVC | SOLID Principles
 	
 **Custom Model Binder
-![Description](./Pasted%20image%2020250828225331.png)
-![[Pasted image 20250829000130.png]]
+
+![Screenshot](./images/Pasted%20image%2020250829000130.png)
+
 ### 🔹 What is a Custom Model Binder in .NET?
 
 A **Model Binder** in ASP.NET Core (or older ASP.NET MVC) is responsible for **mapping HTTP request data (query string, form data, route values, headers, body, etc.) to action method parameters or model objects**.
@@ -36,7 +37,7 @@ You use a custom model binder when:
     
     - Example: Automatically decrypting an encrypted ID passed in query parameters.
 
-![Description](./Pasted%20image%2020250828235202.png)
+![[Pasted image 20250829000249.png]]
 
 ```
 using CustomModelBinders.CustomModelBinders;
