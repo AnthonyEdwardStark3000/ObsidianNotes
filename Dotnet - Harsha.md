@@ -35,4 +35,4 @@ You use a custom model binder when:
     
     - Example: Automatically decrypting an encrypted ID passed in query parameters.
 
-
+![Description](./Pasted%20image%2020250828235202.png)
