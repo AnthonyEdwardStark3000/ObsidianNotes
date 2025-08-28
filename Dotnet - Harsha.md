@@ -122,69 +122,46 @@ namespace CustomModelBinders.CustomModelBinders{
             Person person = new Person();
 
             if (FNameBody.Length > 0)
-
             {
 
                 person.PersonName = FNameBody.FirstValue;
 
                 if (LNameBody.Length > 0)
-
                 {
-
                     person.PersonName += " " + LNameBody.FirstValue;
-
                 }
 
             }
 
             if (EmailBody.Length > 0)
-
             {
-
                 person.Email = EmailBody.FirstValue;
-
             }
 
             if (PhoneBody.Length > 0)
-
             {
-
                 person.Phone = PhoneBody.FirstValue;
-
             }
 
             if (PasswordBody.Length > 0)
-
             {
-
                 person.Password = PasswordBody.FirstValue;
-
             }
 
             if (ConfirmPasswordBody.Length > 0)
-
             {
-
                 person.ConfirmPassword = ConfirmPasswordBody.FirstValue;
-
             }
 
             if (PriceBody.Length > 0 && double.TryParse(PriceBody.FirstValue, out var price))
-
             {
-
                 person.Price = price;
-
             }
 
             bindingContext.Result = ModelBindingResult.Success(person);
-
             return Task.CompletedTask;
-
         }
-
     }
-
 }
 
 PersonModelBinder.cs
@@ -193,16 +170,11 @@ PersonModelBinder.cs
 ```
 using System.ComponentModel.DataAnnotations;
 
-  
-
 namespace CustomModelBinders.Models
-
 {
-
     public class Person
 
     {
-
         // [Required(ErrorMessage = "Please provide this field to continue")] // Attribute and all the attributes are classes
 
             public string? PersonName { get; set; }
@@ -226,13 +198,10 @@ namespace CustomModelBinders.Models
         public override string ToString()
 
         {
-
             return $"PersonName : {PersonName} , Email : {Email} , Phone :{Phone} , Password : {Password} , ConfirmPassword : {ConfirmPassword} , Price : {Price}";
 
         }
-
     }
-
 }
 
 Person.cs
@@ -240,8 +209,6 @@ Person.cs
 
 ```
 var builder = WebApplication.CreateBuilder(args);
-
-  
 
 // Add services to the container.
 
@@ -253,28 +220,18 @@ builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen();  
 
-  
-
 var app = builder.Build();
-
-  
 
 // Configure the HTTP request pipeline.
 
 if (app.Environment.IsDevelopment())
 
 {
-
     app.UseSwagger();
-
     app.UseSwaggerUI();      
-
 }
 
 app.MapControllers();
-
-  
-
 app.Run();
 
 Program.cs
