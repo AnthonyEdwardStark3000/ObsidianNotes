@@ -217,4 +217,8 @@ Program.cs
 
 **Model Binder Providers**
 
-If the same model binder provided above is to be used in all the action methods wherever the same model class is used , then we can declare it globally by using binder provider it 
+ **1. What is a Model Binder Provider?**
+
+   A **model binder provider** tells ASP.NET Core **which binder to use for a specific type**.
+
+- If you want your custom binder to be applied **automatically everywhere** a certain model type is used, you register it globally via a **custom model binder provider**.
