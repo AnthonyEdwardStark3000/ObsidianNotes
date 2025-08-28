@@ -36,3 +36,246 @@ You use a custom model binder when:
     - Example: Automatically decrypting an encrypted ID passed in query parameters.
 
 ![Description](./Pasted%20image%2020250828235202.png)
+```
+using CustomModelBinders.CustomModelBinders;
+
+using CustomModelBinders.Models;
+
+using Microsoft.AspNetCore.Mvc;
+
+  
+
+public class Home : Controller
+
+{
+
+    [HttpPost("register")]
+
+    public IActionResult Index([ModelBinder(BinderType = typeof(PersonModelBinder))]Person person)
+
+    {
+
+        if (!ModelState.IsValid)
+
+        {
+
+            // Get error messages from Model state and return as response
+
+            string errors = string.Join("\n", ModelState.Values.SelectMany(
+
+                value => value.Errors
+
+            ).Select(
+
+                err => err.ErrorMessage
+
+            ));
+
+            return BadRequest(errors);
+
+        }
+
+        return Content($"{person}");
+
+    }
+
+}
+
+HomeController.cs
+```
+
+```
+using CustomModelBinders.Models;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+  
+
+namespace CustomModelBinders.CustomModelBinders{
+
+    public class PersonModelBinder : IModelBinder
+
+    {
+
+        public Task BindModelAsync(ModelBindingContext bindingContext)
+
+        {
+
+            // FirstName and LastName property from the request body
+
+            var FNameBody = bindingContext.ValueProvider.GetValue("FirstName");
+
+            var LNameBody = bindingContext.ValueProvider.GetValue("LastName");
+
+            var EmailBody = bindingContext.ValueProvider.GetValue("Email");
+
+            var PhoneBody = bindingContext.ValueProvider.GetValue("Phone");
+
+            var PasswordBody = bindingContext.ValueProvider.GetValue("Password");
+
+            var ConfirmPasswordBody = bindingContext.ValueProvider.GetValue("ConfirmPassword");
+
+            var PriceBody = bindingContext.ValueProvider.GetValue("Price");
+
+  
+
+            Person person = new Person();
+
+            if (FNameBody.Length > 0)
+
+            {
+
+                person.PersonName = FNameBody.FirstValue;
+
+                if (LNameBody.Length > 0)
+
+                {
+
+                    person.PersonName += " " + LNameBody.FirstValue;
+
+                }
+
+            }
+
+            if (EmailBody.Length > 0)
+
+            {
+
+                person.Email = EmailBody.FirstValue;
+
+            }
+
+            if (PhoneBody.Length > 0)
+
+            {
+
+                person.Phone = PhoneBody.FirstValue;
+
+            }
+
+            if (PasswordBody.Length > 0)
+
+            {
+
+                person.Password = PasswordBody.FirstValue;
+
+            }
+
+            if (ConfirmPasswordBody.Length > 0)
+
+            {
+
+                person.ConfirmPassword = ConfirmPasswordBody.FirstValue;
+
+            }
+
+            if (PriceBody.Length > 0 && double.TryParse(PriceBody.FirstValue, out var price))
+
+            {
+
+                person.Price = price;
+
+            }
+
+            bindingContext.Result = ModelBindingResult.Success(person);
+
+            return Task.CompletedTask;
+
+        }
+
+    }
+
+}
+
+PersonModelBinder.cs
+```
+
+```
+using System.ComponentModel.DataAnnotations;
+
+  
+
+namespace CustomModelBinders.Models
+
+{
+
+    public class Person
+
+    {
+
+        // [Required(ErrorMessage = "Please provide this field to continue")] // Attribute and all the attributes are classes
+
+            public string? PersonName { get; set; }
+
+            [EmailAddress]
+
+            public string? Email { get; set; }
+
+            public string? Phone { get; set; }
+
+            public string? Password { get; set; }
+
+            public string? ConfirmPassword { get; set; }
+
+            public double? Price { get; set; }
+
+            public string? FirstName { get; set; }
+
+            public string? LastName { get; set; }
+
+        public override string ToString()
+
+        {
+
+            return $"PersonName : {PersonName} , Email : {Email} , Phone :{Phone} , Password : {Password} , ConfirmPassword : {ConfirmPassword} , Price : {Price}";
+
+        }
+
+    }
+
+}
+
+Person.cs
+```
+
+```
+var builder = WebApplication.CreateBuilder(args);
+
+  
+
+// Add services to the container.
+
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+builder.Services.AddOpenApi();
+
+builder.Services.AddControllers();
+
+builder.Services.AddSwaggerGen();  
+
+  
+
+var app = builder.Build();
+
+  
+
+// Configure the HTTP request pipeline.
+
+if (app.Environment.IsDevelopment())
+
+{
+
+    app.UseSwagger();
+
+    app.UseSwaggerUI();      
+
+}
+
+app.MapControllers();
+
+  
+
+app.Run();
+
+Program.cs
+```
