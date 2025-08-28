@@ -217,4 +217,4 @@ Program.cs
 
 **Model Binder Providers**
 
-IGs the same model binder provider 
+If the same model binder provided above is to be used in all the action methods wherever the same model class is used , then we can declare it globally by using binder provider it 
