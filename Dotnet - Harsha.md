@@ -2,7 +2,7 @@
 	
 **Custom Model Binder
 
-![Screenshot](./images/Pasted%20image%2020250829000130.png)
+![Custom Model binder](./images/Pasted%20image%2020250829000130.png)
 
 ### 🔹 What is a Custom Model Binder in .NET?
 
@@ -37,7 +37,7 @@ You use a custom model binder when:
     
     - Example: Automatically decrypting an encrypted ID passed in query parameters.
 
-![[Pasted image 20250829000249.png]]
+![project structure](./images/Pasted%20image%2020250829000249.png)
 
 ```
 using CustomModelBinders.CustomModelBinders;
