@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "f57c424b08ad4d4a",
+        "id": "a779e9e2a218b210",
         "type": "tabs",
         "children": [
           {
-            "id": "706eb43e23e1e0e3",
+            "id": "cd9c41112f41386c",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Dotnet - Harsha.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Dotnet - Harsha"
+              "title": "New tab"
             }
           }
         ]
@@ -94,7 +90,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Dotnet - Harsha.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +99,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Dotnet - Harsha"
+              "title": "Backlinks"
             }
           },
           {
@@ -169,10 +164,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "706eb43e23e1e0e3",
+  "active": "484291a08d058369",
   "lastOpenFiles": [
-    "().md",
+    "images/Pasted.md",
     "Dotnet - Harsha.md",
+    "().md",
     "images/Pasted image 20250828235202.png",
     "images/Pasted image 20250828225331.png",
     "Untitled.canvas",
@@ -184,7 +180,6 @@
     "Dotnet Intermediate Topics.md",
     "Untitled 2.canvas",
     "Untitled 1.canvas",
-    "images/Pasted.md",
     "images/Pasted image 20250513224732.png",
     "images/Pasted image 20250513224701.png",
     "images/Pasted image 20250513221440.png",
