@@ -38,47 +38,28 @@ You use a custom model binder when:
 ![Description](./Pasted%20image%2020250828235202.png)
 ```
 using CustomModelBinders.CustomModelBinders;
-
 using CustomModelBinders.Models;
-
 using Microsoft.AspNetCore.Mvc;
 
-  
 
 public class Home : Controller
 
 {
-
     [HttpPost("register")]
-
     public IActionResult Index([ModelBinder(BinderType = typeof(PersonModelBinder))]Person person)
-
     {
-
         if (!ModelState.IsValid)
-
         {
-
             // Get error messages from Model state and return as response
-
             string errors = string.Join("\n", ModelState.Values.SelectMany(
-
                 value => value.Errors
-
             ).Select(
-
                 err => err.ErrorMessage
-
             ));
-
             return BadRequest(errors);
-
         }
-
         return Content($"{person}");
-
     }
-
 }
 
 HomeController.cs
@@ -89,18 +70,12 @@ using CustomModelBinders.Models;
 
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-  
-
 namespace CustomModelBinders.CustomModelBinders{
 
     public class PersonModelBinder : IModelBinder
-
     {
-
         public Task BindModelAsync(ModelBindingContext bindingContext)
-
         {
-
             // FirstName and LastName property from the request body
 
             var FNameBody = bindingContext.ValueProvider.GetValue("FirstName");
