@@ -36,6 +36,8 @@ You use a custom model binder when:
     - Example: Automatically decrypting an encrypted ID passed in query parameters.
 
 ![Description](./Pasted%20image%2020250828235202.png)
+![Screenshot](images/pasted_image_20250828235202.png)
+
 ```
 using CustomModelBinders.CustomModelBinders;
 using CustomModelBinders.Models;
