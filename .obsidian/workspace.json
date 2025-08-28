@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "a779e9e2a218b210",
+        "id": "23fb5e1cb674069d",
         "type": "tabs",
         "children": [
           {
-            "id": "cd9c41112f41386c",
+            "id": "710a72a408af2f52",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Dotnet - Harsha.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Dotnet - Harsha"
             }
           }
         ]
@@ -90,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Dotnet - Harsha.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for Dotnet - Harsha"
             }
           },
           {
@@ -164,7 +169,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "484291a08d058369",
+  "active": "710a72a408af2f52",
   "lastOpenFiles": [
     "images/Pasted.md",
     "Dotnet - Harsha.md",
