@@ -214,3 +214,7 @@ app.Run();
 
 Program.cs
 ```
+
+**Model Binder Providers**
+
+IGs the same model binder provider 
