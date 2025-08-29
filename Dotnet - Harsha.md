@@ -410,6 +410,54 @@ public class Home : Controller
 
 Controllers/ HomeController.cs
 ```
+
+```
+var builder = WebApplication.CreateBuilder(args);
+
+  
+
+// Add services to the container.
+
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+builder.Services.AddOpenApi();
+
+builder.Services.AddControllers(
+
+    options => {
+
+        options.ModelBinderProviders.Insert(0, new PersonModelBinderProvider());
+
+        }
+
+);
+
+builder.Services.AddSwaggerGen();  
+
+  
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+
+if (app.Environment.IsDevelopment())
+
+{
+
+    app.UseSwagger();
+
+    app.UseSwaggerUI();      
+
+}
+
+app.MapControllers();
+
+  
+
+app.Run();
+
+Program.cs
+```
 ### 🔹 What is this?
 
 The code you shared defines a **Custom Model Binder Provider** in ASP.NET Core.
