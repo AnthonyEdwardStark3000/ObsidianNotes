@@ -224,7 +224,7 @@ Program.cs
 - If you want your custom binder to be applied **automatically everywhere** a certain model type is used, you register it globally via a **custom model binder provider**.
 
 ![custom model binder provider](./images/Pasted%20image%2020250829002853.png)
-![Description](./Pasted%20image%2020250829232023.png)
+![Description](./images/Pasted%20image%2020250829232023.png)
 
 ```
 using CustomModelBinders.CustomModelBinders;
