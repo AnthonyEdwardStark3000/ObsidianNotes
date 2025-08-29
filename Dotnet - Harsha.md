@@ -376,7 +376,7 @@ public class Home : Controller
     [HttpPost("register")]
 
     // public IActionResult Index([ModelBinder(BinderType = typeof(PersonModelBinder))]Person person)  
-    // Instead of this , the 
+    // Instead of this , the following way should be used
 
     public IActionResult Index(Person person)
 
@@ -407,6 +407,8 @@ public class Home : Controller
     }
 
 }
+
+Controllers/ HomeController.cs
 ```
 ### 🔹 What is this?
 
