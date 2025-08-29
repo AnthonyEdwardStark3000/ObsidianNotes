@@ -224,3 +224,39 @@ Program.cs
 - If you want your custom binder to be applied **automatically everywhere** a certain model type is used, you register it globally via a **custom model binder provider**.
 
 ![custom model binder provider](./images/Pasted%20image%2020250829002853.png)
+![[Pasted image 20250829232023.png]]
+```
+using CustomModelBinders.CustomModelBinders;
+
+using CustomModelBinders.Models;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+
+  
+
+public class PersonModelBinderProvider : IModelBinderProvider
+
+{
+
+    public IModelBinder? GetBinder(ModelBinderProviderContext context)
+
+    {
+
+        if (context.Metadata.ModelType == typeof(Person))
+
+        {
+
+            return new BinderTypeModelBinder(typeof(PersonModelBinder));
+
+        }
+
+        return null;
+
+    }
+
+}
+
+CustomModelBinders / PersonModelBinderProvider.cs
+```
