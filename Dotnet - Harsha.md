@@ -364,6 +364,49 @@ namespace CustomModelBinders.CustomModelBinders{
     }
 
 }
+
+CustomModelBinders / PersonModelBinder.cs
+```
+
+```
+public class Home : Controller
+
+{
+
+    [HttpPost("register")]
+
+    // public IActionResult Index([ModelBinder(BinderType = typeof(PersonModelBinder))]Person person)  
+    // Instead of this , the 
+
+    public IActionResult Index(Person person)
+
+    {
+
+        if (!ModelState.IsValid)
+
+        {
+
+            // Get error messages from Model state and return as response
+
+            string errors = string.Join("\n", ModelState.Values.SelectMany(
+
+                value => value.Errors
+
+            ).Select(
+
+                err => err.ErrorMessage
+
+            ));
+
+            return BadRequest(errors);
+
+        }
+
+        return Content($"{person}");
+
+    }
+
+}
 ```
 ### 🔹 What is this?
 
