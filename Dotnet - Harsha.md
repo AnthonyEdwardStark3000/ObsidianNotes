@@ -224,7 +224,8 @@ Program.cs
 - If you want your custom binder to be applied **automatically everywhere** a certain model type is used, you register it globally via a **custom model binder provider**.
 
 ![custom model binder provider](./images/Pasted%20image%2020250829002853.png)
-![[Pasted image 20250829232023.png]]
+![Description](./Pasted%20image%2020250829232023.png)
+
 ```
 using CustomModelBinders.CustomModelBinders;
 
@@ -260,3 +261,149 @@ public class PersonModelBinderProvider : IModelBinderProvider
 
 CustomModelBinders / PersonModelBinderProvider.cs
 ```
+
+```
+using CustomModelBinders.Models;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+  
+
+namespace CustomModelBinders.CustomModelBinders{
+
+    public class PersonModelBinder : IModelBinder
+
+    {
+
+        public Task BindModelAsync(ModelBindingContext bindingContext)
+
+        {
+
+            // FirstName and LastName property from the request body
+
+            var FNameBody = bindingContext.ValueProvider.GetValue("FirstName");
+
+            var LNameBody = bindingContext.ValueProvider.GetValue("LastName");
+
+            var EmailBody = bindingContext.ValueProvider.GetValue("Email");
+
+            var PhoneBody = bindingContext.ValueProvider.GetValue("Phone");
+
+            var PasswordBody = bindingContext.ValueProvider.GetValue("Password");
+
+            var ConfirmPasswordBody = bindingContext.ValueProvider.GetValue("ConfirmPassword");
+
+            var PriceBody = bindingContext.ValueProvider.GetValue("Price");
+
+  
+
+            Person person = new Person();
+
+            if (FNameBody.Length > 0)
+
+            {
+
+                person.PersonName = FNameBody.FirstValue;
+
+                if (LNameBody.Length > 0)
+
+                {
+
+                    person.PersonName += " " + LNameBody.FirstValue;
+
+                }
+
+            }
+
+            if (EmailBody.Length > 0)
+
+            {
+
+                person.Email = EmailBody.FirstValue;
+
+            }
+
+            if (PhoneBody.Length > 0)
+
+            {
+
+                person.Phone = PhoneBody.FirstValue;
+
+            }
+
+            if (PasswordBody.Length > 0)
+
+            {
+
+                person.Password = PasswordBody.FirstValue;
+
+            }
+
+            if (ConfirmPasswordBody.Length > 0)
+
+            {
+
+                person.ConfirmPassword = ConfirmPasswordBody.FirstValue;
+
+            }
+
+            if (PriceBody.Length > 0 && double.TryParse(PriceBody.FirstValue, out var price))
+
+            {
+
+                person.Price = price;
+
+            }
+
+            bindingContext.Result = ModelBindingResult.Success(person);
+
+            return Task.CompletedTask;
+
+        }
+
+    }
+
+}
+```
+### 🔹 What is this?
+
+The code you shared defines a **Custom Model Binder Provider** in ASP.NET Core.
+
+- **Model Binding** in ASP.NET Core = process of taking HTTP request data (route values, query string, form values, JSON body, etc.) and mapping it to your action method parameters or models.
+    
+- By default, ASP.NET Core has built-in binders (for primitive types, complex types, collections, etc.).
+    
+- Sometimes, the default binders are **not enough** (e.g., you want to combine two request fields into one property, parse custom formats, etc.).
+    
+- That’s when you create a **Custom Model Binder** (your `PersonModelBinder`) and a **Model Binder Provider** (this class).
+    
+
+---
+
+### 🔹 What does `PersonModelBinderProvider` do?
+
+- The framework doesn’t know about your custom binder automatically.
+    
+- `PersonModelBinderProvider` **registers** your custom binder in the ASP.NET Core model binding pipeline.
+    
+- It checks:
+    
+    `if (context.Metadata.ModelType == typeof(Person))`
+    
+    → If the action parameter type is `Person`, then it tells ASP.NET Core:  
+    **“Hey, use my custom `PersonModelBinder` for this type instead of the default binder.”**
+    
+
+---
+
+### 🔹 Why is this important?
+
+Without this provider:
+
+- You would have to decorate your model or action parameter with `[ModelBinder(typeof(PersonModelBinder))]` **everywhere** you use it.
+    
+- With this provider:
+    
+    - It’s **global** → whenever a controller action expects a `Person`, ASP.NET Core will automatically use your custom binder.
+        
+    - This reduces repetition and enforces consistency.
