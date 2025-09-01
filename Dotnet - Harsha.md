@@ -492,7 +492,7 @@ Without this provider:
 -  In **ASP.NET Core MVC / Web API**, **collection binding** means that the model binder can automatically bind a collection type (like `List<T>`, `IEnumerable<T>`, `T[]`, `Dictionary<K,V>`) from the **incoming request data** (query string, form data, route values, or JSON body) to your controller action parameters or model properties.
 
 ![Collection Binding](./images/Pasted%20image%2020250901234327.png)
-````
+```
 using Microsoft.AspNetCore.Mvc;
 
   
@@ -516,3 +516,53 @@ public class Home : Controller
 Controllers / HomeController.cs
 
 ```
+
+```
+public class Person
+
+{
+
+    public string Name { get; set; }
+
+    public int Age { get; set; }
+
+    public List<string?> Skills { get; set; } = new List<string>();
+
+}
+
+Models / Person.cs
+```
+
+```
+var builder = WebApplication.CreateBuilder(args);
+
+  
+
+builder.Services.AddOpenApi();
+
+builder.Services.AddControllers();
+
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+  
+
+if (app.Environment.IsDevelopment())
+
+{
+
+    app.UseSwagger();
+
+    app.UseSwaggerUI();
+
+}
+
+app.MapControllers();
+
+app.Run();
+
+
+Program.cs
+```
+
