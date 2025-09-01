@@ -570,3 +570,75 @@ Program.cs
 **FromHeader**
 
 ![FromHeader](./images/Pasted%20image%2020250901235407.png)
+```
+using Microsoft.AspNetCore.Mvc;
+
+  
+
+public class Home : Controller
+
+{
+
+    [HttpPost("register")]
+
+    public async Task<IActionResult> Register(Person person,[FromHeader(Name="Name")]string UserName)
+
+    {
+
+        return Ok($"Received person Details of {UserName}");
+
+    }
+
+}
+
+Controllers/ HomeController.cs
+```
+
+```
+public class Person
+
+{
+
+    public string Name { get; set; }
+
+    public int Age { get; set; }
+
+    public List<string?> Skills { get; set; } = new List<string>();
+
+}
+
+Models/ Person.cs
+```
+
+```
+var builder = WebApplication.CreateBuilder(args);
+
+  
+
+builder.Services.AddOpenApi();
+
+builder.Services.AddControllers();
+
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+  
+
+if (app.Environment.IsDevelopment())
+
+{
+
+    app.UseSwagger();
+
+    app.UseSwaggerUI();
+
+}
+
+app.MapControllers();
+
+app.Run();
+
+Program.cs
+```
+
