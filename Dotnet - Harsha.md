@@ -488,3 +488,4 @@ Without this provider:
     - This reduces repetition and enforces consistency.
 
 **Collection Binding**
+![[CollectionBinding] 20250901234327.png]]
