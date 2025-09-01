@@ -486,3 +486,5 @@ Without this provider:
     - It’s **global** → whenever a controller action expects a `Person`, ASP.NET Core will automatically use your custom binder.
         
     - This reduces repetition and enforces consistency.
+
+**Collection Binding**
