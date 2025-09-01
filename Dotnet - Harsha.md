@@ -488,4 +488,4 @@ Without this provider:
     - This reduces repetition and enforces consistency.
 
 **Collection Binding**
-![CollectionBinding]( )2]]
+![Collection Binding](./images/Pasted%20image%2020250901234327.png)
