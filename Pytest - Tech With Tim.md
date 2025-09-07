@@ -6,3 +6,57 @@ test_moduleName.py is the usual naming conviction for the name of the test pytho
 
 
 Integrating Dotnet with pytest
+
+```
+dotnet new classlib -n SampleLib
+
+SampleLib/
+ ├── SampleLib.csproj
+ ├── Class1.cs         (default file, you can delete/replace with your Sample.cs)
+ ├── bin/
+ │   └── Release/
+ │       └── net8.0/
+ │           └── SampleLib.dll   <-- 🔹 this is what Python needs
+ └── obj/
+
+cd SampleLib
+
+2. Replace `Class1.cs` with your own `Sample.cs`:
+
+namespace SampleLib
+{
+    public class Sample
+    {
+        public int Add(int a, int b)
+        {
+            return a + b;
+        }
+
+        public int Multiply(int a, int b)
+        {
+            return a * b;
+        }
+    }
+}
+
+dotnet build -c Release
+Location of dll file will be -> SampleLib/bin/Release/net8.0/SampleLib.dll
+
+
+import clr
+import pytest
+
+clr.AddReference(r"C:\Users\JARVIS\SampleLib\bin\Release\net8.0\SampleLib.dll")
+
+from SampleLib import Sample
+
+def test_get_sum():
+    sample = Sample()
+    assert sample.Add(10, 12) == 22
+
+def test_get_multiply():
+    sample = Sample()
+    assert sample.Multiply(10, 12) == 120
+
+
+```
