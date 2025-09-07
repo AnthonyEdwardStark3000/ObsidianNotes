@@ -66,3 +66,5 @@ pytest -v
 ```
 pytest test_sample.py::test_get_sum -v
 ```
+
+![Unit testing](./images/Pasted%20image%2020250907232213.png)
