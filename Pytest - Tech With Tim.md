@@ -63,3 +63,6 @@ pytest -v
 
 ```
 
+```
+pytest test_sample.py::test_get_sum -v
+```
