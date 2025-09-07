@@ -22,18 +22,21 @@
             }
           },
           {
-            "id": "e617cc2527d0d459",
+            "id": "8dd4f3d8dd2fbd52",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "images/Pasted image 20250829000130.png"
+                "file": "Pytest - Tech With Tim.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "Pasted image 20250829000130"
+              "icon": "lucide-file",
+              "title": "Pytest - Tech With Tim"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -107,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Dotnet - Harsha.md",
+                "file": "Pytest - Tech With Tim.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +120,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Dotnet - Harsha"
+              "title": "Backlinks for Pytest - Tech With Tim"
             }
           },
           {
@@ -182,15 +185,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "710a72a408af2f52",
+  "active": "8dd4f3d8dd2fbd52",
   "lastOpenFiles": [
+    "Dotnet - Harsha.md",
+    "Pytest - Tech With Tim.md",
     "images/Pasted image 20250901235407.png",
     "images/Pasted image 20250901234327.png",
     "images/Pasted image 20250829232023.png",
     "images/Pasted image 20250829002853.png",
     "images/Pasted image 20250829000249.png",
     "images/Pasted image 20250829000130.png",
-    "Dotnet - Harsha.md",
     "images/Pasted.md",
     "().md",
     "images/Pasted image 20250828235202.png",
@@ -205,7 +209,6 @@
     "Untitled 2.canvas",
     "Untitled 1.canvas",
     "images/Pasted image 20250513224732.png",
-    "images/Pasted image 20250513224701.png",
     "images",
     "Mysql.md",
     "Practice mocks.md",
