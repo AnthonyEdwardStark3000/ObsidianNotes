@@ -46,7 +46,7 @@ Location of dll file will be -> SampleLib/bin/Release/net8.0/SampleLib.dll
 import clr
 import pytest
 
-clr.AddReference(r"C:\Users\JARVIS\SampleLib\bin\Release\net8.0\SampleLib.dll")
+clr.AddReference(r"absolutePath")
 
 from SampleLib import Sample
 
@@ -59,4 +59,7 @@ def test_get_multiply():
     assert sample.Multiply(10, 12) == 120
 
 
+pytest -v
+
 ```
+
