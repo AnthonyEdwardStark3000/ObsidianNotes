@@ -35,8 +35,7 @@
               "title": "Pytest - Tech With Tim"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -110,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Pytest - Tech With Tim.md",
+                "file": "Dotnet - Harsha.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -120,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Pytest - Tech With Tim"
+              "title": "Backlinks for Dotnet - Harsha"
             }
           },
           {
@@ -185,10 +184,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8dd4f3d8dd2fbd52",
+  "active": "710a72a408af2f52",
   "lastOpenFiles": [
-    "Dotnet - Harsha.md",
     "Pytest - Tech With Tim.md",
+    "Dotnet - Harsha.md",
     "images/Pasted image 20250901235407.png",
     "images/Pasted image 20250901234327.png",
     "images/Pasted image 20250829232023.png",
