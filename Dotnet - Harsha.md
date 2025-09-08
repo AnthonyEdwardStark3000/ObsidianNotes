@@ -642,3 +642,5 @@ app.Run();
 Program.cs
 ```
 
+FromBody 
+
