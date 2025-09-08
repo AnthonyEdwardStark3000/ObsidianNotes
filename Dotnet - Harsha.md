@@ -644,3 +644,75 @@ Program.cs
 
 FromBody 
 
+![FromBody](./images/Pasted%20image%2020250908231041.png)
+```
+using FromBody.Models;
+
+using Microsoft.AspNetCore.Mvc;
+
+  
+
+public class HomeController : Controller
+
+{
+
+    [HttpPost("register")]
+
+    public async Task<IActionResult> RegisterUser(Person person)
+
+    {
+
+        return Ok("Success");
+
+    }
+
+}
+
+Controllers / HomeController.cs
+```
+
+```
+using System.ComponentModel.DataAnnotations;
+
+  
+
+namespace FromBody.Models
+
+{
+
+    public class Person
+
+    {
+
+        [Required(ErrorMessage = "Please provide this field to continue")] // Attribute and all the attributes are classes
+
+        public string? PersonName { get; set; }
+
+        [EmailAddress]
+
+        public string? Email { get; set; }
+
+        public string? Phone { get; set; }
+
+        public string? Password { get; set; }
+
+        public string? ConfirmPassword { get; set; }
+
+        public double? Price { get; set; }
+
+  
+
+        public override string ToString()
+
+        {
+
+            return $"PersonName : {PersonName} , Email : {Email} , Phone :{Phone} , Password : {Password} , ConfirmPassword : {ConfirmPassword} , Price : {Price}";
+
+        }
+
+    }
+
+}
+
+Models / Person.cs
+```
