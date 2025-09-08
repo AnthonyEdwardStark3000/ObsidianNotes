@@ -753,4 +753,31 @@ app.Run();
 
 Program.cs
 ```
+![FromBody](./images/Pasted%20image%2020250908232015.png)
+```
+using FromBody.Models;
 
+using Microsoft.AspNetCore.Mvc;
+
+  
+
+public class HomeController : Controller
+
+{
+
+    [HttpPost("register")]
+
+    public async Task<IActionResult> RegisterUser([FromBody]Person person)
+
+    {
+
+        return Ok("Success");
+
+    }
+}
+
+Contollers / HomeController.cs
+```
+
+ **`[FromBody]` tells ASP.NET Core “deserialize the JSON request body into this parameter.” Without it, ASP.NET Core looks in query string/route values, leaving body values as null.**
+ 
