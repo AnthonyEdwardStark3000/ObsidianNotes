@@ -35,8 +35,7 @@
               "title": "Pytest - Tech With Tim"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -110,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Pytest - Tech With Tim.md",
+                "file": "Dotnet - Harsha.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -120,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Pytest - Tech With Tim"
+              "title": "Backlinks for Dotnet - Harsha"
             }
           },
           {
@@ -185,12 +184,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8dd4f3d8dd2fbd52",
+  "active": "710a72a408af2f52",
   "lastOpenFiles": [
+    "Pytest - Tech With Tim.md",
     "images/Pasted image 20250907232409.png",
     "images/Pasted image 20250907232213.png",
     "Dotnet - Harsha.md",
-    "Pytest - Tech With Tim.md",
     "images/Pasted image 20250901235407.png",
     "images/Pasted image 20250901234327.png",
     "images/Pasted image 20250829232023.png",
@@ -202,7 +201,6 @@
     "images/Pasted image 20250828235202.png",
     "images/Pasted image 20250828225331.png",
     "Untitled.canvas",
-    "images/Pasted image 20250827152422.png",
     "Micro Services in DOTNET.md",
     "2025-08-27.md",
     "Untitled 4.canvas",
