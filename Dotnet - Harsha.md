@@ -782,4 +782,6 @@ Contollers / HomeController.cs
  **`[FromBody]` tells ASP.NET Core “deserialize the JSON request body into this parameter.” Without it, ASP.NET Core looks in query string/route values, leaving body values as null.**
 
 **Input formatters**
-  Internal classes in Asp.Net core used to transform the request body into  
+  Internal classes in Asp.Net core used to transform the request body into model object . 
+  ![Input formatters](./images/Pasted%20image%2020250910222813.png)
+  
