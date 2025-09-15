@@ -784,4 +784,4 @@ Contollers / HomeController.cs
 **Input formatters**
   Internal classes in Asp.Net core used to transform the request body into model object . 
   ![Input formatters](./images/Pasted%20image%2020250910222813.png)
-  If the input contains XML then XML serializer Input formatter will be enabled automatically  , reads the XML data and converts it into model object automat
+  If the input contains XML then XMLserializerInputFormatter will be enabled automatically  , reads the XML data and converts it into model object automatically. 
