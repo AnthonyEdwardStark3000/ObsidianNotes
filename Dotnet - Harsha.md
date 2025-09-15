@@ -794,3 +794,4 @@ builder.Services.AddControllers().AddXmlSerializerFormatters();
 Program.cs
 ```
 
+  ![XML](./images/Pasted%20image%2020250915223052.png)
