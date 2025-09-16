@@ -2,10 +2,10 @@
 Data : - Raw unprocessed facts
 Database : - Organized collection of data and it supports data storage and manipulation of data .
 DBMS : - platform to manage the database
+![[Pasted image 20250413185133.png|400|400]]
+![Custom Model binder](./images/Pasted%20image%2020250413185133.png)
 
-![Overview](./images/Pasted%20image%2020250413185133.png)
-
-![Overview](./images/Pasted%20image%2020250413185314.png)
+![[Pasted image 20250413185314.png|300|300]]
 Types of DBMS : -
 1. Flatfile DBMS
 2. Hierarchial DBMS
@@ -15,12 +15,9 @@ Types of DBMS : -
 
 Relational DBMS (RDBMS) : -
  Here data's will be stored in Rows and Columns format or can be mentioned as data's are stored in Table format . 
- ![Overview](./images/Pasted%20image%2020250413185523.png)
-  ![Overview](./images/Pasted%20image%2020250413185645.png)
-
-
- Here the data's will be stored in a predefined format .
-  ![Overview](./images/Pasted%20image%2020250413185736.png) ![[Pasted image .png|400|400]]
+ ![[Pasted image 20250413185523.png|500|500]]
+ ![[Pasted image 20250413185645.png|400|400]]
+ Here the data's will be stored in a predefined format . ![[Pasted image 20250413185736.png|400|400]]
  Example : - Here the insert operation can be performed only if the data is in correct format as the created table structure. 
  ![[Pasted image 20250413185845.png |400|400]]
  And follows an relationship between tables .
