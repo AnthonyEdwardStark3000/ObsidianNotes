@@ -5,7 +5,7 @@ DBMS : - platform to manage the database
 
 ![Overview](./images/Pasted%20image%2020250413185133.png)
 
-![[Pasted image 20250413185314.png|300|300]]
+![Overview](./images/Pasted%20image%2020250413185314.png)
 Types of DBMS : -
 1. Flatfile DBMS
 2. Hierarchial DBMS
@@ -15,6 +15,7 @@ Types of DBMS : -
 
 Relational DBMS (RDBMS) : -
  Here data's will be stored in Rows and Columns format or can be mentioned as data's are stored in Table format . 
+ ![Overview](./images/Pasted%20image%20.png)
  ![[Pasted image 20250413185523.png|500|500]]
  ![[Pasted image 20250413185645.png|400|400]]
  Here the data's will be stored in a predefined format . ![[Pasted image 20250413185736.png|400|400]]
