@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Mysql.md",
+                "file": "Dotnet - Harsha.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Mysql"
+              "title": "Dotnet - Harsha"
             }
           }
         ]
@@ -172,9 +172,9 @@
   },
   "active": "710a72a408af2f52",
   "lastOpenFiles": [
+    "Mysql.md",
     "Dotnet - Harsha.md",
     "Pytest - Tech With Tim.md",
-    "Mysql.md",
     "images/Pasted image 20250915223052.png",
     "images/Pasted image 20250910222813.png",
     "images/Pasted image 20250908232015.png",
