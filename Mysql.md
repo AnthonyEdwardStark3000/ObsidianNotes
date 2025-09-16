@@ -2,7 +2,9 @@
 Data : - Raw unprocessed facts
 Database : - Organized collection of data and it supports data storage and manipulation of data .
 DBMS : - platform to manage the database
-![[Pasted image 20250413185133.png|400|400]]
+
+![Overview](./images/Pasted%20image%2020250413185133.png)
+
 ![[Pasted image 20250413185314.png|300|300]]
 Types of DBMS : -
 1. Flatfile DBMS
