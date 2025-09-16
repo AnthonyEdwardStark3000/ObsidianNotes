@@ -795,3 +795,8 @@ Program.cs
 ```
 
   ![XML](./images/Pasted%20image%2020250915223052.png)
+
+**MVC**
+ ![Overview](./images/Pasted%20image%2020250916230307.png)
+ Here the controller can invoke anything , 
+ 1. Controller can invoke the model, Contro
