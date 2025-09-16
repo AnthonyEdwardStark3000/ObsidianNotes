@@ -799,4 +799,7 @@ Program.cs
 **MVC**
  ![Overview](./images/Pasted%20image%2020250916230307.png)
  Here the controller can invoke anything , 
- 1. Controller can invoke the model, Contro
+ 1. Controller can invoke the model, Controller can invoke the view 
+ 2.  The view can invoke the model . 
+ ![Overview](./images/Pasted%20image%2020250916230630.png)
+ 
