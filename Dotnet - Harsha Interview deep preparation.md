@@ -1231,16 +1231,16 @@ Ease of Configuration   | ⭐⭐⭐⭐  | ⭐⭐      | ⭐⭐⭐⭐⭐   | ⭐�
 ### **Typical ASP.NET Core Production Deployment**
 
 ```
-                        ┌─────────────────────────┐
-Client (Browser/Mobile) →│ Reverse Proxy Server   │ (IIS / nginx / Apache)
-                        └───────────┬─────────────┘
+                         ┌─────────────────────────┐
+Client (Browser/Mobile) →│ Reverse Proxy Server    │ (IIS / nginx / Apache)
+                         └───────────┬─────────────┘
                                     ↓
                          ┌──────────────────────┐
                          │ Kestrel Web Server   │
                          └───────────┬──────────┘
                                      ↓
                         ┌─────────────────────────┐
-                        │ ASP.NET Core Application │
+                        │ ASP.NET Core Application│
                         └─────────────────────────┘
 ```
 
