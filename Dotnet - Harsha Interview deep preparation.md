@@ -1878,7 +1878,7 @@ The next lecture will break down:
           ┌─────────────────────────────┐
           │       Browser (Client)      │
           │  Sends HTTP Request (GET)   │
-          └───────────────┬────────────┘
+          └───────────────┬─────────────┘
                           │
                           ▼
                ┌──────────────────────┐
@@ -1887,13 +1887,13 @@ The next lecture will break down:
                └───────────────┬──────┘
                                │
                                ▼
-              ┌──────────────────────────┐
+              ┌───────────────────────────┐
               │   ASP.NET Core Pipeline   │
               │ (Middleware → Routing →   │
               │  Controller / Endpoint)   │
-              └───────────────┬──────────┘
-                               │
-                               ▼
+              └───────────────┬───────────┘
+                              │
+                              ▼
                ┌────────────────────────┐
                │   HTTP Response        │
                │ (Status + Headers +    │
