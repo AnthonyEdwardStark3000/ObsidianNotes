@@ -641,22 +641,7 @@ A from-scratch, high-performance, cross-platform, cloud-ready framework designed
 
 ---
 
-## 📌 If you want, I can also add:
 
-- A **comparison table**
-    
-- **Interview-style Q&A**
-    
-- **Migration strategy** (Web Forms → MVC → Core)
-    
-- **Real examples** (with code snippets)
-    
-- **Architecture diagrams**
-    
-- **Obsidian backlinks structure**
-    
-
-Just tell me!
 
 
 
