@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "3ec1aa54122ae31f",
@@ -170,7 +171,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "484291a08d058369",
+  "active": "710a72a408af2f52",
   "lastOpenFiles": [
     "Dotnet - Harsha.md",
     "Dotnet - Harsha Interview deep preparation.md",
