@@ -1232,7 +1232,7 @@ Ease of Configuration   | ⭐⭐⭐⭐  | ⭐⭐      | ⭐⭐⭐⭐⭐   | ⭐�
 
 ```
                         ┌─────────────────────────┐
-Client (Browser/Mobile) →│ Reverse Proxy Server    │ (IIS / nginx / Apache)
+Client (Browser/Mobile) →│ Reverse Proxy Server   │ (IIS / nginx / Apache)
                         └───────────┬─────────────┘
                                     ↓
                          ┌──────────────────────┐
@@ -1638,10 +1638,10 @@ Client → Reverse Proxy (Nginx/IIS/Apache) → Kestrel → App
             ┌──────────────────────┼───────────────────────┐
             │                      │                       │
             ▼                      ▼                       ▼
-    ┌──────────────┐      ┌────────────────┐       ┌──────────────────┐
+    ┌───────────────┐      ┌────────────────┐       ┌──────────────────┐
     │  Profile:     │      │  Profile:      │       │  Other Profiles  │
     │   Kestrel     │      │  IIS Express   │       │  Docker, Custom  │
-    └─────┬─────────┘      └───────┬────────┘       └────────┬────────┘
+    └─────┬─────────┘      └────────┬───────┘       └────────┬─────────┘
           │                         │                        │
           ▼                         ▼                        ▼
    commandName: "Project"    commandName: "IISExpress"       ...
