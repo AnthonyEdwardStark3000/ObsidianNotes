@@ -799,6 +799,186 @@ ASP.NET Core    | ⭐ Fastest  | ✔️ Yes        | ⭐ Excellent  | ⭐ Excell
 - _“Core unifies MVC + API, reducing duplication and giving a single programming model.”_
 
 
+# 📌 Where to Find New Features of ASP.NET Core 8, 9 & 10
+
+This page explains how to track new features in **ASP.NET Core versions 8, 9, and 10**, along with clarity on which versions matter for practical development and interviews.
+
+---
+
+## 🗂️ Official Source to Find New Features
+
+Microsoft publishes all new .NET and ASP.NET Core features in the following places:
+
+### **1. Official Microsoft Docs (Most Reliable)**
+
+```
+https://learn.microsoft.com/aspnet/core/release-notes
+```
+
+This page contains release notes for:
+
+- ASP.NET Core 6
+    
+- ASP.NET Core 7
+    
+- ASP.NET Core 8
+    
+- ASP.NET Core 9 (preview/nightly)
+    
+- ASP.NET Core 10 (preview/nightly)
+    
+
+You get:
+
+- New features
+    
+- Breaking changes
+    
+- Deprecations
+    
+- Migration notes
+    
+- Performance improvements
+    
+
+### **2. .NET GitHub Repository (Deep Technical Notes)**
+
+```
+https://github.com/dotnet/aspnetcore
+```
+
+Check the **Release** and **Milestones** sections.
+
+### **3. .NET Blog (Good for summaries)**
+
+```
+https://devblogs.microsoft.com/dotnet
+```
+
+Used for announcements and previews.
+
+---
+
+## 🎯 Practical Summary for This Course
+
+Many students get confused about versions — but here is the **simple truth**:
+
+### ✅ **The improvements from ASP.NET Core 6 → 10 are minor FOR THIS COURSE.**
+
+Most updates in these versions are:
+
+- performance tuning
+    
+- minor API improvements
+    
+- new hosting features
+    
+- new Blazor features (NOT part of this course)
+    
+- new minimal API helpers
+    
+
+Nothing affects the fundamental concepts taught in this course.
+
+---
+
+## 📘 Which Version This Course Uses
+
+### **ASP.NET Core 6 (LTS – Long Term Support)**
+
+Used for the **first 25 sections**.
+
+Why?
+
+- It’s stable.
+    
+- It's supported for years.
+    
+- The syntax is the same in version **7, 8, 9, and 10**.
+    
+- The concepts (middleware, DI, MVC, routing) do NOT change.
+    
+
+### **Important Point**
+
+```
+ALL the code written for ASP.NET Core 6 works in ASP.NET Core 7, 8, 9, and 10.
+WITHOUT any modification.
+```
+
+---
+
+## 🌐 Web API Section (Section 26)
+
+The **Web API module uses ASP.NET Core 8**.
+
+But:
+
+```
+The same Web API code works 100% perfectly in ASP.NET Core 9 and ASP.NET Core 10.
+No changes needed.
+```
+
+---
+
+## 🧩 Why Blazor Changes Don’t Matter Here
+
+ASP.NET Core 8, 9, and 10 introduce bigger updates ONLY in:
+
+- Blazor Server
+    
+- Blazor WebAssembly
+    
+- Blazor Hybrid (.NET MAUI)
+    
+- New Blazor Full-stack
+    
+
+Since this course is NOT about Blazor:
+
+```
+These updates do not affect Web APIs, MVC, or backend development taught in this course.
+```
+
+---
+
+## 🎤 Interview-Friendly Conclusion
+
+Use this if asked about versions:
+
+```
+ASP.NET Core 6, 7, 8, 9, and 10 share the same programming model for MVC and Web API.
+There are no breaking changes in routing, controllers, or DI.
+Most new features in 8–10 are improvements in Blazor and performance optimizations.
+```
+
+This is the correct, honest, and practical answer expected in interviews.
+
+---
+
+## 🚀 Summary
+
+- New features for ASP.NET Core 8–10 can be found in **Microsoft Docs** and **.NET Blogs**.
+    
+- Course uses **ASP.NET Core 6 (LTS)** for core concepts → same code works up to version 10.
+    
+- Web API module uses **ASP.NET Core 8** → again works in version 10.
+    
+- Version differences are **mostly irrelevant** for MVC, Web API, middleware, DI.
+    
+- Major changes in 8–10 = Blazor only (not part of this course).
+    
+
+---
+
+If you want, I can add:
+
+- Version-by-version feature table (6 → 10)
+    
+- Real-world migration tips
+    
+- Interview questions on version differences
+    
 
 
 
