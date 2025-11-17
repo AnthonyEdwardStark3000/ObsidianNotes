@@ -2559,10 +2559,10 @@ Browser ───► │ Send Request             │
                          │
                          ▼
        ┌──────────────────────────────────────────┐
-       │ Determine Response:                       │
-       │ - Status Code                             │
-       │ - Headers                                 │
-       │ - Body                                    │
+       │ Determine Response:                      │
+       │ - Status Code                            │
+       │ - Headers                                │
+       │ - Body                                   │
        └──────────────────┬───────────────────────┘
                           │
                           ▼
