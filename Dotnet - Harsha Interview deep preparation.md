@@ -4919,4 +4919,3 @@ No — you must use **Postman** or other tools.
 | **Date**            | Browser | Time of request            |
 | **Cookie**          | Browser | Session/cookie data        |
 
----
