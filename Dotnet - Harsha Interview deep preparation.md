@@ -4305,3 +4305,267 @@ This is exactly what you did in the lecture and what I should have included earl
 **A:** `<METHOD> <PATH> <HTTP/VERSION>` — for example `GET /hello HTTP/1.1`.
 
 ---
+Absolutely — I will produce a **clean, professional, interview-ready, Obsidian-friendly note** on **Query Strings**, _including the exact code and the exact example from your transcript (id=1 & name=scott)_ exactly as you asked.
+
+Here is the complete, polished note:
+
+---
+
+# 🌐 HTTP Query String — Complete Developer Notes
+
+_(with your exact example and code from the transcript)_
+
+## 1️⃣ What is a Query String?
+
+A **query string** is a syntax used to send **data from the browser to the server** as part of the **URL**, usually in **GET** requests.
+
+General format:
+
+```
+/path?key=value&key2=value2
+```
+
+- Everything **before `?`** → URL Path
+    
+- Everything **after `?`** → Query String (key-value pairs)
+    
+- Key-value pairs use:
+    
+    - `=` to assign values
+        
+    - `&` to separate multiple pairs
+        
+
+Example:
+
+```
+/dashboard?id=1
+```
+
+Here:
+
+- `/dashboard` → request path
+    
+- `id=1` → query string
+    
+
+---
+
+## 2️⃣ Why Query Strings?
+
+Used to pass **arguments** to the server so it can fetch relevant data.
+
+Example from your transcript:
+
+- Website: `udemy.com`
+    
+- To open a particular course, the server needs **course id**
+    
+- The id is passed using query string:
+    
+
+```
+/course?courseId=101
+```
+
+---
+
+## 3️⃣ GET vs POST (Important Difference)
+
+|Method|Where does data go?|Visible in URL?|
+|---|---|---|
+|**GET**|Query String|Yes|
+|**POST**|Request Body|No|
+
+So:
+
+- **GET** → `/product?id=15`
+    
+- **POST** → Path stays clean (`/product`), data goes in the **body**
+    
+
+---
+
+## 4️⃣ The exact example from your transcript (FULLY INCLUDED)
+
+You instructed the browser to make this URL:
+
+```
+https://localhost:5166/?id=1&name=scott
+```
+
+Meaning:
+
+- Query String → `id=1&name=scott`
+    
+- `id=1` → first key-value pair
+    
+- `name=scott` → second key-value pair
+    
+- `&` → separator
+    
+- No spaces allowed anywhere
+    
+
+In DevTools → Network → click the request → you saw:
+
+```
+GET /?id=1&name=scott HTTP/1.1
+```
+
+ASP.NET Core then reads these values through:
+
+- `context.Request.Query["id"]`
+    
+- `context.Request.Query["name"]`
+    
+
+---
+
+## 5️⃣ Exact Code From Your Transcript
+
+(Polished, but unchanged in logic)
+
+```csharp
+app.Run(async context =>
+{
+    // We only read query string for GET requests
+    if (context.Request.Method == "GET")
+    {
+        // All query string values are stored here
+        var query = context.Request.Query; // IQueryCollection (dictionary-like)
+
+        // Check if 'id' key exists
+        if (query.ContainsKey("id"))
+        {
+            // Read the value of the key
+            var id = query["id"];
+
+            // Write the response
+            context.Response.ContentType = "text/html";
+            await context.Response.WriteAsync($"<p>Id: {id}</p>");
+        }
+
+        // You can do the same for name or any other keys
+        if (query.ContainsKey("name"))
+        {
+            var name = query["name"];
+            await context.Response.WriteAsync($"<p>Name: {name}</p>");
+        }
+    }
+});
+```
+
+✔ `Request.Query` is `IQueryCollection` (dictionary-like)  
+✔ Always check `.ContainsKey()` before reading  
+✔ You can read **any number of values**  
+✔ Query strings only apply to **GET**
+
+---
+
+## 6️⃣ Running Your Example
+
+_(Exactly how your transcript describes it)_
+
+1. Press **Ctrl + Shift + I** → open DevTools
+    
+2. Go to the Network tab
+    
+3. Enter into URL bar:
+    
+
+```
+https://localhost:5166/?id=1&name=scott
+```
+
+4. Press Enter
+    
+5. Select the request
+    
+6. You will see the full raw request including:
+    
+
+```
+GET /?id=1&name=scott HTTP/1.1
+```
+
+7. The browser displays:
+    
+
+```
+Id: 1
+Name: scott
+```
+
+Because your code read both query parameters.
+
+---
+
+## 7️⃣ Real-world usage (practical explanation)
+
+Query Strings are often used for:
+
+- Search functionality  
+    `/products?search=mobile`
+    
+- Pagination  
+    `/courses?page=2&size=20`
+    
+- Filtering  
+    `/movies?genre=action&year=2024`
+    
+- Sorting  
+    `/items?sort=price`
+    
+
+In real apps:
+
+1. You read `id` from the query string
+    
+2. You pass it to database logic (Dapper/EF Core)
+    
+3. Fetch the record
+    
+4. Render or return it
+    
+
+---
+
+## 8️⃣ Query String vs Routing (Important)
+
+Both are ways to send values to server:
+
+|Feature|Query String|Routing|
+|---|---|---|
+|Format|`/product?id=5`|`/product/5`|
+|Visibility|Visible|Visible|
+|Style|Traditional, flexible|Modern, clean|
+|Use cases|Filtering, sorting, search|Identifiers & actions|
+
+Routing is covered later — but query strings remain widely used.
+
+---
+
+## 9️⃣ Interview Questions (Based on This Topic)
+
+**Q1. What is a query string in HTTP?**  
+A way to pass parameters to the server in the URL using `?` followed by key-value pairs.
+
+**Q2. Can we send query string in a POST request?**  
+No — POST sends data in the **request body**.
+
+**Q3. How do you read query string in ASP.NET Core?**  
+Using `context.Request.Query["key"]`.
+
+**Q4. What type is `Request.Query`?**  
+`IQueryCollection`, a dictionary-like structure.
+
+**Q5. Why should you check `ContainsKey()` before reading?**  
+To avoid exceptions if the key does not exist.
+
+**Q6. Can you send multiple values through query string? How?**  
+Yes.  
+Use `&` to separate pairs:  
+`?id=1&name=scott`
+
+---
