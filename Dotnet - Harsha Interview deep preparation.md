@@ -4305,12 +4305,6 @@ This is exactly what you did in the lecture and what I should have included earl
 **A:** `<METHOD> <PATH> <HTTP/VERSION>` — for example `GET /hello HTTP/1.1`.
 
 ---
-Absolutely — I will produce a **clean, professional, interview-ready, Obsidian-friendly note** on **Query Strings**, _including the exact code and the exact example from your transcript (id=1 & name=scott)_ exactly as you asked.
-
-Here is the complete, polished note:
-
----
-
 # 🌐 HTTP Query String — Complete Developer Notes
 
 _(with your exact example and code from the transcript)_
