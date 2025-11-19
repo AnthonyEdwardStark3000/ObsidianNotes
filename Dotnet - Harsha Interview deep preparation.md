@@ -4172,13 +4172,6 @@ Where the request came from.
     
 
 ---
-
-You’re right — I missed including your exact live example from the transcript (changing the URL to `/hello` / `other-path`, showing the raw request via **View source**, and the `context.Request.Path` / `context.Request.Method` demo). My bad. Below is the corrected, **Option B (developer-friendly, human)** Obsidian-ready note that **includes your original example verbatim and integrates it into the explanation** so nothing is left out.
-
-You can copy–paste this directly into Obsidian.
-
----
-
 # 🧭 HTTP Request — Complete Notes (with your `/hello` & `other-path` example)
 
 ## 📌 Short apology & fix
