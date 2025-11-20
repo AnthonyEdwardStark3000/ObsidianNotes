@@ -5084,3 +5084,284 @@ POST /register
 ```
 ---
 
+Below is **your fully rewritten, deeply detailed, interview-friendly, Obsidian-formatted chapter**, including:
+
+✔ Raw request body reading  
+✔ Raw query string in POST body  
+✔ Full parsing example  
+✔ The `StringValues` explanation  
+✔ All namespaces  
+✔ Professional notes + code blocks  
+✔ Clean formatting for Obsidian
+
+---
+
+# 🟦 **HTTP — Reading Request Body in ASP.NET Core (Raw + QueryString Parsing)**
+
+_(Full Developer + Interview Version — Obsidian Ready)_
+
+---
+
+# 🔥 1. **Why Request Body Reading Matters**
+
+In ASP.NET Core, the **request body** is not automatically available to you as a string.  
+It is stored internally as a **Stream** (like a FileStream).  
+To read it manually, you must **convert the stream to text**.
+
+Interviewers ask this to check:
+
+- Whether you understand the _raw pipeline_ before model binding
+    
+- Whether you know how streaming works
+    
+- Whether you know how to parse raw submitted data
+    
+
+---
+
+# 🟦 2. **Request Body Is a Stream — Not a String**
+
+```csharp
+// The request body in ASP.NET Core
+HttpContext.Request.Body  // <-- This is a Stream
+```
+
+Because it’s a Stream:
+
+- You **cannot** directly say `Request.Body.ToString()`
+    
+- You **must** use **StreamReader**
+    
+
+---
+
+# 🟦 3. **Reading Request Body Manually (RAW)**
+
+### ✔ Example: Programmatically reading the raw body
+
+```csharp
+app.Run(async context =>
+{
+    // 1. Create a StreamReader from Request.Body Stream
+    using var reader = new StreamReader(context.Request.Body);
+
+    // 2. Read the entire body as string
+    string body = await reader.ReadToEndAsync();
+
+    await context.Response.WriteAsync($"Body Received: {body}");
+});
+```
+
+### ✔ Output Example
+
+If Postman sends:
+
+```
+hello
+```
+
+You will receive:
+
+```
+Body Received: hello
+```
+
+---
+
+# 🟦 4. **POST Request Body — Sending RAW Query String**
+
+In this lecture's example, instead of using JSON or form-data,  
+we send a **query string format** inside the **request body** of a POST request.
+
+### **Example Sent Via Postman → Body → Raw**
+
+```
+firstname=scott&age=20&age=30
+```
+
+This looks like a typical query string but it is **in the body**, not in the URL.
+
+---
+
+# 🟦 5. **Why Parsing Is Needed**
+
+The body you just read is a **plain string**:
+
+```
+firstname=scott&age=20&age=30
+```
+
+You **cannot reliably extract values** using `Split()` or manual string methods  
+because:
+
+- Key order may vary
+    
+- Duplicate keys may exist (`age=20&age=30`)
+    
+- Values may contain encoded characters
+    
+
+So ASP.NET Core provides a utility for reliable parsing.
+
+---
+
+# 🟦 6. **Parsing Raw QueryString in Request Body**
+
+ASP.NET Core provides the class:
+
+### ✔ Namespace
+
+```csharp
+using Microsoft.AspNetCore.WebUtilities;
+```
+
+### ✔ Helper Class
+
+```
+QueryHelpers
+```
+
+### ✔ Method
+
+```
+ParseQuery(string queryString)
+```
+
+## 🔹 **Full Parsing Example (From the Lecture)**
+
+```csharp
+app.Run(async context =>
+{
+    using var reader = new StreamReader(context.Request.Body);
+
+    // 1. Read raw body
+    string body = await reader.ReadToEndAsync();
+
+    // 2. Convert raw query string into dictionary
+    var parsed = QueryHelpers.ParseQuery(body);
+
+    // 3. Each value inside dictionary is of type StringValues
+    if (parsed.ContainsKey("firstname"))
+    {
+        string firstName = parsed["firstname"][0];
+
+        await context.Response.WriteAsync(firstName);
+    }
+});
+```
+
+---
+
+# 🟦 7. **Understanding StringValues**
+
+When parsing query strings, ASP.NET Core uses **StringValues** instead of `string`.
+
+### ✔ Namespace
+
+```csharp
+using Microsoft.Extensions.Primitives;
+```
+
+### ✔ Why not `string`?
+
+Because query strings can contain **duplicate keys**, like:
+
+```
+age=20&age=30
+```
+
+In that case:
+
+- Key = `"age"`
+    
+- Value = `StringValues("20", "30")`
+    
+
+So `StringValues` allows storing **multiple values under the same key**.
+
+### ✔ Usage Example
+
+```csharp
+StringValues ageValues = parsed["age"];
+
+foreach (var age in ageValues)
+{
+    Console.WriteLine(age);
+}
+```
+
+---
+
+# 🟦 8. **Putting It All Together (Complete Code)**
+
+```csharp
+using System.IO;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Primitives;
+
+app.Run(async context =>
+{
+    // Read body
+    using var reader = new StreamReader(context.Request.Body);
+    string body = await reader.ReadToEndAsync();
+
+    // Parse raw query string
+    var dict = QueryHelpers.ParseQuery(body);
+
+    // Read firstname
+    if (dict.ContainsKey("firstname"))
+    {
+        // dict[key] returns StringValues
+        StringValues firstNameValues = dict["firstname"];
+
+        string firstName = firstNameValues[0];
+
+        await context.Response.WriteAsync($"First Name: {firstName}");
+    }
+});
+```
+
+---
+
+# 🟦 9. **Real-World Note: This Is NOT How We Usually Do It**
+
+In real apps, you will **never manually parse**:
+
+- Body Streams
+    
+- Query strings
+    
+- JSON
+    
+- Form-data
+    
+
+Because we use **Model Binding**:
+
+```csharp
+[HttpPost]
+public IActionResult SavePerson([FromBody] PersonDto dto)
+{
+}
+```
+
+But interviewers expect you to know:
+
+✔ how raw pipeline works  
+✔ how to manually read request body  
+✔ how to parse raw query strings  
+✔ why StringValues exists
+
+---
+
+# 🟦 10. **Interview-Ready Statements (Use These)**
+
+### **“In ASP.NET Core, the request body is a Stream. To read it programmatically, we wrap it inside a StreamReader and use ReadToEndAsync.”**
+
+### **“QueryHelpers.ParseQuery converts raw query string (even in POST body) into a dictionary of type Dictionary<string, StringValues>.”**
+
+### **“StringValues is used because a query key can have multiple values such as age=20&age=30.”**
+
+### **“This manual parsing approach helps understand the pipeline, but real-world applications use Model Binding.”**
+
+---
