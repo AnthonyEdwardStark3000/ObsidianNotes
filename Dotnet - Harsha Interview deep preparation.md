@@ -5082,6 +5082,5 @@ POST /register
   "password": "1234"
 }
 ```
-
 ---
 
