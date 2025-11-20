@@ -5639,3 +5639,224 @@ Each performs one job → combined they form the full pipeline.
     
 
 ---
+Below is a **professional, deeply detailed, Obsidian-optimized** version of your notes for:
+
+# **🔹 ASP.NET Core Middleware — `app.Run()` (Terminal Middleware)**
+
+### _(With explanation of “passing request to subsequent middleware”)_
+
+---
+
+# ## 📘 **Title: Middleware `Run` in ASP.NET Core**
+
+---
+
+## 🧩 **1. What is `app.Run()`?**
+
+`app.Run()` is the simplest way to create middleware in ASP.NET Core.  
+It defines a **terminal middleware**, meaning:
+
+> ✔ It handles the request  
+> ✔ It **does NOT call the next middleware**  
+> ✔ It **stops** the middleware pipeline  
+> ✔ No subsequent middleware will execute
+
+This is why we call it **short-circuiting middleware**.
+
+---
+
+## 🏗 **2. How `app.Run()` Works Internally**
+
+When you write:
+
+```csharp
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Hello");
+});
+```
+
+- You’re creating a **lambda expression**
+    
+- This lambda becomes a **RequestDelegate**
+    
+- It is stored in the pipeline
+    
+- It executes **only when a request comes in**
+    
+
+Not at startup — _only when a request is received._
+
+---
+
+## 🧠 **3. What is `HttpContext` in the Lambda?**
+
+Every middleware receives:
+
+```csharp
+HttpContext context
+```
+
+`HttpContext` contains:
+
+- `Request` → headers, query string, path, cookies, body
+    
+- `Response` → status code, response body, headers
+    
+- `Session`
+    
+- `Connection info`
+    
+- `User (ClaimsPrincipal)`
+    
+- items shared across middleware
+    
+
+It holds everything needed to **read request data** and **send response output**.
+
+---
+
+## ⚡ **4. Why We Use `await` Inside Middleware**
+
+`WriteAsync()` is asynchronous, so:
+
+- The server **does not block**
+    
+- Other requests can be processed in parallel
+    
+- The thread is released to the thread pool
+    
+- Response is sent efficiently
+    
+
+Thus, your lambda must be declared `async`.
+
+---
+
+## 📝 **Example — Single `app.Run()`**
+
+```csharp
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Hello");
+});
+```
+
+**Response:**
+
+```
+Hello
+```
+
+Simple, predictable, terminal.
+
+---
+
+# ## 🚫 **5. Why Multiple `app.Run()` Middlewares Do Not Execute**
+
+Example:
+
+```csharp
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Hello");
+});
+
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Hello Again");
+});
+```
+
+Output is still:
+
+```
+Hello
+```
+
+The second middleware NEVER runs.
+
+### ❗ Why?
+
+Because:
+
+- `Run()` **does not call the next middleware**
+    
+- It has no `next` parameter
+    
+- Pipeline stops immediately after the first `Run()`
+    
+- No chaining → No forwarding
+    
+
+This is **by design**.
+
+---
+
+# ## 🔥 6. The Key Concept: **Passing Request to Subsequent Middlewares**
+
+Middleware pipeline works like this:
+
+```plaintext
+Middleware 1 → Middleware 2 → Middleware 3 → Endpoint → Response
+```
+
+But for a middleware to pass the request forward, it must call:
+
+```csharp
+await next();
+```
+
+### ✔ Run **does NOT** have `next`
+
+### ✔ Run **cannot** forward the request
+
+### ✔ Run **is always terminal**
+
+This is why `app.Run()` **cannot** be used to chain middleware.
+
+---
+
+## ✨ **More advanced middleware (`app.Use`) allows forwarding**
+
+(`app.Use` has a `next` parameter — you will learn this in the next lecture)
+
+---
+
+# ## 🎯 Summary — When to Use `app.Run()`
+
+Use `app.Run()` when:
+
+- You want to create a **final endpoint**
+    
+- You don't want to run any middleware after this
+    
+- You want a **quick short-circuit**
+    
+- Useful for:
+    
+    - Basic Hello World responses
+        
+    - Diagnostics
+        
+    - Fallback endpoints
+        
+    - Test responses
+        
+    - Final handlers
+        
+
+---
+
+# ## 🏁 Short Conclusion
+
+- `app.Run()` creates **terminal middleware**.
+    
+- It **does not pass the request** to subsequent middleware.
+    
+- It is perfect for **simple endpoints** or **final responses**.
+    
+- If you want to **forward the request**, you must use `app.Use()` or a custom middleware class.
+    
+
+---
