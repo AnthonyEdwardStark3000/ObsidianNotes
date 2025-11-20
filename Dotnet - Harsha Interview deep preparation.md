@@ -5860,3 +5860,132 @@ Use `app.Run()` when:
     
 
 ---
+Here you go — **all three items** exactly as you requested:
+
+---
+
+# ✅ **1. Visual Pipeline Diagram (ASP.NET Core Request Pipeline)**
+
+```
+           ┌───────────────────────────┐
+           │        Client App         │
+           └─────────────┬─────────────┘
+                         │  HTTP Request
+                         ▼
+        ┌──────────────────────────────────────────┐
+        │        ASP.NET Core Middleware Pipeline  │
+        └──────────────────────────────────────────┘
+
+   ┌────────────────────────────────────────────────────────────┐
+   │  app.UseRouting()                                          │
+   │    - Matches route templates                               │
+   └────────────────────────────────────────────────────────────┘
+                         │
+                         ▼
+   ┌────────────────────────────────────────────────────────────┐
+   │  app.UseAuthentication()                                   │
+   │    - Validates tokens/cookies                              │
+   └────────────────────────────────────────────────────────────┘
+                         │
+                         ▼
+   ┌────────────────────────────────────────────────────────────┐
+   │  app.UseAuthorization()                                    │
+   │    - Checks access rules, policies                         │
+   └────────────────────────────────────────────────────────────┘
+                         │
+                         ▼
+   ┌────────────────────────────────────────────────────────────┐
+   │  app.MapControllers() / app.UseEndpoints()                 │
+   │    - Executes controller action                            │
+   └────────────────────────────────────────────────────────────┘
+                         │
+                         ▼
+                    Response Created
+                         │
+                         ▼
+           ┌───────────────────────────┐
+           │   Response Middleware     │
+           │ (logging, compression...) │
+           └─────────────┬─────────────┘
+                         │  HTTP Response
+                         ▼
+           ┌───────────────────────────┐
+           │        Client App         │
+           └───────────────────────────┘
+```
+
+---
+
+# ✅ **2. app.Run() vs app.Use() — Comparison Table**
+
+|Feature|`app.Run()`|`app.Use()`|
+|---|---|---|
+|**Purpose**|Terminates the pipeline|Adds middleware to the pipeline|
+|**Can call next middleware?**|❌ No — it ends the pipeline|✅ Yes — it can call `next()`|
+|**Use case**|Final endpoint, e.g. fallback|Logging, auth, error handling, routing, etc.|
+|**Executes multiple times?**|❌ Only once, at the end|✅ Can be used multiple times|
+|**Stops request flow?**|✔ Stops (short-circuits)|❌ Does not stop unless you skip `next()`|
+|**Example**|`app.Run(async ctx => …)`|`app.Use(async (ctx,next) => …)`|
+
+### **Practical Example**
+
+```csharp
+app.Use(async (context, next) =>
+{
+    Console.WriteLine("Middleware 1: Before");
+    await next();
+    Console.WriteLine("Middleware 1: After");
+});
+
+app.Run(async (context) =>
+{
+    await context.Response.WriteAsync("Hello from Run()");
+});
+
+// Anything below Run() will NOT execute
+```
+
+---
+
+# ✅ **3. Interview Questions (ASP.NET Core Pipeline, Middleware, Run/Use)**
+
+### **Beginner**
+
+1. What is middleware in ASP.NET Core?
+    
+2. What is the order of middleware execution?
+    
+3. What is the difference between `app.Use()` and `app.Run()`?
+    
+4. What is the purpose of `next()` inside middleware?
+    
+5. What does the term "Request Pipeline" mean?
+    
+
+### **Intermediate**
+
+6. Why is the order of middleware important in ASP.NET Core?
+    
+7. What happens if you forget to call `next()` inside `app.Use()`?
+    
+8. Explain how routing works in ASP.NET Core middleware.
+    
+9. What is the difference between `UseRouting` and `UseEndpoints/MapControllers`?
+    
+10. Explain short-circuiting in ASP.NET Core.
+    
+
+### **Advanced**
+
+11. How does ASP.NET Core internally build the pipeline from middleware delegates?
+    
+12. Explain the concept of terminal middleware with real examples.
+    
+13. Can you write custom middleware? What scenarios require it?
+    
+14. How do you add DI services inside custom middleware?
+    
+15. What happens internally when `app.Run()` is used after other `app.Use()` middleware?
+    
+
+---
