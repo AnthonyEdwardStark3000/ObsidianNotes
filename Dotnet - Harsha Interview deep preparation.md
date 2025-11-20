@@ -4918,4 +4918,170 @@ No — you must use **Postman** or other tools.
 | **Host**            | Browser | Domain name                |
 | **Date**            | Browser | Time of request            |
 | **Cookie**          | Browser | Session/cookie data        |
+Below is a **clean, professional, Obsidian-friendly side-by-side comparison of GET vs POST request headers and behaviors**, written exactly for interview preparation.
+
+---
+
+# 📌 HTTP GET vs POST
+
+### **Side-by-side Comparison (Headers + Behavior + Examples)**
+
+_(Obsidian Friendly – Markdown Only)_
+
+---
+
+## ⚡ Quick Visual Summary
+
+```
++-----------------------+---------------------------+
+|         GET           |           POST            |
++-----------------------+---------------------------+
+| Retrieves data        | Sends data to server      |
+| Data in URL           | Data in request body      |
+| No/empty body         | Has request body          |
+| Safe & Idempotent     | Not idempotent            |
+| Cacheable             | Not cacheable             |
+| Limited data length   | Large payload supported   |
++-----------------------+---------------------------+
+```
+
+---
+
+# 📌 1. **Request Message: GET vs POST (Header-Level Comparison)**
+
+## ✅ **GET – Request Headers**
+
+GET requests usually include **only metadata**, not data.
+
+|Header|Purpose|Example Value|
+|---|---|---|
+|**Accept**|What response type the client wants|`text/html`|
+|**Accept-Language**|Expected language|`en-US`|
+|**User-Agent**|Browser & OS details|`Mozilla/5.0 Chrome/120`|
+|**Host**|The domain/server name|`localhost:5001`|
+|**Cookie**|Session & login cookies|`sessionId=abc123`|
+|**Cache-Control**|Caching behavior|`max-age=0`|
+
+### ✔ Key Points
+
+- GET **does not have a request body**.
+    
+- Any data sent is part of the **URL query string**:  
+    `GET /course?id=1`
+    
+
+---
+
+## ✅ **POST – Request Headers**
+
+POST requests send **data in the body**, so they require extra headers.
+
+|Header|Purpose|Example Value|
+|---|---|---|
+|**Content-Type**|Format of the request body|`application/json`|
+|**Content-Length**|Size of the body|`348`|
+|**Accept**|Desired response format|`application/json`|
+|**Accept-Language**|Expected language|`en-US`|
+|**User-Agent**|Browser details|`Mozilla/5.0 Chrome/120`|
+|**Host**|Domain name|`localhost:5001`|
+|**Cookie**|Sent cookies if needed|`auth=token123`|
+
+### ✔ Key Points
+
+- POST requests **always** include a **body** (unless empty by design).
+    
+- Body formats include:
+    
+    - JSON → `application/json`
+        
+    - Form data → `multipart/form-data`
+        
+    - URL Encoded → `application/x-www-form-urlencoded`
+        
+    - XML → `application/xml`
+        
+
+---
+
+# 📌 2. **Request Body Comparison**
+
+### GET
+
+```
+GET /course?id=1 HTTP/1.1
+Host: localhost:5001
+User-Agent: Mozilla/5.0
+Accept: text/html
+```
+
+### POST
+
+```
+POST /register HTTP/1.1
+Host: localhost:5001
+Content-Type: application/json
+Content-Length: 120
+User-Agent: Mozilla/5.0
+
+{
+  "username": "suresh",
+  "email": "suresh@example.com",
+  "password": "12345"
+}
+```
+
+---
+
+# 📌 3. **Response Headers: GET vs POST**
+
+|Header|Sent in GET Response|Sent in POST Response|Purpose|
+|---|---|---|---|
+|**Content-Type**|✔|✔|Format of response (HTML, JSON)|
+|**Content-Length**|✔|✔|Size of response|
+|**Set-Cookie**|✔ (if login/session)|✔ (after registration/login)|Creates cookies|
+|**Cache-Control**|✔ (often)|❌ Usually not|Cache instructions|
+|**Location**|Rare|Common in POST redirect|Redirect after POST|
+|**Server**|✔|✔|Server software|
+
+---
+
+# 📌 4. **Behavior & Usage: Side-by-Side**
+
+|Feature|GET|POST|
+|---|---|---|
+|**Intention**|Retrieve data|Send/Create data|
+|**Request body**|❌ No|✔ Yes|
+|**Data visibility**|Visible in URL|Hidden in body|
+|**Caching**|✔ Cacheable|❌ Not cacheable|
+|**Used for**|Search, fetching|Form submit, registration|
+|**Bookmarkable URL**|✔ Yes|❌ No|
+|**Safe** (no changes to DB)|✔ Yes|❌ No|
+|**Idempotent**|✔ Yes|❌ No|
+
+---
+
+# 📌 5. **Real Examples**
+
+### GET Example
+
+**Fetching course details**
+
+```
+GET /course?id=1
+```
+
+### POST Example
+
+**User Registration**
+
+```
+POST /register
+{
+  "username": "suresh",
+  "email": "test@gmail.com",
+  "password": "1234"
+}
+```
+
+---
 
