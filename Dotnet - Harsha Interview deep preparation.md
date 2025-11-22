@@ -7859,9 +7859,7 @@ Examples: Admin request logging, mobile-only features, custom diagnostic path, s
 It is **not a replacement for routing** or authentication but an essential addition to build flexible, maintainable, and optimized middleware pipelines.
 
 ---
-
-# ✅ **Title: Introduction to Routing in ASP.NET Core**
-
+# ✅  Introduction to Routing in ASP.NET Core**
 
 ---
 
