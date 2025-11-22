@@ -6596,10 +6596,50 @@ A **middleware extension method** is a **custom C# extension method** that provi
 
 Instead of writing:
 
-```csharp
-app.UseMiddleware<MyCustomMiddleware>();
-```
+# Custom middleware - complete example (Obsidian friendly)
 
+## Files
+1. `Program.cs`
+2. `MyCustomMiddleware.cs`
+3. `CustomMiddlewareExtensions.cs`
+
+---
+
+## 1) Program.cs
+```csharp
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using MiddlewareExample.CustomMiddleware; // adjust to your actual namespace
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Register the custom middleware class for DI
+builder.Services.AddTransient<MyCustomMiddleware>();
+
+var app = builder.Build();
+
+// Example of an earlier middleware (lambda)
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("Middleware 1: Before\n");
+    await next(context);                 // forward to next middleware
+    await context.Response.WriteAsync("Middleware 1: After\n");
+});
+
+// Use the custom middleware via the extension method (clean syntax)
+app.UseMyCustomMiddleware();
+
+// A terminal middleware (app.Run) — last in the pipeline
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Middleware 3 (Run): Final Response\n");
+});
+
+app.Run();
+
+```
+```
 You can create a nice friendly method:
 
 ```csharp
