@@ -6709,14 +6709,21 @@ An **extension method** is a **static method** inside a **static class** that is
 Example:
 
 ```csharp
-public static class CustomMiddlewareExtension
+using Microsoft.AspNetCore.Builder;
+
+namespace MiddlewareExample.CustomMiddleware
 {
-    public static IApplicationBuilder UseMyCustomMiddleware(
-        this IApplicationBuilder app)
+    public static class CustomMiddlewareExtensions
     {
-        return app.UseMiddleware<MyCustomMiddleware>();
+        // Extension method to add custom middleware to the pipeline
+        // This returns IApplicationBuilder so it can be chained like the built-in methods.
+        public static IApplicationBuilder UseMyCustomMiddleware(this IApplicationBuilder app)
+        {
+            return app.UseMiddleware<MyCustomMiddleware>();
+        }
     }
 }
+
 ```
 
 Here, the method:
