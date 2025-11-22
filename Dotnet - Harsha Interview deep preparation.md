@@ -6637,9 +6637,8 @@ app.Run(async context =>
 });
 
 app.Run();
+```
 
-```
-```
 You can create a nice friendly method:
 
 ```csharp
