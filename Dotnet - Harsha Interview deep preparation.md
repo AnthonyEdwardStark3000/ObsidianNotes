@@ -6330,3 +6330,257 @@ app.Use(async (context, next) =>
     
 
 ---
+# #️⃣ **Custom Middleware Class in ASP.NET Core**
+
+## 🎯 **Why Custom Middleware?**
+
+If the middleware contains **large logic**, writing all the code inside **Program.cs** becomes messy and hard to manage.  
+To keep things **clean, reusable, and maintainable**, you move the logic to a **separate class** → known as a **Custom Middleware Class**.
+
+---
+
+# ## 🧱 What is a Custom Middleware Class?
+
+A **custom middleware** is a class that:
+
+1. Implements **IMiddleware**
+    
+2. Contains an **InvokeAsync(HttpContext context, RequestDelegate next)** method
+    
+3. Can run logic **before and after** the next middleware
+    
+4. Can optionally **terminate** the pipeline by not calling `next`
+    
+
+---
+
+# ## 🧩 Creating a Custom Middleware
+
+### ### ✔ **Step 1: Create the Class**
+
+`MyCustomMiddleware.cs`  
+(You can optionally organize it inside a folder like `CustomMiddleware/`)
+
+### ### ✔ **Step 2: Implement IMiddleware**
+
+```csharp
+using Microsoft.AspNetCore.Http;
+
+namespace MiddlewareExample.CustomMiddleware;
+
+public class MyCustomMiddleware : IMiddleware
+{
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+    {
+        // BEFORE logic
+        await context.Response.WriteAsync("My Custom Middleware Starts\n");
+
+        // Call next middleware in pipeline
+        await next(context);
+
+        // AFTER logic
+        await context.Response.WriteAsync("My Custom Middleware Ends\n");
+    }
+}
+```
+
+### 📌 Notes:
+
+- `InvokeAsync` is enforced by `IMiddleware`
+    
+- It receives:
+    
+    - `HttpContext context`
+        
+    - `RequestDelegate next`
+        
+
+---
+
+# ## 🧰 Registering Custom Middleware (DI)
+
+Custom middleware classes **must be registered** as a service:
+
+```csharp
+builder.Services.AddTransient<MyCustomMiddleware>();
+```
+
+You can also use `AddSingleton` or `AddScoped` based on your need.
+
+---
+
+# ## 🔗 Adding Custom Middleware to Pipeline
+
+In **Program.cs**, use:
+
+```csharp
+app.UseMiddleware<MyCustomMiddleware>();
+```
+
+### 📌 Important:
+
+`app.Use()` = for lambda middlewares  
+`app.UseMiddleware<T>()` = for middleware class type
+
+---
+
+# ## 🔄 Execution Flow (Your Example)
+
+Assume 3 middlewares:
+
+1. **Middleware 1** → lambda
+    
+2. **Middleware 2** → custom class
+    
+3. **Middleware 3** → app.Run (terminating middleware)
+    
+
+### Execution Order:
+
+```
+Start Request
+   ↓
+Middleware 1 (before)
+   ↓
+MyCustomMiddleware (before)
+   ↓
+Middleware 3 (Run - terminating)
+   ↓
+MyCustomMiddleware (after)
+   ↓
+Middleware 1 (after)
+   ↓
+Response Returned
+```
+
+### Final Output Example:
+
+```
+From Middleware 1
+My Custom Middleware Starts
+From Middleware 3 (RUN)
+My Custom Middleware Ends
+Back to Middleware 1
+```
+
+---
+
+# ## 💡 Key Concepts
+
+### ### 🟦 1. IMiddleware Interface
+
+Defines:
+
+```csharp
+Task InvokeAsync(HttpContext context, RequestDelegate next);
+```
+
+Forces middleware to define logic and how to call next middleware.
+
+---
+
+### ### 🟩 2. Before and After Logic
+
+Middleware can run:
+
+```csharp
+// before next
+await next(context);
+// after next
+```
+
+---
+
+### ### 🟥 3. Short-Circuit / Terminate Pipeline
+
+If you **don’t** call `next(context)`:
+
+```csharp
+public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+{
+    await context.Response.WriteAsync("Stopped here!");
+    // no next call → pipeline stops
+}
+```
+
+The rest of the pipeline won't execute.
+
+---
+
+# ## 🧭 Middleware Ordering
+
+The **order in Program.cs matters**.
+
+```csharp
+app.UseMiddleware<Middleware1>();
+app.UseMiddleware<Middleware2>();
+app.Run(...);
+```
+
+Execution follows this order exactly.
+
+---
+
+# ## ✨ Why Use Custom Middleware?
+
+|Benefit|Description|
+|---|---|
+|**Clean Code**|Keeps Program.cs minimal|
+|**Reusability**|Middleware logic can be reused across projects|
+|**Testability**|Easier to unit test|
+|**Single Responsibility**|Encourages modular design|
+|**Supports DI**|Middleware class can use constructor injection|
+
+---
+
+# ## 📝 Quick Recap
+
+- Use **custom middleware class** when middleware logic is large.
+    
+- Implement **IMiddleware**.
+    
+- Must implement **InvokeAsync(context, next)**.
+    
+- Register class using `AddTransient/AddScoped/AddSingleton`.
+    
+- Add to pipeline using `app.UseMiddleware<T>();`
+    
+- Middleware order in pipeline is crucial.
+    
+- Middleware can run logic before and after next middleware.
+    
+- Not calling `next` will **short-circuit** the pipeline.
+    
+
+---
+
+# ## 🎤 Middleware — Interview Questions (Custom Middleware Focus)
+
+### ⭐ Beginner
+
+1. Why do we need custom middleware?
+    
+2. What is the role of `InvokeAsync`?
+    
+3. What is the difference between `Use` and `UseMiddleware`?
+    
+
+### ⭐ Intermediate
+
+1. How does ASP.NET Core handle dependency injection for middleware?
+    
+2. What is the difference between `IMiddleware` vs conventional middleware (constructor injected)?
+    
+3. What happens if middleware does not call `next`?
+    
+
+### ⭐ Advanced
+
+1. Compare **IMiddleware** approach vs **conventional middleware pattern** (with constructor injection).
+    
+2. How does middleware ordering affect pipeline security?
+    
+3. Explain how to test a custom middleware using a mock `HttpContext`.
+    
+
+---
