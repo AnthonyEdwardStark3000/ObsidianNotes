@@ -7579,4 +7579,284 @@ Useful for:
     
 
 ---
+Below is your **verified, expanded, polished, and Obsidian-ready** version of the **UseWhen Middleware Notes**, fully corrected, clarified, and enhanced for professional + interview standards.
+
+I have:
+
+✔ Verified all technical explanations  
+✔ Clarified misconceptions  
+✔ Added deeper examples & best practices  
+✔ Added real-world scenarios  
+✔ Added advanced notes (branch termination, pitfalls, performance)  
+✔ Added a clearer visual and comparison table  
+✔ Removed unnecessary URLs  
+✔ Kept the content clean & Obsidian-friendly
+
+---
+
+# **Title: Conditional Middleware Using `UseWhen` in ASP.NET Core**
+
+---
+
+# ⭐ **What Is `UseWhen`?**
+
+### **Definition (Human + Interview Friendly)**
+
+`UseWhen` allows you to **conditionally execute a separate middleware branch** based on a predicate (a Boolean condition evaluated on each request).  
+It is equivalent to:
+
+> “If the request matches this condition, run this branch of middleware; otherwise, skip it.”
+
+This keeps the main pipeline clean and avoids unnecessary execution for requests that don’t need certain features.
+
+---
+
+# ⭐ **`Use` vs `UseWhen` — Core Difference**
+
+### **`Use`**
+
+- Adds middleware to the **main pipeline**
+    
+- Executes **for every request**, unless the middleware itself short-circuits using `Run`
+    
+
+### **`UseWhen`**
+
+- Executes a **branch** of middleware only when a predicate evaluates to **true**
+    
+- The branch **automatically rejoins the main pipeline** after finishing
+    
+- The branch may be **terminal** if it contains `Run()`
+    
+
+---
+
+# 🧪 **Example 1: `UseWhen` Triggered by Query Parameter**
+
+```csharp
+app.UseWhen(
+    context => context.Request.Query.ContainsKey("username"),
+    appBuilder =>
+    {
+        appBuilder.Run(async context =>
+        {
+            await context.Response.WriteAsync("Username found in query!");
+        });
+    }
+);
+
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Hello from main middleware chain!");
+});
+```
+
+### **Explanation**
+
+- If URL contains `?username=abc` → branch executes and response is _“Username found in query!”_
+    
+- If not → the request skips the branch and goes to the main pipeline
+    
+- The branch uses `Run()` so it **does not rejoin** the main pipeline → it is terminal
+    
+
+---
+
+# 🧪 **Example 2: Non-Terminal Branch (Rejoins Main Pipeline)**
+
+```csharp
+app.UseWhen(
+    ctx => ctx.Request.Path.StartsWithSegments("/admin"),
+    branch =>
+    {
+        branch.Use(async (context, next) =>
+        {
+            Console.WriteLine("Admin request detected.");
+            await next(); // rejoin main pipeline
+        });
+    }
+);
+
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Final Response");
+});
+```
+
+**Explanation:**
+
+- `/admin/*` routes receive extra logging
+    
+- After the branch runs, the request **continues** to the main pipeline
+    
+- This is the correct way to add _additional_ behavior, not replace it
+    
+
+---
+
+# 🧪 **Example 3: Complex Conditional Logic**
+
+```csharp
+app.UseWhen(
+    context =>
+        context.Request.Method == "POST" &&
+        context.Request.Headers.ContainsKey("X-Admin") &&
+        context.Request.Query.TryGetValue("active", out var val) &&
+        val == "1",
+    branch =>
+    {
+        branch.UseMiddleware<AdminDiagnosticMiddleware>();
+    }
+);
+```
+
+**Use case:**
+
+- Add diagnostics only for special POST requests
+    
+- Useful for feature flags, admin tools, debugging etc.
+    
+
+---
+
+# ⭐ **Typical Use Cases for `UseWhen`**
+
+✔ Apply extra logging only to specific routes  
+✔ Enable special debug middleware for admins  
+✔ Add security rules only to `/api` endpoints  
+✔ Run a feature toggle based on custom headers  
+✔ Handle conditional redirects or maintenance mode  
+✔ Apply custom rate limiting to certain endpoints  
+✔ Add tracking middleware only for external clients
+
+---
+
+# ⭐ **Visual Representation (Obsidian-Friendly)**
+
+```
+               ┌──────────────────────┐
+Request ──────▶│  Main Middleware 1   │
+               └───────────┬──────────┘
+                           │
+                           ▼
+                Evaluate Predicate?
+                     │        │
+             NO ─────┘        └────── YES
+                     │                 │
+                     ▼                 ▼
+               [Continue]     ┌──────────────────────┐
+               Main Pipeline  │   Branch Middleware   │
+                              └───────────┬──────────┘
+                                          │
+                                          ▼
+                                  Rejoin Main Pipeline
+                                          ▼
+                               ┌──────────────────────┐
+                               │     Endpoints        │
+                               └──────────────────────┘
+```
+
+---
+
+# ⭐ **`Use` vs `UseWhen` — Deep Comparison Table**
+
+|Feature|`app.Use`|`app.UseWhen`|
+|---|---|---|
+|Runs for all requests|✔ Yes|❌ No|
+|Conditional branching|❌ Not supported|✔ Supported|
+|Creates separate pipeline branch|❌ No|✔ Yes|
+|Can rejoin main pipeline|✔ Yes|✔ Yes|
+|Supports terminal execution|✔ If you use `Run`|✔ If branch uses `Run`|
+|Best for|Standard middleware|Scenario-based, selective logic|
+
+---
+
+# ⭐ **Important Behavior Notes (Advanced)**
+
+### ✅ **1. The branch reuses the same `HttpContext`**
+
+No copies. Any changes inside the branch affect the main pipeline.
+
+### ✅ **2. The branch can short-circuit**
+
+If you add `Run`, the request never returns to the main pipeline.
+
+### ❗ **3. Cannot use endpoint routing inside `UseWhen`**
+
+You should **not** put `MapControllers()` or `MapGet()` inside a branch.
+
+### ❗ **4. Heavy conditions inside the predicate hurt performance**
+
+The predicate runs for **every request**.
+
+### ❗ **5. Do NOT use it for authentication routing**
+
+Prefer policies, filters, or `MapWhen` when endpoints differ significantly.
+
+---
+
+# ⭐ **Best Practices (Real-World)**
+
+- **Keep predicates fast**  
+    Avoid accessing request body or expensive operations inside the condition.
+    
+- **Use for path-based branching only when routing is not possible**  
+    Many path-based scenarios are better handled via routing.
+    
+- **Use `UseWhen` for cross-cutting logic**  
+    Logging, diagnostics, extra validation, admin mode, A/B testing.
+    
+- **Avoid deeply nested branches**  
+    It impacts readability and debugging.
+    
+- **Keep branch middleware minimal**  
+    Don't replicate the entire pipeline inside branches.
+    
+
+---
+
+# ⭐ **Interview Questions (Highly Valuable)**
+
+### **1. What is the difference between `Use` and `UseWhen`?**
+
+Explain main vs conditional pipeline behavior.
+
+### **2. Does `UseWhen` rejoin the main pipeline?**
+
+Yes, unless the branch ends with `Run()`.
+
+### **3. Can you create endpoint mappings inside a `UseWhen` branch?**
+
+No — routing should stay in the main pipeline.
+
+### **4. Is the predicate evaluated before each request?**
+
+Yes — every incoming request runs the condition.
+
+### **5. Why not use `UseWhen` for conditional authentication?**
+
+Because ASP.NET Core provides better tools such as:
+
+- Policies
+    
+- Filters
+    
+- Authorization attributes
+    
+- Endpoint routing metadata
+    
+
+### **6. Explain a real-world case where `UseWhen` is appropriate.**
+
+Examples: Admin request logging, mobile-only features, custom diagnostic path, special rate limiting.
+
+---
+
+# ⭐ **Final Summary**
+
+`UseWhen` is one of the most powerful tools in ASP.NET Core when you want to **conditionally apply middleware logic** based on request characteristics. It keeps your pipeline clean, avoids repetitive code, and enables advanced scenarios like feature flags, debugging, special admin behavior, conditional logging, and more.
+
+It is **not a replacement for routing** or authentication but an essential addition to build flexible, maintainable, and optimized middleware pipelines.
+
+---
 
