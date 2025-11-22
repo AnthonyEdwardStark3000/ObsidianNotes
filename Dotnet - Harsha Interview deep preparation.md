@@ -8132,3 +8132,317 @@ Routing is a core feature of ASP.NET Core that maps incoming HTTP requests to th
 
 ---
 
+Below is a **clean, professional, corrected, expanded, and Obsidian-friendly** version of your notes for:
+
+# **Title: Map, MapGet, MapPost & Short-Circuiting Endpoints in ASP.NET Core**
+
+✔ Fully rewritten  
+✔ Examples corrected & completed  
+✔ Explains map methods, endpoint behavior, fallback, short-circuiting  
+✔ Includes diagrams, interview questions, and best practices
+
+---
+
+# **📘 Introduction: Map Methods in Routing**
+
+In ASP.NET Core (.NET 6+), routing is automatically enabled.  
+We define endpoints directly on the `app` object using **map methods**:
+
+- `app.Map()`
+    
+- `app.MapGet()`
+    
+- `app.MapPost()`
+    
+- `app.MapFallback()`
+    
+- `app.MapControllers()`
+    
+- etc.
+    
+
+All these methods begin with **"Map"**, because they **map** a URL pattern and HTTP method to a corresponding middleware (endpoint).
+
+---
+
+# **📌 Endpoints Are Middleware**
+
+Although we speak of "endpoints" conceptually, internally:
+
+👉 **Endpoints are middleware components placed at the end of the ASP.NET Core pipeline.**
+
+Once an endpoint matches, the request pipeline **ends** (short-circuited).  
+Endpoint execution = terminal middleware.
+
+---
+
+# **📌 Creating Endpoints Using Map**
+
+### ✔ Basic Example Using `Map` (No HTTP Method Restriction)
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.Map("/map1", async context =>
+{
+    await context.Response.WriteAsync("In Map 1");
+});
+
+app.Map("/map2", async context =>
+{
+    await context.Response.WriteAsync("In Map 2");
+});
+
+app.MapFallback(async context =>
+{
+    await context.Response.WriteAsync($"Request received at: {context.Request.Path}");
+});
+
+app.Run();
+```
+
+### ✔ Behavior
+
+|URL|Output|
+|---|---|
+|`/map1`|"In Map 1"|
+|`/map2`|"In Map 2"|
+|`/anything-else`|Fallback executes|
+
+---
+
+# **📌 Short-Circuiting Endpoints**
+
+Map endpoints **do not forward** the request to the next middleware.
+
+➡ When the URL matches, the endpoint **executes and stops the pipeline**.
+
+This is why map endpoints are also called:
+
+✔ Terminal Middleware  
+✔ Short-Circuiting Middleware  
+✔ Endpoint Middleware
+
+---
+
+# **📘 Why Do We Need `MapFallback`?**
+
+If no mapped routes match the request:
+
+- Without fallback → browser receives **404**
+    
+- With fallback → you can return custom messages, SPA index.html, diagnostic info, etc.
+    
+
+---
+
+# **📌 `MapFallback()` Example**
+
+```csharp
+app.MapFallback(async context =>
+{
+    await context.Response.WriteAsync($"Request received at: {context.Request.Path}");
+});
+```
+
+This executes only when **no other Map/MapGet/MapPost matches**.
+
+---
+
+# **📌 Behavior of Map Endpoints for HTTP Methods**
+
+Default `Map()` allows **all** request types:
+
+✔ GET  
+✔ POST  
+✔ PUT  
+✔ DELETE  
+✔ PATCH
+
+But real applications require method-specific handlers.
+
+---
+
+# **📌 Using `MapGet` & `MapPost`**
+
+### ✔ Restricting endpoint to GET
+
+```csharp
+app.MapGet("/map1", async context =>
+{
+    await context.Response.WriteAsync("GET - Map1");
+});
+```
+
+### ✔ Restricting endpoint to POST
+
+```csharp
+app.MapPost("/map2", async context =>
+{
+    await context.Response.WriteAsync("POST - Map2");
+});
+```
+
+### ❗ Important Behavior
+
+- A GET request to `/map2` → **fallback executes**
+    
+- A POST request to `/map1` → **fallback executes**
+    
+
+Method mismatch = no route match.
+
+---
+
+# **📌 Testing Behavior (Postman Example)**
+
+|Request|Expected Result|
+|---|---|
+|GET `/map1`|Executes `MapGet("/map1")`|
+|POST `/map1`|Does NOT match → fallback|
+|GET `/map2`|Does NOT match → fallback|
+|POST `/map2`|Executes `MapPost("/map2")`|
+
+---
+
+# **📌 Routing Match Order Does NOT Depend on Code Order**
+
+Even if you register:
+
+```csharp
+app.MapGet("/a", ...);
+app.MapGet("/b", ...);
+app.MapGet("/c", ...);
+```
+
+Routing engine **does not care** about order.
+
+✔ All routes are collected into a table  
+✔ The engine picks the correct match based on:
+
+- URL pattern
+    
+- HTTP method
+    
+
+---
+
+# **📌 Visual Diagram: Endpoint Matching**
+
+```
+Incoming Request
+       │
+       ▼
+ ┌───────────────────┐
+ │ Routing Middleware │
+ └─────────┬─────────┘
+           │
+     Route Match?
+ ┌───────┴────────┐
+ │                │
+YES               NO
+ │                │
+ ▼                ▼
+Endpoint      Fallback
+(short-circuit)  (MapFallback)
+```
+
+---
+
+# **📌 Real-World Use Cases**
+
+- `MapGet("/")` → homepage
+    
+- `MapGet("/products")` → fetch products
+    
+- `MapPost("/products")` → create product
+    
+- `MapFallback()` → return default SPA HTML
+    
+- Decision-based routing for microservices
+    
+- Diagnostic endpoints for debugging
+    
+
+---
+
+# **📌 Complete Example: GET + POST + Fallback**
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.MapGet("/home", () => "Welcome to Home Page");
+app.MapPost("/home", () => "POST: Home Page Processing");
+
+app.MapGet("/contact", () => "Contact Page");
+
+app.MapFallback(context =>
+{
+    return context.Response.WriteAsync(
+        $"No matching route. Path = {context.Request.Path}");
+});
+
+app.Run();
+```
+
+---
+
+# **📌 Best Practices**
+
+✔ Prefer `MapGet` / `MapPost` over generic `Map`  
+✔ Use `MapFallback` in SPAs (Angular/React)  
+✔ Keep endpoint logic small and clean  
+✔ Use controllers for complex applications  
+✔ Add authentication/authorization in middleware BEFORE routing  
+✔ Do not assume registration order influences matching—it doesn't
+
+---
+
+# **📌 Interview Questions (High-Value)**
+
+### **1. What is the difference between `Map`, `MapGet`, and `MapPost`?**
+
+→ `Map` matches _any method_, `MapGet` only GET, `MapPost` only POST.
+
+### **2. Why are map endpoints called short-circuiting?**
+
+→ Because they terminate the pipeline once matched.
+
+### **3. What is `MapFallback` used for?**
+
+→ Executes when no other endpoint matches.
+
+### **4. Does the order of map methods matter?**
+
+→ No, routing engine matches based on URL & method.
+
+### **5. What happens if an endpoint is matched?**
+
+→ The endpoint middleware executes and stops further processing.
+
+### **6. Can you add middleware after endpoints?**
+
+→ No. Endpoint middleware is always placed at the end by the framework.
+
+### **7. What happens if the HTTP method doesn’t match?**
+
+→ Endpoint is skipped; routing tries next; fallback executes.
+
+---
+
+# **📌 Summary**
+
+- `Map`, `MapGet`, `MapPost` create endpoints directly on the app.
+    
+- Endpoints are **middleware** that **short-circuit** the pipeline.
+    
+- `MapFallback` handles all unmatched routes.
+    
+- Routing matches on **URL + HTTP Method**, not code order.
+    
+- Best suited for minimal APIs, microservices, small apps.
+    
+
+---
