@@ -6857,4 +6857,360 @@ It’s the method executed per request — the middleware entry point.
 So that ASP.NET can create the middleware object with its dependencies.
 
 ---
+Below is an **enhanced**, **more detailed**, **interview-friendly**, and **professional** version of the notes — still **Obsidian-friendly**, but deeper and richer in concepts, examples, theory, diagrams, and best practices.
+
+---
+
+# 🧱 **ASP.NET Core Custom Conventional Middleware (FULL NOTES)**
+
+### _(Obsidian-Friendly, Professional, Detailed, Interview-Ready)_
+
+---
+
+# 🧩 What is Middleware?
+
+Middleware is **a software component** that sits in the **HTTP request pipeline** and can:
+
+- Inspect the request
+    
+- Modify the request
+    
+- Short-circuit the pipeline
+    
+- Call the next middleware (`_next`)
+    
+- Modify the response
+    
+- Execute code before and after the next middleware
+    
+
+ASP.NET Core builds the entire request processing system **as a chain of middleware components**.
+
+---
+
+# ⚙️ Types of Middleware in ASP.NET Core
+
+|Type|How It Works|Where It's Used|
+|---|---|---|
+|**Inline / Anonymous Middleware**|Defined using `app.Use(...)` directly in `Program.cs`|Quick debugging, small apps|
+|**Conventional Middleware**|Custom class with constructor + `Invoke/InvokeAsync`|Enterprise apps, reusable logic|
+|**Factory-based Middleware (IMiddleware)**|Created per-request using DI|When middleware needs scoped services|
+
+👉 **We are using Conventional Middleware** — the most modern and preferred method in .NET 6/7/8/9/10.
+
+---
+
+# 🧱 Folder Structure (Recommended)
+
+```
+/MiddlewareExample
+│
+├── Program.cs
+│
+├── /CustomMiddleware
+│     ├── HelloCustomMiddleware.cs
+│     └── HelloCustomMiddlewareExtensions.cs
+```
+
+---
+
+# 🧱 **1. Program.cs**
+
+Full working code.
+
+```csharp
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using MiddlewareExample.CustomMiddleware;
+
+var builder = WebApplication.CreateBuilder(args);
+
+var app = builder.Build();
+
+// Middleware 1
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("Middleware 1: Before\n");
+    await next();
+    await context.Response.WriteAsync("Middleware 1: After\n");
+});
+
+// Our custom conventional middleware
+app.UseHelloCustomMiddleware();
+
+// Terminal middleware
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Middleware 3 (Run): Final Response\n");
+});
+
+app.Run();
+```
+
+---
+
+# 🧱 **2. Complete Conventional Middleware Class**
+
+**HelloCustomMiddleware.cs**
+
+```csharp
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+
+namespace MiddlewareExample.CustomMiddleware
+{
+    public class HelloCustomMiddleware
+    {
+        private readonly RequestDelegate _next;
+
+        public HelloCustomMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        public async Task InvokeAsync(HttpContext context)
+        {
+            // BEFORE logic
+            await context.Response.WriteAsync("HelloCustomMiddleware: Before\n");
+
+            // Read query parameters: firstName & lastName
+            if (context.Request.Query.TryGetValue("firstName", out var firstName) &&
+                context.Request.Query.TryGetValue("lastName", out var lastName))
+            {
+                string fullName = $"{firstName} {lastName}";
+                await context.Response.WriteAsync($"Hello {fullName}\n");
+            }
+
+            // Forward request
+            await _next(context);
+
+            // AFTER logic
+            await context.Response.WriteAsync("HelloCustomMiddleware: After\n");
+        }
+    }
+}
+```
+
+---
+
+# 🧱 **3. Extension Method**
+
+**HelloCustomMiddlewareExtensions.cs**
+
+```csharp
+using Microsoft.AspNetCore.Builder;
+
+namespace MiddlewareExample.CustomMiddleware
+{
+    public static class HelloCustomMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseHelloCustomMiddleware(
+            this IApplicationBuilder app)
+        {
+            return app.UseMiddleware<HelloCustomMiddleware>();
+        }
+    }
+}
+```
+
+---
+
+# 🔍 Why Use an Extension Method?
+
+- Clean syntax:
+    
+    ```csharp
+    app.UseHelloCustomMiddleware();
+    ```
+    
+- Matches ASP.NET Core built-in middlewares
+    
+- Encourages modular design
+    
+- Makes middleware reusable across projects
+    
+
+---
+
+# 🌐 How the Middleware Works (Step-by-Step)
+
+### Request Entering Pipeline
+
+```
+Client → M1 → HelloCustomMiddleware → M3(Run)
+```
+
+### Response Returning (Reverse)
+
+```
+Client ← M1 ← HelloCustomMiddleware ← M3
+```
+
+### ✔ Before `_next`
+
+Executed on forward pass.
+
+### ✔ After `_next`
+
+Executed when the pipeline returns back.
+
+This creates the classic **"wrapper" pattern**.
+
+---
+
+# 🔎 Middleware Life Cycle (Visual)
+
+```
+          (Request)
+              |
+              v
+   ┌─────────────────────────┐
+   │  Middleware 1: Before   │
+   └─────────────┬──────────┘
+                 v
+   ┌─────────────────────────┐
+   │ HelloMiddleware: Before │
+   └─────────────┬──────────┘
+                 v
+   ┌─────────────────────────┐
+   │   Terminal (Run)        │
+   └─────────────┬──────────┘
+                 ^
+   ┌─────────────┴──────────┐
+   │ HelloMiddleware: After  │
+   └─────────────┬──────────┘
+                 ^
+   ┌─────────────┴──────────┐
+   │  Middleware 1: After    │
+   └─────────────────────────┘
+              ^
+              |
+          (Response)
+```
+
+---
+
+# 🧪 Test URL
+
+```
+https://localhost:5001/?firstName=John&lastName=Resig
+```
+
+---
+
+# 📤 Output
+
+```
+Middleware 1: Before
+HelloCustomMiddleware: Before
+Hello John Resig
+Middleware 3 (Run): Final Response
+HelloCustomMiddleware: After
+Middleware 1: After
+```
+
+---
+
+# 🧠 What You Should Remember (Interview Gold)
+
+### ✔ Conventional Middleware Requirements:
+
+1. Public constructor with **RequestDelegate next**
+    
+2. Public method:
+    
+    - `Task InvokeAsync(HttpContext context)`
+        
+    - Or `Task Invoke(HttpContext context)`
+        
+3. Must call `_next(context)`  
+    (unless intentionally short-circuiting)
+    
+4. Registered using:
+    
+    ```csharp
+    app.UseMiddleware<YourMiddleware>();
+    ```
+    
+    or extension method.
+    
+
+---
+
+# 🧨 BONUS: Common Real-World Uses of Middleware
+
+- Logging request/response
+    
+- Authentication validation
+    
+- IP whitelisting
+    
+- Exception handling
+    
+- Custom headers
+    
+- Response shaping
+    
+- Multitenancy resolution
+    
+- API Key authentication
+    
+- Rate limiting
+    
+
+---
+
+# 🎤 Interview Questions (Advanced & Practical)
+
+### **1. What is middleware in ASP.NET Core?**
+
+Middleware is software that processes HTTP requests and responses in the pipeline.
+
+---
+
+### **2. What is the difference between `app.Use()` and `app.Run()`?**
+
+|Feature|`Use()`|`Run()`|
+|---|---|---|
+|Call next middleware?|Yes|No|
+|Can be placed anywhere?|Yes|Usually last|
+|Can short-circuit?|Yes|Always terminal|
+|Used for?|Logging, auth, routing|Final handlers|
+
+---
+
+### **3. Why do we take `RequestDelegate next` in constructor?**
+
+Because only the constructor runs once at startup → avoids per-request overhead.
+
+---
+
+### **4. Why does `InvokeAsync` only take `HttpContext`?**
+
+Because the request delegate (`_next`) is already injected through the constructor.
+
+---
+
+### **5. What is short-circuiting middleware?**
+
+Middleware that **does not call `_next(context)`**, stopping the pipeline.
+
+---
+
+### **6. What is the difference between IMiddleware and conventional middleware?**
+
+|Conventional|IMiddleware|
+|---|---|
+|Created once (singleton behavior)|Created per request|
+|Constructor → RequestDelegate|DI → Services injected|
+|Best for lightweight middleware|Best for scoped services|
+
+---
+
+### **7. How does the pipeline follow the “chain-of-responsibility” pattern?**
+
+Each middleware can handle the request, modify it, pass it forward, or stop it.
+
+---
 
