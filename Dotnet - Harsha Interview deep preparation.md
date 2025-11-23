@@ -10469,3 +10469,228 @@ Accept all values → validate inside endpoint → return 400 Bad Request.
 
 ---
 
+Below is the clean, **Obsidian-friendly**, **interview-ready**, and **professionally structured** explanation of:
+
+# **Title: Endpoint Selection Order in ASP.NET Core Routing**
+
+_(How ASP.NET Core decides which endpoint to execute when multiple routes match the same URL)_
+
+---
+
+# **1. Why Endpoint Selection Order Matters**
+
+If a single incoming URL matches **more than one route**, ASP.NET Core must decide **which endpoint to execute**.
+
+Example:
+
+```
+/hello
+```
+
+Matches:
+
+```
+app.MapGet("/hello", ...);
+app.MapGet("/{msg}", ...);
+```
+
+**Which one wins?**  
+ASP.NET Core follows **four predefined precedence rules**, not the order in your code.
+
+---
+
+# **2. The Four Precedence Rules (Most Important)**
+
+ASP.NET Core decides the winning route using the following priority rules:
+
+---
+
+## **Rule 1 – More Segments = Higher Priority**
+
+A route with **more path segments** wins.
+
+|Route|Segments|Priority|
+|---|---|---|
+|`/a/b/c/d`|4|Higher|
+|`/a/b/c`|3|Lower|
+
+Incoming URL:
+
+```
+/a/b/c/d
+```
+
+✔ Matches **both**, but ASP.NET chooses `/a/b/c/d`  
+(because it has **more segments → more specific**)
+
+---
+
+## **Rule 2 – Literal Text > Parameter**
+
+A **literal segment** has more weight than a parameter.
+
+Example:
+
+```
+/a/b
+/a/{value}
+```
+
+Incoming:
+
+```
+/a/b
+```
+
+Matches **both**, but:
+
+✔ `/a/b` wins → because **literal** “b” is more specific than `{value}`
+
+But if incoming URL is:
+
+```
+/a/c
+```
+
+Then only matched route is:
+
+✔ `/a/{value}`
+
+---
+
+## **Rule 3 – Constraints > No Constraints**
+
+If two routes match and one has a constraint (e.g. `int`, `regex`, etc.), the constrained route wins.
+
+Example:
+
+```
+/a/{id:int}   <-- higher priority
+/a/{id}
+```
+
+Incoming:
+
+```
+/a/10
+```
+
+✔ `/a/{id:int}` is chosen.
+
+If incoming value **fails constraint**:
+
+```
+/a/xyz
+```
+
+Then:
+
+✔ `/a/{id}` is chosen.
+
+---
+
+## **Rule 4 – Catch-All (*) Has Lowest Priority**
+
+Catch-all ( `*` or `**` ) segments always have the **least precedence**.
+
+Example:
+
+```
+/a/{value}       
+/a/{*anything}   <-- lowest priority
+```
+
+Incoming:
+
+```
+/a/10
+```
+
+✔ `/a/{value}` wins because catch-all is too broad.
+
+---
+
+# **3. Summary of Precedence (Highest → Lowest)**
+
+```
+1️⃣ More Segments  
+2️⃣ Literal > Parameter  
+3️⃣ Constraint > No Constraint  
+4️⃣ Catch-all (*) is last
+```
+
+---
+
+# **4. Real Example Demonstrating Precedence**
+
+### **Routes**
+
+```csharp
+// Generic sales report
+app.MapGet("sales-report/{year}/{month}", ...);
+
+// Specific sales report (literal text)
+app.MapGet("sales-report/2024/january", ...);
+```
+
+### **Incoming URL**
+
+```
+/sales-report/2024/january
+```
+
+Matches **both**, but the second one wins because:
+
+✔ It contains **literal values**: `2024` and `january`  
+✔ Literal > Parameter
+
+### **Another Incoming URL**
+
+```
+/sales-report/2023/january
+```
+
+Only first route matches because:
+
+❌ `/sales-report/2024/january` has literal values → NOT a match  
+✔ `/sales-report/{year}/{month}` will match → `{year=2023}`, `{month=january}`
+
+---
+
+# **5. Major Benefit**
+
+### **Developers do NOT have to worry about route order**
+
+You can define endpoints **in any order**, because ASP.NET Core routing is based on **precedence rules**, not line order.
+
+This avoids:
+
+❌ Route conflicts  
+❌ Manual reordering  
+❌ Confusing routing behavior
+
+It provides:
+
+✔ Consistency  
+✔ Predictability  
+✔ Maintainability
+
+---
+
+# **6. Final Summary**
+
+Endpoint selection is based on **specificity**, not the code order.  
+ASP.NET Core uses 4 rules:
+
+### **1️⃣ More segments → higher precedence**
+
+### **2️⃣ Literal text beats parameters**
+
+### **3️⃣ Constrained parameters beat unconstrained**
+
+### **4️⃣ Catch-all parameters have lowest priority**
+
+This ensures the **most specific route always wins**, providing predictable routing.
+
+---
+
