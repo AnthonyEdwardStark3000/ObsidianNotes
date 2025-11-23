@@ -9186,10 +9186,6 @@ Below are **clean, complete, Obsidian-friendly professional notes** for the lect
 
 # 📘 **Intro to Routing – Route Constraints (ASP.NET Core)**
 
-**Title: Route Constraints**
-
----
-
 ## 🧩 **1. What Are Route Constraints?**
 
 **Definition:**  
