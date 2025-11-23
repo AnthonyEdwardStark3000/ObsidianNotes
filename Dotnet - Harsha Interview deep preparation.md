@@ -10916,4 +10916,253 @@ ASP.NET Core uses 4 rules:
 This ensures the **most specific route always wins**, providing predictable routing.
 
 ---
+Below is a **clean, structured, interview-ready explanation** of **WebRoot and UseStaticFiles**, rewritten into **Obsidian-friendly notes**, with headings, diagrams, and examples.
+
+---
+
+# WebRoot and UseStaticFiles**
+
+---
+
+# 📌 **What Are Static Files?**
+
+Static files are **pre-built files** that the server does _not_ process. They are sent directly to the browser.
+
+Examples:
+
+- Images → `.jpg`, `.png`, `.gif`
+    
+- Documents → `.pdf`, `.docx`, `.txt`
+    
+- Stylesheets → `.css`
+    
+- Scripts → `.js`
+    
+- Client assets → fonts, icons, videos, etc.
+    
+
+By default, **ASP.NET Core does NOT serve any static files** unless you explicitly enable it.
+
+---
+
+# 📌 **Why Static Files Are Blocked by Default?**
+
+Older ASP.NET versions exposed the entire project folder, causing risks:
+
+- Sensitive source files were accessible
+    
+- Config files could be downloaded
+    
+- Attackers could inspect application code
+    
+
+To avoid this, ASP.NET Core exposes **only one safe folder**:  
+➡️ **wwwroot** (default web root folder)
+
+---
+
+# 📁 **Web Root (wwwroot)**
+
+### 📌 Default Web Root Folder Name: `wwwroot`
+
+ASP.NET Core recommends placing all static files into the **web root folder**.
+
+```
+MyProject/
+   wwwroot/       ← static files  
+   Program.cs
+   Controllers/
+   ...
+```
+
+✔ Only files inside **wwwroot** are accessible directly via browser  
+✘ Files outside **wwwroot** are protected
+
+---
+
+# ⚙️ **Enable Static File Serving**
+
+Static file support is enabled using middleware:
+
+```csharp
+app.UseStaticFiles();
+```
+
+This must be placed **before** any endpoint mappings.
+
+---
+
+# 📌 **How ASP.NET Core Serves Static Files**
+
+### Example Files in wwwroot:
+
+```
+wwwroot/
+   img1.jpg
+   docs.pdf
+   sample.txt
+```
+
+### Access from browser:
+
+```
+/img1.jpg
+/docs.pdf
+/sample.txt
+```
+
+If a file exists → it is returned  
+If not → HTTP **404 Not Found**
+
+---
+
+# 🛡️ **Browser Cache Issue**
+
+If you move a file out of wwwroot, the browser may still show it due to cache.
+
+To test properly:
+
+1. Open DevTools → Network tab
+    
+2. Check **Disable cache**
+    
+3. Refresh the page
+    
+
+---
+
+# 🔧 **Changing the Web Root Folder Name**
+
+You can rename **wwwroot** to any name, e.g., `MyRoot`.
+
+### Step 1: Rename folder
+
+```
+MyRoot/
+```
+
+### Step 2: Configure new root in builder
+
+```csharp
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    WebRootPath = "MyRoot"
+});
+```
+
+Now all static files are served from `MyRoot` instead of `wwwroot`.
+
+---
+
+# 📁 **What If wwwroot Folder Is Missing?**
+
+If no wwwroot folder is physically present, ASP.NET Core will throw an exception during startup.
+
+➡️ You must keep an empty folder if you override the path.
+
+---
+
+# 🌐 **Serving Static Files from Multiple Folders**
+
+It _is_ possible to expose additional folders.
+
+Example:  
+You have:
+
+```
+MyRoot/      ← main static folder (configured via WebRootPath)
+MyWebRoot/   ← additional static folder
+```
+
+### Code:
+
+```csharp
+app.UseStaticFiles(); // uses MyRoot
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "MyWebRoot")
+    )
+});
+```
+
+### Behavior:
+
+1. ASP.NET checks **MyRoot** first
+    
+2. If file not found → checks **MyWebRoot**
+    
+3. If still not found → 404
+    
+
+### Priority Rule:
+
+If a file exists in both folders →  
+✔ The **first configured** folder wins (higher precedence)
+
+---
+
+# 🧠 **Why Multi-Folder Static Access Is Rare**
+
+- Harder to maintain
+    
+- Can expose unintended files
+    
+- Typically unnecessary unless:
+    
+    - Large projects with split frontend assets
+        
+    - Serving user uploads
+        
+    - Multi-tenant applications
+        
+
+---
+
+# 🎯 **Summary**
+
+- `UseStaticFiles()` enables the server to serve static files.
+    
+- Default static folder = **wwwroot**
+    
+- You can rename the folder using `WebRootPath`.
+    
+- Multiple static folders can be enabled using `StaticFileOptions`.
+    
+- Files outside the configured static folders are **not accessible**, improving security.
+    
+
+---
+
+# 🧪 **Minimal API Example – Static Files**
+
+```csharp
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.FileProviders;
+
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    WebRootPath = "MyRoot"
+});
+
+var app = builder.Build();
+
+// 1. Serve files from MyRoot
+app.UseStaticFiles();
+
+// 2. Serve files from MyWebRoot
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "MyWebRoot")
+    )
+});
+
+// Fallback
+app.MapGet("/", () => "Static Files Example");
+
+app.Run();
+```
+---
 
