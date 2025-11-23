@@ -1,4 +1,3 @@
-dv.span("")
 
 # ASP.NET Core — Deep Explanation (Obsidian Friendly)
 
@@ -12618,3 +12617,4 @@ AJAX calls, APIs returning data, client-side frameworks.
 
 Yes, any serializable object, including nested objects & collections.
 
+---
