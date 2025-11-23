@@ -8971,3 +8971,212 @@ Parameters that automatically receive a predefined value if the user doesn’t s
     
 
 ---
+# **Optional Parameters**
+
+# **📌 Optional Parameters in ASP.NET Core Routing**
+
+In ASP.NET Core routing, **optional parameters** allow an endpoint to match even when the user does _not_ supply a value for a specific route parameter.
+
+They are extremely useful when the value is _not mandatory_, and your endpoint should still execute—unlike required parameters, which must be supplied to match the route.
+
+---
+
+# **🔍 What Are Optional Route Parameters?**
+
+An **optional parameter** is created by suffixing the parameter name with a **`?`**:
+
+```
+{id?}
+```
+
+This means:
+
+- The user **may or may not** supply the value.
+    
+- If the value is _not_ supplied → the route still matches.
+    
+- The value becomes **null** (as a `System.Object`) in `RouteValues`.
+    
+
+This is similar to optional method parameters in C#, but applies to URL routing.
+
+---
+
+# **📌 Why Not Use `id=null`?**
+
+You **cannot** write `{id=null}`.  
+Default values do not accept `null`.
+
+Instead, ASP.NET Core provides a dedicated syntax:
+
+```
+{id?}
+```
+
+This tells the routing engine to treat the value as **optional**.
+
+---
+
+# **🧪 Example: Optional Parameter Route**
+
+### **Route**
+
+```
+/products/details/{id?}
+```
+
+### **Complete Working Code (with datatype comments)**
+
+```csharp
+app.MapGet("/products/details/{id?}", async context =>
+{
+    // RouteValues["id"] returns System.Object (may be null)
+    object? idObject = context.Request.RouteValues["id"];  // System.Object?
+
+    // CASE 1: ID is supplied → convert to int
+    // CASE 2: ID is not supplied (null) → skip conversion
+    if (idObject != null)
+    {
+        // Convert System.Object → int
+        int id = Convert.ToInt32(idObject);
+
+        await context.Response.WriteAsync($"Product details for ID = {id}");
+    }
+    else
+    {
+        // ID not supplied
+        await context.Response.WriteAsync("ID is not supplied.");
+    }
+});
+```
+
+---
+
+# **🧠 What Happens Internally?**
+
+### ✔ If user sends:
+
+```
+/products/details/10
+```
+
+→ Route matches  
+→ `RouteValues["id"] = "10"` (System.Object)  
+→ Conversion succeeds → response prints ID=10
+
+---
+
+### ✔ If user sends:
+
+```
+/products/details
+```
+
+→ Route still matches (because `{id?}`)  
+→ `RouteValues["id"] = null`  
+→ Your logic prints **"ID is not supplied."**
+
+---
+
+### ✔ Conversion Behavior
+
+`Convert.ToInt32(null)` returns **0**, not an exception.
+
+But this can hide mistakes.
+
+➡ Therefore **DO NOT** rely on this behavior.  
+➡ Always check for `null` first (as shown in code).
+
+---
+
+# **📦 Real-World Use Case**
+
+Optional parameters are used when:
+
+- Value is _not mandatory_
+    
+- Missing value triggers a _default behavior_
+    
+- You want a human-friendly URL
+    
+
+### Example:
+
+```
+/products/details/        → show default product
+/products/details/10      → show specific product
+```
+
+Without optional parameters, the first URL would cause a **404**.
+
+---
+
+# **📚 Visual Mental Model**
+
+```
+                 ┌────────────────────────────┐
+Incoming URL --->│   Route Pattern:           │
+                 │   /products/details/{id?}  │
+                 └──────────────┬─────────────┘
+                                │
+             ┌──────────────────┴───────────────────┐
+     Value supplied                             Value NOT supplied
+     (e.g., 30)                                   (URL ends with /details)
+             │                                             │
+RouteValues["id"] = "30"                          RouteValues["id"] = null
+             │                                             │
+  Convert and process                             Show alternative response
+```
+
+---
+
+# **📝 Key Rules to Remember**
+
+- `{id}` → required parameter
+    
+- `{id?}` → optional parameter
+    
+- Optional parameter value becomes **null** (System.Object)
+    
+- Check for `null` before conversion
+    
+- Optional parameters work for both **strings and numbers**
+    
+
+---
+
+# **🎯 Interview Questions (Highly Relevant)**
+
+### **1. What is an optional route parameter in ASP.NET Core?**
+
+### **2. How do you define an optional parameter in a route template?**
+
+### **3. What happens if you write `{id=null}` in a route? Why does it fail?**
+
+### **4. What does ASP.NET Core assign to an optional parameter when user does not provide a value?**
+
+### **5. What is the datatype of values in `RouteValues`?**
+
+Expect this answer:
+
+> They are stored as `System.Object`.
+
+### **6. Why is `Convert.ToInt32(null)` dangerous in route handling?**
+
+### **7. What is the difference between default route values and optional parameters?**
+
+### **8. Real-world use case of optional parameters in routing?**
+
+---
+
+# **📦 Ready-to-Copy Summary for Obsidian**
+
+```
+Optional parameters in ASP.NET Core are created using the `{parameter?}` syntax. 
+They allow the route to match even if the user does not provide a value. 
+When omitted, the parameter value becomes `null` (stored as System.Object).
+Developers must check for `null` before converting the value. 
+This is useful for pages where the data is optional or when default behavior 
+should be triggered if no value is supplied (e.g., product details page).
+```
+---
