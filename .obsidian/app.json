@@ -2,7 +2,7 @@
   "pdfExportSettings": {
     "includeName": true,
     "pageSize": "Tabloid",
-    "landscape": true,
+    "landscape": false,
     "margin": "0",
     "downscalePercent": 100
   },
