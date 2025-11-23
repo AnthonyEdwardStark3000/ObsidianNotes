@@ -11452,9 +11452,7 @@ ASP.NET Core detects it automatically as a controller.
 A public method inside a controller that handles a specific request and returns a response.
 
 ---
-Below are **clean, corrected, Obsidian-friendly, interview-ready notes** for:
-
-# **Title: Multiple Action Methods & Multiple Routes in Controllers**
+# **Multiple Action Methods & Multiple Routes in Controllers**
 
 This includes:
 
