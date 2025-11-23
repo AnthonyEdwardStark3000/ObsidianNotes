@@ -9484,5 +9484,234 @@ Route Constraints:
 - Ensure predictable, clean routing behavior
     
 
+# 📘 **Route Constraints – Decimal, Long & GUID (UUID)**
+
 ---
 
+## 🧩 1. Decimal & Long Route Constraints
+
+ASP.NET Core supports additional primitive constraints beyond just `int` and `datetime`.
+
+### ✔ Allowed Numeric Constraints
+
+|Constraint|Accepts|Notes|
+|---|---|---|
+|`decimal`|Decimal values|Good for prices, financial values|
+|`double`|Floating values|Less precision|
+|`long`|Large integers (64-bit)|Range: -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807|
+
+Example usage:
+
+```csharp
+app.MapGet("/product/price/{amount:decimal}", async context =>
+{
+    var amountObj = context.Request.RouteValues["amount"]; // System.Object
+    decimal amount = Convert.ToDecimal(amountObj);
+
+    await context.Response.WriteAsync($"Price is {amount}");
+});
+```
+
+---
+
+## 🔑 2. GUID / UUID Route Constraint
+
+**GUID (Globally Unique Identifier)** is a 128-bit hexadecimal value used widely in real-world systems for entity IDs.
+
+### ✔ Why GUID?
+
+- Practically impossible to collide
+    
+- Does not expose record count (unlike incremental int IDs)
+    
+- Good for distributed systems
+    
+- Used in microservices, identity providers, authentication tokens, etc.
+    
+
+### ✔ Route Constraint
+
+Use `guid` or `uuid` constraint:
+
+```
+{cityId:guid}
+```
+
+### ✔ Accepted Formats
+
+Examples of valid GUIDs:
+
+```
+3f2504e0-4f89-11d3-9a0c-0305e82c3301
+3F2504E0-4F89-11D3-9A0C-0305E82C3301
+{3f2504e0-4f89-11d3-9a0c-0305e82c3301}
+```
+
+Uppercase or lowercase both work.
+
+---
+
+## 🧑‍💻 3. Complete Example – City Info by GUID
+
+### **👉 Route:**
+
+`/cities/{cityId:guid}`
+
+### **✔ Complete, Corrected, Commented Code**
+
+```csharp
+app.MapGet("/cities/{cityId:guid}", async (HttpContext context) =>
+{
+    // context.Request.RouteValues["cityId"] returns System.Object
+    object? cityIdObj = context.Request.RouteValues["cityId"]; // System.Object
+
+    // Convert object → Guid
+    Guid cityId = Guid.Parse(cityIdObj!.ToString()!);
+
+    await context.Response.WriteAsync($"City ID: {cityId.ToString()}");
+});
+```
+
+### Important Notes
+
+- `.ToString()!`
+    
+    - Converts object to string
+        
+    - `!` (null-forgiving operator) tells compiler value will not be null
+        
+- `Guid.Parse()`
+    
+    - Parses string → Guid
+        
+    - Throws exception if value is invalid (but won't happen here since routing already validated)
+        
+
+---
+
+## 🔄 4. What Happens with Invalid GUID?
+
+Example of invalid request:
+
+```
+/cities/12345
+```
+
+Result:
+
+- GUID constraint fails
+    
+- Endpoint is NOT matched
+    
+- Fallback route executes
+    
+
+This protects APIs from invalid calls.
+
+---
+
+## 🧰 5. How to Generate GUIDs
+
+### ✔ Visual Studio
+
+```
+Tools → Create GUID → Registry Format
+```
+
+### ✔ Online
+
+Search "GUID generator"
+
+### ✔ C#
+
+```
+Guid.NewGuid()
+```
+
+---
+
+## 🧠 6. Visual Diagram — GUID Constraint Flow
+
+```
+Incoming URL
+     |
+     v
+Check route: /cities/{cityId:guid}
+     |
+     v
+Is "cityId" a valid GUID?
+     ┌─────────┐
+     │ Yes     │ → Execute endpoint
+     └─────────┘
+     ┌─────────┐
+     │ No      │ → Skip & go to fallback route
+     └─────────┘
+```
+
+---
+
+## 📝 7. Additional Examples
+
+### Decimal Example
+
+```
+/order/total/{value:decimal}
+```
+
+### Long Example
+
+```
+/sensor/data/{reading:long}
+```
+
+### Combined
+
+```
+/device/{id:guid}/temperature/{temp:decimal}
+```
+
+---
+
+## ❓ 8. Interview Questions (This Topic)
+
+### **Basic**
+
+1. What is a GUID constraint in ASP.NET Core?
+    
+2. What datatype does `RouteValues[]` return?
+    
+3. Why use GUID instead of int for IDs?
+    
+
+### **Intermediate**
+
+4. What happens when a GUID route constraint fails?
+    
+5. Explain the difference between `Guid.Parse()` and `Guid.TryParse()`.
+    
+6. Can GUID values be uppercase? Why?
+    
+
+### **Advanced**
+
+7. Why are GUIDs used in distributed systems?
+    
+8. What is the size of a GUID and how is it generated internally?
+    
+9. How does routing middleware validate GUID constraints?
+    
+
+---
+
+## ⭐ Final Summary
+
+- ASP.NET Core supports numeric constraints (`decimal`, `long`, `double`)
+    
+- GUID/UUID constraint is crucial for modern ID-based routing
+    
+- `RouteValues[]` returns `System.Object` → conversion required
+    
+- `Guid.Parse()` converts the value into a Guid type
+    
+- Invalid GUIDs automatically fall back without executing the endpoint
+---
