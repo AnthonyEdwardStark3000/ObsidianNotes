@@ -12365,12 +12365,6 @@ int id = Convert.ToInt32(idObj);
 - Not suitable for files or complex data.
 
 ---
-
-Below is a **clean, professional, interview-ready, Obsidian-friendly note** on **JsonResult**, rewritten with proper structure, headings, definitions, code examples, and explanations.  
-✔ Includes: JsonResult, Json(), POCO/POJO, JSON format rules, complete controller example, and a neatly formatted summary.
-
----
-
 # 📘 JsonResult in ASP.NET Core
 
 **Title: JsonResult — Returning JSON Data in ASP.NET Core**
