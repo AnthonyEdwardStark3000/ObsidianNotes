@@ -10077,3 +10077,138 @@ Endpoint Executes      Fallback Route / 404
     
 
 ---
+Below is a **clean, interview-friendly, Obsidian-ready explanation** of **Regex in Route Constraints**, written as a **separate title/section**, with clarity + examples.
+
+---
+
+# **🔹 Regular Expression (Regex) in Route Constraints — Detailed Explanation**
+
+## **📌 What is Regex?**
+
+A **Regular Expression (Regex)** is a sequence of characters that defines a **pattern**.  
+It is used for validating and matching strings based on specific rules — such as allowed characters, allowed words, number formats, or custom patterns.
+
+ASP.NET Core supports using **regex** inside route constraints when the built-in constraints (like `int`, `alpha`, `length`, `minlength`, `maxlength`, `range`) are not enough.
+
+---
+
+# **📌 Why Use Regex in Routing?**
+
+Regex is useful when:
+
+- You want to accept **only specific words**
+    
+- You want a parameter to follow a **specific format**
+    
+- You need **complex validation patterns** (beyond simple length or numeric rules)
+    
+
+For example:  
+Accept a month only if it is one of: **April, July, October, January**
+
+Built-in constraints cannot do this.  
+Regex can.
+
+---
+
+# **📌 How to Use Regex Constraint in Routes**
+
+### **Syntax**
+
+```
+{parameter:regex(pattern)}
+```
+
+### **Example**
+
+```
+app.MapGet("sales-report/{year:int:min(1900)}/{month:regex(^April|July|October|January$)}", ...);
+```
+
+- `^` → Start of string
+    
+- `$` → End of string
+    
+- `|` → OR condition
+    
+- Only these exact 4 month names are allowed.
+    
+
+---
+
+# **📌 Example Breakdown**
+
+### Route:
+
+```
+sales-report/2024/April
+```
+
+✔ Matches — because "April" is in the regex list.
+
+### Route:
+
+```
+sales-report/2024/November
+```
+
+❌ Does NOT match — "November" is not in the allowed regex patterns.
+
+It will fall into fallback route or return 404.
+
+---
+
+# **📌 Regex Example Patterns for Routes**
+
+### **1️⃣ Accept Only 4-Digit Year Between 1900–2099**
+
+```
+{year:regex(^19[0-9]{2}$|^20[0-9]{2}$)}
+```
+
+### **2️⃣ Allow Only Specific Words**
+
+```
+{type:regex(^admin|employee|manager$)}
+```
+
+### **3️⃣ Phone Number (10 digits only)**
+
+```
+{phone:regex(^[0-9]{10}$)}
+```
+
+---
+
+# **📌 Important Note (Best Practice)**
+
+**Microsoft recommends avoiding regex for real-world validation.**
+
+Why?
+
+- Regex in routing becomes **hard to maintain**
+    
+- Invalid values cause **404**, not a meaningful error
+    
+- Better to **accept the value**, then validate in code:
+    
+
+```
+if (!allowedMonths.Contains(month))
+    return Results.BadRequest("This month is not allowed.");
+```
+
+👉 This gives **clear error messages** instead of silent route failure.
+
+---
+
+# **📌 Summary**
+
+|Feature|Purpose|
+|---|---|
+|**Regex constraint**|Match custom or complex patterns|
+|**Use when**|Min/Max/Range/Alpha are not sufficient|
+|**Better alternative**|Validate inside API method for better error handling|
+
+---
+
