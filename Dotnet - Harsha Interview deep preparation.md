@@ -10211,4 +10211,268 @@ if (!allowedMonths.Contains(month))
 |**Better alternative**|Validate inside API method for better error handling|
 
 ---
+# Custom Route Constraints in ASP.NET Core**
 
+---
+
+## **1. What Are Custom Route Constraints?**
+
+Custom Route Constraints allow you to define your **own validation logic** for route parameters instead of relying only on built-in constraints like `int`, `alpha`, `length`, `regex`, etc.
+
+They are used when:
+
+- The same validation logic (e.g., regex pattern) must be reused in multiple places.
+    
+- The validation is too complex for built-in constraints.
+    
+- Validation depends on external sources (e.g., database values).
+    
+
+Custom constraints are implemented using a class that checks incoming values through a method called **`Match()`**.
+
+---
+
+## **2. Required Interfaces**
+
+### ### **IRouteConstraint**
+
+- The main interface for creating custom constraints.
+    
+- Forces you to implement the `Match()` method.
+    
+
+### **IParameterPolicy**
+
+- A marker interface used internally by ASP.NET Core routing.
+    
+- `IRouteConstraint` indirectly acts as a parameter policy.
+    
+
+---
+
+## **3. Purpose of `Match()` Method**
+
+The `Match()` function decides whether a route value **matches the constraint**.
+
+```csharp
+bool Match(
+    HttpContext httpContext,          // Info about incoming request
+    IRouter router,                   // Route in which constraint is applied
+    string routeKey,                  // Parameter name
+    RouteValueDictionary values,      // Parameter values in the URL
+    RouteDirection routeDirection     // IncomingRequest or UrlGeneration
+)
+```
+
+### **Return Values**
+
+- **true** → route matches → endpoint is executed
+    
+- **false** → route does NOT match → next route/fallback is checked
+    
+
+---
+
+## **4. RouteDirection**
+
+### **RouteDirection.IncomingRequest**
+
+Used for:
+
+- Validating incoming HTTP request URLs
+    
+- (Most common scenario)
+    
+
+### **RouteDirection.UrlGeneration**
+
+Used when:
+
+- MVC or Razor Pages generate URLs (e.g., `Url.Action()`)
+    
+- Constraint still must be satisfied during URL generation
+    
+
+---
+
+## **5. Complete Example: Custom Months Constraint**
+
+### **Step 1: Create a Folder**
+
+```
+CustomConstraints/
+```
+
+### **Step 2: Create Class – MonthsCustomConstraint.cs**
+
+```csharp
+using Microsoft.AspNetCore.Routing;
+using System.Text.RegularExpressions;
+
+namespace RoutingExample.CustomConstraints
+{
+    public class MonthsCustomConstraint : IRouteConstraint
+    {
+        public bool Match(
+            HttpContext httpContext,
+            IRouter route,
+            string routeKey,
+            RouteValueDictionary values,
+            RouteDirection routeDirection)
+        {
+            // RouteValues returns System.Object → convert it to string
+            if (!values.ContainsKey(routeKey))
+                return false;
+
+            string? monthValue = values[routeKey]?.ToString();
+
+            // Regular expression for allowed months
+            Regex regex = new Regex(@"^(April|July|October|January)$");
+
+            return regex.IsMatch(monthValue ?? "");
+        }
+    }
+}
+```
+
+---
+
+## **6. Register the Custom Constraint**
+
+Add to `Program.cs` **before** `builder.Build()`:
+
+```csharp
+builder.Services.AddRouting(options =>
+{
+    options.ConstraintMap.Add("months", typeof(MonthsCustomConstraint));
+});
+```
+
+- `"months"` → name used inside route template
+    
+- `MonthsCustomConstraint` → class executed when route is matched
+    
+
+---
+
+## **7. Using the Constraint in Routes**
+
+```csharp
+app.MapGet(
+    "sales-report/{year:int:min(1900)}/{month:months}",
+    (int year, string month) =>
+    {
+        return $"Year: {year}, Month: {month}";
+    }
+);
+```
+
+### What happens at runtime?
+
+1. ASP.NET Core sees `{month:months}`
+    
+2. Finds `"months"` in `ConstraintMap`
+    
+3. Executes your class
+    
+4. Runs `Match()`
+    
+5. If `true` → endpoint runs
+    
+6. If `false` → routing continues → eventually fallback route
+    
+
+---
+
+## **8. Route Redirection & Custom Constraints**
+
+Custom constraints are used **during routing**, not redirection.
+
+But they influence:
+
+### ✔ **Routing Decision**
+
+If a route doesn’t match → ASP.NET Core tries next route or fallback.
+
+### ✔ **UrlGeneration**
+
+If you generate a URL that violates the constraint:
+
+- URL won't be generated
+    
+- MVC helpers may throw an error or return null
+    
+
+---
+
+## **9. IncomingRequest vs UrlGeneration (Important Interview Point)**
+
+|Purpose|When it happens|Example|
+|---|---|---|
+|**IncomingRequest**|Validating user-requested URL|User types `/sales-report/2024/April`|
+|**UrlGeneration**|Validating app-generated URLs|`Url.Action("Details", new { month="April" })`|
+
+Most custom constraints care only about **IncomingRequest**.
+
+---
+
+## **10. Why Use Custom Constraints?**
+
+### ✔ Reusability
+
+Same logic used across many routes.
+
+### ✔ Cleaner Route Definitions
+
+Route template stays readable.
+
+### ✔ Supports Complex Validation
+
+Regex, business rules, DB lookups, etc.
+
+### ✔ Better Maintainability
+
+Changing logic → only update class.
+
+---
+
+## **11. When NOT To Use Custom Constraints**
+
+Microsoft recommends avoiding route constraints for:
+
+- Deep business logic
+    
+- Complex validation
+    
+- Context-aware validation
+    
+
+**Better approach:**  
+Accept all values → validate inside endpoint → return 400 Bad Request.
+
+---
+
+## **12. Summary**
+
+- Custom constraints extend routing by using `IRouteConstraint`.
+    
+- `Match()` decides whether the route should execute.
+    
+- Useful for repeated or complex validation logic.
+    
+- Must be registered using `ConstraintMap`.
+    
+- Used in both **IncomingRequest** and **UrlGeneration** scenarios.
+    
+- Should be used carefully; sometimes direct validation is better.
+    
+
+---
+
+If you want, I can also create:
+
+✅ **Complete code example (Minimal API + MVC)**  
+✅ **Diagram explaining routing + constraint execution**  
+✅ **Interview questions for Custom Constraints**
+
+Just say **“Give examples”** or **“Give interview questions”**!
