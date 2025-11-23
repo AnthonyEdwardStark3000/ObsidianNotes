@@ -10920,7 +10920,7 @@ Below is a **clean, structured, interview-ready explanation** of **WebRoot and U
 
 ---
 
-# WebRoot and UseStaticFiles**
+# **WebRoot and UseStaticFiles**
 
 ---
 
