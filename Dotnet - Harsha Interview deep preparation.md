@@ -8648,3 +8648,326 @@ app.Run();
 ### ✔ Nullable reference types prevent null-related bugs
 
 ---
+Below are **clean, professional, Obsidian-friendly notes** on:
+
+# **Title: Default Parameters in ASP.NET Core Routing**
+
+✔ Clear definitions  
+✔ Corrected examples  
+✔ Real-world scenarios  
+✔ Visual diagrams  
+✔ Interview questions  
+✔ Obsidian-friendly formatting
+
+---
+
+# **📘 What Are Default Route Parameters?**
+
+Default route parameters allow you to **assign a default value** to a parameter in the URL **when the user does not supply one**.
+
+This ensures:
+
+- The _route still matches_
+    
+- The endpoint executes normally
+    
+- A fallback value is automatically used
+    
+
+This behaves similar to **default arguments in C# methods**, but for routing.
+
+---
+
+# **📌 Syntax: Setting a Default Parameter**
+
+You set a default value using:
+
+```
+{parameterName=DefaultValue}
+```
+
+✔ Must be a **fixed value**  
+✔ Cannot be **dynamic** (no variables, no function calls)  
+✔ Default applies **only when the value is missing**
+
+---
+
+# **📘 Example 1: Files Endpoint (No Default)**
+
+```csharp
+app.MapGet("/files/{filename}.{ext}", (string filename, string ext) =>
+{
+    return $"File: {filename}, Extension: {ext}";
+});
+```
+
+### ❌ URL that does NOT match:
+
+```
+/files/hello.
+```
+
+Since extension is missing:
+
+- Route does **not** match
+    
+- Fallback executes
+    
+
+---
+
+# **📘 Example 2: Employee Endpoint WITH Default Parameter**
+
+```csharp
+app.MapGet("/employee/profile/{empName=Scott}", (string empName) =>
+{
+    return $"Employee Profile: {empName}";
+});
+```
+
+### ✔ URL that matches (without parameter):
+
+```
+/employee/profile
+```
+
+Value taken:
+
+```
+empName = "Scott"
+```
+
+### ✔ URL that matches (with parameter):
+
+```
+/employee/profile/Smith
+```
+
+Value taken:
+
+```
+empName = "Smith"
+```
+
+### 📌 Behavior
+
+If user supplies a value → supplied value is used  
+If user does NOT supply → default value is used
+
+---
+
+# **📘 Example 3: Real-World Scenario – Product Details**
+
+### **Endpoint with default product ID**
+
+```csharp
+app.MapGet("/products/details/{id=1}", (HttpContext context) =>
+{
+    var idObject = context.Request.RouteValues["id"];
+    int id = Convert.ToInt32(idObject);
+
+    return context.Response.WriteAsync($"Product Details: ID = {id}");
+});
+```
+
+### ✔ Works with ID:
+
+```
+/products/details/30
+```
+
+Output:
+
+```
+Product Details: ID = 30
+```
+
+### ✔ Works WITHOUT ID:
+
+```
+/products/details
+```
+
+Output (default):
+
+```
+Product Details: ID = 1
+```
+
+### ❌ If default is removed:
+
+```csharp
+/products/details
+```
+
+This will NOT match → fallback executes.
+
+---
+
+# **📌 How Default Parameters Affect Route Matching**
+
+### **Without Default:**
+
+```
+/products/details      → ❌ No match → fallback
+/products/details/3    → ✔ Match
+```
+
+### **With Default:**
+
+```
+/products/details      → ✔ Match (id=1)
+```
+
+---
+
+# **📘 Visual Representation (Obsidian-Friendly Diagram)**
+
+```
+Incoming Request
+       │
+       ▼
+ ┌───────────────────┐
+ │ Does URL match?   │
+ └─────────┬─────────┘
+           │
+     Value Missing?
+ ┌───────┴────────┐
+ │                │
+YES               NO
+ │                │
+ ▼                ▼
+Use Default     Use Supplied
+Value           Value
+       │
+       ▼
+Execute Endpoint
+```
+
+---
+
+# **📚 Why Default Parameters Are Useful**
+
+### ✔ Makes URLs cleaner
+
+Example: `/employee/profile` is more user-friendly than `/employee/profile/Scott`
+
+### ✔ Avoids unnecessary 404/fallback
+
+Routes still match even when the parameter is missing
+
+### ✔ Helps define "common" or most-used values
+
+Like default product ID, default category, default report type, etc.
+
+### ✔ Useful for SEO
+
+Shorter URLs → cleaner pages
+
+---
+
+# **⚠️ Important Notes and Rules**
+
+- Default values **must be constant strings or numbers**
+    
+- Default values **cannot** come from configuration, database, or logic
+    
+- Default parameters **must appear at the end** of the route
+    
+- Developer must **convert types manually** when using `RouteValues`
+    
+
+---
+
+# **🧪 Complete Working Code Sample**
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.MapGet("/employee/profile/{empName=Scott}", (string empName) =>
+{
+    return $"Employee Profile: {empName}";
+});
+
+app.MapGet("/products/details/{id=1}", async context =>
+{
+    int id = Convert.ToInt32(context.Request.RouteValues["id"]);
+    await context.Response.WriteAsync($"Product Details: ID = {id}");
+});
+
+app.MapFallback(context =>
+{
+    return context.Response.WriteAsync("Fallback: No route matched.");
+});
+
+app.Run();
+```
+
+---
+
+# **🎯 Interview Questions (High Yield)**
+
+### **1. What are default route parameters?**
+
+Parameters that automatically receive a predefined value if the user doesn’t supply one.
+
+---
+
+### **2. How do you define a default parameter?**
+
+```
+{paramName=DefaultValue}
+```
+
+---
+
+### **3. Do default parameters allow dynamic values?**
+
+❌ No — only fixed constants.
+
+---
+
+### **4. What happens if the user supplies a value?**
+
+📌 The supplied value overrides the default.
+
+---
+
+### **5. What happens if you remove the default and user skips the value?**
+
+❌ Route does not match → fallback executes.
+
+---
+
+### **6. Can default parameters appear in the middle of route?**
+
+❌ No, must appear at the end.
+
+---
+
+### **7. Where can default parameters be used?**
+
+✔ Minimal APIs  
+✔ Controllers  
+✔ Endpoint routing  
+✔ API versioning routes
+
+---
+
+# **📌 Summary**
+
+- Default route parameters make route matching flexible
+    
+- If a value is missing, default value is used
+    
+- If provided, default is ignored
+    
+- Without default: missing value → fallback
+    
+- Perfect for clean URLs, SEO, user-friendly navigation
+    
+- Behavior matches C# default parameter logic
+    
+
+---
