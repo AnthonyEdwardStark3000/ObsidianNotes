@@ -10469,10 +10469,3 @@ Accept all values → validate inside endpoint → return 400 Bad Request.
 
 ---
 
-If you want, I can also create:
-
-✅ **Complete code example (Minimal API + MVC)**  
-✅ **Diagram explaining routing + constraint execution**  
-✅ **Interview questions for Custom Constraints**
-
-Just say **“Give examples”** or **“Give interview questions”**!
