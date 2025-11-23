@@ -12617,4 +12617,3 @@ AJAX calls, APIs returning data, client-side frameworks.
 
 Yes, any serializable object, including nested objects & collections.
 
----
