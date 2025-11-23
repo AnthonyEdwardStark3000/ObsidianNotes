@@ -1,3 +1,4 @@
+dv.span("")
 
 # ASP.NET Core — Deep Explanation (Obsidian Friendly)
 
