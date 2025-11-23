@@ -8446,3 +8446,205 @@ app.Run();
     
 
 ---
+Below is a **clean, Obsidian-friendly**, **interview-ready**, **professional** set of notes with **proper formatting**, **examples**, and a **complete ASP.NET Core Minimal API code sample**.
+
+You can paste this directly into Obsidian.  
+Everything is Markdown-safe and Dataview-safe (no `=` inline queries).
+
+---
+
+# #️⃣ **Route Parameters — Obsidian Notes (Interview-Ready)**
+
+## ## 📌 **1. Literal Text**
+
+**Definition:**  
+Literal text is the **fixed and non-variable** part of a route.  
+It must **match exactly** (case-insensitive) for routing to succeed.
+
+**Examples:**
+
+- In `/files/{name}.{ext}`, the literal text segments are:
+    
+    - `files`
+        
+    - `.`
+        
+- If a route is defined as `/employee/profile`, then only that exact text matches.
+    
+
+---
+
+## ## 📌 **2. Route Parameter**
+
+**Definition:**  
+A route parameter is the **variable** part of a URL, enclosed in `{ }`.  
+It accepts **any value at runtime** and is supplied by the user through the URL.
+
+**Examples:**
+
+- `{fileName}` in `/files/{fileName}.{ext}`
+    
+- `{employeeName}` in `/employee/profile/{employeeName}`
+    
+
+**Key Point:**  
+Route parameters are used when part of the URL **changes**, but the structure stays the same.
+
+---
+
+## ## 📌 **3. RouteValues**
+
+**Definition:**  
+`RouteValues` is a **dictionary** available in `HttpContext.Request` that stores the **actual runtime values** of route parameters.
+
+**Example Access:**
+
+```csharp
+var fileName = context.Request.RouteValues["fileName"];
+var ext = context.Request.RouteValues["ext"];
+```
+
+**Notes:**
+
+- All values are stored as **object**
+    
+- Typically converted to strings:
+    
+
+```csharp
+string? name = Convert.ToString(context.Request.RouteValues["fileName"]);
+```
+
+---
+
+## ## 📌 **4. Nullable Reference Types (C# 8+)**
+
+**Definition:**  
+Nullable reference types allow reference variables to be explicitly marked as **nullable** using `?`.  
+This tells the compiler that the variable **may contain null**.
+
+**Examples:**
+
+```csharp
+string? fileName;   // may be null
+string fileName;    // must never be null
+```
+
+**Why it matters:**  
+Helps avoid `NullReferenceException` and improves static analysis.
+
+---
+
+## ## 📌 **5. Route Parameters Are Case-Insensitive**
+
+**Definition:**  
+Route parameter names are **case-insensitive**, meaning:
+
+`{id}`, `{ID}`, `{Id}`, `{iD}` → all treated the same.
+
+You can access them with any casing:
+
+```csharp
+context.Request.RouteValues["ID"];
+context.Request.RouteValues["id"];
+context.Request.RouteValues["Id"];
+```
+
+Literal text segments (`files`, `employee`, `profile`) are also **case-insensitive**.
+
+---
+
+# #️⃣ **Real-World Examples**
+
+## ## 🔹 Example Route 1
+
+**Route:**  
+`/files/{fileName}.{ext}`
+
+- `files` → literal text
+    
+- `{fileName}` → parameter
+    
+- `.` → literal
+    
+- `{ext}` → parameter
+    
+
+---
+
+## ## 🔹 Example Route 2
+
+**Route:**  
+`/employee/profile/{employeeName}`
+
+- `employee` → literal
+    
+- `profile` → literal
+    
+- `{employeeName}` → parameter
+    
+
+---
+
+# #️⃣ **Complete ASP.NET Core Minimal API Code Example**
+
+```csharp
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+// ---------------------------
+// Route Example 1: Files
+// ---------------------------
+app.MapGet("/files/{fileName}.{ext}", (HttpContext context) =>
+{
+    // Access route parameter values
+    string? fileName = Convert.ToString(context.Request.RouteValues["fileName"]);
+    string? ext = Convert.ToString(context.Request.RouteValues["ext"]);
+
+    return Results.Text($"File Name: {fileName}, Extension: {ext}");
+});
+
+// ---------------------------
+// Route Example 2: Employee Profile
+// ---------------------------
+app.MapGet("/employee/profile/{employeeName}", (HttpContext context) =>
+{
+    // Route parameters are case-insensitive
+    string? employeeName = Convert.ToString(context.Request.RouteValues["employeeName"]);
+
+    return Results.Text($"Employee: {employeeName}");
+});
+
+// ---------------------------
+// Fallback Route
+// ---------------------------
+app.MapFallback(() =>
+{
+    return "404 - Route Not Found";
+});
+
+app.Run();
+```
+
+---
+
+# #️⃣ **What Interviewers Expect You to Know**
+
+### ✔ Literal segments must match exactly
+
+### ✔ Parameters match variable parts at runtime
+
+### ✔ Route values are stored in `RouteValues` dictionary
+
+### ✔ Parameter names are case-insensitive
+
+### ✔ Use `{ }` for route parameters
+
+### ✔ Convert route values from `object` to required data type
+
+### ✔ Nullable reference types prevent null-related bugs
+
+---
