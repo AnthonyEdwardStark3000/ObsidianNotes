@@ -9180,3 +9180,313 @@ This is useful for pages where the data is optional or when default behavior
 should be triggered if no value is supplied (e.g., product details page).
 ```
 ---
+Below are **clean, complete, Obsidian-friendly professional notes** for the lecture **“Route Constraints”**, with fixes, examples, comments, datatype notes, diagrams, and interview questions.
+
+---
+
+# 📘 **Intro to Routing – Route Constraints (ASP.NET Core)**
+
+**Title: Route Constraints**
+
+---
+
+## 🧩 **1. What Are Route Constraints?**
+
+**Definition:**  
+A **route constraint** is a _rule or restriction_ applied to a route parameter to ensure that only valid values reach the endpoint.
+
+📌 **Without constraints**  
+A route parameter accepts **anything** by default:
+
+- Alphabetical
+    
+- Numeric
+    
+- Alphanumeric
+    
+- Date
+    
+- Boolean
+    
+- Symbols
+    
+
+📌 **With constraints**  
+You restrict the parameter to **only allowed values**, such as:
+
+- Only integers
+    
+- Only booleans
+    
+- Only valid dates
+    
+- Only decimals
+    
+- Only GUIDs
+    
+- Only strings of specific length  
+    etc.
+    
+
+---
+
+## 🚦 **2. Why Do We Need Constraints?**
+
+Because **routing happens before endpoint execution**.
+
+If the URL parameter **doesn't match the constraint**, the route is **skipped** and the next matching route or fallback route responds.
+
+✔ Prevents invalid requests  
+✔ Prevents wrong endpoint selection  
+✔ Ensures clean and predictable routing  
+✔ Simplifies validation logic
+
+---
+
+## 🧱 **3. Syntax of Route Constraint**
+
+```
+{parameterName:constraintName}
+```
+
+Examples:
+
+```
+{id:int}
+{slug:alpha}
+{price:decimal}
+{dob:datetime}
+```
+
+❗ No spaces allowed between parameter and constraint.
+
+---
+
+## 📜 **4. Allowed Primitive Route Constraints**
+
+|Constraint|Meaning|Notes|
+|---|---|---|
+|`int`|Integer|Range: -2,147,483,648 to 2,147,483,647|
+|`long`|64-bit integer|Very large numbers|
+|`double`|Decimal with decimals|floating values|
+|`decimal`|Monetary decimal|high precision|
+|`bool`|true/false|Case-insensitive|
+|`datetime`|Valid date|Multiple formats|
+|`guid`|GUID format|32–36 chars|
+|`alpha`|A–Z only|Alphabetical only|
+|`min(x)`|Minimum value|Custom limit|
+|`max(x)`|Maximum value|Custom limit|
+|`range(min,max)`|Specific range|Works with numbers|
+
+---
+
+## 📦 **5. DataType Note (Important)**
+
+`context.Request.RouteValues["id"]`  
+➡️ **returns `System.Object`**
+
+So conversion is **mandatory**.
+
+---
+
+## 🧑‍💻 **6. Example 1 – Integer Constraint**
+
+### ✔ URL
+
+```
+/products/details/10
+```
+
+### ❌ Invalid URL
+
+```
+/products/details/ABC
+```
+
+### ✅ Complete Working Code (Obsidian Friendly)
+
+```csharp
+app.MapGet("/products/details/{id:int}", async (HttpContext context) =>
+{
+    // context.Request.RouteValues["id"] returns System.Object
+    var idObject = context.Request.RouteValues["id"]; // System.Object
+    int id = Convert.ToInt32(idObject);
+
+    await context.Response.WriteAsync($"Product details for ID = {id}");
+});
+```
+
+Invalid URL → Goes to fallback route.
+
+---
+
+## 📅 **7. Example 2 – DateTime Constraint (Real-World Example)**
+
+**Daily Digest Report**
+
+### ✔ Valid URL
+
+```
+/daily-digest-report/2030-06-01
+```
+
+### ❌ Invalid URL
+
+```
+/daily-digest-report/20-80-90
+```
+
+### **Complete Code – with Comments & Fixes**
+
+```csharp
+app.MapGet("/daily-digest-report/{reportDate:datetime}", async (HttpContext context) =>
+{
+    // Returned as System.Object
+    var dateObj = context.Request.RouteValues["reportDate"]; // System.Object
+    
+    // Convert to DateTime
+    DateTime reportDate = Convert.ToDateTime(dateObj);
+
+    await context.Response.WriteAsync(
+        $"Daily Digest Report for: {reportDate.ToShortDateString()}"
+    );
+});
+```
+
+### ✔ `.ToShortDateString()`
+
+Converts a DateTime object into a short, human-readable date format:
+
+```
+01-06-2030
+```
+
+---
+
+## 🔄 **8. How Routing Works with Constraints (Visual Diagram)**
+
+```
+Incoming Request URL
+        |
+        v
+ ┌─────────────────────┐
+ │ Routing Middleware   │
+ └─────────────────────┘
+        |
+        v
+Check Route Pattern
+        |
+        v
+Check Constraint
+  ┌───────────────┐
+  │ Does it match?│
+  └───────────────┘
+      /    \
+    Yes     No
+    |        |
+Execute    Try Next Route
+Endpoint       |
+              v
+     Fallback Route
+```
+
+---
+
+## 🛠 **9. Additional Constraint Examples**
+
+### Alpha only (name)
+
+```
+/employee/profile/{name:alpha}
+```
+
+### Boolean
+
+```
+/feature/toggle/{enabled:bool}
+```
+
+### Decimal
+
+```
+/product/price/{price:decimal}
+```
+
+### Range
+
+```
+/grade/{score:range(1,100)}
+```
+
+---
+
+## 🗂 **10. Combined Example**
+
+```csharp
+app.MapGet("/employee/{id:int}/{name:alpha}/{active:bool}", 
+async (HttpContext context) =>
+{
+    int id = Convert.ToInt32(context.Request.RouteValues["id"]);
+    string name = context.Request.RouteValues["name"]!.ToString()!;
+    bool active = Convert.ToBoolean(context.Request.RouteValues["active"]);
+
+    await context.Response.WriteAsync(
+        $"Employee: {name} (ID={id}) Active: {active}"
+    );
+});
+```
+
+---
+
+## 🧠 **11. Interview Questions**
+
+### **Basic**
+
+1. What are route constraints in ASP.NET Core?
+    
+2. Why do we need route constraints?
+    
+3. What datatype does `RouteValues[]` return?
+    
+4. How do you apply an integer route constraint?
+    
+
+### **Intermediate**
+
+5. What happens when a route constraint fails?
+    
+6. Explain fallback routing and its relation to constraints.
+    
+7. Can you combine multiple route constraints?
+    
+
+### **Advanced**
+
+8. What is the routing order of evaluation in ASP.NET Core?
+    
+9. How does ASP.NET Core determine which endpoint to execute when multiple routes match?
+    
+10. Explain how custom route constraints work.
+    
+11. What is the difference between `int` and `range(x,y)` constraints?
+    
+
+---
+
+## ⭐ Final Summary
+
+Route Constraints:
+
+- Restrict what values route parameters can accept
+    
+- Help avoid incorrect endpoint execution
+    
+- Improve URL validation
+    
+- Avoid unnecessary code validation inside handlers
+    
+- Ensure predictable, clean routing behavior
+    
+
+---
+
