@@ -11452,4 +11452,352 @@ ASP.NET Core detects it automatically as a controller.
 A public method inside a controller that handles a specific request and returns a response.
 
 ---
+Below are **clean, corrected, Obsidian-friendly, interview-ready notes** for:
+
+# **Title: Multiple Action Methods & Multiple Routes in Controllers**
+
+This includes:
+
+- ✔ Your doubts clarified clearly
+    
+- ✔ Full professional explanation
+    
+- ✔ Regex routing corrections
+    
+- ✔ Multiple route attributes
+    
+- ✔ Query-string vs Route-parameters
+    
+- ✔ Default route (`"/"`)
+    
+- ✔ Complete examples (fixed)
+    
+- ✔ Summary + interview questions
+    
+
+---
+
+# #️⃣ **1. Can an Action Method Have Multiple Routes?**
+
+✅ **YES.**  
+In ASP.NET Core, a single action method can have **multiple `[Route]` attributes**.
+
+Example:
+
+```csharp
+[Route("test/{name}")]
+[Route("check/{department}")]
+[Route("user/{id:int}")]
+public IActionResult CommonAction()
+{
+    return Ok("Same action triggered for multiple routes!");
+}
+```
+
+All the above 3 URLs will trigger the **same action method**.
+
+---
+
+# #️⃣ **2. Will all these routes trigger the same controller?**
+
+### ✔ YES — if all the `[Route]` attributes are placed above **the same method**, they map to that method.
+
+---
+
+# #️⃣ **3. What if the Action Method Route Includes Query Parameters?**
+
+⚠ **Important Rule:**
+
+- `[Route]` works only with **URL path** (e.g., `/products/10`)
+    
+- Query strings **are NOT part of the route template**
+    
+
+Meaning:
+
+❌ You cannot do this:
+
+```csharp
+[Route("search?keyword={value}")]
+```
+
+✔ Instead, do this:
+
+```csharp
+[Route("search")]
+public IActionResult Search(string keyword)
+{
+    // keyword is taken automatically from ?keyword=value
+}
+```
+
+Usage:
+
+```
+/search?keyword=laptop
+```
+
+---
+
+# #️⃣ **4. Why Do We Get 404 for Default URL?**
+
+If you run the project and visit:
+
+```
+https://localhost:5000/
+```
+
+you get **404** because:
+
+👉 There is **no action method** that matches the empty route `/`.
+
+### ✔ Fix: Add a route for empty path (`"/"`)
+
+```csharp
+[Route("")]
+[Route("/")]
+public IActionResult Index()
+{
+    return Ok("Default home page");
+}
+```
+
+Now the default URL and `"/"` both work.
+
+---
+
+# #️⃣ **5. Multiple Routes for the Same Action Method**
+
+Example:
+
+```csharp
+[Route("sayhello")]
+[Route("sayhello1")]
+[Route("sayhello2")]
+public IActionResult SayHello()
+{
+    return Ok("Hello!");
+}
+```
+
+All these will work:
+
+```
+/sayhello
+/sayhello1
+/sayhello2
+```
+
+---
+
+# #️⃣ **6. Action Method Name ≠ Route Template**
+
+Common doubt:
+
+> Can action name be “Contact”, but route be “contact-us”?
+
+✔ YES, route template and method name are **independent**.
+
+```csharp
+[Route("contact-us")]
+public IActionResult Contact()
+{
+    return Ok("Contact Page");
+}
+```
+
+---
+
+# #️⃣ **7. Route Parameters & Constraints**
+
+### ✔ Basic Parameter
+
+```csharp
+[Route("user/{id}")]
+```
+
+### ✔ With constraint (int)
+
+```csharp
+[Route("user/{id:int}")]
+```
+
+### ✔ Multiple parameters
+
+```csharp
+[Route("employee/{id:int}/{department}")]
+```
+
+---
+
+# #️⃣ **8. Regex Constraints in Route**
+
+You wrote this example:
+
+```
+{mobile:regex(^\d{10}$)}
+```
+
+### ✔ Correct ASP.NET Core format:
+
+```csharp
+[Route("contact-us/{mobile:regex(^\\d{10}$)}")]
+public IActionResult Contact(string mobile)
+{
+    return Ok($"Mobile: {mobile}");
+}
+```
+
+### Why double slashes (`\\`)?
+
+Because:
+
+- `\d` → regex for digit
+    
+- `\` is an escape character in C#
+    
+- Therefore must be written as → `\\d`
+    
+
+---
+
+# #️⃣ **9. Example: Complete Controller (Corrected)**
+
+```csharp
+public class HomeController : Controller
+{
+    // Default URL
+    [Route("")]
+    [Route("/")]
+    [Route("home")]
+    public IActionResult Index()
+    {
+        return Ok("Home Page");
+    }
+
+    // Multiple routes
+    [Route("about")]
+    [Route("about-us")]
+    public IActionResult About()
+    {
+        return Ok("About Page");
+    }
+
+    // Independent URL
+    [Route("contact-us")]
+    public IActionResult Contact()
+    {
+        return Ok("Contact Page");
+    }
+
+    // Route parameter with type constraint
+    [Route("user/{id:int}")]
+    public IActionResult UserProfile(int id)
+    {
+        return Ok($"User ID: {id}");
+    }
+
+    // Regex parameter (10-digit mobile)
+    [Route("contact-us/{mobile:regex(^\\d{10}$)}")]
+    public IActionResult ContactWithMobile(string mobile)
+    {
+        return Ok($"Mobile: {mobile}");
+    }
+}
+```
+
+---
+
+# #️⃣ **10. Program.cs (Required)**
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+app.MapControllers();
+
+app.Run();
+```
+
+---
+
+# #️⃣ **11. Query Parameters vs Route Parameters**
+
+|Type|Example URL|Example Method|Binding|
+|---|---|---|---|
+|**Route Parameter**|`/user/10`|`public IActionResult User(int id)`|URL path|
+|**Query Parameter**|`/search?keyword=laptop`|`public IActionResult Search(string keyword)`|Query string|
+|**Multiple Query Params**|`/filter?id=10&name=john`|`public IActionResult Filter(int id, string name)`|Auto-bound|
+
+---
+
+# #️⃣ **12. Common Mistakes & Clarifications**
+
+### ❌ Wrong: Query params inside route template
+
+```
+[Route("search?name={name}")]
+```
+
+### ✔ Correct:
+
+```
+[Route("search")]
+public IActionResult Search(string name)
+```
+
+---
+
+# #️⃣ **13. Obsidian-Friendly Quick Summary**
+
+```
+- Multiple routes can be applied to a single action method.
+- Route templates match URL path only; query parameters are separate.
+- Use [Route("")] or [Route("/")] for the default URL.
+- Action method name and route URL are independent.
+- Route parameters can use constraints like {id:int}.
+- Regex constraints must escape '\' → use \\d{10}.
+```
+
+---
+
+# #️⃣ **14. Interview Questions**
+
+### **Q1. Can an action method have multiple routes? How?**
+
+Yes. By applying multiple `[Route]` attributes on the same method.
+
+---
+
+### **Q2. What happens if no route matches the empty path `/`?**
+
+ASP.NET Core returns 404.  
+You must define `[Route("")]` or `[Route("/")]`.
+
+---
+
+### **Q3. Can we put query parameters inside `[Route]`? Why not?**
+
+No. Route templates only match URL **path**, not query strings.
+
+---
+
+### **Q4. How do you validate a route parameter using regex?**
+
+Using route constraints:
+
+```csharp
+[Route("contact/{mobile:regex(^\\d{10}$)}")]
+```
+
+---
+
+### **Q5. Can action method name be different from route URL?**
+
+Yes. Method name and route template are independent.
+
+---
 
