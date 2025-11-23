@@ -11165,4 +11165,291 @@ app.MapGet("/", () => "Static Files Example");
 app.Run();
 ```
 ---
+# **📌 Controllers**
+
+# 🟦 **1. Why Do We Need Controllers?**
+
+In real-world projects:
+
+- You may have **hundreds or thousands of URLs**
+    
+- Writing all endpoints inside `Program.cs` will become **messy, unreadable, and hard to debug**
+    
+- You need a way to **group URLs by purpose**
+    
+
+✅ **Solution → Controllers**
+
+A **Controller** is:
+
+> A class that contains a _group of related action methods_.  
+> Each action method = one endpoint.
+
+Example grouping:
+
+- `UserController` → Register, Login, Logout
+    
+- `ProductController` → CreateProduct, DeleteProduct, GetProduct
+    
+
+This makes your project **modular**, **organized**, and **easy to maintain**.
+
+---
+
+# 🟦 **2. Why Controllers Are Treated as Services?**
+
+In ASP.NET Core:
+
+- Everything is built on **Dependency Injection (DI)**
+    
+- Controllers are created **automatically** by the runtime when a request comes
+    
+- Therefore controllers must be registered as **services**
+    
+
+### ❌ Wrong / Old Way
+
+```csharp
+builder.Services.AddTransient<HomeController>();
+```
+
+If you have **100 controllers**, this is impossible to maintain.
+
+### ✅ Modern Correct Way
+
+```csharp
+builder.Services.AddControllers();
+```
+
+This automatically:
+
+- Scans your project
+    
+- Identifies all classes ending with **Controller**
+    
+- Registers them into DI **at once**
+    
+
+🎉 No need to manually add each controller.
+
+---
+
+# 🟦 **3. Why `app.MapControllers()`?**
+
+Even after adding controllers as services, routing is still disabled.
+
+So you must enable controller routing:
+
+```csharp
+app.MapControllers();
+```
+
+What this does:
+
+✔ Scans all controllers  
+✔ Finds all action methods  
+✔ Reads all `[Route]`, `[HttpGet]`, `[HttpPost]` attributes  
+✔ Automatically configures routing table
+
+---
+
+# 🟦 **4. Full Explanation: Why AddControllers + MapControllers?**
+
+|Method|Purpose|
+|---|---|
+|**AddControllers()**|Registers all controllers into DI as services|
+|**MapControllers()**|Activates attribute routing for all controller action methods|
+
+Together they make MVC controller-based routing work.
+
+---
+
+# 🟦 **5. When Does ASP.NET Core Create Controller Objects?**
+
+A controller object is created **only when needed**.
+
+### 🔄 Request Life Cycle:
+
+1️⃣ Browser sends a request → e.g. `/sayhello`  
+2️⃣ Routing checks for matching route template  
+3️⃣ If a matching action is found:  
+→ ASP.NET Core **creates an instance of that controller** using DI  
+4️⃣ Executes the action method  
+5️⃣ Sends the returned value to the browser as response  
+6️⃣ Controller object is destroyed
+
+Controllers are **transient by default**.
+
+---
+
+# 🟦 **6. Attribute Routing**
+
+You define the route for each action using attributes:
+
+```csharp
+[Route("sayhello")]
+public string MethodOne() => "Hello!";
+```
+
+Because route is provided as an _attribute_, it is called:
+
+➡ **Attribute Routing**
+
+---
+
+# 🟦 **7. Minimal Controller Example (Clean Version)**
+
+### **1️⃣ Program.cs**
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+app.MapControllers();
+
+app.Run();
+```
+
+---
+
+### **2️⃣ HomeController.cs**
+
+```csharp
+public class HomeController
+{
+    [Route("sayhello")]
+    public string SayHello()
+    {
+        return "Hello from HomeController!";
+    }
+}
+```
+
+Now when you run:
+
+```
+https://localhost:5000/sayhello
+```
+
+The runtime:
+
+- Matches the route
+    
+- Creates `HomeController` object automatically
+    
+- Executes `SayHello()`
+    
+- Returns the string as **response**
+    
+
+---
+
+# 🟦 **8. Request and Response (Simple Explanation)**
+
+- **Request** → Browser → Server  
+    Example:
+    
+    ```
+    GET /sayhello
+    ```
+    
+- **Response** → Server → Browser  
+    Example:
+    
+    ```
+    Hello from HomeController!
+    ```
+    
+
+Controllers handle:
+
+- Input (request)
+    
+- Output (response)
+    
+
+---
+
+# 🟦 **9. Route Template (Simple Definition)**
+
+A **Route Template** is the URL pattern assigned to an action method.
+
+Example:
+
+```csharp
+[Route("products/{id}")]
+```
+
+Route matches:
+
+- `/products/10`
+    
+- `/products/99`
+    
+
+---
+
+# 🟦 **10. Obsidian-Friendly Summary**
+
+```
+Controllers → Group related action methods (endpoints).
+AddControllers() → Adds all controllers as services via DI.
+MapControllers() → Enables attribute routing for controller actions.
+Route Template → URL pattern written inside [Route()] attribute.
+Attribute Routing → Routing defined using attributes.
+Object Creation → Controller object is created at runtime only when its URL is hit.
+Request → Browser → Server.
+Response → Server → Browser.
+```
+
+---
+
+# 🟦 **11. Interview Questions (Controllers)**
+
+### **Q1. Why are controllers treated as services?**
+
+Because ASP.NET Core uses Dependency Injection and must instantiate controllers dynamically per request.
+
+---
+
+### **Q2. Why use AddControllers instead of AddTransient()?**
+
+- AddTransient registers only one controller
+    
+- AddControllers auto-registers _all_ controllers in the project
+    
+- Scales for large applications
+    
+
+---
+
+### **Q3. Difference between endpoint routing and attribute routing?**
+
+- **Endpoint Routing**: Configured in Program.cs
+    
+- **Attribute Routing**: Defined directly above the action using `[Route]`, `[HttpGet]`
+    
+
+---
+
+### **Q4. When is a controller object created?**
+
+Only when a request matches a route belonging to that controller.
+
+---
+
+### **Q5. Why is class name required to end with "Controller"?**
+
+ASP.NET Core detects it automatically as a controller.
+
+---
+
+### **Q6. What is an Action Method?**
+
+A public method inside a controller that handles a specific request and returns a response.
+
+---
 
