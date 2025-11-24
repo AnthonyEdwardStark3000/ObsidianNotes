@@ -12854,22 +12854,7 @@ Place a real PDF file:
 wwwroot/sample.pdf
 ```
 ---
-# ✅ Obsidian-Friendly Notes
-
----
-title: "IActionResult"
-topic: "ASP.NET Core"
-tags:
-  - aspnetcore
-  - mvc
-  - actionresult
-  - interview
-created: 2025-11-24
-type: "notes-with-flashcards"
----
-
-# IActionResult — Complete Notes
-
+# IActionResult 
 ## ✔ Overview
 `IActionResult` is the **parent interface** for all action result classes in ASP.NET Core MVC.
 
@@ -13148,12 +13133,4 @@ YourProject/
 **A:** When input values are invalid.
 
 ---
-
-If you want, I can also:
-
-✅ Generate an ASCII diagram image  
-✅ Add a Dataview query snippet for Obsidian  
-✅ Add more flashcards  
-✅ Build the same code in Minimal API style
-
-Would you like that?
+![[Pasted image 20251124224917.png]]
