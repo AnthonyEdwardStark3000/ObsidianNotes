@@ -12618,28 +12618,6 @@ AJAX calls, APIs returning data, client-side frameworks.
 Yes, any serializable object, including nested objects & collections.
 
 ---
-Great! I’ll **give you BOTH** exactly as you asked:
-
-✔ **Obsidian-friendly Markdown notes**  
-✔ **Dataview-ready frontmatter**  
-✔ **Flashcards section for spaced repetition**  
-✔ **A single-file ASP.NET Core sample project** (Program.cs + Controller + wwwroot structure)
-
----
-
-# ✅ **1. Obsidian-Friendly Notes (Dataview + Flashcards)**
-
-Copy-paste directly into Obsidian.
-
----
-
-````markdown
----
-title: File Results (VirtualFileResult, PhysicalFileResult, FileContentResult)
-tags: [.net, aspnetcore, mvc, files, interview]
-type: notes
----
-
 # File Results (ASP.NET Core)
 
 In ASP.NET Core, files can be returned to the browser using three result classes:
@@ -12872,9 +12850,7 @@ public class FileController : Controller
 ### wwwroot folder
 
 Place a real PDF file:
-
 ```
 wwwroot/sample.pdf
 ```
-
 ---
