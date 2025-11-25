@@ -13134,24 +13134,6 @@ YourProject/
 
 ---
 ![[Pasted image 20251124224917.png]]
-Here is the **clean, Obsidian-friendly Markdown + Dataview frontmatter + revision flashcards + ASCII diagram** for:
-
-**Title: Status Code Results (ASP.NET Core)**
-
----
-
-````markdown
----
-title: "Status Code Results"
-topic: "ASP.NET Core MVC"
-tags:
-  - aspnetcore
-  - actionresults
-  - httpstatuscodes
-  - interview
-created: 2025-11-25
-type: "notes"
----
 
 # Status Code Results in ASP.NET Core
 
