@@ -13134,3 +13134,205 @@ YourProject/
 
 ---
 ![[Pasted image 20251124224917.png]]
+Here is the **clean, Obsidian-friendly Markdown + Dataview frontmatter + revision flashcards + ASCII diagram** for:
+
+**Title: Status Code Results (ASP.NET Core)**
+
+---
+
+````markdown
+---
+title: "Status Code Results"
+topic: "ASP.NET Core MVC"
+tags:
+  - aspnetcore
+  - actionresults
+  - httpstatuscodes
+  - interview
+created: 2025-11-25
+type: "notes"
+---
+
+# Status Code Results in ASP.NET Core
+
+In ASP.NET Core MVC, developers often repeat two separate lines in validation code:
+
+1. Setting the HTTP status code  
+2. Returning a ContentResult
+
+Example of the repetitive pattern:
+
+```csharp
+Response.StatusCode = 400;
+return Content("BookId is required");
+````
+
+This repetition is removed using **Status Code Results**, which automatically set the status code AND return an IActionResult in a single step.
+
+---
+
+## 🎯 What Are Status Code Results?
+
+ASP.NET Core provides built-in **ActionResult classes** that encapsulate common HTTP status codes.
+
+You **do NOT need** to manually set `Response.StatusCode`.
+
+These map 1:1 with standard HTTP meanings.
+
+---
+
+## 📌 Commonly Used Status Code Results
+
+|Result Class / Method|Status Code|Meaning|
+|---|---|---|
+|`BadRequest()` / `BadRequestResult`|**400**|Invalid input / validation failure|
+|`Unauthorized()` / `UnauthorizedResult`|**401**|User not authenticated|
+|`NotFound()` / `NotFoundResult`|**404**|Resource does not exist|
+|`StatusCode(int)` / `StatusCodeResult`|**Any**|Custom status code fallback|
+
+All of these inherit from **IActionResult**, so they work naturally with controller actions:
+
+```csharp
+public IActionResult GetBook()
+{
+    return BadRequest("Invalid Book Id");
+}
+```
+
+---
+
+## 🎯 Why Use Status Code Results?
+
+### ✔ Removes duplication
+
+No more writing both:
+
+```csharp
+Response.StatusCode = 400;
+return Content("Bad input");
+```
+
+### ✔ Cleaner + shorter methods
+
+Just:
+
+```csharp
+return BadRequest("Bad input");
+```
+
+### ✔ Automatically sets status codes
+
+No need for:
+
+```csharp
+Response.StatusCode = 401;
+```
+
+### ✔ Returns correct ActionResult objects
+
+Message → becomes _ObjectResult_  
+No message → becomes _Result only_
+
+---
+
+# ASCII Diagram — Status Code Result Hierarchy
+
+```
+                     IActionResult
+                           │
+                           ▼
+                     ActionResult
+                           │
+          ┌───────────────┼───────────────────────┐
+          ▼               ▼                       ▼
+  ┌───────────────┐ ┌───────────────┐     ┌────────────────┐
+  │ BadRequestResult│ │ UnauthorizedResult │ │ NotFoundResult │
+  └───────────────┘ └───────────────┘     └────────────────┘
+  
+                Other Status Codes
+                ───────────────────
+                    ┌──────────────────────┐
+                    │   StatusCodeResult    │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                      StatusCode(int code)
+```
+
+---
+
+# Full Example (Improved Version from Transcript)
+
+```csharp
+[Route("book")]
+public IActionResult GetBook()
+{
+    // 1. Required BookId
+    if (!Request.Query.ContainsKey("bookId"))
+        return BadRequest("BookId is required");
+
+    var bookIdRaw = Request.Query["bookId"];
+    if (string.IsNullOrEmpty(bookIdRaw))
+        return BadRequest("BookId cannot be empty");
+
+    int bookId = int.Parse(bookIdRaw);
+
+    if (bookId <= 0)
+        return BadRequest("BookId cannot be <= 0");
+
+    if (bookId > 1000)
+        return NotFound("BookId cannot exceed 1000");
+
+    // isLoggedIn check
+    bool isLoggedIn = bool.Parse(Request.Query["isLoggedIn"]);
+    if (!isLoggedIn)
+        return Unauthorized("User must be authenticated");
+
+    // Valid → return file
+    return File("root/sample.pdf", "application/pdf");
+}
+```
+
+---
+
+# Flashcards (Revision)
+
+### **Flashcard 1**
+
+**Q:** What is the purpose of Status Code Results in ASP.NET Core?  
+**A:** To return a specific HTTP status with an IActionResult without manually setting `Response.StatusCode`.
+
+---
+
+### **Flashcard 2**
+
+**Q:** Which method automatically returns HTTP 400 with a body message?  
+**A:** `BadRequest("message")`
+
+---
+
+### **Flashcard 3**
+
+**Q:** What is `StatusCodeResult` used for?  
+**A:** Returning _any_ custom HTTP status code not covered by built-in classes.
+
+---
+
+### **Flashcard 4**
+
+**Q:** What is the difference between `NotFoundResult` and `NotFoundObjectResult`?  
+**A:**
+
+- No message → `NotFoundResult`
+    
+- Message → becomes `NotFoundObjectResult`
+    
+
+---
+
+### **Flashcard 5**
+
+**Q:** Does `Unauthorized()` automatically return 401?  
+**A:** Yes, without needing to manually set status code.
+
+---
