@@ -13593,4 +13593,300 @@ return new RedirectToActionResult(
 |Prevent malicious redirects|LocalRedirect()|
 
 ---
+# 🟦 **ASP.NET Core Redirection 
 
+## **RedirectToActionResult, LocalRedirectResult, RedirectResult**
+
+_(Including 302 Temporary & 301 Permanent Redirects)_
+
+---
+
+# ⭐ **1. Why So Many Redirect Types Exist?**
+
+ASP.NET Core provides **three different redirect classes** because redirection can happen in different ways:
+
+|Redirect Type|Purpose|Example|
+|---|---|---|
+|**RedirectToActionResult**|Redirect using **Action + Controller names**|Go to Books() inside StoreController|
+|**LocalRedirectResult**|Redirect using a **URL inside the same app**|/store/books/10|
+|**RedirectResult**|Redirect using **any URL**, including external|[https://google.com](https://google.com/)|
+
+Each of these supports:
+
+|Status Code|Name|Meaning|
+|---|---|---|
+|**302**|Temporary|Browser does **not** remember new URL|
+|**301**|Permanent|Browser + search engines update to new URL|
+
+---
+
+# 🟩 **2. RedirectToActionResult (Most Common)**
+
+## ✔ Constructor Form (Full form)
+
+```csharp
+new RedirectToActionResult(
+    actionName: "Books",
+    controllerName: "Store",
+    routeValues: null,
+    permanent: false
+)
+```
+
+### Meaning:
+
+- **"Books"** → Action method name
+    
+- **"Store"** → Controller name _without_ “Controller” suffix
+    
+    - Means: `StoreController`
+        
+- `permanent: false` → 302 Temporary
+    
+- `routeValues` → Pass route parameters (ex: new { id = 10 })
+    
+
+### Redirects to:
+
+```
+StoreController → Books()
+```
+
+---
+
+## ✔ Shortcut Method (302 Temporary)
+
+```csharp
+return RedirectToAction("Books", "Store");
+```
+
+Equivalent to:
+
+```csharp
+new RedirectToActionResult("Books", "Store", null, false);
+```
+
+---
+
+## ✔ Shortcut Method (301 Permanent)
+
+```csharp
+return RedirectToActionPermanent("Books", "Store");
+```
+
+Equivalent to:
+
+```csharp
+new RedirectToActionResult("Books", "Store", null, true);
+```
+
+---
+
+# 🟧 **3. LocalRedirectResult (URL must be local)**
+
+Use this when you want to redirect using a **route URL**, not action/controller.
+
+### ✔ Constructor — 302 Temporary
+
+```csharp
+return new LocalRedirectResult("/store/books/10");
+```
+
+### ✔ Shortcut
+
+```csharp
+return LocalRedirect("/store/books/10");
+```
+
+---
+
+### ✔ Constructor — 301 Permanent
+
+```csharp
+return new LocalRedirectResult("/store/books/10", true);
+```
+
+### ✔ Shortcut
+
+```csharp
+return LocalRedirectPermanent("/store/books/10");
+```
+
+### ❗ Important Restriction
+
+**Cannot redirect to external websites.**
+
+❌ Not allowed:
+
+```csharp
+LocalRedirect("https://google.com");
+```
+
+---
+
+# 🟥 **4. RedirectResult (Allows external URLs)**
+
+### ✔ Constructor — 302 Temporary
+
+```csharp
+return new RedirectResult("https://google.com");
+```
+
+### ✔ Shortcut
+
+```csharp
+return Redirect("https://google.com");
+```
+
+---
+
+### ✔ Constructor — 301 Permanent
+
+```csharp
+return new RedirectResult("https://google.com", true);
+```
+
+### ✔ Shortcut
+
+```csharp
+return RedirectPermanent("https://google.com");
+```
+
+---
+
+# 🟦 **5. FULL WORKING EXAMPLE — All Redirect Types**
+
+### 📁 StoreController.cs
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+public class StoreController : Controller
+{
+    public IActionResult Books(int id)
+    {
+        return Content($"You are now in StoreController → Books(). ID = {id}");
+    }
+}
+```
+
+---
+
+### 📁 HomeController.cs
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+public class HomeController : Controller
+{
+    public IActionResult Index(int id)
+    {
+        // 1. Full Constructor: RedirectToActionResult (302)
+        // return new RedirectToActionResult("Books", "Store", new { id = id }, false);
+
+        // 2. Shortcut: RedirectToAction (302)
+        // return RedirectToAction("Books", "Store", new { id = id });
+
+        // 3. Shortcut: RedirectToActionPermanent (301)
+        // return RedirectToActionPermanent("Books", "Store", new { id = id });
+
+        // 4. LocalRedirect (302)
+        // return LocalRedirect($"/store/books/{id}");
+
+        // 5. LocalRedirect Permanent (301)
+        // return LocalRedirectPermanent($"/store/books/{id}");
+
+        // 6. Direct Constructor LocalRedirect (302)
+        // return new LocalRedirectResult($"/store/books/{id}");
+
+        // 7. Direct Constructor LocalRedirect Permanent (301)
+        // return new LocalRedirectResult($"/store/books/{id}", true);
+
+        // 8. Redirect external URL (302)
+        // return Redirect("https://google.com");
+
+        // 9. Redirect external URL permanent (301)
+        return RedirectPermanent("https://google.com");
+    }
+}
+```
+
+---
+
+# 🟦 **6. Comparison Table**
+
+|Return Type|URL or Action/Controller?|External Allowed?|Status Codes|Usage|
+|---|---|---|---|---|
+|**RedirectToAction()**|Action + Controller|No|302|Most common|
+|**RedirectToActionPermanent()**|Action + Controller|No|301|SEO-friendly redirects|
+|**LocalRedirect()**|Local URL only|No|302|When URL string is known|
+|**LocalRedirectPermanent()**|Local URL only|No|301|Rare|
+|**Redirect()**|Any URL|Yes|302|External redirects|
+|**RedirectPermanent()**|Any URL|Yes|301|External permanent redirects|
+|**RedirectResult**|Any URL|Yes|302/301|Direct constructor use|
+
+---
+
+# 🟦 **7. Visual Understanding**
+
+```
+new RedirectToActionResult("Books", "Store")
+
+ActionName = "Books"       → Books() method
+ControllerName = "Store"   → StoreController
+```
+
+Internally generates URL:
+
+```
+/Store/Books?id=...
+```
+
+---
+
+# 🟦 **8. When to Use What? (Real-world Guide)**
+
+### ✔ Use RedirectToAction when:
+
+- You want strongly-typed MVC routing
+    
+- Controller/action names might change
+    
+- You want clean, maintainable code
+    
+
+### ✔ Use LocalRedirect when:
+
+- You have dynamic URLs
+    
+- You don’t want to specify controller/action
+    
+- You want to enforce **local-only** redirection
+    
+
+### ✔ Use Redirect when:
+
+- Redirecting to payment gateways
+    
+- Redirecting to Google login
+    
+- Redirecting to external sites
+    
+
+---
+
+# 🟦 **9. Super-Simple Memory Hint**
+
+### 🎯 RedirectToAction
+
+_"I know the controller and action name"_
+
+### 🎯 LocalRedirect
+
+_"I know the exact URL but it must be inside the app"_
+
+### 🎯 Redirect
+
+_"I want to go ANYWHERE, even outside the app"_
+
+---
