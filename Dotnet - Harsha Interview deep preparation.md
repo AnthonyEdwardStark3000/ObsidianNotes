@@ -13324,7 +13324,7 @@ No Dataview syntax. Fully safe for PDF export.
 
 ---
 
-# #️⃣ **Redirect Result — Obsidian Notes (Interview-Ready)**
+# #️⃣ **Redirect Result**
 
 ## ## 📌 **What is a Redirect?**
 
