@@ -14754,3 +14754,251 @@ If no attribute is used:
     
 
 ---
+# 📘 **ASP.NET Core – Model Class (POCO) + Model Binding with Mixed Sources**
+
+---
+
+## 🔹 **1. What Is a Model (POCO Class) in ASP.NET Core?**
+
+A **Model** (also called a **POCO class – Plain Old CLR Object**) is a simple C# class that:
+
+- Defines the **structure of the data** to be received from the request.
+    
+- Can also be used to send a response back to the client.
+    
+- Contains **properties** that ASP.NET Core’s **Model Binding** will fill from:
+    
+    - Route parameters
+        
+    - Query string
+        
+    - Form data
+        
+    - JSON body
+        
+    - Headers
+        
+
+The Model Binder automatically:
+
+✔ Creates an object of the model class  
+✔ Reads values from the request  
+✔ Assigns values to your properties  
+✔ Sends the fully populated model object to your controller action
+
+You **never** manually create the object using `new` in the controller.
+
+---
+
+# 🔹 **2. PascalCase vs camelCase Naming Conventions**
+
+|Item|Naming|Example|
+|---|---|---|
+|**Class names**|**PascalCase**|`Book`, `EmployeeInfo`, `OrderModel`|
+|**Property names**|**PascalCase**|`BookId`, `AuthorName`|
+|**Method names**|**PascalCase**|`GetBookDetails()`|
+|**Parameter names**|**camelCase**|`book`, `bookId`, `author`|
+|**Local variables**|**camelCase**|`totalCount`, `itemList`|
+
+---
+
+# 🔹 **3. Model Class Example (With ToString Method)**
+
+### 📁 `Models/Book.cs`
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+namespace MyApp.Models
+{
+    public class Book
+    {
+        // Bind ONLY from query string
+        [FromQuery]
+        public int? BookId { get; set; }
+
+        // Default model binding (route → query)
+        public string? Author { get; set; }
+
+        // Helpful for debugging/logging
+        public override string ToString()
+        {
+            return $"BookId: {BookId}, Author: {Author}";
+        }
+    }
+}
+```
+
+### ✔ Key Points
+
+- `BookId` is taken **only from the query string**
+    
+- `Author` follows default model binding priority:  
+    → Route → Query
+    
+
+---
+
+# 🔹 **4. Controller Example – Model Binding with Mixed Sources**
+
+### 📁 `Controllers/HomeController.cs`
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using MyApp.Models;
+
+namespace MyApp.Controllers
+{
+    [Route("home")]
+    public class HomeController : Controller
+    {
+        // Route parameter 'author' + Query string parameter 'bookId'
+        [HttpGet("details/{author?}")]
+        public IActionResult Details(Book book)
+        {
+            // Model binding automatically created the 'book' object
+            // and filled values from Query + Route sources
+            return Content(book.ToString());
+        }
+    }
+}
+```
+
+---
+
+# 🔹 **5. How Model Binding Works Here**
+
+### ✔ URL Example 1 – Only Route Value
+
+```
+/home/details/J.K.Rowling
+```
+
+Model binder result:
+
+- `Author = "J.K.Rowling"` (from route)
+    
+- `BookId = null` (no query string)
+    
+
+Output:
+
+```
+BookId: null, Author: J.K.Rowling
+```
+
+---
+
+### ✔ URL Example 2 – Only Query String
+
+```
+/home/details?bookId=10&author=John
+```
+
+Model binder:
+
+- `BookId = 10` (FromQuery only)
+    
+- `Author = "John"` (default binding → query)
+    
+
+Output:
+
+```
+BookId: 10, Author: John
+```
+
+---
+
+### ✔ URL Example 3 – Mixed Route + Query
+
+```
+/home/details/MarkTwain?bookId=55
+```
+
+Model binder:
+
+- `BookId = 55` (forced from query)
+    
+- `Author = "MarkTwain"` (from route)
+    
+
+Output:
+
+```
+BookId: 55, Author: MarkTwain
+```
+
+---
+
+# 🔹 **6. Important Behavior**
+
+### ✔ If you apply `[FromQuery]` on the model class property
+
+It applies ONLY to that **specific property**, not the entire model.
+
+Example:
+
+```csharp
+[FromQuery] public int? BookId { get; set; }
+```
+
+Means:
+
+- BookId = from query only
+    
+- Author = from route → query
+    
+
+---
+
+### ✔ If you apply `[FromQuery]` on the parameter
+
+Example:
+
+```csharp
+public IActionResult Details([FromQuery] Book book)
+```
+
+Then **all properties** of the Book object are fetched only from the query string.
+
+---
+
+# 🔹 **7. Summary (Perfect for Interviews)**
+
+- A **Model/POCO class** defines the structure of request/response.
+    
+- ASP.NET Core automatically:
+    
+    - Creates the object
+        
+    - Populates its properties
+        
+    - Sends it to the action method
+        
+- Naming conventions:
+    
+    - PascalCase → Classes, Properties, Methods
+        
+    - camelCase → Parameters, Variables
+        
+- Model binding fetches values from:
+    
+    1. Form data
+        
+    2. Route parameters
+        
+    3. Query string
+        
+- `[FromQuery]` → uses ONLY query string
+    
+- `[FromRoute]` → uses ONLY route parameters
+    
+- You can annotate:
+    
+    - Entire model: `[FromQuery] Book book`
+        
+    - Single properties: `[FromQuery] public int? BookId { get; set; }`
+        
+
+---
