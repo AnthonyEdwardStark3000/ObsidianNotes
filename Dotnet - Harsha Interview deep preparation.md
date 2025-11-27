@@ -14438,3 +14438,319 @@ Because route parameter `productId` has higher priority.
     - `[FromRoute]`
         
 ---
+# 📌 FromQuery and FromRoute in ASP.NET Core
+
+
+## ⭐ 1. What is Model Binding?
+
+**Model Binding** in ASP.NET Core is the process that automatically reads values from incoming HTTP requests and assigns them to:
+
+- Action method parameters
+    
+- Controller properties
+    
+- Model objects
+    
+
+Model binding executes **before the action method runs**.
+
+ASP.NET Core reads values from the request in this default order:
+
+1. **Form data** (POST form values)
+    
+2. **Route data** (route parameters like `/books/10`)
+    
+3. **Query string** (`?id=10`)
+    
+4. **Other value providers** (headers, body, etc.)
+    
+
+You do NOT write `Request.Query["id"]` or `HttpContext.Request.RouteValues`.  
+ASP.NET Core automatically binds values into your action method parameters.
+
+---
+
+## ⭐ 2. Route Data vs Query String
+
+### ✔ Route Data
+
+Values that appear **in the URL path**:
+
+```csharp
+/books/details/10
+```
+
+Route template:
+
+```csharp
+[Route("books/details/{bookId}")]
+```
+
+Here `bookId` is **route data**.
+
+---
+
+### ✔ Query String
+
+Values that appear **after the ? in the URL**:
+
+```
+/books/details?bookId=10&isLoggedIn=true
+```
+
+These are **query string parameters**.
+
+---
+
+## ⭐ 3. Default Priority (Very Important Interview Point!)
+
+When you do NOT use any attribute like `[FromQuery]` or `[FromRoute]`, ASP.NET Core uses this priority:
+
+**Route Data → Query String**
+
+Meaning:
+
+If both provide values,  
+➡ **Route value overrides query value**
+
+Example:  
+URL:
+
+```
+/books/details/1?bookId=10
+```
+
+Action:
+
+```csharp
+public IActionResult Details(int bookId)
+```
+
+Result:
+
+```
+bookId = 1   // taken from Route Data (higher priority)
+```
+
+---
+
+# ⭐ 4. Using [FromRoute] Attribute
+
+### ✔ What it means?
+
+- Always take the value **only from Route Data**
+    
+- Ignore Query String completely
+    
+- If route does not contain the value → parameter becomes **null**
+    
+
+### ✔ Code Example – FromRoute
+
+```csharp
+[Route("bookstore/{bookId?}/{isLoggedIn?}")]
+public class StoreController : Controller
+{
+    [HttpGet]
+    public IActionResult GetBook(
+        [FromRoute] int? bookId,
+        [FromRoute] bool? isLoggedIn)
+    {
+        return Content($"BookId = {bookId}, LoggedIn = {isLoggedIn}");
+    }
+}
+```
+
+### ✔ Test URLs
+
+1️⃣ URL with Query String Only:
+
+```
+/bookstore?bookId=10&isLoggedIn=true
+```
+
+👎 Route parameters missing → parameters become null  
+Result:
+
+```
+BookId = null
+LoggedIn = null
+```
+
+2️⃣ URL with Route Values:
+
+```
+/bookstore/5/true
+```
+
+✔ Values come from Route  
+Result:
+
+```
+BookId = 5
+LoggedIn = True
+```
+
+👇 Even this URL will still take the route data:
+
+```
+/bookstore/5/true?bookId=1000&isLoggedIn=false
+```
+
+Result:
+
+```
+BookId = 5
+LoggedIn = True
+```
+
+Route always wins when `[FromRoute]` is used.
+
+---
+
+# ⭐ 5. Using [FromQuery] Attribute
+
+### ✔ What it means?
+
+- Always take values **only from the query string**
+    
+- Ignore route parameters completely
+    
+
+### ✔ Code Example – FromQuery
+
+```csharp
+[Route("bookstore/{bookId?}/{isLoggedIn?}")]
+public class StoreController : Controller
+{
+    [HttpGet]
+    public IActionResult GetBook(
+        [FromQuery] int? bookId,
+        [FromQuery] bool? isLoggedIn)
+    {
+        return Content($"BookId = {bookId}, LoggedIn = {isLoggedIn}");
+    }
+}
+```
+
+### ✔ Test URLs
+
+1️⃣ URL with Route Values:
+
+```
+/bookstore/5/true
+```
+
+Route values exist, BUT `[FromQuery]` ignores them.  
+Result:
+
+```
+BookId = null
+LoggedIn = null
+```
+
+2️⃣ URL with Query String:
+
+```
+/bookstore?bookId=10&isLoggedIn=true
+```
+
+✔ Query values used  
+Result:
+
+```
+BookId = 10
+LoggedIn = True
+```
+
+3️⃣ Both route and query values:
+
+```
+/bookstore/5/false?bookId=99&isLoggedIn=true
+```
+
+Because of `[FromQuery]`, the result is:
+
+```
+BookId = 99
+LoggedIn = True
+```
+
+---
+
+# ⭐ 6. Combined Example: Default vs FromQuery vs FromRoute
+
+### ✔ Controller with all three types
+
+```csharp
+[Route("api/books/{id?}")]
+public class BooksController : Controller
+{
+    // Default binding → RouteData first, then QueryString
+    [HttpGet("default")]
+    public IActionResult DefaultBinding(int id)
+    {
+        return Content($"Default Binding id = {id}");
+    }
+
+    // Only from route
+    [HttpGet("route")]
+    public IActionResult OnlyRoute([FromRoute] int? id)
+    {
+        return Content($"FromRoute id = {id}");
+    }
+
+    // Only from query
+    [HttpGet("query")]
+    public IActionResult OnlyQuery([FromQuery] int? id)
+    {
+        return Content($"FromQuery id = {id}");
+    }
+}
+```
+
+---
+
+### ✔ Test URLs
+
+|URL|DefaultBinding|OnlyRoute|OnlyQuery|
+|---|---|---|---|
+|`/api/books/5/default`|5|5|null|
+|`/api/books/default?id=10`|10|null|10|
+|`/api/books/5/default?id=10`|**5**|5|10|
+
+---
+
+# ⭐ 7. Summary (Perfect Interview Answer)
+
+### 🚀 **Model Binding Priority**
+
+1. Route Data
+    
+2. Query String
+    
+
+### 🚀 **[FromRoute]**
+
+- Always take values from route parameters
+    
+- Query values are ignored
+    
+- If route values missing → parameter becomes null
+    
+
+### 🚀 **[FromQuery]**
+
+- Always take values from query string
+    
+- Route values are ignored
+    
+
+### 🚀 **Default Behavior**
+
+If no attribute is used:
+
+- Route data overrides query string when both have a value
+    
+
+---
