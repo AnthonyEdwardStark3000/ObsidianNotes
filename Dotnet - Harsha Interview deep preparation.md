@@ -15002,7 +15002,7 @@ Then **all properties** of the Book object are fetched only from the query strin
         
 
 ---
-# 📌 **FORM FIELDS, FORM-URLENCODED, MULTIPART FORM-DATA — FULL EXPLANATION**
+# 📌 **FORM FIELDS, FORM-URLENCODED, MULTIPART FORM-DATA **
 
 Model binding in ASP.NET Core can read data from many places:
 
