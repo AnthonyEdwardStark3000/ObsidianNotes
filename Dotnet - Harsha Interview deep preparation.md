@@ -14168,3 +14168,281 @@ This means:
 - Developers can override the source using `[FromRoute]`, `[FromQuery]`, `[FromBody]`, etc.
 ---
 
+Below is a **clear, professional, interview-ready explanation** on:
+
+# **Query String vs Route Data in ASP.NET Core Model Binding**
+
+With **full code examples**, **priority explanation**, and **Obsidian-friendly formatting**.
+
+---
+
+# 📘 **What Are Query String and Route Data?**
+
+ASP.NET Core can receive values in URLs in two major ways:
+
+---
+
+## 🟦 **1️⃣ Query String Parameters**
+
+These are key-value pairs added after the `?` in the URL.
+
+Example:
+
+```
+/store/books?bookId=10&isLoggedIn=true
+```
+
+- They always come **after `?`**
+    
+- Often used for **optional** data
+    
+- Can pass multiple values without affecting routing
+    
+
+Example usage:
+
+```
+?bookId=10&isLoggedIn=true
+```
+
+---
+
+## 🟦 **2️⃣ Route Data (Route Parameters)**
+
+These are values embedded **inside the URL path**.
+
+Example:
+
+```
+/store/books/10/true
+```
+
+Defined in the route template:
+
+```csharp
+[Route("store/books/{bookId}/{isLoggedIn}")]
+```
+
+- They define **the structure** of your URL
+    
+- Used for **required** or **identity-based** values (like `/users/15`)
+    
+- Higher priority than query string during Model Binding
+    
+
+---
+
+# 📘 **When Does Model Binding Run?**
+
+Model Binding runs **before** your controller action executes.
+
+The moment ASP.NET Core finds a matching route:
+
+✔ Routing →  
+✔ Model Binding →  
+✔ Your Action Method is called
+
+---
+
+# 📘 **Default Model Binding Priority (from highest to lowest)**
+
+ASP.NET Core searches values in this order:
+
+1️⃣ **Form values**  
+2️⃣ **Route Data (Route Parameters)**  
+3️⃣ **Query String parameters**  
+4️⃣ Headers  
+5️⃣ Body (JSON, XML)
+
+👉 Therefore: **Route Parameters override Query String if both give a value for same key**.
+
+---
+
+# 📘 **Full Example: Query String Only**
+
+### 📌 URL
+
+```
+/store/books?bookId=10&isLoggedIn=true
+```
+
+### 📌 Controller
+
+```csharp
+[Route("store/books")]
+public class StoreController : Controller
+{
+    [HttpGet]
+    public IActionResult Books(int? bookId, bool? isLoggedIn)
+    {
+        if (bookId is null)
+            return BadRequest("BookId not supplied.");
+
+        if (bookId <= 0)
+            return BadRequest("BookId must be greater than zero.");
+
+        if (isLoggedIn is false)
+            return Unauthorized();
+
+        return Content($"BookId = {bookId}, LoggedIn = {isLoggedIn}");
+    }
+}
+```
+
+### ✔ What happened?
+
+- Model Binding took values **from query string**
+    
+- No need to use `Request.Query[]`
+    
+- Clean and automatic
+    
+
+---
+
+# 📘 **Example: Route Data vs Query String Priority**
+
+Now define a route with parameters:
+
+```csharp
+[Route("store/books/{bookId?}/{isLoggedIn?}")]
+public class StoreController : Controller
+{
+    [HttpGet]
+    public IActionResult Books(int? bookId, bool? isLoggedIn)
+    {
+        return Content($"bookId={bookId}, isLoggedIn={isLoggedIn}");
+    }
+}
+```
+
+---
+
+### 📌 URL with _both_ route data and query string
+
+```
+/store/books/1/false?bookId=10&isLoggedIn=true
+```
+
+### ✔ Which values will Model Binding choose?
+
+**Route Data wins!**
+
+Final values received:
+
+- `bookId = 1`
+    
+- `isLoggedIn = false`
+    
+
+Even though query string says:
+
+```
+bookId=10&isLoggedIn=true
+```
+
+Model binding prefers **route values first**, because of priority.
+
+---
+
+# 📘 **How to Force Model Binding to Use Query String Instead**
+
+Use attribute `[FromQuery]`:
+
+```csharp
+[Route("store/books/{bookId?}/{isLoggedIn?}")]
+public class StoreController : Controller
+{
+    [HttpGet]
+    public IActionResult Books(
+        [FromQuery] int? bookId,
+        [FromQuery] bool? isLoggedIn)
+    {
+        return Content($"FromQuery => bookId={bookId}, isLoggedIn={isLoggedIn}");
+    }
+}
+```
+
+### 📌 Now for this URL:
+
+```
+/store/books/1/false?bookId=10&isLoggedIn=true
+```
+
+Final values will be:
+
+- bookId = **10**
+    
+- isLoggedIn = **true**
+    
+
+Because we forced retrieval from Query String.
+
+---
+
+# 📘 **How to Force Model Binding to Use Route Data**
+
+Use `[FromRoute]`:
+
+```csharp
+public IActionResult Books(
+    [FromRoute] int? bookId,
+    [FromRoute] bool? isLoggedIn)
+{
+    return Content($"FromRoute => bookId={bookId}, isLoggedIn={isLoggedIn}");
+}
+```
+
+Even if query string has different values → route wins.
+
+---
+
+# 📘 **Another Clean Demonstration Example**
+
+### 📌 URL
+
+```
+/product/20?productId=50
+```
+
+### 📌 Action Method
+
+```csharp
+[HttpGet("product/{productId}")]
+public IActionResult GetProduct(int productId)
+{
+    return Ok(productId);
+}
+```
+
+### ✔ Output:
+
+```
+20
+```
+
+Because route parameter `productId` has higher priority.
+
+---
+
+# 📘 **Interview-Ready Summary**
+
+- Query string: appear after `?`, optional data
+    
+- Route data: part of URL path, mandatory/identity data
+    
+- Model binding auto-executes before controller method
+    
+- Order: **Form > Route Data > Query String > Headers > Body**
+    
+- If the same parameter exists in route & query:  
+    → **Route wins**
+    
+- You can override with:
+    
+    - `[FromQuery]`
+        
+    - `[FromRoute]`
+        
+
+---
