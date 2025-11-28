@@ -15301,3 +15301,250 @@ Postman → form-data → add file.
     
 
 ---
+Here are **clean, Obsidian-friendly interview-ready notes** for:
+
+### ✅ **Model Validations in ASP.NET Core**
+
+### ✅ **ModelState in ASP.NET Core**
+
+### ✅ **Complete code examples (model + controller + validation handling)**
+
+### 🚀 **Professional definitions + bullet-point clarity**
+
+---
+
+# 📘 **Model Validations – Obsidian Notes**
+
+## ⭐ What Are Model Validations?
+
+**Model Validation** in ASP.NET Core allows you to define validation rules **directly on model properties** using **data annotation attributes** (e.g., `[Required]`, `[StringLength]`, `[Range]`, etc.).  
+These rules are automatically checked **after model binding** and before the action executes.
+
+---
+
+# 🎯 **Why Model Validation?**
+
+Without model validation:
+
+❌ You write multiple repetitive `if` checks inside controller actions  
+❌ Code becomes long, hard to manage, and violates **DRY (Don’t Repeat Yourself)**  
+❌ Every action needs to repeat the same validation rules
+
+With model validation:
+
+✅ You define validation rules **once** inside the model  
+✅ ASP.NET Core automatically validates before hitting the action  
+✅ Validation errors go into **ModelState** for easy checking  
+✅ Clean, readable, maintainable code
+
+---
+
+# 🧩 **Example Model With Validations**
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+namespace ModelValidationsExample.Models
+{
+    public class Person
+    {
+        [Required(ErrorMessage = "Person name cannot be empty.")]
+        public string? PersonName { get; set; }
+
+        [EmailAddress(ErrorMessage = "Invalid email format.")]
+        public string? Email { get; set; }
+
+        [Phone(ErrorMessage = "Invalid phone number.")]
+        public string? Phone { get; set; }
+
+        [Required(ErrorMessage = "Password is required.")]
+        public string? Password { get; set; }
+
+        [Compare("Password", ErrorMessage = "Passwords do not match.")]
+        public string? ConfirmPassword { get; set; }
+
+        [Range(1, 1000, ErrorMessage = "Price must be between 1 and 1000.")]
+        public double? Price { get; set; }
+
+        public override string ToString()
+        {
+            return $"Name: {PersonName}, Email: {Email}, Phone: {Phone}, Password: {Password}, Confirm: {ConfirmPassword}, Price: {Price}";
+        }
+    }
+}
+```
+
+---
+
+# 🧠 **What Is Model Binding?**
+
+Model binding automatically:
+
+✔ Reads values from **Form Data**  
+✔ Reads **Route values**  
+✔ Reads **Query string**  
+✔ Converts them into the **Person object**  
+✔ Before action executes
+
+---
+
+# 📌 **What Is Model Validation?**
+
+After model binding finishes, ASP.NET Core:
+
+✔ Applies all validation attributes  
+✔ Collects validation errors  
+✔ Stores them inside **ModelState**
+
+---
+
+# 🏷️ **ModelState – Definition**
+
+`ModelState` is a built-in dictionary available in every controller.
+
+### It contains:
+
+- `IsValid` → true/false
+    
+- `Values` → each property + its validation state
+    
+- `ErrorCount` → number of validation errors
+    
+
+Used to check whether the incoming model is valid.
+
+---
+
+# 🧪 **Controller Example With ModelState Validation**
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using ModelValidationsExample.Models;
+using System.Linq;
+
+namespace ModelValidationsExample.Controllers
+{
+    [Route("[controller]")]
+    public class HomeController : Controller
+    {
+        [HttpPost("register")]
+        public IActionResult Register(Person person)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Extract all validation errors using LINQ
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage);
+
+                // Return errors as a single string separated by new lines
+                return BadRequest(string.Join("\n", errors));
+            }
+
+            // Validation success → return the object
+            return Ok(person.ToString());
+        }
+    }
+}
+```
+
+---
+
+# ⚙️ **How Error Extraction Works**
+
+The LINQ version:
+
+```csharp
+var errors = ModelState.Values
+    .SelectMany(v => v.Errors)
+    .Select(e => e.ErrorMessage);
+```
+
+Equivalent to:
+
+- Loop through each model property
+    
+- For each property, loop through each validation error
+    
+- Collect all messages
+    
+
+ASP.NET Core automatically generates default error messages, but you can override them using:
+
+```csharp
+[Required(ErrorMessage = "Custom message here")]
+```
+
+---
+
+# 🧪 **POSTMAN Example**
+
+### Case 1: Missing PersonName
+
+**Request Body:**
+
+```
+Email=test@gmail.com
+Phone=99999
+Password=123
+ConfirmPassword=123
+Price=500
+```
+
+**Response:**
+
+```
+Person name cannot be empty.
+```
+
+### Case 2: Password mismatch
+
+**Response:**
+
+```
+Passwords do not match.
+```
+
+### Case 3: Multiple errors
+
+```
+Person name cannot be empty.
+Price must be between 1 and 1000.
+```
+
+---
+
+# 🔍 **Full Flow Summary (Interview Friendly)**
+
+### ✔ Step 1: Model Binding
+
+Convert request data → model object
+
+### ✔ Step 2: Model Validation
+
+Apply `[Required]`, `[EmailAddress]`, `[Range]`, etc.
+
+### ✔ Step 3: ModelState
+
+Stores validation results  
+Use `ModelState.IsValid` to check
+
+### ✔ Step 4: Return validation errors
+
+Return detailed messages to client
+
+---
+
+# 📘 **Key Validations Cheat Sheet**
+
+|Attribute|Purpose|
+|---|---|
+|`Required`|Value must not be null or empty|
+|`StringLength(max)`|Text max length|
+|`Range(min,max)`|Numeric range|
+|`EmailAddress`|Valid email|
+|`Phone`|Valid phone|
+|`Compare("Property")`|Value must match another|
+|`RegularExpression("pattern")`|Format validation|
+
+---
