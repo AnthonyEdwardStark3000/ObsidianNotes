@@ -16185,13 +16185,5 @@ Response:
 
 ### ✔ All rules run AFTER model binding
 
----
 
-If you want, I can next create:
-
-📘 **Part 3 – Custom Validation Attribute (Hand-written validator class)**  
-OR  
-🧪 **Interview questions + answers for Model Validation**
-
-Which one should I generate next?
 
