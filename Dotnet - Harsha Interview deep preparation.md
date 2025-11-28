@@ -15301,18 +15301,6 @@ Postman → form-data → add file.
     
 
 ---
-Here are **clean, Obsidian-friendly interview-ready notes** for:
-
-### ✅ **Model Validations in ASP.NET Core**
-
-### ✅ **ModelState in ASP.NET Core**
-
-### ✅ **Complete code examples (model + controller + validation handling)**
-
-### 🚀 **Professional definitions + bullet-point clarity**
-
----
-
 # 📘 **Model Validations – Obsidian Notes**
 
 ## ⭐ What Are Model Validations?
