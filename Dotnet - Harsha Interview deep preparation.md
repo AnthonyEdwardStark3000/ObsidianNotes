@@ -15536,3 +15536,303 @@ Return detailed messages to client
 |`RegularExpression("pattern")`|Format validation|
 
 ---
+Below is the **fully rewritten, Obsidian-friendly, interview-ready document** that includes **every definition from your transcript**, merged with **clean explanations + complete working code example**.
+
+The structure is:
+
+1. **Professional Definition of Model Validations**
+    
+2. **All Validation Attributes explained (Required, Display, StringLength, Range, Compare)**
+    
+3. **String.Format placeholders `{0}`, `{1}`, `{2}` explained**
+    
+4. **Sequence of execution (Routing → Model Binding → Model Validation → Action Method)**
+    
+5. **Final complete Model + Controller code**
+    
+6. **Sample Postman results**
+    
+
+---
+
+# 📘 **ASP.NET Core Model Validation 
+
+# ⭐ 1. What Are Model Validations?
+
+Model validation in ASP.NET Core allows you to define validation rules **directly on model properties** using data annotation attributes.  
+These validations run **automatically after model binding** and before the action method executes.
+
+### ✔ Why model validation?
+
+- Prevents writing repeated `if`-statements in controllers
+    
+- Ensures clean, maintainable code
+    
+- Automatically generates validation messages
+    
+- Stores validation results in `ModelState`
+    
+
+---
+
+# ⭐ 2. RequiredAttribute – With Explanation
+
+`[Required]` ensures the property is not null or empty.
+
+Example:
+
+```csharp
+[Required(ErrorMessage = "{0} cannot be empty.")]
+public string? PersonName { get; set; }
+```
+
+### 🔍 How RequiredAttribute builds the error message
+
+`{0}` is a **placeholder** replaced by the **property name** at runtime.
+
+Example error:
+
+```
+PersonName cannot be empty.
+```
+
+But property names cannot have spaces (C# rules), so:
+
+---
+
+# ⭐ 3. Display Attribute – Replace Property Name in Error Message
+
+If you want spaces or a more readable name:
+
+```csharp
+[Display(Name = "Person Name")]
+[Required(ErrorMessage = "{0} cannot be empty.")]
+public string? PersonName { get; set; }
+```
+
+Now the `{0}` becomes:
+
+```
+Person Name cannot be empty.
+```
+
+✔ The `Display(Name="...")` value **replaces** the internal property name in all validation messages.
+
+---
+
+# ⭐ 4. StringLength Attribute – With Index Placeholders
+
+Used for string properties: specifies **both minimum and maximum length**.
+
+```csharp
+[StringLength(40, MinimumLength = 3,
+    ErrorMessage = "{0} should be between {2} and {1} characters long.")]
+[Display(Name = "Person Name")]
+public string? PersonName { get; set; }
+```
+
+### 🔍 Placeholder Rules:
+
+- `{0}` → Property name or Display Name
+    
+- `{1}` → Maximum length
+    
+- `{2}` → Minimum length
+    
+
+Example result:
+
+```
+Person Name should be between 3 and 40 characters long.
+```
+
+---
+
+# ⭐ 5. Range Attribute – For Numeric Properties
+
+Applicable only to numbers (int, double, decimal, long…).
+
+```csharp
+[Range(0, 999, ErrorMessage = "{0} should be between {1} and {2}.")]
+[Display(Name = "Price ($)")]
+public double? Price { get; set; }
+```
+
+Placeholder behavior:
+
+- `{0}` → "Price ($)"
+    
+- `{1}` → Minimum value
+    
+- `{2}` → Maximum value
+    
+
+Example error:
+
+```
+Price ($) should be between 0 and 999.
+```
+
+---
+
+# ⭐ 6. Compare Attribute – Match Two Properties
+
+Used for password confirmation fields.
+
+```csharp
+[Compare("Password", ErrorMessage = "Passwords do not match.")]
+public string? ConfirmPassword { get; set; }
+```
+
+---
+
+# ⭐ 7. Execution Pipeline (Very Important for Interviews)
+
+**Sequence of execution when a request arrives:**
+
+1. **Routing**
+    
+2. **Model Binding**
+    
+3. **Model Validation**
+    
+4. **Only then the Action Method executes**
+    
+
+If ModelState is not valid → action is not executed.
+
+---
+
+# ⭐ 8. Full Working Code Example (Complete Model + Controller)
+
+## 📌 **Model: Person.cs**
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+namespace ModelValidationsExample.Models
+{
+    public class Person
+    {
+        [Display(Name = "Person Name")]
+        [Required(ErrorMessage = "{0} cannot be empty.")]
+        [StringLength(40, MinimumLength = 3,
+            ErrorMessage = "{0} should be between {2} and {1} characters long.")]
+        public string? PersonName { get; set; }
+
+        [Display(Name = "Email Address")]
+        [EmailAddress(ErrorMessage = "Invalid email format.")]
+        public string? Email { get; set; }
+
+        [Phone(ErrorMessage = "Invalid phone number.")]
+        public string? Phone { get; set; }
+
+        [Required(ErrorMessage = "{0} is required.")]
+        [Display(Name = "Password")]
+        public string? Password { get; set; }
+
+        [Compare("Password", ErrorMessage = "Passwords do not match.")]
+        [Display(Name = "Confirm Password")]
+        public string? ConfirmPassword { get; set; }
+
+        [Range(0, 999, ErrorMessage = "{0} should be between {1} and {2}.")]
+        [Display(Name = "Price ($)")]
+        public double? Price { get; set; }
+
+        public override string ToString()
+        {
+            return 
+                $"Name: {PersonName}, Email: {Email}, Phone: {Phone}, Password: {Password}, Confirm: {ConfirmPassword}, Price: {Price}";
+        }
+    }
+}
+```
+
+---
+
+## 📌 **Controller: HomeController.cs**
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using ModelValidationsExample.Models;
+using System.Linq;
+
+namespace ModelValidationsExample.Controllers
+{
+    [Route("[controller]")]
+    public class HomeController : Controller
+    {
+        [HttpPost("register")]
+        public IActionResult Register(Person person)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage);
+
+                return BadRequest(string.Join("\n", errors));
+            }
+
+            return Ok(person.ToString());
+        }
+    }
+}
+```
+
+---
+
+# ⭐ 9. Example Test Cases (Postman)
+
+### ❌ Case: PersonName empty
+
+```
+Person Name cannot be empty.
+```
+
+### ❌ Case: Too short name
+
+```
+Person Name should be between 3 and 40 characters long.
+```
+
+### ❌ Case: Password mismatch
+
+```
+Passwords do not match.
+```
+
+### ❌ Case: Negative price
+
+```
+Price ($) should be between 0 and 999.
+```
+
+### ✔ Case: All valid
+
+```
+Name: Ram, Email: ram@mail.com, Phone: 99999...
+```
+
+---
+
+# 🎯 Final Summary
+
+### ✔ RequiredAttribute supports `{0}` placeholder
+
+### ✔ Display attribute replaces property name in all errors
+
+### ✔ StringLength supports `{0}`, `{1}`, `{2}`
+
+### ✔ Range supports `{0}`, `{1}`, `{2}`
+
+### ✔ Compare enforces matching fields
+
+### ✔ Validation runs AFTER model binding
+
+### ✔ ModelState contains all errors
+
+### ✔ Use LINQ to extract validation messages cleanly
+
+---
+
