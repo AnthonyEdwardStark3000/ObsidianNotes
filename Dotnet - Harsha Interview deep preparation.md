@@ -15834,4 +15834,364 @@ Name: Ram, Email: ram@mail.com, Phone: 99999...
 
 ### ✔ Use LINQ to extract validation messages cleanly
 
+# 📘 **ASP.NET Core Model Validation – Regular Expressions, Email, Phone, Compare, URL, ValidateNever**
+
+This document extends the previous validation notes and includes **complete code**, covering:
+
+✔ RegularExpression  
+✔ EmailAddress  
+✔ Phone  
+✔ Compare  
+✔ Url  
+✔ ValidateNever  
+✔ Full working Model + Controller  
+✔ Postman examples
+
+---
+
+# ⭐ 1. RegularExpression Attribute
+
+`[RegularExpression]` is used when you want to validate **specific formats** such as:
+
+- Only alphabets
+    
+- Only numbers
+    
+- Name formats
+    
+- Zip code
+    
+- Social security number
+    
+- Credit card
+    
+- Custom formats
+    
+
+### 📌 Example: Person Name should contain **only alphabets, space, and dot**
+
+Pattern explanation:
+
+- `^` → start of string
+    
+- `$` → end of string
+    
+- `[A-Za-z .]+` → allowed characters:
+    
+    - A–Z
+        
+    - a–z
+        
+    - space
+        
+    - dot (.)
+        
+
+### ✔ Code:
+
+```csharp
+[Display(Name = "Person Name")]
+[RegularExpression(@"^[A-Za-z .]+$", 
+    ErrorMessage = "{0} should contain only alphabets, space, and dot.")]
+public string? PersonName { get; set; }
+```
+
+### ❌ Invalid Input:
+
+```
+John#Doe
+```
+
+### ✔ Error:
+
+```
+Person Name should contain only alphabets, space, and dot.
+```
+
+---
+
+# ⭐ 2. EmailAddress Attribute
+
+You **don’t need regex** for email — ASP.NET Core provides a built-in validator:
+
+```csharp
+[Required(ErrorMessage = "{0} is required.")]
+[EmailAddress(ErrorMessage = "{0} should be a proper email address.")]
+[Display(Name = "Email")]
+public string? Email { get; set; }
+```
+
+### ❌ Invalid Input:
+
+```
+johnmail.com
+```
+
+### ✔ Error:
+
+```
+Email should be a proper email address.
+```
+
+---
+
+# ⭐ 3. Phone Attribute
+
+Validates phone number formats.
+
+```csharp
+[Phone(ErrorMessage = "{0} is not a valid phone number.")]
+[Display(Name = "Phone Number")]
+public string? Phone { get; set; }
+```
+
+### ❌ Invalid Input:
+
+```
+123ABF
+```
+
+### ✔ Error:
+
+```
+Phone Number is not a valid phone number.
+```
+
+---
+
+# ⭐ 4. Compare Attribute
+
+Used to match **two model properties**, typically Password and Confirm Password.
+
+```csharp
+[Required(ErrorMessage = "{0} is required.")]
+[Display(Name = "Password")]
+public string? Password { get; set; }
+
+[Required(ErrorMessage = "{0} is required.")]
+[Display(Name = "Re-enter Password")]
+[Compare("Password", ErrorMessage = "{0} and {1} do not match.")]
+public string? ConfirmPassword { get; set; }
+```
+
+### Placeholder rules for Compare:
+
+- `{0}` → current property → ConfirmPassword → “Re-enter Password”
+    
+- `{1}` → property being compared → Password
+    
+
+### ❌ Invalid Input:
+
+Password: `Test@123`  
+Confirm: `Test111`
+
+### ✔ Error:
+
+```
+Re-enter Password and Password do not match.
+```
+
+---
+
+# ⭐ 5. Url Attribute
+
+Validates that the value is a valid website URL.
+
+```csharp
+[Url(ErrorMessage = "{0} should be a valid website URL.")]
+[Display(Name = "Website")]
+public string? Website { get; set; }
+```
+
+---
+
+# ⭐ 6. ValidateNever Attribute
+
+Used to **exclude a property from validation**, even if it has validation attributes.
+
+Useful when validation must be temporarily disabled.
+
+```csharp
+[ValidateNever]
+public string? TemporaryRemarks { get; set; }
+```
+
+---
+
+# ⭐ 7. Full Working Model (All Validations Combined)
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+namespace ModelValidationDemo.Models
+{
+    public class Person
+    {
+        // 1. Only alphabets / space / dot
+        [Display(Name = "Person Name")]
+        [Required(ErrorMessage = "{0} is required.")]
+        [RegularExpression(@"^[A-Za-z .]+$", 
+            ErrorMessage = "{0} should contain only alphabets, space, and dot.")]
+        public string? PersonName { get; set; }
+
+        // 2. Email validation
+        [Required(ErrorMessage = "{0} is required.")]
+        [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage = "{0} should be a proper email address.")]
+        public string? Email { get; set; }
+
+        // 3. Phone validation
+        [Display(Name = "Phone Number")]
+        [Phone(ErrorMessage = "{0} is not a valid phone number.")]
+        public string? Phone { get; set; }
+
+        // 4. URL validation
+        [Display(Name = "Website URL")]
+        [Url(ErrorMessage = "{0} should be a valid website URL.")]
+        public string? Website { get; set; }
+
+        // 5. Password comparison
+        [Required(ErrorMessage = "{0} is required.")]
+        [Display(Name = "Password")]
+        public string? Password { get; set; }
+
+        [Required(ErrorMessage = "{0} is required.")]
+        [Display(Name = "Re-enter Password")]
+        [Compare("Password", ErrorMessage = "{0} and {1} do not match.")]
+        public string? ConfirmPassword { get; set; }
+
+        // 6. Excluding property from validation
+        [ValidateNever]
+        public string? TemporaryRemarks { get; set; }
+    }
+}
+```
+
+---
+
+# ⭐ 8. Full Controller Example (Handles Validation)
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using ModelValidationDemo.Models;
+
+namespace ModelValidationDemo.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PersonController : ControllerBase
+    {
+        [HttpPost("register")]
+        public IActionResult Register(Person model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage);
+
+                return BadRequest(new { Errors = errors });
+            }
+
+            return Ok(model);
+        }
+    }
+}
+```
+
+---
+
+# ⭐ 9. Sample Postman Tests
+
+### ❌ Invalid Name
+
+Input:
+
+```
+PersonName = John#Smith
+```
+
+Output:
+
+```
+Person Name should contain only alphabets, space, and dot.
+```
+
+---
+
+### ❌ Invalid Email
+
+Input:
+
+```
+Email = johnmail.com
+```
+
+Output:
+
+```
+Email should be a proper email address.
+```
+
+---
+
+### ❌ Password mismatch
+
+Input:
+
+```
+Password = Abcd@123
+ConfirmPassword = Abcd@124
+```
+
+Output:
+
+```
+Re-enter Password and Password do not match.
+```
+
+---
+
+### ✔ All Valid
+
+Response:
+
+```
+{
+  "personName": "John Doe",
+  "email": "john@mail.com",
+  "phone": "9876543210",
+  "website": "https://example.com"
+}
+```
+
+---
+
+# 🎯 Final Summary
+
+### ✔ RegularExpression → Format validation
+
+### ✔ EmailAddress → built-in email regex
+
+### ✔ Phone → valid phone format
+
+### ✔ Url → valid website format
+
+### ✔ Compare → match two fields
+
+### ✔ ValidateNever → skip validation
+
+### ✔ All rules run AFTER model binding
+
+---
+
+If you want, I can next create:
+
+📘 **Part 3 – Custom Validation Attribute (Hand-written validator class)**  
+OR  
+🧪 **Interview questions + answers for Model Validation**
+
+Which one should I generate next?
 
