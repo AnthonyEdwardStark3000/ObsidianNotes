@@ -16185,5 +16185,320 @@ Response:
 
 ### ✔ All rules run AFTER model binding
 
+---
 
+# 📌 **Custom Validation Attribute – ASP.NET Core **
+
+## 🧩 **What Is a Custom Validation Attribute? (Professional Definition)**
+
+A **Custom Validation Attribute** is a developer-defined class that **inherits from `ValidationAttribute`** and provides **your own validation logic** when the built-in attributes like:
+
+- `[Required]`
+    
+- `[Range]`
+    
+- `[StringLength]`
+    
+- `[RegularExpression]`
+    
+
+are not sufficient.
+
+This custom validator runs **automatically** during the ASP.NET Core model validation pipeline—**after model binding** and before the controller action executes.
+
+---
+
+## 🔥 **When Do You Need Custom Validation?**
+
+You need a custom validator when:
+
+- built-in attributes cannot express your validation rule
+    
+- your rule is business-specific (ex: DOB must be older than 2000)
+    
+- validation depends on **dynamic parameters**
+    
+- validation must be **reusable** across multiple model classes
+    
+
+---
+
+## 🏗 **ASP.NET Core Request Processing Pipeline**
+
+```
+Incoming HTTP Request
+        ↓
+Routing selects Action Method
+        ↓
+Model Binding happens first (forms objects from request)
+        ↓
+Model Validation happens next (built-in and custom validations)
+        ↓
+If validation fails → ModelState becomes invalid → Controller sees it
+        ↓
+If valid → Controller Action executes
+```
+
+Your custom validator executes inside the **Model Validation** stage.
+
+---
+
+# 📂 **File Structure (Recommended Professional Structure)**
+
+```
+/YourProject
+│
+├── Controllers
+│     └── PersonController.cs
+│
+├── Models
+│     └── Person.cs
+│
+├── CustomValidators
+│     └── MinimumYearValidatorAttribute.cs
+│
+└── Program.cs / Startup.cs
+```
+
+---
+
+# 🧪 **Example Requirement**
+
+> “Date of Birth must have a year **less than or equal to a configured minimum year**.  
+> Example: MinimumYear = 2005 → DOB.Year must be ≤ 2005.”
+
+---
+
+# ✅ **Complete Working Code (Copy–Paste Ready)**
+
+---
+
+## 📌 **1. Custom Validation Class**
+
+**File:**  
+`CustomValidators/MinimumYearValidatorAttribute.cs`
+
+```csharp
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace YourProject.CustomValidators
+{
+    public class MinimumYearValidatorAttribute : ValidationAttribute
+    {
+        public int MinimumYear { get; }
+
+        // Default error message (used when user does not specify one)
+        private const string DefaultErrorMessage =
+            "Year must not be newer than {0}.";
+
+        // Parameterized constructor – allows user to pass min year
+        public MinimumYearValidatorAttribute(int minimumYear)
+        {
+            MinimumYear = minimumYear;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            // If value is null → No validation error (same as built-in attributes)
+            if (value == null)
+                return ValidationResult.Success;
+
+            DateTime dateValue = (DateTime)value;
+
+            if (dateValue.Year > MinimumYear)
+            {
+                // Choose user-supplied message OR default message
+                string errorMessage = string.Format(
+                    ErrorMessage ?? DefaultErrorMessage,
+                    MinimumYear
+                );
+
+                return new ValidationResult(errorMessage);
+            }
+
+            return ValidationResult.Success;
+        }
+    }
+}
+```
+
+---
+
+## 📌 **2. Person Model Using Custom Validator**
+
+**File:**  
+`Models/Person.cs`
+
+```csharp
+using System;
+using System.ComponentModel.DataAnnotations;
+using YourProject.CustomValidators;
+
+namespace YourProject.Models
+{
+    public class Person
+    {
+        [Required]
+        public string Name { get; set; }
+
+        [MinimumYearValidator(2005, ErrorMessage = "Date of Birth should not be newer than {0}.")]
+        public DateTime DateOfBirth { get; set; }
+    }
+}
+```
+
+---
+
+## 📌 **3. Controller to Test Validation**
+
+**File:**  
+`Controllers/PersonController.cs`
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using YourProject.Models;
+
+namespace YourProject.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PersonController : ControllerBase
+    {
+        [HttpPost("register")]
+        public IActionResult Register(Person person)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok("Registration successful.");
+        }
+    }
+}
+```
+
+---
+
+# 🧠 **How the Custom Validator Actually Works (Step-by-Step)**
+
+### ✔ 1. User sends request:
+
+```json
+{
+  "name": "John",
+  "dateOfBirth": "2006-01-01"
+}
+```
+
+### ✔ 2. ASP.NET Core performs:
+
+- Routing
+    
+- Model Binding → creates Person object
+    
+- Model Validation → sees `[MinimumYearValidator(2005)]`
+    
+- Calls your overridden `IsValid()` method automatically
+    
+
+### ✔ 3. Inside `IsValid()`:
+
+- Checks if value is null
+    
+- Converts to DateTime
+    
+- Retrieves `dateValue.Year`
+    
+- Compares with `MinimumYear`
+    
+- If invalid → returns:
+    
+
+```
+Date of Birth should not be newer than 2005.
+```
+
+(Or default message if ErrorMessage not supplied.)
+
+### ✔ 4. Controller receives:
+
+- `ModelState.IsValid = false`
+    
+- Returns `400 Bad Request` with error JSON
+    
+
+---
+
+# 🎁 **Bonus: If No ErrorMessage Provided**
+
+**Model example:**
+
+```csharp
+[MinimumYearValidator(1998)]
+public DateTime JoiningDate { get; set; }
+```
+
+**Output error:**
+
+```
+"JoiningDate": [
+    "Year must not be newer than 1998."
+]
+```
+
+(Generated using default error message.)
+
+---
+
+# 🔁 **Reusability**
+
+You can reuse this attribute on **any DateTime property** in any model:
+
+```csharp
+[MinimumYearValidator(2010)]
+public DateTime PurchaseDate { get; set; }
+
+[MinimumYearValidator(1995)]
+public DateTime ManufactureDate { get; set; }
+```
+
+---
+
+# 💬 **Interview-Ready Summary**
+
+### ⭐ **What is a Custom Validation Attribute?**
+
+A custom validation attribute is a class that inherits from `ValidationAttribute` and allows writing custom validation logic by overriding `IsValid()`.
+
+### ⭐ **When does it run?**
+
+During model validation, _after model binding_ and _before the controller action executes_.
+
+### ⭐ **What makes it useful?**
+
+- Handles complex business rules
+    
+- Accepts dynamic parameters via constructor
+    
+- Supports custom and default error messages
+    
+- Fully reusable across models
+    
+
+### ⭐ **What must you override?**
+
+`protected override ValidationResult IsValid(object value, ValidationContext context)`
+
+---
+
+# ✅ **Your Full Document Is Ready**
+
+If you want, I can also generate:
+
+📌 A version formatted as **flashcards for Obsidian**  
+📌 A version with **flowcharts**  
+📌 A version for **.NET interview revision**  
+📌 A **multi-property validation example** (next topic mentioned)
+
+Just tell me **"Next Topic"** or **"Generate flashcards"**.
 
