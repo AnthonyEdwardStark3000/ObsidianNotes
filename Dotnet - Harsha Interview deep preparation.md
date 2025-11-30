@@ -17136,3 +17136,251 @@ Logic stays inside the model — model-specific.
 ```
 
 ---
+# ⭐ **Title: Bind & BindNever in ASP.NET Core Model Binding**
+
+---
+
+# **📌 Overview**
+
+ASP.NET Core’s **model binding** automatically maps incoming request data to action method parameters or model objects.
+
+However, sometimes you **don’t want all properties to be bound** — especially to **prevent overposting attacks**, where a malicious client submits extra values you didn't expect.
+
+For this, ASP.NET Core provides:
+
+- **`[Bind]`** → _Include only specified properties in binding._
+    
+- **`[BindNever]`** → _Exclude specific properties from binding._
+    
+
+Both are part of **Microsoft.AspNetCore.Mvc.ModelBinding**.
+
+---
+
+# **📘 Why We Need It (Interview Explanation)**
+
+✔ To **prevent overposting attacks**  
+✔ To **restrict which properties the model binder should populate**  
+✔ To **protect sensitive fields** from being updated by clients  
+✔ To **improve API security**  
+✔ To ensure that only the **intended values** become part of the model instance
+
+---
+
+# **📌 `[Bind]` Attribute — Include Only Selected Properties**
+
+### **Definition**
+
+> `[Bind]` specifies the _only_ properties that should be included in model binding.  
+> All other properties will be ignored even if submitted by the client.
+
+### **Common Use Case**
+
+- Registration forms
+    
+- Login forms
+    
+- Preventing attackers from posting extra fields (RoleId, IsAdmin, Price etc.)
+    
+
+---
+
+# **💻 Example: Using `[Bind]` in Controller**
+
+```csharp
+public class Person
+{
+    public string PersonName { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public decimal Salary { get; set; }
+    public string Password { get; set; }
+    public string ConfirmPassword { get; set; }
+}
+```
+
+### **Controller with Bind Attribute**
+
+```csharp
+[HttpPost]
+public IActionResult Register(
+    [Bind(nameof(Person.PersonName),
+          nameof(Person.Email),
+          nameof(Person.Password),
+          nameof(Person.ConfirmPassword))] Person model)
+{
+    // Only these four properties are bound
+    // PersonName, Email, Password, ConfirmPassword
+
+    return Ok(model);
+}
+```
+
+### ✔ **If a hacker submits extra fields like Salary, Phone, RoleId — they will NOT be bound.**
+
+---
+
+# **👀 Runtime Example**
+
+### **Request Payload Sent by Client**
+
+```json
+{
+  "personName": "John",
+  "email": "john@mail.com",
+  "password": "12345",
+  "confirmPassword": "12345",
+  "phone": "9999999999",
+  "salary": 95000
+}
+```
+
+### **Model Binder Output (after [Bind])**
+
+```
+PersonName: John
+Email: john@mail.com
+Password: 12345
+ConfirmPassword: 12345
+Phone: null         ❌ skipped
+Salary: 0           ❌ skipped
+```
+
+---
+
+# **📌 `[BindNever]` Attribute — Exclude Specific Properties**
+
+### **Definition**
+
+> `[BindNever]` marks properties that should **never** participate in model binding.
+
+### **Use Case**
+
+- Fields set only by server (CreatedDate, IsAdmin, Salary, Role)
+    
+- Sensitive fields
+    
+- Fields you always want to ignore in binding
+    
+
+---
+
+# **💻 Example: Using `[BindNever]` in Model**
+
+```csharp
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+public class Person
+{
+    public string PersonName { get; set; }
+    public string Email { get; set; }
+
+    [BindNever]
+    public DateTime DateOfBirth { get; set; }
+}
+```
+
+### **Controller**
+
+```csharp
+[HttpPost]
+public IActionResult Save(Person model)
+{
+    // model.DateOfBirth will always be default
+    // even if client tries to send a value
+
+    return Ok(model);
+}
+```
+
+### ✔ Even if the client sends `dateOfBirth`, it will NOT be assigned.
+
+---
+
+# **👀 Runtime Example**
+
+### **Request Sent**
+
+```json
+{
+  "personName": "John",
+  "email": "john@mail.com",
+  "dateOfBirth": "1990-01-01"
+}
+```
+
+### **Model After Binding**
+
+```
+PersonName: John
+Email: john@mail.com
+DateOfBirth: 01-01-0001 (default) ❌ ignored
+```
+
+---
+
+# **📌 When to use `[Bind]` vs `[BindNever]`**
+
+|Requirement|Use|
+|---|---|
+|Allow only a few properties|**`[Bind]`**|
+|Disallow only a few properties|**`[BindNever]`**|
+|High security scenario|**`[Bind]`**|
+|Only one or two fields need protection|**`[BindNever]`**|
+
+---
+
+# **📌 Key Interview Points**
+
+### ✔ What problem does Bind solve?
+
+> Prevents overposting — only specified properties are mapped from incoming request.
+
+### ✔ What does BindNever do?
+
+> Ensures specific properties are never bound even if the client sends them.
+
+### ✔ Which one is more secure?
+
+> `[Bind]` — because it uses a whitelist approach.
+
+### ✔ Namespace for BindNever?
+
+> `Microsoft.AspNetCore.Mvc.ModelBinding`
+
+### ✔ Does Bind work on model class level?
+
+Yes → `[Bind("P1", "P2")]` can be placed above a model class.
+
+---
+
+# **📘 Final Obsidian-Friendly Summary**
+
+```
+# Bind & BindNever (ASP.NET Core)
+
+## Bind
+- Whitelists properties for model binding.
+- Prevents overposting.
+- Only specified properties are bound.
+
+## BindNever
+- Blacklists specific properties.
+- Used when most properties should be bound.
+- Prevents values from being set by clients.
+
+## Namespaces
+- Bind: System
+- BindNever: Microsoft.AspNetCore.Mvc.ModelBinding
+
+## Security
+- Bind is more secure (whitelist)
+- BindNever is convenient (blacklist)
+
+## Use Cases
+- Bind → registration, login, admin forms
+- BindNever → CreatedDate, Role, Salary, Server-controlled fields
+```
+
+---
+
