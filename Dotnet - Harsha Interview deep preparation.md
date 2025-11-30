@@ -17381,6 +17381,255 @@ Yes → `[Bind("P1", "P2")]` can be placed above a model class.
 - Bind → registration, login, admin forms
 - BindNever → CreatedDate, Role, Salary, Server-controlled fields
 ```
+---
+
+# 🟦 **Custom Model Binder – ASP.NET Core**
+
+**Topic Level:** Intermediate → Advanced  
+**Use Case:** When default model binding is not enough and **you must implement custom logic** while binding request data to model properties.
 
 ---
 
+## ✅ **1. What is a Custom Model Binder? (Professional Definition)**
+
+A **Custom Model Binder** in ASP.NET Core is a component that allows developers to _override_ the default model binding behavior and apply **custom logic** to transform request data before it becomes a model instance.
+
+Use a custom model binder when:
+
+- You need to **combine multiple request values** into a single model property  
+    (e.g., `firstName + lastName → FullName`)
+    
+- You need to **construct complex types or custom value objects**
+    
+- Request data must be **parsed, validated, or transformed** manually  
+    (e.g., converting `"Savings Account"` → `AccountType.Savings`)
+    
+- Data arrives in unusual formats (comma-separated strings, custom date formats)
+    
+- Default model binding **cannot map the structure properly**
+    
+
+---
+
+## ❗ When NOT to use Custom Model Binders
+
+Use it **rarely** — only when unavoidable.  
+Default model binding already handles 98% of cases (JSON, form data, simple objects).
+
+---
+
+## 🟦 **2. Important Interfaces & Concepts**
+
+|Component|Purpose|
+|---|---|
+|`IModelBinder`|Interface to implement your custom binder|
+|`BindModelAsync()`|Method containing your binding logic|
+|`ModelBindingContext`|Gives access to request data, model metadata, value providers|
+|`ValueProvider.GetValue()`|Reads raw values from the request|
+|`Task.CompletedTask`|Returned when binder finishes execution|
+|`ModelBinderAttribute`|Assigns the custom binder to a model or parameter|
+
+---
+
+# 🟦 **3. Real-World Example Requirement**
+
+User submits:
+
+```
+firstName = "John"
+lastName  = "Doe"
+email     = "abc@mail.com"
+phone     = "12345"
+dobYear = 1999
+dobMonth = 12
+dobDay = 25
+```
+
+You want to bind:
+
+- `FullName = "John Doe"`
+    
+- `DateOfBirth = new DateTime(1999,12,25)`
+    
+
+Default binder **cannot do this**, so you build a **Custom Model Binder**.
+
+---
+
+# 🟦 **4. Final Output Model**
+
+```csharp
+public class Person
+{
+    public string FullName { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public DateTime? DateOfBirth { get; set; }
+}
+```
+
+---
+
+# 🟦 **5. Custom Model Binder Implementation**
+
+### 📌 File: `CustomModelBinders/PersonModelBinder.cs`
+
+```csharp
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+public class PersonModelBinder : IModelBinder
+{
+    public Task BindModelAsync(ModelBindingContext bindingContext)
+    {
+        var valueProvider = bindingContext.ValueProvider;
+
+        // Create model object manually
+        var person = new Person();
+
+        // FIRST NAME
+        var firstNameResult = valueProvider.GetValue("firstName");
+        if (firstNameResult.Length > 0)
+        {
+            person.FullName = firstNameResult.FirstValue;
+        }
+
+        // LAST NAME
+        var lastNameResult = valueProvider.GetValue("lastName");
+        if (lastNameResult.Length > 0)
+        {
+            person.FullName += " " + lastNameResult.FirstValue;
+        }
+
+        // EMAIL
+        var emailResult = valueProvider.GetValue("email");
+        if (emailResult.Length > 0)
+            person.Email = emailResult.FirstValue;
+
+        // PHONE
+        var phoneResult = valueProvider.GetValue("phone");
+        if (phoneResult.Length > 0)
+            person.Phone = phoneResult.FirstValue;
+
+        // DATE OF BIRTH (year, month, day)
+        var y = valueProvider.GetValue("dobYear");
+        var m = valueProvider.GetValue("dobMonth");
+        var d = valueProvider.GetValue("dobDay");
+
+        if (y.Length > 0 && m.Length > 0 && d.Length > 0)
+        {
+            person.DateOfBirth = new DateTime(
+                Convert.ToInt32(y.FirstValue),
+                Convert.ToInt32(m.FirstValue),
+                Convert.ToInt32(d.FirstValue)
+            );
+        }
+
+        // Final model binding result
+        bindingContext.Result = ModelBindingResult.Success(person);
+
+        return Task.CompletedTask;
+    }
+}
+```
+
+---
+
+# 🟦 **6. Wire the Custom Model Binder to Controller**
+
+### 📌 Controller Example
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+public class HomeController : Controller
+{
+    [HttpPost]
+    public IActionResult Submit(
+        [ModelBinder(BinderType = typeof(PersonModelBinder))]
+        Person person)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        return Ok(person);
+    }
+}
+```
+
+---
+
+# 🟦 **7. Example Client Request (Postman / JavaScript)**
+
+### FormData:
+
+```
+firstName = John
+lastName = Doe
+email = john@mail.com
+phone = 9999999
+dobYear = 1999
+dobMonth = 12
+dobDay = 25
+```
+
+---
+
+# 🟦 **8. Output After Custom Model Binding**
+
+```json
+{
+  "fullName": "John Doe",
+  "email": "john@mail.com",
+  "phone": "9999999",
+  "dateOfBirth": "1999-12-25T00:00:00"
+}
+```
+
+---
+
+# 🟦 **9. Why Custom Binder Instead of Everything Inside Controller?**
+
+Because this code:
+
+- becomes **reusable**
+    
+- stays **centralized**
+    
+- avoids controller becoming **bloated**
+    
+- can be applied to multiple actions without duplication
+    
+- supports **complex object construction**
+    
+
+---
+
+# 🟦 **10. Interview-Friendly Summary**
+
+### 🔥 **Short Definition**
+
+> A Custom Model Binder allows ASP.NET Core to convert incoming request data into model objects using your _own binding rules_ instead of the default binder.
+
+### 🔥 **Used When**
+
+- request needs **extra processing**
+    
+- values must be **combined / transformed**
+    
+- custom **types, enums, value objects** are required
+    
+- request arrives in **non-standard format**
+    
+
+### 🔥 **Key Concepts**
+
+- Implement `IModelBinder`
+    
+- Override `BindModelAsync()`
+    
+- Use `bindingContext.ValueProvider`
+    
+- Return `ModelBindingResult.Success(model)`
+    
+
+---
