@@ -16874,3 +16874,265 @@ Content-Type: application/json
 
 ---
 
+Below is a **complete, detailed, interview-ready, Obsidian-friendly note** on **IValidatableObject**, including:
+
+- Professional definitions
+    
+- Differences between `IValidatableObject` and `ValidationAttribute`
+    
+- Explanation of `yield`
+    
+- Full working code example (model + controller + request example)
+    
+- Proper comments
+    
+- Clean formatting for Obsidian
+    
+
+---
+
+# 📘 **IValidatableObject – Complete Notes (Obsidian Friendly + Interview Ready)**
+
+---
+
+## 🚀 **What is `IValidatableObject`? (Professional Definition)**
+
+`IValidatableObject` is an interface in ASP.NET Core that allows you to perform **model-level** validation — meaning you validate multiple properties together _within the same model class_.
+
+It is used when:
+
+- The validation rule **depends on more than one property**.
+    
+- The validation logic is **specific to a single model**, not reusable.
+    
+- You **don’t want to create a separate custom validation attribute**, especially if reflection would be required.
+    
+
+---
+
+## 🧩 **When to Use IValidatableObject?**
+
+Use it when:
+
+- Your validation rule is tightly coupled to the model.
+    
+- You need to validate combinations of fields (e.g., _DOB OR Age should be supplied_).
+    
+- You do not want the validation logic reused across other models.
+    
+- You want simpler implementation compared to custom `ValidationAttribute`.
+    
+
+---
+
+## 🆚 **Difference: `IValidatableObject` vs `ValidationAttribute`**
+
+|Feature|IValidatableObject|ValidationAttribute|
+|---|---|---|
+|**Scope**|Entire model|Single property (or multi-property using Reflection)|
+|**Reusability**|❌ Not reusable|✅ Reusable|
+|**Reflection Needed?**|❌ No|✔ Required for multi-property validation|
+|**Code Location**|Inside the model class|Separate class|
+|**Use Case**|Quick checks involving multiple properties|Standard attribute-based validations|
+|**Return Type**|Multiple errors (IEnumerable)|Single error|
+
+---
+
+## 🧵 **The `yield` Keyword (Interview Definition)**
+
+`yield return` is used to **return multiple values one-by-one** from a method that returns an `IEnumerable<T>`.
+
+- Execution is **paused** after each `yield return`.
+    
+- Execution **resumes** when the caller asks for the next value.
+    
+- In model validation, it allows returning **multiple validation errors**.
+    
+
+Example:
+
+```csharp
+yield return new ValidationResult("Error 1");
+yield return new ValidationResult("Error 2");
+```
+
+---
+
+# 🧑‍💻 **FULL CODE EXAMPLE (From the Transcript)**
+
+### ➤ **Model-level validation where either DateOfBirth OR Age must be supplied**
+
+---
+
+## 📌 **Person.cs (Model with IValidatableObject)**
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+public class Person : IValidatableObject
+{
+    [Required]
+    [StringLength(50)]
+    public string PersonName { get; set; }
+
+    [EmailAddress]
+    public string Email { get; set; }
+
+    // Either this field OR Age must be supplied
+    public DateTime? DateOfBirth { get; set; }
+
+    // Either this field OR DateOfBirth must be supplied
+    public int? Age { get; set; }
+
+    /// <summary>
+    /// Custom validation logic for the Person model.
+    /// This method runs AFTER property-level validation, BEFORE controller action executes.
+    /// </summary>
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        // Validation Rule:
+        // Either DateOfBirth OR Age must be supplied. NOT both null.
+
+        if (DateOfBirth == null && Age == null)
+        {
+            // yield return allows us to return multiple validation errors if needed
+            yield return new ValidationResult(
+                "Either Date of Birth or Age must be provided.",
+                new[] { nameof(Age), nameof(DateOfBirth) }  // Properties the error belongs to
+            );
+        }
+
+        // Example: You can add more custom validations here using yield return
+        // if (Age < 0) yield return new ValidationResult("Age cannot be negative");
+    }
+}
+```
+
+---
+
+## 📌 **Controller Example (For Testing)**
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+[Route("api/[controller]")]
+[ApiController]
+public class PersonController : ControllerBase
+{
+    [HttpPost("register")]
+    public IActionResult Register([FromBody] Person model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        return Ok("Validation passed. Person saved successfully.");
+    }
+}
+```
+
+---
+
+## 📌 **Example Request – Fails Validation**
+
+**POST → `/api/person/register`**
+
+```json
+{
+  "personName": "John",
+  "email": "john@mail.com",
+  "dateOfBirth": null,
+  "age": null
+}
+```
+
+**Response:**
+
+```json
+{
+  "age": [
+    "Either Date of Birth or Age must be provided."
+  ],
+  "dateOfBirth": [
+    "Either Date of Birth or Age must be provided."
+  ]
+}
+```
+
+---
+
+## 📌 **Example Request – Passes Validation**
+
+```json
+{
+  "personName": "John",
+  "email": "john@mail.com",
+  "dateOfBirth": "2000-01-01",
+  "age": null
+}
+```
+
+Response:
+
+```json
+"Validation passed. Person saved successfully."
+```
+
+---
+
+# 🎯 **Key Points to Remember for Interviews**
+
+### **1️⃣ IValidatableObject = Model-Level Validation**
+
+Runs AFTER individual property validation.
+
+---
+
+### **2️⃣ Use it when validation depends on multiple properties**
+
+Example:
+
+- DOB OR Age must be provided
+    
+- StartDate must be before EndDate
+    
+- Country requires ZipCode, etc.
+    
+
+---
+
+### **3️⃣ Returns multiple validation errors using `yield return`**
+
+---
+
+### **4️⃣ No reflection required**
+
+Easier than writing a custom `ValidationAttribute`.
+
+---
+
+### **5️⃣ NOT reusable**
+
+Logic stays inside the model — model-specific.
+
+---
+
+# ✅ **Obsidian Summary Block**
+
+```
+# IValidatableObject
+- Use for model-level validation involving multiple properties.
+- Implement in the model class → Validate() method runs automatically.
+- Return multiple ValidationResult errors using `yield return`.
+- No reflection required, unlike multi-property ValidationAttribute.
+- Use when validation is model-specific and non-reusable.
+
+## Key Difference vs ValidationAttribute
+- IValidatableObject → Model-level, not reusable.
+- ValidationAttribute → Property-level, reusable, needs reflection for multi-property validation.
+```
+
+---
