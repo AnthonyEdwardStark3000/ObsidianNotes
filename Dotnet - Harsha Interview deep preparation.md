@@ -18199,15 +18199,6 @@ Even though rare, it is useful for:
 - ✔ Supports model validation
     
 - ✔ Useful for custom API metadata and tracking
-    
 
 ---
 
-If you want, I can now regenerate these notes as:
-
-📌 Flashcards  
-📌 Dataview-friendly structured notes  
-📌 Interview Q/A-style notes  
-📌 A combined PDF-ready master document
-
-Just tell me.
