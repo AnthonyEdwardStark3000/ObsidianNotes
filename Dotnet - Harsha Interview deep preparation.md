@@ -18201,4 +18201,225 @@ Even though rare, it is useful for:
 - ✔ Useful for custom API metadata and tracking
 
 ---
+# 📌 **Title: FromBody — ASP.NET Core Model Binding**
+
+## 🎯 **Interview-Ready Definition**
+
+`[FromBody]` tells ASP.NET Core to bind a parameter **from the HTTP request body**, using **input formatters** such as:
+
+- JSON input formatter
+    
+- XML input formatter
+    
+- Custom formatters
+    
+
+This is required when receiving **raw JSON, XML, or any non-form content types**.
+
+---
+
+# 🌍 **When Do We Use `[FromBody]`?**
+
+Use `[FromBody]` when the client sends data with content types like:
+
+- `application/json`
+    
+- `application/xml`
+    
+- `text/json`
+    
+- `text/xml`
+    
+- `application/csv` (with custom formatters)
+    
+
+### ❗ Why Needed?
+
+Because **default model binding does NOT parse JSON/XML from body** unless `[FromBody]` is used.
+
+---
+
+# ⚠️ **Important Internal Behavior**
+
+- A request can have **only one `[FromBody]` parameter**.
+    
+- ASP.NET Core uses **input formatters** internally:
+    
+    - JSON → converted by `System.Text.Json` formatter
+        
+    - XML → requires adding `AddXmlSerializerFormatters()`
+        
+
+---
+
+# 🏛 **Traditional (Old) Way — Manually Reading Request Body**
+
+Before model binding, you had to read the raw body manually:
+
+```csharp
+[HttpPost]
+public async Task<IActionResult> Register()
+{
+    using var reader = new StreamReader(Request.Body);
+    string rawBody = await reader.ReadToEndAsync();
+
+    // Then manually deserialize JSON
+    var person = JsonSerializer.Deserialize<Person>(rawBody);
+
+    return Ok(person);
+}
+```
+
+### ❌ Problems
+
+- Manual reading
+    
+- Manual deserialization
+    
+- Hard to maintain
+    
+- Zero validation integration
+
+
+---
+
+# 🧲 **Modern Way — Using `[FromBody]` (Recommended)**
+
+ASP.NET Core automatically deserializes JSON/XML into your model.
+
+---
+
+# 📦 **Complete Example — Model**
+
+```csharp
+public class Person
+{
+    public string PersonName { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+}
+```
+
+---
+
+# ⚡ **Controller Using `[FromBody]`**
+
+```csharp
+[HttpPost]
+public IActionResult Register([FromBody] Person model)
+{
+    return Ok(new
+    {
+        IsValid = ModelState.IsValid,
+        Data = model
+    });
+}
+```
+
+---
+
+# 🧪 **Testing in Postman**
+
+### Step 1: Choose
+
+**Body → Raw → JSON**
+
+### Step 2: Enter JSON
+
+```json
+{
+  "personName": "Suresh",
+  "email": "suresh@email.com",
+  "phone": "9999999999"
+}
+```
+
+### Step 3: Send Request
+
+✔ You will see the model filled correctly.
+
+---
+
+# 💡 **If `[FromBody]` Is Missing**
+
+JSON values will **NOT** bind into the model (model = null or default values).
+
+---
+
+# 📦 **XML Example (Older Systems)**
+
+## Enable XML Formatter
+
+```csharp
+builder.Services.AddControllers()
+    .AddXmlSerializerFormatters();
+```
+
+## Action Method
+
+```csharp
+[HttpPost]
+public IActionResult Register([FromBody] Person model)
+{
+    return Ok(model);
+}
+```
+
+## XML Request Example
+
+```xml
+<Person>
+  <PersonName>Suresh</PersonName>
+  <Email>suresh@email.com</Email>
+  <Phone>9999999999</Phone>
+</Person>
+```
+
+✔ ASP.NET Core will now parse XML into the model.
+
+---
+
+# 📘 **Internal Flow — How `[FromBody]` Works (Interview Worthy)**
+
+1. Checks the request `Content-Type`.
+    
+2. Chooses an input formatter:
+    
+    - JSON → `SystemTextJsonInputFormatter`
+        
+    - XML → `XmlSerializerInputFormatter`
+        
+3. Reads the request body stream.
+    
+4. Deserializes into the expected model.
+    
+5. Validates using data annotation attributes.
+    
+6. Populates `ModelState`.
+    
+
+---
+
+# 🧠 **Obsidian Summary**
+
+```
+# FromBody — ASP.NET Core
+
+- Used to bind JSON, XML, or custom data from request body.
+- Required for non-form content types.
+- Only one [FromBody] allowed per action method.
+- Uses input formatters internally (JSON, XML).
+- Without [FromBody], JSON will NOT bind to model.
+
+## Example
+[HttpPost]
+public IActionResult Register([FromBody] Person model)
+
+## JSON Example
+{
+  "name": "Suresh",
+  "email": "abc@test.com"
+}
+```
+---
 
