@@ -16489,5 +16489,388 @@ During model validation, _after model binding_ and _before the controller action
 
 `protected override ValidationResult IsValid(object value, ValidationContext context)`
 
+# Custom Validation with Multiple Properties — Detailed Guide 
 
+This note explains **how to write custom validation attributes that validate multiple properties** (e.g., `FromDate` ≤ `ToDate`) using **reflection** inside ASP.NET Core.  
+Includes: file structure, definitions, full working code with comments, step-by-step runtime flow, and example requests/responses.
+
+---
+
+# Summary (one-line)
+
+Create a validation attribute by inheriting `ValidationAttribute`, override `IsValid(object value, ValidationContext context)`, use `context.ObjectInstance` + reflection to read other properties, and return a `ValidationResult` listing the member names that failed.
+
+---
+
+# File structure (recommended)
+
+```
+/MyApp
+│
+├─ /Controllers
+│   └─ PersonController.cs
+│
+├─ /Models
+│   └─ Person.cs
+│
+├─ /CustomValidators
+│   └─ DateRangeValidatorAttribute.cs
+│
+└─ Program.cs
+```
+
+---
+
+# Concepts & Definitions
+
+- **Custom Validation Attribute** — a class that inherits `ValidationAttribute` and implements `IsValid(...)` with your business logic. It runs during **model validation** after model binding.
+    
+- **ValidationContext** — contains metadata during validation: `ObjectInstance` (the model object instance), `ObjectType` (Type of model), `MemberName` (the property the attribute is applied to), etc.
+    
+- **Reflection** — runtime mechanism to inspect types and access properties/methods dynamically. We use it to read the _other_ property values from the model instance.
+    
+- **ValidationResult** — return value of `IsValid`. Use `ValidationResult.Success` for success or `new ValidationResult(message, memberNames)` for failure. `memberNames` helps UI map errors to fields.
+    
+- **ModelState** — populated with validation results; controllers inspect `ModelState.IsValid` and `ModelState.Values` to return errors.
+    
+
+---
+
+# Behavior / Execution flow (request → validation)
+
+1. Request -> Routing chooses action.
+    
+2. Model binding builds the model object (fills properties).
+    
+3. Model validation executes: built-in and custom attributes. Each attribute’s `IsValid(value, context)` gets called.
+    
+4. If any validation returns an error, `ModelState` becomes invalid and the controller can return a 400 with error details.
+    
+5. If valid, controller action executes.
+    
+
+---
+
+# Full code (copy/paste ready)
+
+> Adjust the root namespace `MyApp` to match your project.
+
+## Program.cs
+
+```csharp
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add controllers
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
+app.Run();
+```
+
+---
+
+## CustomValidators/DateRangeValidatorAttribute.cs
+
+```csharp
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection;
+
+namespace MyApp.CustomValidators
+{
+    /// <summary>
+    /// Validates that the "other property" (FromDate) is <= this property (ToDate).
+    /// Usage: [DateRangeValidator("FromDate", ErrorMessage = "...")]
+    /// If invalid, returns ValidationResult with member names for both properties
+    /// so UI frameworks can attach errors to both fields.
+    /// </summary>
+    public class DateRangeValidatorAttribute : ValidationAttribute
+    {
+        /// <summary>
+        /// Name of the other property to compare (e.g. "FromDate").
+        /// Supplied via constructor.
+        /// </summary>
+        public string OtherPropertyName { get; }
+
+        public DateRangeValidatorAttribute(string otherPropertyName)
+        {
+            if (string.IsNullOrWhiteSpace(otherPropertyName))
+                throw new ArgumentException("Other property name must be provided.", nameof(otherPropertyName));
+
+            OtherPropertyName = otherPropertyName;
+        }
+
+        /// <summary>
+        /// value -> the value of the property to which this attribute is applied (ToDate).
+        /// validationContext.ObjectInstance -> the model instance (Person).
+        /// validationContext.ObjectType -> the model type (typeof(Person)).
+        /// validationContext.MemberName -> the property name where attribute is applied (ToDate).
+        /// </summary>
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        {
+            // If no value was supplied for this property, treat as no validation (consistent with many built-in attributes).
+            if (value == null)
+                return ValidationResult.Success;
+
+            // Try to convert the current property (ToDate) to DateTime
+            if (!(value is DateTime toDate))
+            {
+                // Not a DateTime -> consider invalid type usage
+                return new ValidationResult($"The {validationContext.MemberName} must be a valid date.");
+            }
+
+            // Get the model instance and its type
+            var instance = validationContext.ObjectInstance;
+            var type = validationContext.ObjectType;
+
+            // Use reflection to find a property with the name OtherPropertyName (case-sensitive by default)
+            var otherProperty = type.GetProperty(OtherPropertyName, BindingFlags.Public | BindingFlags.Instance);
+
+            if (otherProperty == null)
+            {
+                // The other property was not found on the model - treat it as misconfiguration
+                return new ValidationResult($"Unknown property: {OtherPropertyName}");
+            }
+
+            // Get the value of the other property from the model instance
+            var otherValue = otherProperty.GetValue(instance);
+
+            // If the other property is null → no validation to perform (you can change this if you want required checks)
+            if (otherValue == null)
+                return ValidationResult.Success;
+
+            if (!(otherValue is DateTime fromDate))
+            {
+                // The other property exists but is not DateTime
+                return new ValidationResult($"The {OtherPropertyName} must be a valid date.");
+            }
+
+            // Actual comparison: fromDate should be <= toDate
+            if (fromDate > toDate)
+            {
+                // Build error message: use provided ErrorMessage if set, otherwise a default.
+                var msg = string.IsNullOrWhiteSpace(ErrorMessage)
+                    ? $"{validationContext.DisplayName ?? validationContext.MemberName} must be on or after {OtherPropertyName}."
+                    : ErrorMessage;
+
+                // Provide member names so UI can attach the error to both fields.
+                var memberNames = new[] { OtherPropertyName, validationContext.MemberName };
+
+                return new ValidationResult(msg, memberNames);
+            }
+
+            // All good
+            return ValidationResult.Success;
+        }
+    }
+}
+```
+
+**Notes about this attribute**
+
+- The constructor receives the _other_ property name (`FromDate`).
+    
+- `IsValid` receives the value for **this** property (`ToDate`) and the `ValidationContext` which includes the model instance.
+    
+- We use `type.GetProperty(...)` to find the other property’s `PropertyInfo`, and `GetValue(instance)` to fetch its runtime value.
+    
+- If the other property or types don’t match expectations, we return an informative `ValidationResult`.
+    
+- On failure we include both property names in the returned `ValidationResult` so frameworks can show the error near both fields.
+    
+
+---
+
+## Models/Person.cs
+
+```csharp
+using System;
+using System.ComponentModel.DataAnnotations;
+using MyApp.CustomValidators;
+
+namespace MyApp.Models
+{
+    public class Person
+    {
+        [Required]
+        public string? Name { get; set; }
+
+        // Example: validate that FromDate <= ToDate (ToDate uses the attribute referring to FromDate)
+        [Display(Name = "From Date")]
+        public DateTime? FromDate { get; set; }
+
+        [Display(Name = "To Date")]
+        [DateRangeValidator("FromDate", ErrorMessage = "From Date must be earlier than or equal to To Date.")]
+        public DateTime? ToDate { get; set; }
+
+        // Additional fields
+        [EmailAddress]
+        public string? Email { get; set; }
+    }
+}
+```
+
+**Notes**
+
+- `FromDate` and `ToDate` are nullable `DateTime?`. If either is `null`, the custom validator treats the missing value as "no validation" — you can change this if you want `Required` behavior.
+    
+- The attribute is applied to `ToDate`, pointing to the other property name `"FromDate"`.
+    
+
+---
+
+## Controllers/PersonController.cs
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using MyApp.Models;
+using System.Linq;
+
+namespace MyApp.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PersonController : ControllerBase
+    {
+        [HttpPost("search")]
+        public IActionResult Search(Person model)
+        {
+            // Model binding -> model created and filled
+            // Model validation (built-in + custom) already ran
+
+            if (!ModelState.IsValid)
+            {
+                // Extract errors to readable form (dictionary of field -> errors)
+                var errors = ModelState
+                    .Where(kv => kv.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kv => kv.Key,
+                        kv => kv.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+
+                // Return 400 with the errors
+                return BadRequest(new { Errors = errors });
+            }
+
+            return Ok(new { Message = "Search request accepted", Model = model });
+        }
+    }
+}
+```
+
+**Notes**
+
+- If validation fails, we return a `400` with an object containing errors keyed by property names.
+    
+- Because our custom attribute included both `FromDate` and `ToDate` in `ValidationResult` member names, errors will show under both keys.
+    
+
+---
+
+# Example requests & responses (Postman)
+
+**Request URL**
+
+```
+POST http://localhost:5000/api/person/search
+Content-Type: application/json
+
+{
+  "name": "Alice",
+  "fromDate": "2022-01-01",
+  "toDate": "2020-01-01",
+  "email": "alice@example.com"
+}
+```
+
+**Explanation**
+
+- `FromDate` is 2022, `ToDate` is 2020 → invalid (FromDate > ToDate)
+    
+
+**Response (400)**
+
+```json
+{
+  "errors": {
+    "FromDate": ["From Date must be earlier than or equal to To Date."],
+    "ToDate": ["From Date must be earlier than or equal to To Date."]
+  }
+}
+```
+
+---
+
+# Additional implementation notes & tips
+
+- **Member names in `ValidationResult`**: including the property names helps client frameworks show the error next to the appropriate fields. If you pass only the attribute-applied property, only that field will show the validation error.
+    
+- **Case-sensitivity**: `GetProperty` is case-sensitive by default. If you want case-insensitive lookup, use overloads or `GetProperties()` and match ignoring case.
+    
+- **Nullable handling**: choose whether `null` should fail validation or be considered valid. Adding `[Required]` on the properties is the typical approach to require presence.
+    
+- **Type checking**: always guard against wrong types; if your attribute is applied to a non-`DateTime` property, return a clear error message (helps detect misconfiguration).
+    
+- **Internationalized messages**: you can use resource files and set `ErrorMessageResourceType`/`ErrorMessageResourceName` to support localization.
+    
+- **Unit testing**: test your attribute by creating a `ValidationContext` manually and calling `IsValid(value, context)`.
+    
+
+---
+
+# Reflection quick primer (why it’s used here)
+
+- Reflection allows you to **inspect Type metadata** at runtime (properties, methods).
+    
+- `Type.GetProperty("PropName")` returns `PropertyInfo`.
+    
+- `PropertyInfo.GetValue(obj)` returns the property value from that instance.
+    
+- Reflection is essential for _multi-property validation_ because within `IsValid` you normally only get the single property value — to access sibling properties you must use reflection on `validationContext.ObjectInstance`.
+    
+
+---
+
+# Common variations & advanced ideas
+
+- **Cross-field validation at model-level**: instead of attribute on one property, implement `IValidatableObject` on the model and validate all fields in `IEnumerable<ValidationResult> Validate(ValidationContext ctx)`. This avoids reflection and is arguably cleaner for complex multi-field rules.
+    
+- **Model-level vs property-level**:
+    
+    - Property-level attribute (this guide) attaches message to properties.
+        
+    - Model-level (IValidatableObject) attaches to model; you can still return member names for specific fields.
+        
+- **Asynchronous validation**: `ValidationAttribute` is synchronous. For async or DB-checks, validate in controller/service or implement a custom pipeline.
+    
+
+---
+
+# Interview-ready checklist (things you should be able to explain)
+
+- Why and when to use custom validation attributes.
+    
+- The difference between property-level attribute and `IValidatableObject`.
+    
+- How `ValidationContext.ObjectInstance` & reflection are used to read other properties.
+    
+- What `ValidationResult` member names do and why they matter.
+    
+- The order: Routing → ModelBinding → ModelValidation → Action.
+    
+- How `ModelState` is populated and how to extract error messages.
+    
+
+---
 
