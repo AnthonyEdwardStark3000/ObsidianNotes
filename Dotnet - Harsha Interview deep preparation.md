@@ -18009,4 +18009,205 @@ Any scenario where **the same key has multiple values**.
 ✔ Fully supported for any numeric, string, or complex type collections
 
 ---
+# 📌 **ASP.NET Core — Reading Headers Using `[FromHeader]`**
 
+## 🔹 **Interview-Ready Definition**
+
+`[FromHeader]` is an ASP.NET Core model binding attribute used to map values from **HTTP request headers** directly into action method parameters or model properties—without writing manual code to read headers from `HttpContext`.
+
+---
+
+# 🧩 **Why Use `[FromHeader]`?**
+
+Traditional header reading requires:
+
+- Accessing `HttpContext`
+    
+- Searching header dictionary
+    
+- Extra plumbing code
+    
+
+Model binding eliminates all of this using:
+
+```csharp
+[FromHeader(Name = "User-Agent")] string userAgent
+```
+
+---
+
+# 🏛 **Traditional Method — Reading Headers Manually**
+
+```csharp
+public IActionResult Register()
+{
+    string userAgent = ControllerContext.HttpContext.Request.Headers["User-Agent"];
+
+    return Ok(new
+    {
+        UserAgent = userAgent
+    });
+}
+```
+
+### ❌ Disadvantages
+
+- Verbose
+    
+- You must manually access the header dictionary
+    
+- Harder to test
+    
+- Not reusable in model validation
+    
+
+---
+
+# 🧲 **Model Binding Method — Using `[FromHeader]`**
+
+```csharp
+[HttpPost]
+public IActionResult Register(
+    Person model,
+    [FromHeader(Name = "User-Agent")] string userAgent
+)
+{
+    return Ok(new
+    {
+        IsValid = ModelState.IsValid,
+        UserAgent = userAgent,
+        Person = model
+    });
+}
+```
+
+### ✔ Advantages
+
+- Clean and minimal
+    
+- Clear intent
+    
+- Auto-bound by framework
+    
+- Works with model validation
+    
+- Makes header reading type-safe
+    
+
+---
+
+# 📦 **Complete Example With Model Class**
+
+```csharp
+public class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+}
+```
+
+---
+
+# 📮 **Postman Example Request**
+
+Headers:
+
+```
+User-Agent: PostmanRuntime/7.40.0
+```
+
+Body:
+
+```json
+{
+  "name": "Suresh",
+  "age": 25
+}
+```
+
+Response:
+
+```json
+{
+  "isValid": true,
+  "userAgent": "PostmanRuntime/7.40.0",
+  "person": {
+    "name": "Suresh",
+    "age": 25
+  }
+}
+```
+
+---
+
+# 📝 **Binding Header Values to Model Properties (Advanced Version)**
+
+You can bind header values directly into model properties too.
+
+### 🔥 Model Example
+
+```csharp
+public class RegisterRequest
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+
+    [FromHeader(Name = "X-Request-Id")]
+    public string RequestId { get; set; }
+}
+```
+
+### Controller
+
+```csharp
+[HttpPost]
+public IActionResult Register(RegisterRequest request)
+{
+    return Ok(request);
+}
+```
+
+---
+
+# 🌐 **When `[FromHeader]` Is Used in Real Projects**
+
+Even though rare, it is useful for:
+
+- API versioning headers (e.g., `X-API-Version`)
+    
+- Tracking headers (`X-Request-Id`)
+    
+- Authentication (custom headers)
+    
+- Device details (`User-Agent`)
+    
+- Feature flags
+    
+- Debug tracing or correlation IDs
+    
+
+---
+
+# 🧠 **Final Summary (Obsidian Friendly)**
+
+- ✔ Traditional: `HttpContext.Request.Headers["key"]`
+    
+- ✔ Modern: `[FromHeader(Name = "key")] string headerValue`
+    
+- ✔ Easy, clean, reusable
+    
+- ✔ Supports model validation
+    
+- ✔ Useful for custom API metadata and tracking
+    
+
+---
+
+If you want, I can now regenerate these notes as:
+
+📌 Flashcards  
+📌 Dataview-friendly structured notes  
+📌 Interview Q/A-style notes  
+📌 A combined PDF-ready master document
+
+Just tell me.
