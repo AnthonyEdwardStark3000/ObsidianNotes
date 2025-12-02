@@ -18634,10 +18634,6 @@ Content-Type: application/xml
 
 ---
 
-Below is a **clean, Obsidian-friendly note** with **interview-ready definitions**, **full code examples**, and **clear explanation** of _Services_ in ASP.NET Core—including **how to create a separate Class Library** for services.
-
----
-
 # 🏷️ Title: **Services in ASP.NET Core**
 
 ## ✅ **Professional Interview-Ready Definition**
@@ -18884,7 +18880,6 @@ public class CitiesController : Controller
 - **Injected into controllers using Dependency Injection**
     
 - **Responsible for calculations + validations + calling repositories**
-    
 
 ---
 
