@@ -18882,4 +18882,198 @@ public class CitiesController : Controller
 - **Responsible for calculations + validations + calling repositories**
 
 ---
+# 🟦 **Input Formatters – ASP.NET Core (With Full Code Examples)**
+
+## ✅ **What Are Input Formatters?**
+
+Input Formatters in ASP.NET Core are responsible for **reading the request body** and **converting it into model objects**.
+
+Example:  
+If the body contains JSON → _JSON Input Formatter_ converts it into a C# object.  
+If the body contains XML → _XML Input Formatter_ converts it into a C# object.
+
+---
+
+# 🟩 **Default Behavior**
+
+✔ ASP.NET Core automatically enables the **JSON Input Formatter**  
+❌ XML Input Formatter is **NOT enabled by default** → you must add it manually.
+
+---
+
+# 🟧 **How JSON Input Formatter Works**
+
+When the request has:
+
+```
+Content-Type: application/json
+```
+
+ASP.NET Core automatically uses the **System.Text.Json** formatter to parse the body into the model class.
+
+---
+
+# 🟪 **How to Enable XML Input Formatter**
+
+To accept XML from request body, you must add:
+
+```csharp
+builder.Services.AddControllers()
+    .AddXmlSerializerFormatters();
+```
+
+This adds the **XmlSerializerInputFormatter**.
+
+---
+
+# 🟦 **Full Working Example**
+
+Below is a complete working example of enabling XML + JSON input formatters and receiving XML or JSON data.
+
+---
+
+# ✅ **Program.cs**
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+// Add controllers and include XML serializer formatter
+builder.Services.AddControllers()
+    .AddXmlSerializerFormatters();
+
+var app = builder.Build();
+
+app.MapControllers();
+
+app.Run();
+```
+
+---
+
+# ✅ **Model Class (Person.cs)**
+
+```csharp
+public class Person
+{
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public int Age { get; set; }
+}
+```
+
+---
+
+# ✅ **Controller Example**
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+[ApiController]
+[Route("api/[controller]")]
+public class PersonController : ControllerBase
+{
+    [HttpPost("create")]
+    public IActionResult CreatePerson([FromBody] Person model)
+    {
+        if (model == null)
+            return BadRequest("Invalid data received.");
+
+        return Ok(new
+        {
+            Message = "Person received successfully",
+            Data = model
+        });
+    }
+}
+```
+
+---
+
+# 🟦 **Sending JSON Request (Postman)**
+
+**Body → raw → JSON**
+
+```json
+{
+  "Name": "Suresh",
+  "Email": "suresh@example.com",
+  "Age": 25
+}
+```
+
+Headers automatically set:
+
+```
+Content-Type: application/json
+```
+
+---
+
+# 🟧 **Sending XML Request (Postman)**
+
+**Body → raw → XML**
+
+```xml
+<Person>
+    <Name>Suresh</Name>
+    <Email>suresh@example.com</Email>
+    <Age>25</Age>
+</Person>
+```
+
+Set header manually:
+
+```
+Content-Type: application/xml
+```
+
+---
+
+# 🟦 **How Formatter Selection Works**
+
+ASP.NET Core selects formatter based on:
+
+## ✔ **Request headers**
+
+If header is:
+
+- `Content-Type: application/json` → JSON formatter
+    
+- `Content-Type: application/xml` → XML formatter
+    
+
+## ✔ **[FromBody] attribute**
+
+It tells ASP.NET Core:
+
+> “Read this parameter from the request body using input formatters.”
+
+---
+
+# 🟩 **Important Points**
+
+✔ JSON input formatter is built-in  
+✔ XML input formatter must be added manually  
+✔ XML is rarely used in modern apps → mostly for legacy systems  
+✔ Input formatters convert JSON/XML → C# model object
+
+---
+
+# 🟣 **Mini Interview Answers**
+
+### **1️⃣ What are input formatters?**
+
+> Input formatters read the request body and convert it into .NET model objects.
+
+### **2️⃣ Why is XML formatter not available by default?**
+
+> To keep ASP.NET Core lightweight and optimized.
+
+### **3️⃣ How to enable XML formatter?**
+
+```csharp
+builder.Services.AddControllers().AddXmlSerializerFormatters();
+```
+
+---
 
