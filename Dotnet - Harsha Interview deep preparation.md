@@ -19699,16 +19699,6 @@ After IoC:
 |Manual object creation|Automatic object creation|
 
 ---
-
-You get:
-
-✅ **Obsidian-friendly notes**  
-✅ **Clean short code sample (Program.cs + Service + Controller + View + wwwroot sample)**  
-✅ **Exactly demonstrates IoC Container + DIP + DI**  
-✅ **Zero extra complication — perfect for revision**
-
----
-
 # ✅ **Code Example: Dependency Injection + IoC + DIP (As Described)**
 
 This is a **single-file style sample project layout** you can paste into your solution.
