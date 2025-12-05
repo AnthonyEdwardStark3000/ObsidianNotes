@@ -19699,7 +19699,7 @@ After IoC:
 |Manual object creation|Automatic object creation|
 
 ---
-# ✅ **Code Example: Dependency Injection + IoC + DIP (As Described)**
+# ✅ **Code Example: Dependency Injection + IoC + DIP **
 
 This is a **single-file style sample project layout** you can paste into your solution.
 
