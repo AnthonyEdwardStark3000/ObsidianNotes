@@ -20,8 +20,19 @@
               "icon": "lucide-file",
               "title": "Dotnet - Harsha Interview deep preparation"
             }
+          },
+          {
+            "id": "2c98bccaae631b03",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -171,11 +182,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "710a72a408af2f52",
+  "active": "2c98bccaae631b03",
   "lastOpenFiles": [
+    "Dotnet - Harsha Interview deep preparation.md",
     "images/Pasted image 20251124224917.png",
     "Dotnet - Harsha.md",
-    "Dotnet - Harsha Interview deep preparation.md",
     "images/Pasted image 20250916230630.png",
     "images/Pasted image 20250916230307.png",
     "Mysql.md",
@@ -187,7 +198,6 @@
     "images/Pasted image 20250907232409.png",
     "images/Pasted image 20250907232213.png",
     "images/Pasted image 20250901235407.png",
-    "images/Pasted image 20250901234327.png",
     "images/Pasted.md",
     "().md",
     "Untitled.canvas",
