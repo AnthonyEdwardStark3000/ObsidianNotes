@@ -20056,21 +20056,6 @@ So if a service method needs another service:
 |Method Injection (Service)|Only when caller passes dependency manually|Rare, but valid|
 
 ---
-Below is **the clearest, fully practical, runnable code example** for understanding:
-
-- **Transient**
-    
-- **Scoped**
-    
-- **Singleton**
-    
-
-…with _object tracking_, _GUID demonstration_, _multiple requests simulation_, and _visual explanation_.
-
-This exactly matches what your transcript teaches.
-
----
-
 # ✅ **Service Lifetimes in ASP.NET Core — Interview-Ready Explanations**
 
 Dependency Injection (DI) in ASP.NET Core uses **three service lifetimes**:
@@ -20253,15 +20238,21 @@ Disposed **only when the application stops**, e.g., console window closes / IIS 
 > “One object for the entire application lifetime — great for shared state and caching but must be thread-safe.”
 
 ---
+Below is **the clearest, fully practical, runnable code example** for understanding:
 
-If you want, I can also generate:
+- **Transient**
+    
+- **Scoped**
+    
+- **Singleton**
+    
 
-✅ **Obsidian-friendly notes**  
-✅ **Dataview flashcards**  
-✅ **ASCII diagrams showing object creation**  
-✅ **Sample ASP.NET Core project demonstrating object lifetime tracking**
+…with _object tracking_, _GUID demonstration_, _multiple requests simulation_, and _visual explanation_.
 
-Would you like all of those?
+This exactly matches what your transcript teaches.
+
+---
+**Lifetime Demo Service** that prints a GUID each time it is created.
 # 🔥 **1. Create Lifetime Service Interfaces**
 
 ```csharp
