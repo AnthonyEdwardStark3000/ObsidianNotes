@@ -316,7 +316,6 @@ This is where you become *job-ready*.
 # ✅ **📄 Database**
 
 tags: [sql, databases, roadmap, basics, learning]
-
 # SQL – What Is It? Complete Beginner Theory (Obsidian Version)
 
 ## 🎯 Overview  
