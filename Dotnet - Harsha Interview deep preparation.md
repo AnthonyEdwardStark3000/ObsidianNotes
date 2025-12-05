@@ -19851,9 +19851,9 @@ MyApp/
 5. Controller uses the injected service
 
 ---
-# ✅ **Short Answer**
+# ✅ ** Method Injection**
 
-✔️ **No — method injection is _not_ limited to controllers or constructors.**  
+✔️ **Method injection is _not_ limited to controllers or constructors.**  
 ✔️ You can inject services into **any method** (controller or service) using:
 
 ```csharp
