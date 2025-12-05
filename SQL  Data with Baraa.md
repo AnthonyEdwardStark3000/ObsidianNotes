@@ -316,7 +316,7 @@ This is where you become *job-ready*.
 # ✅ **📄 Database**
 
 tags: [sql, databases, roadmap, basics, learning]
-# SQL – What Is It? Complete Beginner Theory (Obsidian Version)
+# SQL – What Is It? Complete Beginner Theory 
 
 ## 🎯 Overview  
 Everything generates data. Your name, your mobile, bank transactions — all of them are data.  
