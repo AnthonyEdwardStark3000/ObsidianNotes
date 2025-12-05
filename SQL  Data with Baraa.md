@@ -315,9 +315,7 @@ This is where you become *job-ready*.
 ---
 # ✅ **📄 Database**
 
-title: SQL Introduction
 tags: [sql, databases, roadmap, basics, learning]
-created: 2025-11-25
 
 # SQL – What Is It? Complete Beginner Theory (Obsidian Version)
 
