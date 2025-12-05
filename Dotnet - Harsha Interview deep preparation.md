@@ -19700,4 +19700,164 @@ After IoC:
 
 ---
 
+You get:
 
+✅ **Obsidian-friendly notes**  
+✅ **Clean short code sample (Program.cs + Service + Controller + View + wwwroot sample)**  
+✅ **Exactly demonstrates IoC Container + DIP + DI**  
+✅ **Zero extra complication — perfect for revision**
+
+---
+
+# ✅ **Code Example: Dependency Injection + IoC + DIP (As Described)**
+
+This is a **single-file style sample project layout** you can paste into your solution.
+
+---
+
+# 📌 **Program.cs**
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+// 1️⃣ Register service into IoC container
+builder.Services.AddScoped<ICityService, CityService>();
+
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+app.UseStaticFiles();
+app.MapDefaultControllerRoute();
+
+app.Run();
+```
+
+---
+
+# 📌 **Services/ICityService.cs**
+
+```csharp
+public interface ICityService
+{
+    List<string> GetCities();
+}
+```
+
+---
+
+# 📌 **Services/CityService.cs**
+
+```csharp
+public class CityService : ICityService
+{
+    public List<string> GetCities()
+    {
+        return new List<string>
+        {
+            "Hyderabad",
+            "Chennai",
+            "Bangalore",
+            "Mumbai"
+        };
+    }
+}
+```
+
+---
+
+# 📌 **Controllers/HomeController.cs**
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+public class HomeController : Controller
+{
+    private readonly ICityService _cityService;
+
+    // 2️⃣ Dependency is received via Constructor Injection
+    public HomeController(ICityService cityService)
+    {
+        _cityService = cityService;   // 3️⃣ Assigned to private field
+    }
+
+    public IActionResult Index()
+    {
+        // 4️⃣ Now you can use injected service
+        var cities = _cityService.GetCities();
+        return View(cities);
+    }
+}
+```
+
+---
+
+# 📌 **Views/Home/Index.cshtml**
+
+```html
+@model List<string>
+
+<h2>List of Cities</h2>
+
+<ul>
+@foreach(var city in Model)
+{
+    <li>@city</li>
+}
+</ul>
+```
+
+---
+
+# 📌 **wwwroot/sample.css** (Optional)
+
+```css
+body {
+    font-family: Arial;
+    padding: 20px;
+}
+```
+
+---
+
+# 📌 **Folder Structure (ASCII Diagram)**
+
+```
+MyApp/
+│
+├── Program.cs
+├── Controllers/
+│   └── HomeController.cs
+│
+├── Services/
+│   ├── ICityService.cs
+│   └── CityService.cs
+│
+├── Views/
+│   └── Home/
+│       └── Index.cshtml
+│
+└── wwwroot/
+    └── sample.css
+```
+
+---
+# 📘 Obsidian-Friendly Summary (Add to Your Notes)
+
+# Dependency Injection (DI)
+
+- DI implements IoC.
+- IoC Container creates dependency objects.
+- Controller receives dependency via constructor (never using `new`).
+- ASP.NET Core IoC container maps:
+  Interface ➝ Concrete Class
+- High-level component (Controller) depends on abstraction (Interface), not concrete class.
+
+## Flow
+1. Register service → IoC container  
+2. Controller asks IoC: “Give me ICityService”  
+3. IoC creates CityService  
+4. IoC injects it into controller constructor  
+5. Controller uses the injected service
+
+---
