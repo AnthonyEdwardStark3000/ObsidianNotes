@@ -19832,7 +19832,7 @@ MyApp/
 ```
 
 ---
-# 📘 Obsidian-Friendly Summary (Add to Your Notes)
+# 📘 Obsidian-Friendly Summary 
 
 # Dependency Injection (DI)
 
