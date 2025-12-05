@@ -20071,24 +20071,6 @@ This exactly matches what your transcript teaches.
 
 ---
 
-# ✅ **Goal**
-
-To understand:
-
-- How objects are created
-    
-- When they are destroyed
-    
-- How to _track_ their lifetime using GUIDs
-    
-
-We’ll create a **Lifetime Demo Service** that prints a GUID each time it is created.
-
----
-Here is an **interview-ready**, **crisp**, **conceptual**, and **example-rich** explanation of **Transient**, **Scoped**, and **Singleton** lifetimes — exactly what interviewers expect.
-
----
-
 # ✅ **Service Lifetimes in ASP.NET Core — Interview-Ready Explanations**
 
 Dependency Injection (DI) in ASP.NET Core uses **three service lifetimes**:
