@@ -19851,3 +19851,209 @@ MyApp/
 5. Controller uses the injected service
 
 ---
+# ✅ **Short Answer**
+
+✔️ **No — method injection is _not_ limited to controllers or constructors.**  
+✔️ You can inject services into **any method** (controller or service) using:
+
+```csharp
+[FromServices] ICityService cityService
+```
+
+Constructor injection is the most common, but **method injection absolutely works in service classes too**.
+
+---
+
+# 📌 **1. Controller Constructor Injection (Common)**
+
+```csharp
+public class HomeController : Controller
+{
+    private readonly ICityService _cityService;
+
+    public HomeController(ICityService cityService)
+    {
+        _cityService = cityService;
+    }
+
+    public IActionResult Index()
+    {
+        return View(_cityService.GetCities());
+    }
+}
+```
+
+---
+
+# 📌 **2. Method Injection in Controller (Using [FromServices])**
+
+```csharp
+public IActionResult Index([FromServices] ICityService cityService)
+{
+    var data = cityService.GetCities();
+    return View(data);
+}
+```
+
+📌 **Service is only created for this method’s execution.**  
+📌 **Not available to other methods in this controller.**
+
+---
+
+# ❗ **3. Can Method Injection Be Done in Service Classes?**
+
+➡️ **Yes, it can — but you must call methods manually.**  
+ASP.NET Core only injects dependencies automatically into:
+
+- constructors
+    
+- action method parameters
+    
+
+**NOT into arbitrary method calls inside service classes.**
+
+BUT:
+
+You _can_ still achieve method injection inside services → the caller supplies the service.
+
+---
+
+# 📌 **3A. Method Injection in a Service (Manual, but valid)**
+
+```csharp
+public class ServiceA
+{
+    public void DoWork([FromServices] IServiceB serviceB)
+    {
+        serviceB.Process();
+    }
+}
+```
+
+⚠️ **But note:**  
+`FromServices` works **only when ASP.NET Core is managing the call**.
+
+Since service-to-service calls are direct C# calls, ASP.NET Core does **not** activate method injection automatically.
+
+So realistically, you'd do this:
+
+---
+
+# 📌 **3B. Practical Method Injection in Service Class (Manual dependency pass)**
+
+```csharp
+public class ServiceA : IServiceA
+{
+    public void DoWork(IServiceB serviceB)
+    {
+        serviceB.Process();
+    }
+}
+```
+
+And register services:
+
+```csharp
+builder.Services.AddScoped<IServiceA, ServiceA>();
+builder.Services.AddScoped<IServiceB, ServiceB>();
+```
+
+Then controller uses both:
+
+```csharp
+public class HomeController : Controller
+{
+    public IActionResult RunWork(
+        [FromServices] IServiceA serviceA,
+        [FromServices] IServiceB serviceB)
+    {
+        serviceA.DoWork(serviceB);
+        return Ok();
+    }
+}
+```
+
+✔ **This _is_ method injection** — in service layer  
+✔ **ServiceA receives ServiceB only for that specific method call**
+
+---
+
+# 📌 **4. When Should You Use Method Injection?**
+
+### ✔ Use Method Injection when:
+
+- service needed only for a _single_ method
+    
+- expensive service not used everywhere
+    
+- rare dependency
+    
+- avoids unused constructor parameters
+    
+
+### ✔ Use Constructor Injection when:
+
+- service used by multiple methods
+    
+- service needed by future methods
+    
+- standard approach in clean architecture
+    
+- easier for unit testing
+    
+
+Constructor injection is **the default and recommended method**.
+
+---
+
+# 📌 **5. Code Example Matching the Transcript Exactly**
+
+### Controller using Method Injection
+
+```csharp
+public class HomeController : Controller
+{
+    // No constructor injection here
+
+    public IActionResult Index([FromServices] ICityService cityService)
+    {
+        var cities = cityService.GetCities();
+        return View(cities);
+    }
+}
+```
+
+---
+
+# 📌 **6. Is `[FromServices]` Allowed Outside Controllers?**
+
+### ✔ Allowed in:
+
+- Controllers
+    
+- Razor Pages handlers
+    
+- Minimal APIs
+    
+- Components (Blazor)
+    
+
+### ❌ Not automatically applied inside service-to-service calls
+
+Because ASP.NET Core isn't controlling those calls.
+
+So if a service method needs another service:  
+👉 The caller (controller or another service) must pass it in.
+
+---
+
+# 🎯 **Final Summary**
+
+|Injection Type|Where It Works|When to Use|
+|---|---|---|
+|Constructor Injection|Controllers, Services, Any DI-created class|**Most common**, recommended|
+|Method Injection (Controller)|Controller methods via `[FromServices]`|When service is needed for **one method only**|
+|Method Injection (Service)|Only when caller passes dependency manually|Rare, but valid|
+
+---
+
