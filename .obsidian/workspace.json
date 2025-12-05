@@ -25,10 +25,14 @@
             "id": "2c98bccaae631b03",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "SQL  Data with Baraa.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "SQL  Data with Baraa"
             }
           }
         ],
@@ -184,6 +188,7 @@
   },
   "active": "2c98bccaae631b03",
   "lastOpenFiles": [
+    "SQL  Data with Baraa.md",
     "Dotnet - Harsha Interview deep preparation.md",
     "images/Pasted image 20251124224917.png",
     "Dotnet - Harsha.md",
