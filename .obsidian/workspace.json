@@ -35,8 +35,7 @@
               "title": "SQL  Data with Baraa"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -186,7 +185,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "2c98bccaae631b03",
+  "active": "710a72a408af2f52",
   "lastOpenFiles": [
     "SQL  Data with Baraa.md",
     "Dotnet - Harsha Interview deep preparation.md",
