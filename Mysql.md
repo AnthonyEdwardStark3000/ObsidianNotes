@@ -3436,8 +3436,6 @@ END;
 - ✅ Lifetime, use-cases, when to use & when not to use
     
 - ✅ Final **one-paragraph interview summary**
-    
 
-This is **Obsidian-friendly**, printable, and safe for **technical interviews**.
 
 ---
