@@ -2930,3 +2930,489 @@ END;
 - **Parameter sniffing causes inconsistent performance**
 
 ---
+Below is a **complete, interview-ready + production-ready guide** on **TEMP TABLES in SQL Server**, written the same way senior backend / database interviews expect.
+
+This is **concept → why → when → how → performance → comparisons → production patterns**.
+
+---
+
+# 🚀 Title: Temporary Tables (Temp Tables) in SQL Server
+
+---
+
+## 1️⃣ What is a Temp Table? (Interview Definition)
+
+A **temporary table** is a table that is **created at runtime**, stored in the **tempdb system database**, and **automatically removed** when its **session or scope ends**.
+
+📌 Used to **store intermediate results** during complex operations.
+
+---
+
+## 2️⃣ Why Temp Tables Exist (Real-World Need)
+
+Temp tables are used when:
+
+- Complex joins are expensive
+    
+- Same dataset is reused multiple times
+    
+- Large intermediate results are needed
+    
+- Indexing is required on intermediate data
+    
+- CTEs become unreadable or inefficient
+    
+
+---
+
+## 3️⃣ Where Temp Tables Are Stored?
+
+```
+System Databases
+ └── tempdb
+     └── Temporary Tables
+```
+
+✔ Physically stored in **tempdb**  
+✔ Managed automatically by SQL Server
+
+---
+
+## 4️⃣ How to Create Temp Tables
+
+---
+
+## 🔹 Method 1: SELECT INTO (Quick & Easy)
+
+```sql
+SELECT *
+INTO #TempOrders
+FROM Orders
+WHERE OrderDate >= '2024-01-01';
+```
+
+✅ Automatically creates table  
+❌ No control over data types  
+❌ No constraints initially
+
+---
+
+## 🔹 Method 2: CREATE TABLE (Production Preferred)
+
+```sql
+CREATE TABLE #TempOrders
+(
+    OrderId INT,
+    CustomerId INT,
+    OrderDate DATE,
+    Amount DECIMAL(10,2)
+);
+```
+
+Then insert data:
+
+```sql
+INSERT INTO #TempOrders
+SELECT OrderId, CustomerId, OrderDate, Amount
+FROM Orders
+WHERE OrderDate >= '2024-01-01';
+```
+
+✔ Full control  
+✔ Best for production
+
+---
+
+## 🔹 Other Ways to Create Temp Tables
+
+### ▶ From Stored Procedure Output
+
+```sql
+INSERT INTO #TempOrders
+EXEC GetOrdersByDate '2024-01-01';
+```
+
+---
+
+## 5️⃣ Operations Allowed on Temp Tables
+
+Temp tables support **almost all operations**:
+
+✔ SELECT  
+✔ INSERT  
+✔ UPDATE  
+✔ DELETE  
+✔ JOIN  
+✔ INDEX  
+✔ ALTER  
+✔ CONSTRAINTS
+
+🚫 Triggers (not allowed)
+
+---
+
+## 6️⃣ Scope & Session of Temp Tables
+
+---
+
+## 🔹 What is a Session?
+
+A **session** is created when:
+
+- You open a query window
+    
+- Application opens DB connection
+    
+- Stored procedure execution starts
+    
+
+Each session has a **unique SPID**.
+
+---
+
+## 🔹 Local Temp Table (`#Temp`)
+
+```sql
+CREATE TABLE #MyTempTable (...);
+```
+
+### Scope:
+
+- Available **only in current session**
+    
+- Destroyed when:
+    
+    - Session ends
+        
+    - Stored procedure finishes
+        
+
+---
+
+## 🔹 Example
+
+```sql
+CREATE PROCEDURE TestTemp
+AS
+BEGIN
+    CREATE TABLE #Temp (Id INT);
+END;
+```
+
+➡ `#Temp` disappears after SP execution
+
+---
+
+## 🔹 Global Temp Table (`##Temp`)
+
+```sql
+CREATE TABLE ##GlobalTemp
+(
+    Id INT
+);
+```
+
+### Scope:
+
+- Visible to **all sessions**
+    
+- Removed when **last session using it closes**
+    
+
+⚠️ Rarely recommended in production
+
+---
+
+## 7️⃣ Altering & Dropping Temp Tables
+
+---
+
+### 🔹 ALTER Temp Table
+
+```sql
+ALTER TABLE #TempOrders
+ADD Status VARCHAR(20);
+```
+
+✔ Allowed  
+✔ Common in complex flows
+
+---
+
+### 🔹 Drop Temp Table
+
+```sql
+DROP TABLE #TempOrders;
+```
+
+📌 Optional — SQL Server auto-cleans, but **explicit DROP is best practice**
+
+---
+
+## 8️⃣ How Temp Tables Are Automatically Removed?
+
+SQL Server:
+
+- Tracks temp table ownership via **session id**
+    
+- When session ends:
+    
+    - SQL Server deletes metadata
+        
+    - Frees space in tempdb
+        
+
+✔ Automatic lifecycle management
+
+---
+
+## 9️⃣ Indexing Temp Tables (🔥 HUGE PERFORMANCE BOOST)
+
+---
+
+### 🔹 Why Index Temp Tables?
+
+Without index → Table Scan  
+With index → Index Seek
+
+Especially useful when:
+
+- Temp table is large
+    
+- Used in joins
+    
+- Queried multiple times
+    
+
+---
+
+### 🔹 Example Without Index (Slow)
+
+```sql
+SELECT *
+FROM #TempOrders
+WHERE CustomerId = 100;
+```
+
+---
+
+### 🔹 Add Index
+
+```sql
+CREATE INDEX IX_TempOrders_CustomerId
+ON #TempOrders(CustomerId);
+```
+
+📈 Massive performance improvement
+
+---
+
+## 🔹 Unique / Primary Key Constraint
+
+```sql
+ALTER TABLE #TempOrders
+ADD CONSTRAINT PK_TempOrders PRIMARY KEY (OrderId);
+```
+
+### Benefits:
+
+- Enforces uniqueness
+    
+- Automatically creates clustered index
+    
+- Faster joins
+    
+- Better execution plans
+    
+
+---
+
+## 1️⃣0️⃣ Temp Tables vs CTEs (VERY IMPORTANT)
+
+---
+
+### 🔹 What is a CTE?
+
+CTE = Common Table Expression  
+It is **not stored** physically.
+
+```sql
+WITH OrderCTE AS (
+    SELECT * FROM Orders WHERE Amount > 1000
+)
+SELECT * FROM OrderCTE;
+```
+
+---
+
+## 🔥 Key Differences
+
+|Feature|Temp Table|CTE|
+|---|---|---|
+|Stored physically|✅ Yes|❌ No|
+|Index allowed|✅ Yes|❌ No|
+|Reusable|✅ Yes|❌ No|
+|Multiple references|✅ Yes|❌ Re-evaluated|
+|Best for large data|✅ Yes|❌ No|
+
+---
+
+## 🔹 Are Temp Tables Faster Than CTEs?
+
+👉 **YES**, when:
+
+- Data is large
+    
+- Reused multiple times
+    
+- Indexed
+    
+
+CTE is better when:
+
+- Simple queries
+    
+- Single-use logic
+    
+- Readability
+    
+
+---
+
+## 1️⃣1️⃣ Complex Join: Normal vs Temp Table
+
+---
+
+### ❌ Normal Join (Expensive)
+
+```sql
+SELECT *
+FROM Orders o
+JOIN OrderItems oi ON o.Id = oi.OrderId
+JOIN Products p ON oi.ProductId = p.Id
+WHERE o.OrderDate >= '2024-01-01';
+```
+
+➡ Recalculates joins every time
+
+---
+
+### ✅ Using Temp Table (Optimized)
+
+```sql
+SELECT o.Id, o.CustomerId, o.OrderDate
+INTO #TempOrders
+FROM Orders o
+WHERE o.OrderDate >= '2024-01-01';
+
+CREATE INDEX IX_TempOrders_Id ON #TempOrders(Id);
+
+SELECT *
+FROM #TempOrders t
+JOIN OrderItems oi ON t.Id = oi.OrderId
+JOIN Products p ON oi.ProductId = p.Id;
+```
+
+📈 Faster  
+📈 Reduced IO  
+📈 Better execution plan
+
+---
+
+## 1️⃣2️⃣ Advantages of Temp Tables
+
+✔ Improves performance  
+✔ Supports indexing  
+✔ Stores intermediate results  
+✔ Improves readability  
+✔ Reduces repeated computation  
+✔ Excellent for reporting & batch jobs
+
+---
+
+## 1️⃣3️⃣ Concepts Used Along with Temp Tables
+
+- Stored Procedures
+    
+- Transactions
+    
+- Indexes
+    
+- Constraints
+    
+- CTE (hybrid approach)
+    
+- Dynamic SQL
+    
+- TRY/CATCH
+    
+- Pagination
+    
+- Batch processing
+    
+
+---
+
+## 1️⃣4️⃣ Production-Ready Temp Table Example
+
+```sql
+CREATE PROCEDURE GetCustomerSummary
+AS
+BEGIN
+    CREATE TABLE #CustomerOrders
+    (
+        CustomerId INT PRIMARY KEY,
+        TotalOrders INT,
+        TotalAmount DECIMAL(12,2)
+    );
+
+    INSERT INTO #CustomerOrders
+    SELECT 
+        CustomerId,
+        COUNT(*),
+        SUM(Amount)
+    FROM Orders
+    GROUP BY CustomerId;
+
+    SELECT *
+    FROM #CustomerOrders
+    WHERE TotalAmount > 10000;
+
+    DROP TABLE #CustomerOrders;
+END;
+```
+
+✔ Indexed  
+✔ Aggregated  
+✔ Clean lifecycle  
+✔ Production quality
+
+---
+
+## 🎯 Interview One-Line Answers
+
+- **Temp tables are stored in tempdb**
+    
+- **They support indexes and constraints**
+    
+- **Faster than CTEs for large reusable datasets**
+    
+- **Dropped automatically when session ends**
+    
+- **Best for complex joins & reporting**
+    
+
+---
+
+## 🔥 Next Topics You May Want
+
+- Temp table vs Table variable
+    
+- Memory grants & tempdb contention
+    
+- Batch processing patterns
+    
+- Pagination using temp tables
+    
+- SP + temp table best practices
+
