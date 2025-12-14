@@ -1332,7 +1332,6 @@ EXEC sp_executesql @sql4;
 ```
 
 
-
 -- Tech with hema
 
 ---
