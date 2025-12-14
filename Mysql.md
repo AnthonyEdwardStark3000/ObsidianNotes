@@ -1289,10 +1289,9 @@ SELECT * FROM generate_date;
 ![[Pasted image 20250603231845.png]]
 >  Changing the query during the runtime , based  on requirements is known as ==dynamic query ==
 
+
 ![[Pasted image 20250603232016.png]]
 
-
-```
 -- sp_executesql is an default sp for executing queries .
 
 EXEC sp_executesql N'SELECT * FROM employees';
