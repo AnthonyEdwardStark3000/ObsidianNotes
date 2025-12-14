@@ -537,15 +537,14 @@ Examples of system functions?
 What must a user-defined function return?  
 <!--SR-->  
 ==One scalar value==.  
-```
+``
 
 ---
 
 # 📘 **2. Complete MySQL Functions Cheat-Sheet (Obsidian Page)**
 
 Perfect for your vault as a structured reference guide.
-
-````
+``
 # MySQL Functions — Complete Cheat-Sheet
 
 ---
