@@ -430,7 +430,7 @@ Would you like those?
 
 Below are **two deliverables** exactly as you requested:
 
-1. **Obsidian Flashcards (using `==cloze==` + spaced-repetition syntax)**
+1. **Obsidian Flashcards (using ==cloze== + spaced-repetition syntax)**
 2. **A Complete MySQL Functions Cheat-Sheet Page (Obsidian friendly)**
 
 Everything is optimized for **Obsidian + Anki-style spaced repetition** and can be pasted directly into your vault.
