@@ -2512,13 +2512,6 @@ END;
 > **Yes**, a Stored Procedure can execute **multiple SELECT queries across different tables**, along with **multiple UPDATE and DELETE operations**, inside a **single transaction**, making it ideal for **complex business workflows**.
 
 ---
-
-Below is a **deep-dive, interview-ready + production-ready guide** on **Stored Procedure Performance Tuning**, **Index Usage inside SP**, and **Deadlocks & Isolation Levels**.
-
-I’ve written this exactly the way **senior .NET / SQL interviewers expect**, with **why, how, examples, mistakes, and best practices**.
-
----
-
 # 🚀 Title: Stored Procedure Performance Tuning
 
 ## Index Usage • Deadlocks • Isolation Levels
@@ -2935,6 +2928,5 @@ END;
 - **Snapshot isolation reduces blocking**
     
 - **Parameter sniffing causes inconsistent performance**
-    
 
 ---
