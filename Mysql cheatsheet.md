@@ -2337,5 +2337,3 @@ CEO
 - Temp tables only when hierarchy reused multiple times
     
 - Max recursion default = **100 levels** (`OPTION (MAXRECURSION n)`)
-
----
