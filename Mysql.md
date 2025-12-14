@@ -1,273 +1,286 @@
-#### Overview 
-Data : - Raw unprocessed facts
-Database : - Organized collection of data and it supports data storage and manipulation of data .
-DBMS : - platform to manage the database
-![[Pasted image 20250413185133.png|400|400]]
-![Custom Model binder](./images/Pasted%20image%2020250413185133.png)
+#### Overview
 
-![[Pasted image 20250413185314.png|300|300]]
+Data : - Raw unprocessed facts  
+Database : - Organized collection of data and it supports data storage and manipulation of data .  
+DBMS : - platform to manage the database  
+![[Pasted image 20250413185133.png|400|400]]  
+
+![alt text](./images/Pasted%20image%2020250413185133.png)
+
+![[Pasted image 20250413185314.png|300|300]]  
 Types of DBMS : -
+
 1. Flatfile DBMS
+    
 2. Hierarchial DBMS
+    
 3. Network DBMS
+    
 4. Relational DBMS
+    
 5. Non-relational DBMS
+    
 
-Relational DBMS (RDBMS) : -
- Here data's will be stored in Rows and Columns format or can be mentioned as data's are stored in Table format . 
- ![[Pasted image 20250413185523.png|500|500]]
- ![[Pasted image 20250413185645.png|400|400]]
- Here the data's will be stored in a predefined format . ![[Pasted image 20250413185736.png|400|400]]
- Example : - Here the insert operation can be performed only if the data is in correct format as the created table structure. 
- ![[Pasted image 20250413185845.png |400|400]]
- And follows an relationship between tables .
- ![[Pasted image 20250413185940.png]]
-SQL : - DBMS is an interface between the users and the database and SQL acts as an native language for communication with the database . 
-![[Pasted image 20250413190540.png |300|300]]
-Types of SQL commands : -
-	1. DDL
-	2. DML
-	3. DQL
-	4. TCL
-	5. DCL
+Relational DBMS (RDBMS) : -  
+Here data's will be stored in Rows and Columns format or can be mentioned as data's are stored in Table format .  
+![[Pasted image 20250413185523.png|500|500]]  
+![[Pasted image 20250413185645.png|400|400]]  
+Here the data's will be stored in a predefined format . ![[Pasted image 20250413185736.png|400|400]]  
+Example : - Here the insert operation can be performed only if the data is in correct format as the created table structure.  
+![[Pasted image 20250413185845.png |400|400]]  
+And follows an relationship between tables .  
+![[Pasted image 20250413185940.png]]  
+SQL : - DBMS is an interface between the users and the database and SQL acts as an native language for communication with the database .  
+![[Pasted image 20250413190540.png |300|300]]  
+Types of SQL commands : -  
+1. DDL  
+2. DML  
+3. DQL  
+4. TCL  
+5. DCL
 
-DDL (Data Definition Language) : -
-  The commands that defines the structure of Data Base objects are known as DDL commands . 
-  CREATE - Creating and defining the columns that should be available in the database table . 
-  ALTER - For changing the structure of the objects .
-  TRUNCATE  -  For deleting the data in the table along with the space alloted to it, here table structure will be remained .
-  DROP - To drop the database object completely along with its table structure.
+DDL (Data Definition Language) : -  
+The commands that defines the structure of Data Base objects are known as DDL commands .  
+CREATE - Creating and defining the columns that should be available in the database table .  
+ALTER - For changing the structure of the objects .  
+TRUNCATE - For deleting the data in the table along with the space alloted to it, here table structure will be remained .  
+DROP - To drop the database object completely along with its table structure.
 
-   ![[Pasted image 20250413191644.png |900|]]
-   DML (Data Manipulation Language) : - 
-	   Commands used to manipulate the data in the database are known as DML.
-	INSERT -  For inserting a new record into the database .
-	UPDATE  - For modifying the data already present . 
-	DELETE - For deleting the already present data .
-	![[Pasted image 20250413192008.png | 400 |600]]
-	DQL (Data Query Language) : -
-		For retrieving the data present in the database . 
-		SELECT - Used for retrieving the data present in the database . 
-		![[Pasted image 20250413192136.png|400|300]]
-TCL (Transaction Control Language) : -
-	In some scenerio's we might want to execute five to six statements and all those statements should get executed successfully or incase if any one of those statement gets failed then all those five statements should get rollback and does not manipulate the data .
-	COMMIT - If all the statements inside the transaction gets executed successfully then commit it .
-	 ROLLBACK - If any of the statement gets failed then rollback for not affecting the data .
-	 SAVE - Just a save point for transactions for partial rollbacks between transactions .
-	 ![[Pasted image 20250413192712.png]]
-	 DCL (Data Control Language) : -
-		 Mostly used by administrators for providing and removing accesses .
-		 GRANT - For providing database access .
-		 REVOKE - For removing database access .![[Pasted image 20250413192855.png]]
+![[Pasted image 20250413191644.png |900|]]  
+DML (Data Manipulation Language) : -  
+Commands used to manipulate the data in the database are known as DML.  
+INSERT - For inserting a new record into the database .  
+UPDATE - For modifying the data already present .  
+DELETE - For deleting the already present data .  
+![[Pasted image 20250413192008.png | 400 |600]]  
+DQL (Data Query Language) : -  
+For retrieving the data present in the database .  
+SELECT - Used for retrieving the data present in the database .  
+![[Pasted image 20250413192136.png|400|300]]  
+TCL (Transaction Control Language) : -  
+In some scenerio's we might want to execute five to six statements and all those statements should get executed successfully or incase if any one of those statement gets failed then all those five statements should get rollback and does not manipulate the data .  
+COMMIT - If all the statements inside the transaction gets executed successfully then commit it .  
+ROLLBACK - If any of the statement gets failed then rollback for not affecting the data .  
+SAVE - Just a save point for transactions for partial rollbacks between transactions .  
+![[Pasted image 20250413192712.png]]  
+DCL (Data Control Language) : -  
+Mostly used by administrators for providing and removing accesses .  
+GRANT - For providing database access .  
+REVOKE - For removing database access .![[Pasted image 20250413192855.png]]
 
 Basic usage of common SQL commands : -
-```
--- create database
-CREATE DATABASE university;
--- use that database
-USE university;
 
--- create table in that database
-CREATE TABLE students(rollno INTEGER,name VARCHAR(300),
-department VARCHAR(200),age INTEGER,date_of_birth DATE,gender CHAR(1));
+code Code
 
-SELECT * FROM students;
+downloadcontent_copy
 
--- insert into table
-INSERT INTO students VALUES(1,'student1','MCA',21,'2000-01-01','M');
+expand_less
 
--- insert another one column to the table structure
-ALTER TABLE students ADD gpa FLOAT;
+    `-- create database CREATE DATABASE university; -- use that database USE university;  -- create table in that database CREATE TABLE students(rollno INTEGER,name VARCHAR(300), department VARCHAR(200),age INTEGER,date_of_birth DATE,gender CHAR(1));  SELECT * FROM students;  -- insert into table INSERT INTO students VALUES(1,'student1','MCA',21,'2000-01-01','M');  -- insert another one column to the table structure ALTER TABLE students ADD gpa FLOAT;  -- update the gpa column value in the above inserted table UPDATE students SET gpa = 12.1 WHERE rollno=1;  ALTER TABLE students DROP COLUMN age;  -- Delete a record from the database  DELETE FROM students WHERE rollno = 1;  -- truncate table TRUNCATE TABLE students;  -- drop table , delete the structure DROP TABLE students;  -- delete the database DROP DATABASE university;`
+  
 
--- update the gpa column value in the above inserted table
-UPDATE students SET gpa = 12.1 WHERE rollno=1;
+Where clause usage with different operators : -  
+Operators used in where clause  
+= , <> , < , > , <= , >= , BETWEEN , IN , LIKE
 
+code Code
 
-ALTER TABLE students DROP COLUMN age;
+downloadcontent_copy
 
--- Delete a record from the database 
-DELETE FROM students WHERE rollno = 1;
+expand_less
 
--- truncate table
-TRUNCATE TABLE students;
+    `#### Where Clause`
+  
 
--- drop table , delete the structure
-DROP TABLE students;
+SELECT TOP (1000) [AddressID]  
+,[AddressLine1]  
+,[AddressLine2]  
+,[City]  
+,[StateProvinceID]  
+,[PostalCode]  
+,[SpatialLocation]  
+,[rowguid]  
+,[ModifiedDate]  
+FROM [AdventureWorks2019].[Person].[Address]
 
--- delete the database
-DROP DATABASE university;
-```	 	
-Where clause usage with different operators : -
-Operators used in where clause 
- = , <> , < , > , <= , >= , BETWEEN , IN , LIKE
+SELECT TOP(10) * FROM Person.Address;
 
-```
-#### Where Clause
-```
-SELECT TOP (1000) [AddressID]
-      ,[AddressLine1]
-      ,[AddressLine2]
-      ,[City]
-      ,[StateProvinceID]
-      ,[PostalCode]
-      ,[SpatialLocation]
-      ,[rowguid]
-      ,[ModifiedDate]
-  FROM [AdventureWorks2019].[Person].[Address]
+-- WHERE CLAUSE
 
-
-
-  SELECT TOP(10) * FROM Person.Address;
-
-  -- WHERE CLAUSE
-
-SELECT * FROM Production.Product WHERE ProductID = 322;
-SELECT * FROM Production.Product WHERE ProductID >= 322;
+SELECT * FROM Production.Product WHERE ProductID = 322;  
+SELECT * FROM Production.Product WHERE ProductID >= 322;  
 SELECT * FROM Production.Product WHERE ProductID <= 322;
 
-
-SELECT * FROM Production.Product WHERE ProductID >= 200 AND ProductID<=900;
-SELECT * FROM Production.Product WHERE ProductID BETWEEN 300 AND 500;
-SELECT * FROM Production.Product WHERE Color = 'Silver';
-SELECT * FROM Production.Product WHERE Color <> 'Silver';
-SELECT * FROM Production.Product WHERE Color IN ('Silver','Black','Red');
-SELECT * FROM Production.Product WHERE Color NOT IN ('Silver','Black','Red');
-SELECT * FROM Production.Product WHERE Color = 'Silver' AND StandardCost > 1000.00;
-SELECT * FROM Production.Product WHERE Color = 'Silver' OR StandardCost > 1000.00;
-SELECT * FROM Production.Product WHERE Size IS NULL;
-SELECT * FROM Production.Product WHERE Size IS NOT NULL;
-SELECT * FROM Production.Product WHERE SellStartDate = '2008-04-30';
+SELECT * FROM Production.Product WHERE ProductID >= 200 AND ProductID<=900;  
+SELECT * FROM Production.Product WHERE ProductID BETWEEN 300 AND 500;  
+SELECT * FROM Production.Product WHERE Color = 'Silver';  
+SELECT * FROM Production.Product WHERE Color <> 'Silver';  
+SELECT * FROM Production.Product WHERE Color IN ('Silver','Black','Red');  
+SELECT * FROM Production.Product WHERE Color NOT IN ('Silver','Black','Red');  
+SELECT * FROM Production.Product WHERE Color = 'Silver' AND StandardCost > 1000.00;  
+SELECT * FROM Production.Product WHERE Color = 'Silver' OR StandardCost > 1000.00;  
+SELECT * FROM Production.Product WHERE Size IS NULL;  
+SELECT * FROM Production.Product WHERE Size IS NOT NULL;  
+SELECT * FROM Production.Product WHERE SellStartDate = '2008-04-30';  
 SELECT * FROM Production.Product WHERE SellStartDate BETWEEN '2008-04-30' AND '2012-05-30';
-```
 
-#### Wildcards in sql 
-When we don't exactly know the value but know particular portion like name start with HL
+code Code
 
-```
--- wildcards
-SELECT * FROM Production.Product WHERE ProductNumber LIKE 'FC%';
-SELECT * FROM Production.Product WHERE Name LIKE '%Cage';
-SELECT * FROM Production.Product WHERE Name LIKE '%Frame';
-SELECT * FROM Production.Product WHERE ProductNumber LIKE 'FR%R38%2';
-SELECT * FROM Production.Product WHERE ProductNumber LIKE 'FR-R38B-_2';
-SELECT * FROM Production.Product WHERE ProductNumber LIKE '_R%';
-SELECT * FROM Person.Person WHERE FirstName LIKE 'A[ab]%';
-SELECT * FROM Person.Address WHERE AddressLine1 LIKE '[a-z]%';
-SELECT * FROM Person.Address WHERE AddressLine1 LIKE '[0-9]%';
-SELECT * FROM Person.Address WHERE AddressLine1 LIKE '[a-z0-9]%';
-SELECT * FROM Person.Address WHERE AddressLine1 LIKE '[a-z0-9#$]%';
-SELECT * FROM Person.Address WHERE PostalCode LIKE '[0-9][0-9][0-9][0-9][0-9]';
-SELECT * FROM Production.Product WHERE ProductNumber LIKE 'FR-R92%';
-SELECT * FROM Production.Product WHERE ProductNumber LIKE 'FR-R92[^B]%';
-SELECT * FROM Person.Address WHERE AddressLine1 LIKE '[^a-z0-9]%';
-SELECT * FROM Person.Address WHERE AddressLine1 LIKE '%_%';
--- To display the address that contains _ in it's AddressLine1
-SELECT * FROM Person.Address WHERE AddressLine1 LIKE '%[_]%';
-```
+downloadcontent_copy
 
+expand_less
 
-#### Primary Key constraints
-##### SQL constraints .
-Applying rules for the data in the table is known as constraints .
-![[Pasted image 20250420112826.png]]****
-```
-CREATE TABLE students (StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(30),
+    `#### Wildcards in sql  When we don't exactly know the value but know particular portion like name start with HL`
+  
+
+-- wildcards  
+SELECT * FROM Production.Product WHERE ProductNumber LIKE 'FC%';  
+SELECT * FROM Production.Product WHERE Name LIKE '%Cage';  
+SELECT * FROM Production.Product WHERE Name LIKE '%Frame';  
+SELECT * FROM Production.Product WHERE ProductNumber LIKE 'FR%R38%2';  
+SELECT * FROM Production.Product WHERE ProductNumber LIKE 'FR-R38B-2';  
+SELECT * FROM Production.Product WHERE ProductNumber LIKE 'R%';  
+SELECT * FROM Person.Person WHERE FirstName LIKE 'A[ab]%';  
+SELECT * FROM Person.Address WHERE AddressLine1 LIKE '[a-z]%';  
+SELECT * FROM Person.Address WHERE AddressLine1 LIKE '[0-9]%';  
+SELECT * FROM Person.Address WHERE AddressLine1 LIKE '[a-z0-9]%';  
+SELECT * FROM Person.Address WHERE AddressLine1 LIKE '[a-z0-9#$]%';  
+SELECT * FROM Person.Address WHERE PostalCode LIKE '[0-9][0-9][0-9][0-9][0-9]';  
+SELECT * FROM Production.Product WHERE ProductNumber LIKE 'FR-R92%';  
+SELECT * FROM Production.Product WHERE ProductNumber LIKE 'FR-R92[^B]%';  
+SELECT * FROM Person.Address WHERE AddressLine1 LIKE '[^a-z0-9]%';  
+SELECT * FROM Person.Address WHERE AddressLine1 LIKE '%%';  
+-- To display the address that contains _ in it's AddressLine1  
+SELECT * FROM Person.Address WHERE AddressLine1 LIKE '%[]%';
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `#### Primary Key constraints ##### SQL constraints . Applying rules for the data in the table is known as constraints . ![[Pasted image 20250420112826.png]]****`
+  
+
+CREATE TABLE students (StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(30),  
 LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1));
 
 -- OR
 
-CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),
-LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),CONSTRAINT Pk_students	PRIMARY KEY(StudentID));
+CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),  
+LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),CONSTRAINT Pk_students PRIMARY KEY(StudentID));
 
 -- Using ALTER statement it should be made an Non-nullable column
 
-CREATE TABLE students (StudentID INTEGER NOT NULL,FirstName VARCHAR(30),
+CREATE TABLE students (StudentID INTEGER NOT NULL,FirstName VARCHAR(30),  
 LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1));
 
-ALTER TABLE students ADD PRIMARY KEY(StudentID);
+ALTER TABLE students ADD PRIMARY KEY(StudentID);  
 ALTER TABLE students ADD CONSTRAINT Pk_students PRIMARY KEY(StudentID);
 
-
 ALTER TABLE students DROP CONSTRAINT Pk_students;
-```
-**Composite key - Making two or more columns as Primary key .
 
-```
-CREATE TABLE OrderDetail (OrderID INTEGER,ProductID INTEGER,
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Composite key - Making two or more columns as Primary key .`
+  
+
+CREATE TABLE OrderDetail (OrderID INTEGER,ProductID INTEGER,  
 DateOfPurchase DATE,Price FLOAT CONSTRAINT pk_orderdetail PRIMARY KEY(OrderID,ProductID));
 
 -- Using ALTER statement it should be made an Non-nullable column
 
-CREATE TABLE OrderDetail (OrderID INTEGER NOT NULL,ProductID INTEGER NOT NULL,
+CREATE TABLE OrderDetail (OrderID INTEGER NOT NULL,ProductID INTEGER NOT NULL,  
 DateOfPurchase DATE,Price FLOAT);
 
 ALTER TABLE OrderDetail ADD CONSTRAINT pk_orderdetail PRIMARY KEY(OrderID,ProductID);
-```
-**NOT NULL Constraint . 
 
-By default an table can have null values in it's fields , for restricting this ==NOT NULL constraint== can be used .
+code Code
 
-```
-CREATE TABLE OrderDetail (OrderID INTEGER NOT NULL,ProductID INTEGER,
+downloadcontent_copy
+
+expand_less
+
+    `**NOT NULL Constraint .   By default an table can have null values in it's fields , for restricting this ==NOT NULL constraint== can be used .`
+  
+
+CREATE TABLE OrderDetail (OrderID INTEGER NOT NULL,ProductID INTEGER,  
 DateOfPurchase DATE,Price FLOAT);
 
 -- Using ALTER statement for adding Not-null constraint
 
 ALTER TABLE OrderDetail ALTER COLUMN ProductID INTEGER NOT NULL
-```
-**Unique Constraints .
 
-![[Pasted image 20250422214911.png |400 |400]]
-```
--- Unique constraint while creating a table
-CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Unique Constraints .  ![[Pasted image 20250422214911.png |400 |400]]`
+  
+
+-- Unique constraint while creating a table  
+CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),  
 LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),AadharNumber BIGINT UNIQUE);
 
--- Unique constraint by adding constraint name
-CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),
-LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),AadharNumber BIGINT, 
+-- Unique constraint by adding constraint name  
+CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),  
+LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),AadharNumber BIGINT,  
 CONSTRAINT Uc_students UNIQUE(StudentID));
 
-
--- Unique constraint for two or more columns  by adding constraint name
-CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),
-LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),AadharNumber BIGINT, 
+-- Unique constraint for two or more columns by adding constraint name  
+CREATE TABLE students (StudentID INTEGER,FirstName VARCHAR(30),  
+LastName VARCHAR(20),DateOfBirth DATE,Gender CHAR(1),AadharNumber BIGINT,  
 CONSTRAINT Uc_students UNIQUE(StudentID,AadharNumber));
 
--- Unique constraint while altering a table
-ALTER TABLE students ADD UNIQUE(AadharNumber);
+-- Unique constraint while altering a table  
+ALTER TABLE students ADD UNIQUE(AadharNumber);  
 ALTER TABLE students ADD CONSTRAINT Uc_students UNIQUE(AadharNumber);
 
--- Drop constraint
+-- Drop constraint  
 ALTER TABLE students DROP CONSTRAINT(Uc_students);
-```
-**Check Constraints
-For applying restrictions for particular column in a table check constraints are used . 
 
-```
-CREATE TABLE employee(EmployeeID INTEGER PRIMARY KEY, FirstName VARCHAR(200),LastName VARCHAR(200),
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Check Constraints For applying restrictions for particular column in a table check constraints are used .`
+  
+
+CREATE TABLE employee(EmployeeID INTEGER PRIMARY KEY, FirstName VARCHAR(200),LastName VARCHAR(200),  
 DateOfBirth DATE,Gender CHAR(1),Salary INT CHECK(Salary>3000));
 
-CREATE TABLE employee(EmployeeID INTEGER PRIMARY KEY,FirstName VARCHAR(200),LastName VARCHAR(200),
-DateOfBirth DATE,Gender CHAR(1),Salary INT,CONSTRAINT CHK_EMPLOYEE CHECK(
+CREATE TABLE employee(EmployeeID INTEGER PRIMARY KEY,FirstName VARCHAR(200),LastName VARCHAR(200),  
+DateOfBirth DATE,Gender CHAR(1),Salary INT,CONSTRAINT CHK_EMPLOYEE CHECK(  
 Salary>3000 AND DateOfBirth >= '1980-01-01'));
 
--- Check constraint using alter statement
-ALTER TABLE employee ADD CHECK(Salary>3000);
+-- Check constraint using alter statement  
+ALTER TABLE employee ADD CHECK(Salary>3000);  
 ALTER TABLE employee ADD CONSTRAINT CHK_Employee CHECK(Salary>3000 AND DateOfBirth>='1980-01-02');
 
--- Drop the check constraint
+-- Drop the check constraint  
 ALTER TABLE employee DROP CONSTRAINT CHK_Employee;
-```
-**Default constraint .
 
-Assigns the default value to the column if no value is provided to that column during insertion of data .
+code Code
 
-```
-CREATE TABLE NewStudents(StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(100),
+downloadcontent_copy
+
+expand_less
+
+    `**Default constraint .  Assigns the default value to the column if no value is provided to that column during insertion of data .`
+  
+
+CREATE TABLE NewStudents(StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(100),  
 LastName VARCHAR(100),DateOfBirth DATE,Gender CHAR(1),Country VARCHAR(10) DEFAULT 'India');
 
-INSERT INTO NewStudents(StudentID,FirstName,LastName,DateOfBirth,Gender)
+INSERT INTO NewStudents(StudentID,FirstName,LastName,DateOfBirth,Gender)  
 VALUES(12,'FName','LName','12-02-24','M');
 
 SELECT * FROM NewStudents;
@@ -276,32 +289,35 @@ SELECT * FROM NewStudents;
 
 ALTER TABLE NewStudents ADD CONSTRAINT Df_students DEFAULT 'India' FOR Country;
 
--- Drop constraint
+-- Drop constraint  
 ALTER TABLE NewStudents DROP CONSTRAINT Df_students;
-```
 
-**Foreign Key Constraint .
+code Code
 
-Particular column of a table referring PK of another table is known as Foreign Key .
-![[Pasted image 20250424223041.png]]
-```
-CREATE TABLE Course(
-CourseID INTEGER PRIMARY KEY,
-CourseName VARCHAR(100),
-StaffName VARCHAR(100)
+downloadcontent_copy
+
+expand_less
+
+    `**Foreign Key Constraint .  Particular column of a table referring PK of another table is known as Foreign Key . ![[Pasted image 20250424223041.png]]`
+  
+
+CREATE TABLE Course(  
+CourseID INTEGER PRIMARY KEY,  
+CourseName VARCHAR(100),  
+StaffName VARCHAR(100)  
 );
 
-INSERT INTO Course(CourseID,CourseName,StaffName)VALUES(1,'Physics','Name');
+INSERT INTO Course(CourseID,CourseName,StaffName)VALUES(1,'Physics','Name');  
 INSERT INTO Course VALUES(2,'Maths','Name'),(3,'Computer','Name'),(4,'Tamil','Name');
 
---  Foreign Key
-CREATE TABLE Students(StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(100),LastName VARCHAR(100),
+-- Foreign Key  
+CREATE TABLE Students(StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(100),LastName VARCHAR(100),  
 DateOfBirth DATE,Gender CHAR(1),CourseID INTEGER FOREIGN KEY REFERENCES Course(CourseID));
 
--- Or
-CREATE TABLE Students(StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(100),LastName VARCHAR(100),
-DateOfBirth DATE,Gender CHAR(1),CourseID INTEGER,CONSTRAINT FK_Students FOREIGN KEY(CourseID)
-REFERENCES
+-- Or  
+CREATE TABLE Students(StudentID INTEGER PRIMARY KEY,FirstName VARCHAR(100),LastName VARCHAR(100),  
+DateOfBirth DATE,Gender CHAR(1),CourseID INTEGER,CONSTRAINT FK_Students FOREIGN KEY(CourseID)  
+REFERENCES  
 Course(CourseID));
 
 INSERT INTO Students VALUES(1,'FName','LName','12-01-2024','M',3);
@@ -309,1093 +325,1204 @@ INSERT INTO Students VALUES(1,'FName','LName','12-01-2024','M',3);
 -- This will cause Foreign Key constraint error
 
 INSERT INTO Students VALUES(1,'FName','LName','12-01-2024','M',53);
-```
-![[Pasted image 20250429220927.png|1000]]
-```
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250429220927.png|1000]]`
+  
+
 DELETE FROM Course WHERE CourseID = 3;
-```
-![[Pasted image 20250429221224.png|900]]
-```
--- Using alter statement to create constraint
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250429221224.png|900]]`
+  
+
+-- Using alter statement to create constraint  
 ALTER TABLE Students ADD CONSTRAINT Fk_Students FOREIGN KEY (CourseID) REFERENCES Course(CourseID);
 
--- or
+-- or  
 ALTER TABLE Students ADD FOREIGN KEY(CourseID)REFERENCES Course(CourseID);
 
--- Drop constraint
+-- Drop constraint  
 ALTER TABLE Students DROP CONSTRAINT Fk_Students;
-```
 
-**Aggregate Functions
-![[Pasted image 20250501104753.png|580]]
-![[Pasted image 20250501104831.png]]
-***Aggregate Functions - ==Reads an set of values as Input and returns an single value as output.==
+code Code
 
-```
-SELECT COUNT(ProductID) FROM Production.Product;
-SELECT SUM(ListPrice) FROM Production.Product;
-SELECT MIN(ListPrice) FROM Production.Product WHERE ListPrice > 0;
-SELECT MAX(ListPrice) FROM Production.Product;
+downloadcontent_copy
+
+expand_less
+
+    `**Aggregate Functions ![[Pasted image 20250501104753.png|580]] ![[Pasted image 20250501104831.png]] ***Aggregate Functions - ==Reads an set of values as Input and returns an single value as output.==`
+  
+
+SELECT COUNT(ProductID) FROM Production.Product;  
+SELECT SUM(ListPrice) FROM Production.Product;  
+SELECT MIN(ListPrice) FROM Production.Product WHERE ListPrice > 0;  
+SELECT MAX(ListPrice) FROM Production.Product;  
 SELECT AVG(ListPrice) FROM Production.Product
-```
-**Using the Aggregate function with GroupBy clause .**
-Group By is used for grouping a particular column having same value and performing operations based on that value .
 
-```
-SELECT Color,COUNT(Color) AS CountInNumbers FROM Production.Product GROUP BY Color;
-SELECT Color,COUNT(Color) AS num_of_products FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;
-SELECT Color,SUM(ListPrice) AS total_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;
-SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color,Size;
-SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL GROUP BY
-Color,Size ORDER BY Color,Size;
-SELECT Color,COUNT(ProductID) AS num_of_products FROM Production.Product GROUP BY Color;
-SELECT Color,SUM(ListPrice) AS total_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color; 
-SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color,Size;
-SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL 
-   GROUP BY Color,Size ORDER BY Color,Size;
-   ```
-**Having With GroupBy**
-Where clause is used for normally applying condition to the table and Having clause is used for applying conditions on an Aggregate functions. Having clause is always used along with Group By clause.
+code Code
 
-```
-   -- Having clause
-SELECT Color,COUNT(ProductID) AS num_of_products FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color
-	HAVING COUNT(ProductID)>10;
+downloadcontent_copy
 
-SELECT Color,COUNT(ProductID) AS num_of_products FROM Production.Product WHERE Color IS NOT NULL 
+expand_less
+
+    `**Using the Aggregate function with GroupBy clause .** Group By is used for grouping a particular column having same value and performing operations based on that value .`
+  
+
+SELECT Color,COUNT(Color) AS CountInNumbers FROM Production.Product GROUP BY Color;  
+SELECT Color,COUNT(Color) AS num_of_products FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;  
+SELECT Color,SUM(ListPrice) AS total_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;  
+SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color,Size;  
+SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL GROUP BY  
+Color,Size ORDER BY Color,Size;  
+SELECT Color,COUNT(ProductID) AS num_of_products FROM Production.Product GROUP BY Color;  
+SELECT Color,SUM(ListPrice) AS total_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;  
+SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color,Size;  
+SELECT Color,Size,AVG(ListPrice) AS avg_list_price FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL  
+GROUP BY Color,Size ORDER BY Color,Size;
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Having With GroupBy** Where clause is used for normally applying condition to the table and Having clause is used for applying conditions on an Aggregate functions. Having clause is always used along with Group By clause.`
+  
+
+-- Having clause  
+SELECT Color,COUNT(ProductID) AS num_of_products FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color  
+HAVING COUNT(ProductID)>10;
+
+SELECT Color,COUNT(ProductID) AS num_of_products FROM Production.Product WHERE Color IS NOT NULL  
 GROUP BY Color HAVING SUM(ListPrice)>300;
 
-SELECT Color AS distinct_color FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;
-SELECT Color,Size FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL GROUP BY
-	Color,Size ORDER BY Color,Size;
-SELECT DISTINCT Color FROM Production.Product;
+SELECT Color AS distinct_color FROM Production.Product WHERE Color IS NOT NULL GROUP BY Color;  
+SELECT Color,Size FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL GROUP BY  
+Color,Size ORDER BY Color,Size;  
+SELECT DISTINCT Color FROM Production.Product;  
 SELECT DISTINCT Color,Size FROM Production.Product WHERE Color IS NOT NULL AND Size IS NOT NULL ORDER BY Color,Size;
-```
 
-**Joins in SQL**
- Joining rows between two tables by using the related columns in those two tables.
-![[Pasted image 20250502231010.png]]	
-![[Pasted image 20250503223644.png]]
-![[Pasted image 20250503223752.png|350]]
-![[Pasted image 20250503223830.png|360]]
-**Inner Join**
-Used to retrieve the records that are common in both the left and the right table .
-![[Pasted image 20250503224023.png]]
-So the records related to DepartmentID's 11,12,13,14 will be retrieved and displayed.
+code Code
 
-```
-CREATE TABLE Employee(EmployeeID INTEGER PRIMARY KEY,FirstName VARCHAR(100),LastName VARCHAR(100),DateOfBirth DATE,
+downloadcontent_copy
+
+expand_less
+
+    `**Joins in SQL**  Joining rows between two tables by using the related columns in those two tables. ![[Pasted image 20250502231010.png]]	 ![[Pasted image 20250503223644.png]] ![[Pasted image 20250503223752.png|350]] ![[Pasted image 20250503223830.png|360]] **Inner Join** Used to retrieve the records that are common in both the left and the right table . ![[Pasted image 20250503224023.png]] So the records related to DepartmentID's 11,12,13,14 will be retrieved and displayed.`
+  
+
+CREATE TABLE Employee(EmployeeID INTEGER PRIMARY KEY,FirstName VARCHAR(100),LastName VARCHAR(100),DateOfBirth DATE,  
 Gender CHAR(1),DepartmentID INTEGER);
 
-INSERT INTO Employee VALUES(1001,'Aishwarya','Jayaram','2005-05-24','F',11),
-(1002,'Anand','Venkat','2005-05-22','M',22),
-(1003,'Bala','Sundaram','2004-11-02','M',22),
-(1004,'Deepa','Mani','2004-12-09','F',22),
-(1005,'Deepa','Mahesh','2005-05-29','F',22),
-(1006,'Gokul','Ram','2004-11-27','M',22),
-(1007,'Shreya','Gopi','2005-06-20','F',22),
+INSERT INTO Employee VALUES(1001,'Aishwarya','Jayaram','2005-05-24','F',11),  
+(1002,'Anand','Venkat','2005-05-22','M',22),  
+(1003,'Bala','Sundaram','2004-11-02','M',22),  
+(1004,'Deepa','Mani','2004-12-09','F',22),  
+(1005,'Deepa','Mahesh','2005-05-29','F',22),  
+(1006,'Gokul','Ram','2004-11-27','M',22),  
+(1007,'Shreya','Gopi','2005-06-20','F',22),  
 (1008,'Abdul','Rahman','2005-07-30','M',22);
 
 SELECT * FROM Employee;
 
-
-CREATE TABLE Department(DepartmentID INTEGER,DepartmentName VARCHAR(100));
-INSERT INTO Department VALUES(11,'Engineering'),
+CREATE TABLE Department(DepartmentID INTEGER,DepartmentName VARCHAR(100));  
+INSERT INTO Department VALUES(11,'Engineering'),  
 (12,'Finance'),(13,'Sales'),(14,'Marketing');
 
 SELECT * FROM Department;
 
-
-SELECT * FROM Employee INNER JOIN Department ON Employee.DepartmentID = Department.DepartmentID;
--- or
+SELECT * FROM Employee INNER JOIN Department ON Employee.DepartmentID = Department.DepartmentID;  
+-- or  
 SELECT * FROM Employee e INNER JOIN Department d ON e.DepartmentID = d.DepartmentID;
 
-SELECT e.FirstName,e.LastName,d.DepartmentName FROM Employee e  INNER JOIN Department d on e.DepartmentID = d.DepartmentID;
-```
+SELECT e.FirstName,e.LastName,d.DepartmentName FROM Employee e INNER JOIN Department d on e.DepartmentID = d.DepartmentID;
 
-**Outer Join**
-**Left outer Join** : - 
-	Here the table in the ==left side takes advantage as it takes the non-matching records from the table in the  left side along with the matching records from the table in the right side==.
-```
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Outer Join** **Left outer Join** : -  	Here the table in the ==left side takes advantage as it takes the non-matching records from the table in the  left side along with the matching records from the table in the right side==.`
+  
+
 SELECT * FROM Department d LEFT JOIN Employee e ON d.DepartmentID = e.DepartmentID;
-```
-![[Pasted image 20250503230133.png]]
-**Right outer Join** : - 
-	Here the table in the ==right side takes advantage as it takes the non-matching records from the table in the right side along with the matching records from the table in the left side==.
-```
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250503230133.png]] **Right outer Join** : -  	Here the table in the ==right side takes advantage as it takes the non-matching records from the table in the right side along with the matching records from the table in the left side==.`
+  
+
 SELECT * FROM Department d RIGHT JOIN Employee e ON d.DepartmentID = e.DepartmentID;
-```
-![[Pasted image 20250503231853.png]]
-**Full outer Join** : - 
-	Here the matching records from both the tables will get displayed along with the non-matching records from the left table and the non-matching records from the right table  .
-```
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250503231853.png]] **Full outer Join** : -  	Here the matching records from both the tables will get displayed along with the non-matching records from the left table and the non-matching records from the right table  .`
+  
+
 SELECT * FROM Department d FULL JOIN Employee e ON d.DepartmentID = e.DepartmentID;
 
-```
-![[Pasted image 20250503232334.png|590]]
+code Code
 
-**Self Join**
-![[Pasted image 20250503232516.png|150]]
-To Join a table with itself self join is used.
+downloadcontent_copy
 
-![[Pasted image 20250503232644.png|500]]
-Here Employees are managed by Managers denotes by ManagerID , where they themselves are Employees at the end. 1001 employee is managed by 1002 where he himself is an employee and is managed by 1003.
+expand_less
 
-Here self join can be used to find the manager name of each employees .
-![[Pasted image 20250503232918.png]]
-```
+    `![[Pasted image 20250503232334.png|590]]  **Self Join** ![[Pasted image 20250503232516.png|150]] To Join a table with itself self join is used.  ![[Pasted image 20250503232644.png|500]] Here Employees are managed by Managers denotes by ManagerID , where they themselves are Employees at the end. 1001 employee is managed by 1002 where he himself is an employee and is managed by 1003.  Here self join can be used to find the manager name of each employees . ![[Pasted image 20250503232918.png]]`
+  
+
 ALTER TABLE Employee ADD ManagerID INTEGER;
 
-SELECT e1.EmployeeID,e1.FirstName,e1.LastName,e1.ManagerID,e2.FirstName+' '+e2.LastName AS ManagerName
-	FROM Employee e1 JOIN Employee e2 ON e1.EmployeeID = e2.ManagerID;
+SELECT e1.EmployeeID,e1.FirstName,e1.LastName,e1.ManagerID,e2.FirstName+' '+e2.LastName AS ManagerName  
+FROM Employee e1 JOIN Employee e2 ON e1.EmployeeID = e2.ManagerID;
 
-```
-![[Pasted image 20250503234227.png]]
-```
-SELECT e1.EmployeeID,e1.FirstName,e1.LastName,e1.ManagerID,e2.FirstName+' '+e2.LastName AS ManagerName FROM employee e1
-	LEFT JOIN Employee e2 ON e1.EmployeeID = e2.ManagerID;
-```
-**Cross Join**
-![[Pasted image 20250504081418.png|450]]
-When we want to Join all the records from Table A with all the records in Table B Cross Join can be used.
-![[Pasted image 20250504081703.png]]
-```
- SELECT e1.FirstName+' '+e1.LastName AS Employee_1,e2.FirstName+' '+e2.LastName AS Employee_2 FROM employee e1
-	CROSS JOIN Employee e2;
-```
-Cross Join doesn't need any ON condition as all the records from Table A will be Joined with all the records from Table B.
+code Code
 
-> Cross Join is also known as Cartesian product. As the result will be the product of the number of records in each tables and no-filter is used while selecting the data's (8 x 8  =64, 5 x 6 =30) .
+downloadcontent_copy
 
-```
-SELECT e1.FirstName+' '+e1.LastName AS Employee_1,e2.FirstName+' '+e2.LastName AS Employee_2 FROM employee e1
-	CROSS JOIN Employee e2 WHERE e1.EmployeeID <> e2.EmployeeID;
-```
-**Views**
-![[Pasted image 20250504162755.png|560]]
-![[Pasted image 20250504165248.png]]
-We use Joins for associating the Department with Employee, so this process can be implemented by creating it as an view and that view can be executed whenever needed . Views are used for hiding the PIA details and executing the query as simple as possible.
+expand_less
 
-```
-SELECT e.EmployeeID,e.FirstName,e.LastName,e.DepartmentID,d.DepartmentName
- FROM  Employee e JOIN Department d ON e.DepartmentID = d.DepartmentID;
+    `![[Pasted image 20250503234227.png]]`
+  
 
- -- Creating View
-CREATE VIEW employee_dept_details AS 
- SELECT e.EmployeeID,e.FirstName,e.LastName,e.DepartmentID,d.DepartmentName
- FROM  Employee e JOIN Department d ON e.DepartmentID = d.DepartmentID;
+SELECT e1.EmployeeID,e1.FirstName,e1.LastName,e1.ManagerID,e2.FirstName+' '+e2.LastName AS ManagerName FROM employee e1  
+LEFT JOIN Employee e2 ON e1.EmployeeID = e2.ManagerID;
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Cross Join** ![[Pasted image 20250504081418.png|450]] When we want to Join all the records from Table A with all the records in Table B Cross Join can be used. ![[Pasted image 20250504081703.png]]`
+  
+
+SELECT e1.FirstName+' '+e1.LastName AS Employee_1,e2.FirstName+' '+e2.LastName AS Employee_2 FROM employee e1  
+CROSS JOIN Employee e2;
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `Cross Join doesn't need any ON condition as all the records from Table A will be Joined with all the records from Table B.  > Cross Join is also known as Cartesian product. As the result will be the product of the number of records in each tables and no-filter is used while selecting the data's (8 x 8  =64, 5 x 6 =30) .`
+  
+
+SELECT e1.FirstName+' '+e1.LastName AS Employee_1,e2.FirstName+' '+e2.LastName AS Employee_2 FROM employee e1  
+CROSS JOIN Employee e2 WHERE e1.EmployeeID <> e2.EmployeeID;
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Views** ![[Pasted image 20250504162755.png|560]] ![[Pasted image 20250504165248.png]] We use Joins for associating the Department with Employee, so this process can be implemented by creating it as an view and that view can be executed whenever needed . Views are used for hiding the PIA details and executing the query as simple as possible.`
+  
+
+SELECT e.EmployeeID,e.FirstName,e.LastName,e.DepartmentID,d.DepartmentName  
+FROM Employee e JOIN Department d ON e.DepartmentID = d.DepartmentID;
+
+-- Creating View  
+CREATE VIEW employee_dept_details AS  
+SELECT e.EmployeeID,e.FirstName,e.LastName,e.DepartmentID,d.DepartmentName  
+FROM Employee e JOIN Department d ON e.DepartmentID = d.DepartmentID;
 
 -- Executing View
 
 SELECT * FROM employee_dept_details;
 
-
-CREATE VIEW employee_details AS
-	SELECT * FROM Employee;
+CREATE VIEW employee_details AS  
+SELECT * FROM Employee;
 
 SELECT * FROM employee_details;
-```
-> Views are also known as virtual tables as views doesn't take physical memory .
 
-![[Pasted image 20250504171324.png]]
-**altering a view definition**
-```
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `> Views are also known as virtual tables as views doesn't take physical memory .  ![[Pasted image 20250504171324.png]] **altering a view definition**`
+  
+
 ALTER VIEW employee_details AS SELECT * FROM Employee WHERE EmployeeID <> 1001;
-```
-==If the view definition points to an particular row we can even perform insert operation also. Cannot be used if the view definition contains multiple tables and perform JOINS in it and if the table retrieves DISTINCT values or Aggregates or Group By clause, or Pivot or Unpivot operator.==
 
-```
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `==If the view definition points to an particular row we can even perform insert operation also. Cannot be used if the view definition contains multiple tables and perform JOINS in it and if the table retrieves DISTINCT values or Aggregates or Group By clause, or Pivot or Unpivot operator.==`
+  
+
 INSERT INTO employee_details VALUES(1009,'Suresh','Babu','2000-03-09','M',12,NULL);
-```
-Similarly we can also perform other operations like update and delete as well
-```
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `Similarly we can also perform other operations like update and delete as well`
+  
+
 UPDATE employee_details SET FirstName = 'Stark',LastName = 'Tony' WHERE EmployeeID = 1009;
 
 DELETE FROM employee_details WHERE EmployeeID = 1009;
-```
-**Delete the view**
-```
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Delete the view**`
+  
+
 DROP VIEW employee_details;
-```
-**Creating user access**
-```
-CREATE LOGIN test_login WITH PASSWORD = 'test1234';
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Creating user access**`
+  
+
+CREATE LOGIN test_login WITH PASSWORD = 'test1234';  
 CREATE USER test_user FOR LOGIN test_login;
 
--- Grant permission to access this view
+-- Grant permission to access this view  
 GRANT SELECT ON employee_details TO test_user;
-```
-Here the user entered by using this login will have access to open the employee_details view only.
 
-**SubQueries**
+code Code
 
-```
--- Select all the sales territory where rowguid = '52A5179D-3239-4157-AE29-17E868296DC0'
-SELECT * FROM Sales.SalesPerson WHERE rowguid = '52A5179D-3239-4157-AE29-17E868296DC0';
+downloadcontent_copy
+
+expand_less
+
+    `Here the user entered by using this login will have access to open the employee_details view only.  **SubQueries**`
+  
+
+-- Select all the sales territory where rowguid = '52A5179D-3239-4157-AE29-17E868296DC0'  
+SELECT * FROM Sales.SalesPerson WHERE rowguid = '52A5179D-3239-4157-AE29-17E868296DC0';  
 SELECT * FROM Sales.SalesTerritory WHERE TerritoryID = 5;
 
-SELECT * FROM Sales.SalesTerritory WHERE TerritoryID = (
-	SELECT TerritoryID FROM Sales.SalesPerson WHERE rowguid = '52A5179D-3239-4157-AE29-17E868296DC0'
+SELECT * FROM Sales.SalesTerritory WHERE TerritoryID = (  
+SELECT TerritoryID FROM Sales.SalesPerson WHERE rowguid = '52A5179D-3239-4157-AE29-17E868296DC0'  
 );
 
-SELECT * FROM Sales.SalesTerritory WHERE TerritoryID IN (
-	SELECT TerritoryID FROM Sales.SalesPerson WHERE CommissionPct = '0.01'
+SELECT * FROM Sales.SalesTerritory WHERE TerritoryID IN (  
+SELECT TerritoryID FROM Sales.SalesPerson WHERE CommissionPct = '0.01'  
 );
 
-SELECT * FROM Employees WHERE departmentID IN (
-	SELECT departmentID FROM departments WHERE LocationID IN 
-	  (SELECT LocationID FROM Locations WHERE LocationName='TORONTO'));
+SELECT * FROM Employees WHERE departmentID IN (  
+SELECT departmentID FROM departments WHERE LocationID IN  
+(SELECT LocationID FROM Locations WHERE LocationName='TORONTO'));
 
--- create a new table called as employee toronto and insert all the employees from Toronto
+-- create a new table called as employee toronto and insert all the employees from Toronto  
 SELECT * INTO employees_toronto FROM Employees WHERE 1=0; -- creates a table structure similar to Employees into employees_toronto
 
-INSERT INTO employees_toronto SELECT * FROM employees WHERE Department_ID IN (
-	SELECT Department_ID FROM departments WHERE Location_ID IN(
-	SELECT Location_ID FROM Locations WHERE City='Toronto'
+INSERT INTO employees_toronto SELECT * FROM employees WHERE Department_ID IN (  
+SELECT Department_ID FROM departments WHERE Location_ID IN(  
+SELECT Location_ID FROM Locations WHERE City='Toronto'  
 ));
 
 -- Update salary of all employees whose salary is less than the average salary to average salary
 
-UPDATE Employees SET salary = ( SELECT AVG(salary) FROM Employees )
+UPDATE Employees SET salary = ( SELECT AVG(salary) FROM Employees )  
 WHERE salary < ( SELECT AVG(salary) FROM Employees );
 
--- DELETE All employees whose department is either 'Administration' or 'Marketing'
-DELETE FROM Employees WHERE Department_ID IN(
-	SELECT Department_ID FROM Departments WHERE DepartmentName IN(
-	'Administration','Marketing'));
-```
-**Correlated subquery**
+-- DELETE All employees whose department is either 'Administration' or 'Marketing'  
+DELETE FROM Employees WHERE Department_ID IN(  
+SELECT Department_ID FROM Departments WHERE DepartmentName IN(  
+'Administration','Marketing'));
 
-SubQueries cannot be executed separately here. Inner Query depends on the Outer Query for it's execution .
-```
--- List all employees whose salary is less than the avg salary in that department
-SELECT * FROM Employees 
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Correlated subquery**  SubQueries cannot be executed separately here. Inner Query depends on the Outer Query for it's execution .`
+  
+
+-- List all employees whose salary is less than the avg salary in that department  
+SELECT * FROM Employees  
 E1 WHERE Salary < (SELECT AVG(Salary) FROM Employees E2 WHERE E2.Department_ID = E1.Department_ID);
-```
-**Exists / Not Exists**
-![[Pasted image 20250506222856.png]]
-```
-SELECT * FROM Salesman s WHERE EXISTS (
-	SELECT 1 FROM orders o WHERE s.salesman_id = o.salesman_id
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Exists / Not Exists** ![[Pasted image 20250506222856.png]]`
+  
+
+SELECT * FROM Salesman s WHERE EXISTS (  
+SELECT 1 FROM orders o WHERE s.salesman_id = o.salesman_id  
 );
 
-
-SELECT * FROM Salesman s WHERE NOT EXISTS(
-	SELECT 1 FROM orders o WHERE s.salesman_id = o.salesman_id
+SELECT * FROM Salesman s WHERE NOT EXISTS(  
+SELECT 1 FROM orders o WHERE s.salesman_id = o.salesman_id  
 );
-```
-**Any/All**
-![[Pasted image 20250506224210.png]]
-Any operator is used for comparing a particular column of an record with a list of values .
 
-```
-/*
-	List all employees whose salary is greater than the avg salary of any of the Departments
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Any/All** ![[Pasted image 20250506224210.png]] Any operator is used for comparing a particular column of an record with a list of values .`
+  
+
+/*  
+List all employees whose salary is greater than the avg salary of any of the Departments  
 */
 
-SELECT * FROM employees WHERE Salary > ANY(
-	SELECT avg_salary FROM ( 
-	 SELECT department_id, AVG(salary) AS avg_salary FROM employees GROUP BY department_id) AS temp
+SELECT * FROM employees WHERE Salary > ANY(  
+SELECT avg_salary FROM (  
+SELECT department_id, AVG(salary) AS avg_salary FROM employees GROUP BY department_id) AS temp  
 );
 
-```
-![[Pasted image 20250506230015.png]]
-All is also similar to Any but all the values should get satisfied.
-```
-/*
-List of all employees whose salary is less than the salary of all the employees working for 
-DepartmentId 30
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250506230015.png]] All is also similar to Any but all the values should get satisfied.`
+  
+
+/*  
+List of all employees whose salary is less than the salary of all the employees working for  
+DepartmentId 30  
 */
 
-SELECT * FROM employees WHERE salary < ALL (
+SELECT * FROM employees WHERE salary < ALL (  
 SELECT salary FROM employees WHERE department_id = 30);
-```
-**CTE**
-![[Pasted image 20250506231050.png]]
-CTE is known as ==Temporary named Result set .==
 
-```
--- Complex Query with subquery in it
-SELECT PI.ProductID,Total_Quantity,PV.StandardPrice,PV.BusinessEntityID FROM
-(SELECT ProductID,SUM(Quantity) AS Total_Quantity FROM Production.ProductInventory
-GROUP BY ProductID HAVING SUM(Quantity)<100 ) PI JOIN Purchasing.ProductVendor 
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**CTE** ![[Pasted image 20250506231050.png]] CTE is known as ==Temporary named Result set .==`
+  
+
+-- Complex Query with subquery in it  
+SELECT PI.ProductID,Total_Quantity,PV.StandardPrice,PV.BusinessEntityID FROM  
+(SELECT ProductID,SUM(Quantity) AS Total_Quantity FROM Production.ProductInventory  
+GROUP BY ProductID HAVING SUM(Quantity)<100 ) PI JOIN Purchasing.ProductVendor  
 PV ON PI.ProductID = PV.ProductID;
 
--- This can be split into CTE for easy understanding
-WITH low_quantity_product AS 
-(SELECT ProductID,SUM(Quantity) AS Total_Quantity FROM Production.ProductInventory
+-- This can be split into CTE for easy understanding  
+WITH low_quantity_product AS  
+(SELECT ProductID,SUM(Quantity) AS Total_Quantity FROM Production.ProductInventory  
 GROUP BY ProductID HAVING SUM(Quantity)<100)
 
-SELECT QP.ProductID,Total_Quantity,PV.StandardPrice,PV.BusinessEntityID FROM low_quantity_product
+SELECT QP.ProductID,Total_Quantity,PV.StandardPrice,PV.BusinessEntityID FROM low_quantity_product  
 QP JOIN Purchasing.ProductVendor PV ON QP.ProductID = PV.ProductID;
-```
 
-CTE is used for breaking complex queries into smaller simpler one's for better readability and understanding .
+code Code
 
-**Window functions .**
-![[Pasted image 20250507232415.png]]
-A **window function** in MySQL performs a **calculation across a set of table rows** that are somehow related to the current row. Unlike aggregate functions, which return a single result for a group, **window functions return a value for each row** while retaining the individual row details.
+downloadcontent_copy
 
-```
+expand_less
+
+    `CTE is used for breaking complex queries into smaller simpler one's for better readability and understanding .  **Window functions .** ![[Pasted image 20250507232415.png]] A **window function** in MySQL performs a **calculation across a set of table rows** that are somehow related to the current row. Unlike aggregate functions, which return a single result for a group, **window functions return a value for each row** while retaining the individual row details.`
+  
+
 SELECT *,SUM(Salary) OVER() AS TOTAL_SALARY FROM employees;
 
-```
+code Code
 
-![[Pasted image 20250507233120.png]]
-Consider a scenario where we want to display the total salary of each department based on the department ID
+downloadcontent_copy
 
-```
--- Performing Aggregation based on particular column
+expand_less
+
+    `![[Pasted image 20250507233120.png]] Consider a scenario where we want to display the total salary of each department based on the department ID`
+  
+
+-- Performing Aggregation based on particular column  
 SELECT *,SUM(Salary) OVER(PARTITION BY department_id) AS TOTAL_SALARY FROM employees;
-```
-![[Pasted image 20250507233528.png]]
-```
--- Performing Aggregation based on particular column as running total
-SELECT *,SUM(Salary) OVER(PARTITION BY department_id ORDER BY employee_id) 
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250507233528.png]]`
+  
+
+-- Performing Aggregation based on particular column as running total  
+SELECT *,SUM(Salary) OVER(PARTITION BY department_id ORDER BY employee_id)  
 AS TOTAL_SALARY FROM employees;
 
-```
-![[Pasted image 20250507234132.png]]
-![[Pasted image 20250507234411.png]]
-**Value window functions**
-1. FIRST_VALUE
-2. LAST_VALUE
-3. LAG
-4. LEAD 
+code Code
 
-**First Value** : - This window function is used to check the initial value when it was created.
-```
-SELECT ProductID,StandardCost,ModifiedDate FROM Production.ProductCostHistory
-ORDER BY ProductID,ModifiedDate; --This displays the product details with its order according to
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250507234132.png]] ![[Pasted image 20250507234411.png]] **Value window functions** 1. FIRST_VALUE 2. LAST_VALUE 3. LAG 4. LEAD   **First Value** : - This window function is used to check the initial value when it was created.`
+  
+
+SELECT ProductID,StandardCost,ModifiedDate FROM Production.ProductCostHistory  
+ORDER BY ProductID,ModifiedDate; --This displays the product details with its order according to  
 -- its Date of modification.
 
-```
-![[Pasted image 20250510105020.png]]
-```
--- First value
-SELECT ProductID,StandardCost,ModifiedDate,FIRST_VALUE(StandardCost) OVER(PARTITION BY ProductID
-ORDER BY ModifiedDate) AS Initial_value FROM Production.ProductCostHistory
-ORDER BY ProductID,ModifiedDate;
-```
-![[Pasted image 20250510105452.png]]
-**Last Value** : - This window function is used to check the final value of the field.
-```
-SELECT ProductID,StandardCost,ModifiedDate,FIRST_VALUE(StandardCost)OVER(PARTITION BY ProductID
-ORDER BY ModifiedDate)AS Initital_value, LAST_VALUE(StandardCost)OVER(PARTITION BY ProductID 
-ORDER BY ModifiedDate) AS Final_value FROM Production.ProductCostHistory 
-ORDER BY ProductID,ModifiedDate;
-```
-![[Pasted image 20250510110501.png]]
-This is displaying final value for each ProductID based on its previous entries data. This is not the expected result so the ==LAST_VALUE() should be used along with Frame window (RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)==
-```
--- Last Value
-SELECT ProductID,StandardCost,ModifiedDate,FIRST_VALUE(StandardCost)OVER(PARTITION BY ProductID
-ORDER BY ModifiedDate)AS Initital_value, LAST_VALUE(StandardCost)OVER(PARTITION BY ProductID 
-ORDER BY ModifiedDate RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS Final_value
-FROM Production.ProductCostHistory 
-ORDER BY ProductID,ModifiedDate;
-```
-![[Pasted image 20250510111517.png]]
+code Code
 
-**LAG** : - 
-The `LAG()` function is a **window function** that allows you to **look back at a previous row's value** within the result set  **without using a self-join**.
+downloadcontent_copy
 
-**LEAD** : -
-The `LEAD()` function lets you **look forward** to a **next row’s value** within the result set similar to how `LAG()` looks backward.
+expand_less
 
-```
--- LEAD AND LAG
-SELECT ProductID,StandardCost,ModifiedDate,LAG(StandardCost)OVER(PARTITION BY ProductID
-ORDER BY ModifiedDate)AS Previous_value,LEAD(StandardCost)OVER(PARTITION BY ProductID
+    `![[Pasted image 20250510105020.png]]`
+  
+
+-- First value  
+SELECT ProductID,StandardCost,ModifiedDate,FIRST_VALUE(StandardCost) OVER(PARTITION BY ProductID  
+ORDER BY ModifiedDate) AS Initial_value FROM Production.ProductCostHistory  
+ORDER BY ProductID,ModifiedDate;
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250510105452.png]] **Last Value** : - This window function is used to check the final value of the field.`
+  
+
+SELECT ProductID,StandardCost,ModifiedDate,FIRST_VALUE(StandardCost)OVER(PARTITION BY ProductID  
+ORDER BY ModifiedDate)AS Initital_value, LAST_VALUE(StandardCost)OVER(PARTITION BY ProductID  
+ORDER BY ModifiedDate) AS Final_value FROM Production.ProductCostHistory  
+ORDER BY ProductID,ModifiedDate;
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250510110501.png]] This is displaying final value for each ProductID based on its previous entries data. This is not the expected result so the ==LAST_VALUE() should be used along with Frame window (RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)==`
+  
+
+-- Last Value  
+SELECT ProductID,StandardCost,ModifiedDate,FIRST_VALUE(StandardCost)OVER(PARTITION BY ProductID  
+ORDER BY ModifiedDate)AS Initital_value, LAST_VALUE(StandardCost)OVER(PARTITION BY ProductID  
+ORDER BY ModifiedDate RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS Final_value  
+FROM Production.ProductCostHistory  
+ORDER BY ProductID,ModifiedDate;
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    ``![[Pasted image 20250510111517.png]]  **LAG** : -  The `LAG()` function is a **window function** that allows you to **look back at a previous row's value** within the result set  **without using a self-join**.  **LEAD** : - The `LEAD()` function lets you **look forward** to a **next row’s value** within the result set similar to how `LAG()` looks backward.``
+  
+
+-- LEAD AND LAG  
+SELECT ProductID,StandardCost,ModifiedDate,LAG(StandardCost)OVER(PARTITION BY ProductID  
+ORDER BY ModifiedDate)AS Previous_value,LEAD(StandardCost)OVER(PARTITION BY ProductID  
 ORDER BY ModifiedDate)AS Next_value FROM Production.ProductCostHistory ORDER BY ProductID,ModifiedDate;
-```
-![[Pasted image 20250510112429.png]]
-LEAD() LAG() By default sees one value before the current value and after the current value but can be made to see custom values before and after and to show custom results instead of NULL if no value is present .
-LAG(StandardCost,2,0) sees and displays two values before the current value and displays 0.00 instead of NULL and the same can be applied for LEAD() as well.
-![[Pasted image 20250510112943.png]]
-![[Pasted image 20250510113039.png]]
-ROW_NUMBER : -
-	The ROW_NUMBER() window function assigns a unique sequential integer to each row within a partition of a result set, starting from 1. It’s useful for ranking, pagination, or identifying row positions.
-```
-SELECT ProductID,StandardCost,ModifiedDate,ROW_NUMBER()
-OVER(PARTITION BY ProductID ORDER BY ModifiedDate) AS Rno
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250510112429.png]] LEAD() LAG() By default sees one value before the current value and after the current value but can be made to see custom values before and after and to show custom results instead of NULL if no value is present . LAG(StandardCost,2,0) sees and displays two values before the current value and displays 0.00 instead of NULL and the same can be applied for LEAD() as well. ![[Pasted image 20250510112943.png]] ![[Pasted image 20250510113039.png]] ROW_NUMBER : - 	The ROW_NUMBER() window function assigns a unique sequential integer to each row within a partition of a result set, starting from 1. It’s useful for ranking, pagination, or identifying row positions.`
+  
+
+SELECT ProductID,StandardCost,ModifiedDate,ROW_NUMBER()  
+OVER(PARTITION BY ProductID ORDER BY ModifiedDate) AS Rno  
 FROM Production.ProductCostHistory;
 
-```
-![[Pasted image 20250510130728.png]]
-```
-WITH Latest_data AS (
-SELECT ProductID,StandardCost,ModifiedDate,ROW_NUMBER()
-OVER(PARTITION BY ProductID ORDER BY ModifiedDate DESC) AS Rno
-FROM Production.ProductCostHistory
-)
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250510130728.png]]`
+  
+
+WITH Latest_data AS (  
+SELECT ProductID,StandardCost,ModifiedDate,ROW_NUMBER()  
+OVER(PARTITION BY ProductID ORDER BY ModifiedDate DESC) AS Rno  
+FROM Production.ProductCostHistory  
+)  
 SELECT * FROM Latest_data WHERE Rno =1;
 
-```
-![[Pasted image 20250510131130.png]]
-ROW_NUMBER() is mostly used for removing duplicate data and retrieving the latest record.
+code Code
 
-**Rank** : -
-	The RANK() window function assigns a rank to each row within a partition of a result set, based on the order specified in the ORDER BY clause. Rows with equal values for the ordering criteria receive the same rank, but the function leaves gaps in the ranking sequence for duplicate values (unlike DENSE_RANK()).
+downloadcontent_copy
 
-```
+expand_less
+
+    `![[Pasted image 20250510131130.png]] ROW_NUMBER() is mostly used for removing duplicate data and retrieving the latest record.  **Rank** : - 	The RANK() window function assigns a rank to each row within a partition of a result set, based on the order specified in the ORDER BY clause. Rows with equal values for the ordering criteria receive the same rank, but the function leaves gaps in the ranking sequence for duplicate values (unlike DENSE_RANK()).`
+  
+
 SELECT *,RANK()OVER(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC) AS RANK FROM EmployeesManager;
-```
-![[Pasted image 20250510132904.png]]
 
-> Here if there is an duplicate in Rank , like there are 2 employees having same rank 11 , then the next employee will have rank 13 , if three employees having rank 11 then the next will have 14.
+code Code
 
-==And In-order to avoid the above mentioned process and allot consecutive numbers DENSE_RANK can be used==
+downloadcontent_copy
 
-**DENSE RANK** : -
-```
--- Dense rank
-SELECT *, DENSE_RANK()OVER(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC) 
+expand_less
+
+    `![[Pasted image 20250510132904.png]]  > Here if there is an duplicate in Rank , like there are 2 employees having same rank 11 , then the next employee will have rank 13 , if three employees having rank 11 then the next will have 14.  ==And In-order to avoid the above mentioned process and allot consecutive numbers DENSE_RANK can be used==  **DENSE RANK** : -`
+  
+
+-- Dense rank  
+SELECT *, DENSE_RANK()OVER(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC)  
 AS DENSE_RANK FROM EmployeesManager;
-```
-![[Pasted image 20250510133522.png]]
 
-**NTILE** : -
-	NTILE window function divides an ordered result set into a specified number of approximately equal buckets (or tiles) and assigns each row a bucket number from 1 to the number of buckets. It’s useful for tasks like ranking data into quartiles, deciles, or other quantiles.
-	
-```
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250510133522.png]]  **NTILE** : - 	NTILE window function divides an ordered result set into a specified number of approximately equal buckets (or tiles) and assigns each row a bucket number from 1 to the number of buckets. It’s useful for tasks like ranking data into quartiles, deciles, or other quantiles.`
+  
+
 SELECT *, NTILE(10)OVER(ORDER BY SALARY DESC) AS GroupBucket FROM EmployeesManager;
-```
-![[Pasted image 20250510134117.png]]
 
-PARTITION BY can be replaced using WINDOW()
+code Code
 
-```
-SELECT *, DENSE_RANK()OVER win 
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250510134117.png]]  PARTITION BY can be replaced using WINDOW()`
+  
+
+SELECT *, DENSE_RANK()OVER win  
 AS DENSE_RANK FROM EmployeesManager WINDOW win AS(PARTITION BY DEPARTMENT_ID ORDER BY SALARY DESC);
-```
-**Temp Table** : - Used for temporarily storing the data without creating a table using physical memory .
-Temporary tables can be classified into two types
-1. Local temporary table and
-2. Global temporary table. 
-![[Pasted image 20250510135239.png]]
-Temp table can be created using any of the following two ways
-```
--- Temporary table will be created
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Temp Table** : - Used for temporarily storing the data without creating a table using physical memory . Temporary tables can be classified into two types 1. Local temporary table and 2. Global temporary table.  ![[Pasted image 20250510135239.png]] Temp table can be created using any of the following two ways`
+  
+
+-- Temporary table will be created  
 SELECT * INTO #tmp_person FROM Production.Product;
 
 SELECT * FROM #tmp_person
 
--- Or
-CREATE TABLE #tmp_person_id(
-	ProductID INTEGER
+-- Or  
+CREATE TABLE #tmp_person_id(  
+ProductID INTEGER  
 );
 
 INSERT INTO #tmp_person_id SELECT ProductID FROM Production.Product WHERE ProductModelID = 23;
 
-
 SELECT * FROM #tmp_person_id;
 
-```
-![[Pasted image 20250510161841.png]]
-==Local temporary tables are accessible only at that particular session and  are automatically dropped (deleted/disposed) at the end of the session . Or can be deleted explicitly using the DROP table query. ==
+code Code
 
-> Global temporary tables are created using ## instead of # before it's name and are accessible from other sessions as well.
+downloadcontent_copy
 
-```
--- creates Global temp table.
+expand_less
+
+    `![[Pasted image 20250510161841.png]] ==Local temporary tables are accessible only at that particular session and  are automatically dropped (deleted/disposed) at the end of the session . Or can be deleted explicitly using the DROP table query. ==  > Global temporary tables are created using ## instead of # before it's name and are accessible from other sessions as well.`
+  
+
+-- creates Global temp table.  
 SELECT * INTO ##tmp_person_global FROM Production.Product;
 
 SELECT * FROM ##tmp_person_global;
-```
-![[Pasted image 20250510162959.png]]
 
-**Store Procedure**
+code Code
 
-> Store procedure is known as ==Pre-compiled code== as it will get compiled and stored in executable form. So it will not get compiled during every execution thus making it perform better. 
+downloadcontent_copy
 
+expand_less
 
-![[Pasted image 20250510163113.png]]
+    `![[Pasted image 20250510162959.png]]  **Store Procedure**  > Store procedure is known as ==Pre-compiled code== as it will get compiled and stored in executable form. So it will not get compiled during every execution thus making it perform better.    ![[Pasted image 20250510163113.png]]`
+  
 
-```
--- Store procedure without parameters
-CREATE PROCEDURE GetEmployeeData
-AS BEGIN
-SELECT * FROM Person.Person
+-- Store procedure without parameters  
+CREATE PROCEDURE GetEmployeeData  
+AS BEGIN  
+SELECT * FROM Person.Person  
 END
-
 
 EXEC GetEmployeeData;
 
 -- with parameter
 
-CREATE PROCEDURE GetEmployeeDataByDeptID @personID INT
-AS BEGIN
-SELECT * FROM Person.Person WHERE BusinessEntityID=@personID
+CREATE PROCEDURE GetEmployeeDataByDeptID @personID INT  
+AS BEGIN  
+SELECT * FROM Person.Person WHERE BusinessEntityID=@personID  
 END
 
-EXEC GetEmployeeDataByDeptID 10; -- Input parameter
--- or
+EXEC GetEmployeeDataByDeptID 10; -- Input parameter  
+-- or  
 EXEC GetEmployeeDataByDeptID @personID=10;
 
--- default parameter
-ALTER PROCEDURE GetEmployeeDataByDeptID @personID INT =10
-AS BEGIN
-SELECT * FROM Person.Person WHERE BusinessEntityID=@personID
-END
-```
-
-**Output parameter for Store Procedure**
-
-```
--- output parameter
-ALTER PROCEDURE GetEmployeeDataByDeptID @personID INT =10, @personCount INT OUT
-AS
-BEGIN
-SELECT @personCount = COUNT(*) FROM Person.Person WHERE BusinessEntityID = @personID
+-- default parameter  
+ALTER PROCEDURE GetEmployeeDataByDeptID @personID INT =10  
+AS BEGIN  
+SELECT * FROM Person.Person WHERE BusinessEntityID=@personID  
 END
 
-DECLARE @count INT
-EXEC GetEmployeeDataByDeptID 20,@count OUT
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Output parameter for Store Procedure**`
+  
+
+-- output parameter  
+ALTER PROCEDURE GetEmployeeDataByDeptID @personID INT =10, @personCount INT OUT  
+AS  
+BEGIN  
+SELECT @personCount = COUNT(*) FROM Person.Person WHERE BusinessEntityID = @personID  
+END
+
+DECLARE @count INT  
+EXEC GetEmployeeDataByDeptID 20,@count OUT  
 SELECT @count;
-```
-![[Pasted image 20250510165444.png]]
 
-**Index**
-	An **index** in MySQL is a database structure that improves the speed of data retrieval operations on a table by providing a quick lookup mechanism. It works like an index in a book, allowing the database to find rows faster without scanning the entire table. However, indexes come with trade-offs: they speed up SELECT queries but can slow down INSERT, UPDATE, and DELETE operations because the index must be updated.
-	
-### Clustered Index
+code Code
 
-- **Definition**: A clustered index determines the **physical order** of data rows in the table. The table's data is stored in the same order as the index, meaning the data is physically sorted based on the indexed column(s).
-- **Key Points**:
-    - There can be **only one clustered index** per table because the data can only be physically arranged in one order.
-    - In MySQL, the **primary key** is typically the clustered index (e.g., in InnoDB). If no primary key exists, the first unique index with non-null columns may be used, or InnoDB creates an internal clustered index.
-    - **Benefit**: Fast retrieval for range queries, searches, or joins on the indexed column since the data is already sorted.
-    - **Example**: In a users table with a primary key on id, the rows are physically stored in
-### Non-Clustered Index
+downloadcontent_copy
 
-- **Definition**: A non-clustered index is a separate structure that stores a copy of the indexed column(s) along with **pointers** (references) to the actual data rows in the table. The table's data remains in its original order (or clustered index order), and the non-clustered index acts like a lookup table.
-- **Key Points**:
-    - A table can have **multiple non-clustered indexes** because they don't affect the physical data order.
-    - In MySQL, indexes like INDEX, UNIQUE, or FULLTEXT (on non-primary key columns) are non-clustered.
-    - **Benefit**: Speeds up queries on columns not part of the clustered index, but slightly slower than a clustered index because it requires an extra step to follow the pointer.
-    - **Example**: An index on the city column in the users table stores city values and pointers to the corresponding rows.
+expand_less
 
-    > By default the database creates a ==clustered index on Primary Key and non-clustered index on Unique key constraint .== 
+    `![[Pasted image 20250510165444.png]]  **Index** 	An **index** in MySQL is a database structure that improves the speed of data retrieval operations on a table by providing a quick lookup mechanism. It works like an index in a book, allowing the database to find rows faster without scanning the entire table. However, indexes come with trade-offs: they speed up SELECT queries but can slow down INSERT, UPDATE, and DELETE operations because the index must be updated. 	 ### Clustered Index  - **Definition**: A clustered index determines the **physical order** of data rows in the table. The table's data is stored in the same order as the index, meaning the data is physically sorted based on the indexed column(s). - **Key Points**:     - There can be **only one clustered index** per table because the data can only be physically arranged in one order.     - In MySQL, the **primary key** is typically the clustered index (e.g., in InnoDB). If no primary key exists, the first unique index with non-null columns may be used, or InnoDB creates an internal clustered index.     - **Benefit**: Fast retrieval for range queries, searches, or joins on the indexed column since the data is already sorted.     - **Example**: In a users table with a primary key on id, the rows are physically stored in ### Non-Clustered Index  - **Definition**: A non-clustered index is a separate structure that stores a copy of the indexed column(s) along with **pointers** (references) to the actual data rows in the table. The table's data remains in its original order (or clustered index order), and the non-clustered index acts like a lookup table. - **Key Points**:     - A table can have **multiple non-clustered indexes** because they don't affect the physical data order.     - In MySQL, indexes like INDEX, UNIQUE, or FULLTEXT (on non-primary key columns) are non-clustered.     - **Benefit**: Speeds up queries on columns not part of the clustered index, but slightly slower than a clustered index because it requires an extra step to follow the pointer.     - **Example**: An index on the city column in the users table stores city values and pointers to the corresponding rows.      > By default the database creates a ==clustered index on Primary Key and non-clustered index on Unique key constraint .==`
+  
 
-```
-CREATE TABLE EmployeeIndex(
-	EmployeeID INTEGER PRIMARY KEY,
-	FirstName VARCHAR(200),
-	LastName VARCHAR(200) UNIQUE,
-	DateOfBirth DATE,
-	Gender CHAR(1),
-	DepartmentID INTEGER);
-```
-![[Pasted image 20250511180949.png]]
-Explicitly non-clustered index can be created using the following
-```
+CREATE TABLE EmployeeIndex(  
+EmployeeID INTEGER PRIMARY KEY,  
+FirstName VARCHAR(200),  
+LastName VARCHAR(200) UNIQUE,  
+DateOfBirth DATE,  
+Gender CHAR(1),  
+DepartmentID INTEGER);
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250511180949.png]] Explicitly non-clustered index can be created using the following`
+  
+
 SELECT * INTO EmployeeIndexNonClusteredIndex FROM EmployeeIndex;
 
 CREATE INDEX idx_lastName ON EmployeeIndexNonClusteredIndex(LastName);
-```
-![[Pasted image 20250511181551.png]]
-Non clustered unique index can be created using 
-```
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250511181551.png]] Non clustered unique index can be created using`
+  
+
 CREATE UNIQUE INDEX idx_firstName ON EmployeeIndexNonClusteredIndex(FirstName);
-```
-![[Pasted image 20250511181726.png]]
-Clustered index can be created using
-```
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250511181726.png]] Clustered index can be created using`
+  
+
 CREATE CLUSTERED INDEX idx_clstr_lastName ON EmployeeIndexNonClusteredIndex(LastName);
-```
-![[Pasted image 20250511182316.png]]
-> A table can have ==only one clustered index== in it, and if the ==Primary key is created after creating clustered index it will be created as an non clustered index ==.
 
-```
-ALTER TABLE EmployeeIndexNonClusteredIndex ADD CONSTRAINT
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250511182316.png]] > A table can have ==only one clustered index== in it, and if the ==Primary key is created after creating clustered index it will be created as an non clustered index ==.`
+  
+
+ALTER TABLE EmployeeIndexNonClusteredIndex ADD CONSTRAINT  
 pk_const PRIMARY KEY(EmployeeID);
-```
-![[Pasted image 20250511182805.png]]
-Dropping Index
-```
-DROP INDEX EmployeeIndexNonClusteredIndex.idx_clstr_lastName;
--- Drop index tableName.IndexName
-```
-Multiple index
-```
-CREATE INDEX multiple_index ON EmployeeIndexNonClusteredIndex(FirstName,LastName);
-```
-![[Pasted image 20250511183700.png]]
-Now this will arrange the values in alphabetical order according to their first name then by their last name in that arranged result.
 
-F_Nm L_Nm
-![[Pasted image 20250511183758.png]]
-And this kind of index are useful for the following queries
-```
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250511182805.png]] Dropping Index`
+  
+
+DROP INDEX EmployeeIndexNonClusteredIndex.idx_clstr_lastName;  
+-- Drop index tableName.IndexName
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `Multiple index`
+  
+
+CREATE INDEX multiple_index ON EmployeeIndexNonClusteredIndex(FirstName,LastName);
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250511183700.png]] Now this will arrange the values in alphabetical order according to their first name then by their last name in that arranged result.  F_Nm L_Nm ![[Pasted image 20250511183758.png]] And this kind of index are useful for the following queries`
+  
+
 SELECT * FROM EmployeeIndexNonClusteredIndex WHERE FirstName = 'aaa' AND LastName = 'bbb';
-```
-**Trigger**
-	A special type of Store Procedure that automatically runs when an event occurs in the database server .
-	A **trigger** is a database object associated with a table that automatically executes a predefined set of SQL statements when certain events (CRUD operations) occur on that table.
-	Trigger contains an set of SQL statements in it . 
-![[Pasted image 20250511184531.png]]
-- Automatically update the last_updated column whenever a user’s first_name or city is updated.
-![[Pasted image 20250511213344.png]]
-Triggers will generate two virtual tables.
-![[Pasted image 20250511213531.png]]
-```
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Trigger** 	A special type of Store Procedure that automatically runs when an event occurs in the database server . 	A **trigger** is a database object associated with a table that automatically executes a predefined set of SQL statements when certain events (CRUD operations) occur on that table. 	Trigger contains an set of SQL statements in it .  ![[Pasted image 20250511184531.png]] - Automatically update the last_updated column whenever a user’s first_name or city is updated. ![[Pasted image 20250511213344.png]] Triggers will generate two virtual tables. ![[Pasted image 20250511213531.png]]`
+  
+
 -- Creating table to make an entry after insert operation in Employee Table.
 
-CREATE TABLE employees_audit(
-	Employee_ID INTEGER,
-	Operation VARCHAR(100),
-	UpdatedDate DATETIME
+CREATE TABLE employees_audit(  
+Employee_ID INTEGER,  
+Operation VARCHAR(100),  
+UpdatedDate DATETIME  
 );
 
--- Creating trigger
-CREATE TRIGGER trg_emp_audit
-ON Employee
-AFTER INSERT AS BEGIN 
-INSERT INTO employees_audit
-SELECT EmployeeID,'INSERT',GETDATE() FROM inserted
+-- Creating trigger  
+CREATE TRIGGER trg_emp_audit  
+ON Employee  
+AFTER INSERT AS BEGIN  
+INSERT INTO employees_audit  
+SELECT EmployeeID,'INSERT',GETDATE() FROM inserted  
 END;
 
-SELECT * FROM Employee;
+SELECT * FROM Employee;  
 INSERT INTO Employee VALUES(3000,'Trigger','Check','2025-05-11','M',11,1002);
 
 SELECT * FROM employees_audit;
-```
-![[Pasted image 20250511214648.png]]
-Altering a trigger
-```
--- Alter trigger
-ALTER TRIGGER trg_emp_audit ON Employee
-AFTER INSERT,DELETE AS
-BEGIN
-	INSERT INTO employees_audit 
-	SELECT EmployeeID,'Insert',GETDATE() FROM inserted
-UNION ALL
-	SELECT EmployeeID,'Deleted',GETDATE() FROM deleted
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250511214648.png]] Altering a trigger`
+  
+
+-- Alter trigger  
+ALTER TRIGGER trg_emp_audit ON Employee  
+AFTER INSERT,DELETE AS  
+BEGIN  
+INSERT INTO employees_audit  
+SELECT EmployeeID,'Insert',GETDATE() FROM inserted  
+UNION ALL  
+SELECT EmployeeID,'Deleted',GETDATE() FROM deleted  
 END
 
 DELETE FROM Employee WHERE EmployeeID = 1002;
-```
-![[Pasted image 20250511215549.png]]
- ```
- SELECT * INTO employees_copy FROM Employee;
-ALTER TABLE employees_copy ADD active BIT,EndDate DATETIME;
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250511215549.png]]`
+  
+
+SELECT * INTO employees_copy FROM Employee;  
+ALTER TABLE employees_copy ADD active BIT,EndDate DATETIME;  
 SELECT * FROM employees_copy;
 
-CREATE TRIGGER trg_emp_delete
-ON employees_copy 
-INSTEAD OF DELETE AS
-BEGIN
-	update employees_copy SET active = 0,EndDate=GETDATE() WHERE EmployeeID IN(
-		SELECT EmployeeID FROM deleted
-	)
+CREATE TRIGGER trg_emp_delete  
+ON employees_copy  
+INSTEAD OF DELETE AS  
+BEGIN  
+update employees_copy SET active = 0,EndDate=GETDATE() WHERE EmployeeID IN(  
+SELECT EmployeeID FROM deleted  
+)  
 END
 
-SELECT * FROM employees_copy;
+SELECT * FROM employees_copy;  
 DELETE FROM employees_copy WHERE EmployeeID = 1003;
-```
-![[Pasted image 20250511220753.png]]
-![[Pasted image 20250511220835.png]]
-**Functions in SQL**
-![[Pasted image 20250511223202.png]]
-Set of SQL statements that does an action and returns an output value based on the Input parameters provided.
 
-> Functions may or may not have an Input parameter but should definitely return a value .
+code Code
 
-Functions can be classified into
-1. System functions (Build in functions)
-	![[Pasted image 20250511223418.png|250]]
-2. Custom functions (User defined functions)
-		![[Pasted image 20250511223521.png|350]]
--Scalar functions - If the retuned value of a function is an single row value then such functions are known as Scalar functions .
+downloadcontent_copy
 
-```
-CREATE FUNCTION
-	udf_add_numbers(@a INT,@b INT)
-	RETURNS INT
-	BEGIN
-		RETURN @a + @b
-	END
+expand_less
 
-SELECT dbo.udf_add_numbers(2,10) AS Result;	
-```
-![[Pasted image 20250511224409.png]]
-![[Pasted image 20250511224457.png]]
-```
-CREATE FUNCTION
-	dbo.udf_PassOrFail(@marks INT)
-	RETURNS CHAR(1) AS
-	BEGIN
-		DECLARE @grade CHAR(1)
-		IF (@marks>=35)
-			SET @grade = 'P'
-        ELSE
-			SET @grade = 'F'	
-	RETURN @grade
-	END
+    `![[Pasted image 20250511220753.png]] ![[Pasted image 20250511220835.png]] **Functions in SQL** ![[Pasted image 20250511223202.png]] Set of SQL statements that does an action and returns an output value based on the Input parameters provided.  > Functions may or may not have an Input parameter but should definitely return a value .  Functions can be classified into 1. System functions (Build in functions) 	![[Pasted image 20250511223418.png|250]] 2. Custom functions (User defined functions) 		![[Pasted image 20250511223521.png|350]] -Scalar functions - If the retuned value of a function is an single row value then such functions are known as Scalar functions .`
+  
 
-SELECT StudentID,Name,
-dbo.udf_PassOrFail(Tamil) AS Tamil,
-dbo.udf_PassOrFail(Physics) AS Physics,
-dbo.udf_PassOrFail(Chemistry) AS Chemistry,
-dbo.udf_PassOrFail(English) AS English,
-dbo.udf_PassOrFail(Biology) AS Biology,
+CREATE FUNCTION  
+udf_add_numbers(@a INT,@b INT)  
+RETURNS INT  
+BEGIN  
+RETURN @a + @b  
+END
+
+SELECT dbo.udf_add_numbers(2,10) AS Result;
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250511224409.png]] ![[Pasted image 20250511224457.png]]`
+  
+
+CREATE FUNCTION  
+dbo.udf_PassOrFail(@marks INT)  
+RETURNS CHAR(1) AS  
+BEGIN  
+DECLARE @grade CHAR(1)  
+IF (@marks>=35)  
+SET @grade = 'P'  
+ELSE  
+SET @grade = 'F'  
+RETURN @grade  
+END
+
+SELECT StudentID,Name,  
+dbo.udf_PassOrFail(Tamil) AS Tamil,  
+dbo.udf_PassOrFail(Physics) AS Physics,  
+dbo.udf_PassOrFail(Chemistry) AS Chemistry,  
+dbo.udf_PassOrFail(English) AS English,  
+dbo.udf_PassOrFail(Biology) AS Biology,  
 dbo.udf_PassOrFail(Maths) AS Maths FROM StudentMarks;
-```
-![[Pasted image 20250513080819.png]]
-> scalar value functions can be used as how columns are used in a table .
-```
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250513080819.png]] > scalar value functions can be used as how columns are used in a table .`
+  
+
 SELECT * FROM studentMarks WHERE dbo.udf_PassOrFail(Biology) ='P';
-```
-**Table valued functions** - Unlike scalar functions table valued function does not return a single value , instead it returns the table itself.
 
-> Table valued functions are also known as ==Parameterized views== .
+code Code
 
-Table valued functions are classified into two types
-1. Inline table valued functions and
-2. Multi-valued table valued functions .
+downloadcontent_copy
 
-```
+expand_less
+
+    `**Table valued functions** - Unlike scalar functions table valued function does not return a single value , instead it returns the table itself.  > Table valued functions are also known as ==Parameterized views== .  Table valued functions are classified into two types 1. Inline table valued functions and 2. Multi-valued table valued functions .`
+  
+
 -- Inline table valued functions
 
-CREATE FUNCTION dbo.udf_EmpByDept(@deptID INT)
-RETURNS TABLE
-AS
+CREATE FUNCTION dbo.udf_EmpByDept(@deptID INT)  
+RETURNS TABLE  
+AS  
 RETURN SELECT * FROM Employee WHERE EmployeeID = @deptID
-
 
 SELECT * FROM dbo.udf_EmpByDept(1003);
 
--- Multi valued table functions
-CREATE FUNCTION dbo.udf_Persons()
-RETURNS	@personData TABLE(ID INT,PersonName VARCHAR(100))
-AS 
-BEGIN
-INSERT INTO @personData
-SELECT EmployeeID,FirstName FROM Employee
-INSERT INTO @personData
-SELECT StudentID, FirstName FROM NewStudents
-RETURN 
+-- Multi valued table functions  
+CREATE FUNCTION dbo.udf_Persons()  
+RETURNS @personData TABLE(ID INT,PersonName VARCHAR(100))  
+AS  
+BEGIN  
+INSERT INTO @personData  
+SELECT EmployeeID,FirstName FROM Employee  
+INSERT INTO @personData  
+SELECT StudentID, FirstName FROM NewStudents  
+RETURN  
 END
-
 
 SELECT * FROM dbo.udf_Persons()
-```
-![[Pasted image 20250513213953.png]]
-![[Pasted image 20250513214002.png]]
-![[Pasted image 20250513214017.png]]
-![[Pasted image 20250513214033.png]]
-![[Pasted image 20250513214046.png]]
-![[Pasted image 20250513214103.png]]
-![[Pasted image 20250513214122.png]]
 
-**Cursor** : -
-![[Pasted image 20250513214223.png|360]]
-==This scenario can be considered with set operations==
-![[Pasted image 20250513214330.png]]
-This can be considered as ==Cursor==
-![[Pasted image 20250513214404.png]]
-![[Pasted image 20250513214412.png]]
-```
-DECLARE @id INT
-DECLARE @value INT
-DECLARE @runningTotal INT = 0
-DECLARE RunningTotalCursor CURSOR FOR
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250513213953.png]] ![[Pasted image 20250513214002.png]] ![[Pasted image 20250513214017.png]] ![[Pasted image 20250513214033.png]] ![[Pasted image 20250513214046.png]] ![[Pasted image 20250513214103.png]] ![[Pasted image 20250513214122.png]]  **Cursor** : - ![[Pasted image 20250513214223.png|360]] ==This scenario can be considered with set operations== ![[Pasted image 20250513214330.png]] This can be considered as ==Cursor== ![[Pasted image 20250513214404.png]] ![[Pasted image 20250513214412.png]]`
+  
+
+DECLARE @id INT  
+DECLARE @value INT  
+DECLARE @runningTotal INT = 0  
+DECLARE RunningTotalCursor CURSOR FOR  
 SELECT ID,Value FROM SalesData ORDER BY ID
 
-OPEN RunningTotalCursor
-FETCH NEXT FROM RunningTotalCursor INTO @id,@value
-WHILE @@FETCH_STATUS = 0 
-BEGIN 
-	SET @runningTotal = @runningTotal + @value
-	UPDATE SalesData SET RunningTotal = @runningTotal WHERE ID = @id
-	FETCH NEXT FROM RunningTotalCursor INTO @id,@value
-END
-CLOSE RunningTotalCursor
+OPEN RunningTotalCursor  
+FETCH NEXT FROM RunningTotalCursor INTO @id,@value  
+WHILE @@FETCH_STATUS = 0  
+BEGIN  
+SET @runningTotal = @runningTotal + @value  
+UPDATE SalesData SET RunningTotal = @runningTotal WHERE ID = @id  
+FETCH NEXT FROM RunningTotalCursor INTO @id,@value  
+END  
+CLOSE RunningTotalCursor  
 DEALLOCATE RunningTotalCursor
-```   
-![[Pasted image 20250513220434.png]]
-![[Pasted image 20250513221356.png|400]]
-![[Pasted image 20250513221440.png|300]]
 
-**Transactions** : -
-![[Pasted image 20250513224732.png|600]]
-![[Pasted image 20250513224846.png|500]]
-```
-BEGIN TRANSACTION
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250513220434.png]] ![[Pasted image 20250513221356.png|400]] ![[Pasted image 20250513221440.png|300]]  **Transactions** : - ![[Pasted image 20250513224732.png|600]] ![[Pasted image 20250513224846.png|500]]`
+  
+
+BEGIN TRANSACTION  
 DELETE FROM employees WHERE employee_id = 101
 
--- The transaction will be reverted now.
-ROLLBACK TRANSACTION
+-- The transaction will be reverted now.  
+ROLLBACK TRANSACTION  
 SELECT * FROM employees WHERE employee_id = 101
 
--- commit transaction to make changes permanent
-BEGIN TRANSACTION
-UPDATE employees SET department_id = 1 WHERE employee_id = 103
+-- commit transaction to make changes permanent  
+BEGIN TRANSACTION  
+UPDATE employees SET department_id = 1 WHERE employee_id = 103  
 COMMIT TRANSACTION
 
-
-SELECT * FROM employees WHERE employee_id = 103
+SELECT * FROM employees WHERE employee_id = 103  
 ROLLBACK TRANSACTION
-```
-![[Pasted image 20250513225512.png]]
-```
-BEGIN TRANSACTION
-UPDATE BankAccount SET Balance = Balance - 1000 WHERE AccountNumber = 3456789012;
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250513225512.png]]`
+  
+
+BEGIN TRANSACTION  
+UPDATE BankAccount SET Balance = Balance - 1000 WHERE AccountNumber = 3456789012;  
 UPDATE BankAccount SET Balance = Balance + 1000 WHERE AccountNumber = 1122334455;
 
-IF @@ERROR<>0
-	ROLLBACK TRANSACTION
-ELSE
-	COMMIT TRANSACTION
-```
-**Save Transaction** - You want to save transactions using MySQL’s transaction control to ensure data integrity (e.g., if a transaction fails, it rolls back).
-![[Pasted image 20250513231404.png]]
-```
-BEGIN TRANSACTION
-INSERT INTO BankAccount (AccountID, AccountNumber, Balance) VALUES
-(4, 3456789014, 18000.60);
-SAVE TRANSACTION First_Insert
-INSERT INTO BankAccount (AccountID, AccountNumber, Balance) VALUES
+IF @@ERROR<>0  
+ROLLBACK TRANSACTION  
+ELSE  
+COMMIT TRANSACTION
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `**Save Transaction** - You want to save transactions using MySQL’s transaction control to ensure data integrity (e.g., if a transaction fails, it rolls back). ![[Pasted image 20250513231404.png]]`
+  
+
+BEGIN TRANSACTION  
+INSERT INTO BankAccount (AccountID, AccountNumber, Balance) VALUES  
+(4, 3456789014, 18000.60);  
+SAVE TRANSACTION First_Insert  
+INSERT INTO BankAccount (AccountID, AccountNumber, Balance) VALUES  
 (5, 3756789014, 19000);
 
-SELECT (1/0)
-IF @@ERROR <> 0
-	ROLLBACK TRANSACTION First_Insert
-ELSE
-	COMMIT TRANSACTION
-```
-![[Pasted image 20250513231505.png]]
-![[Pasted image 20250513231515.png]]
-![[Pasted image 20250513231840.png|350]]
-![[Pasted image 20250513231948.png|440]]
-**Merge** : - 
-![[Pasted image 20250513232034.png|450]]
+SELECT (1/0)  
+IF @@ERROR <> 0  
+ROLLBACK TRANSACTION First_Insert  
+ELSE  
+COMMIT TRANSACTION
 
-![[Pasted image 20250513232134.png|350]]
-![[Pasted image 20250513232152.png]]
-![[Pasted image 20250513232231.png]]
-The value needs to be updated in the target table .
-![[Pasted image 20250513232253.png]]
-These values needs to be inserted in the target table .
-![[Pasted image 20250513232357.png]]
-These values needs to be deleted from the target table .
+code Code
 
-> MERGE statement should always be terminated by a semicolon. 
+downloadcontent_copy
 
-```
-MERGE EmployeeTarget AS T
-USING EmployeeSource AS S
+expand_less
+
+    `![[Pasted image 20250513231505.png]] ![[Pasted image 20250513231515.png]] ![[Pasted image 20250513231840.png|350]] ![[Pasted image 20250513231948.png|440]] **Merge** : -  ![[Pasted image 20250513232034.png|450]]  ![[Pasted image 20250513232134.png|350]] ![[Pasted image 20250513232152.png]] ![[Pasted image 20250513232231.png]] The value needs to be updated in the target table . ![[Pasted image 20250513232253.png]] These values needs to be inserted in the target table . ![[Pasted image 20250513232357.png]] These values needs to be deleted from the target table .  > MERGE statement should always be terminated by a semicolon.`
+  
+
+MERGE EmployeeTarget AS T  
+USING EmployeeSource AS S  
 ON T.Employee_ID = S.Employee_ID -- all PK's should be used here using AND statement
 
-WHEN MATCHED THEN
-UPDATE SET
-T.FIRST_NAME = S.FIRST_NAME,
-T.LAST_NAME = S.LAST_NAME,
-T.SALARY = S.SALARY,
-T.MANAGER_ID = S.MANAGER_ID,
+WHEN MATCHED THEN  
+UPDATE SET  
+T.FIRST_NAME = S.FIRST_NAME,  
+T.LAST_NAME = S.LAST_NAME,  
+T.SALARY = S.SALARY,  
+T.MANAGER_ID = S.MANAGER_ID,  
 T.DEPARTMENT_ID = S.DEPARTMENT_ID
 
-WHEN NOT MATCHED BY TARGET THEN 
-INSERT(Employee_ID,FIRST_NAME,LAST_NAME,SALARY,MANAGER_ID,DEPARTMENT_ID)
+WHEN NOT MATCHED BY TARGET THEN  
+INSERT(Employee_ID,FIRST_NAME,LAST_NAME,SALARY,MANAGER_ID,DEPARTMENT_ID)  
 VALUES(S.Employee_ID,S.FIRST_NAME,S.LAST_NAME,S.SALARY,S.MANAGER_ID,S.DEPARTMENT_ID)
 
 WHEN NOT MATCHED BY SOURCE THEN DELETE;
-```
-![[Pasted image 20250514224716.png|450]]
 
-**Scheduling Jobs in SqlServer** : -
-![[Pasted image 20250514224858.png|240]]
+code Code
 
-![[Pasted image 20250514225759.png |440]]
-![[Pasted image 20250514230016.png|430]]
-![[Pasted image 20250514230225.png|430]]
-![[Pasted image 20250514230312.png|430]]
-![[Pasted image 20250514230429.png|430]]
-![[Pasted image 20250514230522.png|430]]
-![[Pasted image 20250514230719.png|430]]
-![[Pasted image 20250514230758.png|430]]
-![[Pasted image 20250514230951.png]]
-**Normalization** : -
-![[Pasted image 20250515223733.png]]
-![[Pasted image 20250515223758.png]]
-![[Pasted image 20250515223836.png]]
-![[Pasted image 20250515224032.png]]
-![[Pasted image 20250515224056.png]]
-![[Pasted image 20250515224225.png]]
-The following Normal Forms are available for achieving this normalization. 
-![[Pasted image 20250515224251.png|430]]
-![[Pasted image 20250515224442.png]]
-![[Pasted image 20250515225122.png]]
-![[Pasted image 20250515225223.png]]
-![[Pasted image 20250515225235.png]]
-![[Pasted image 20250515225705.png]]
-![[Pasted image 20250515225803.png]]
-![[Pasted image 20250515225858.png]]
-**Set Operations**
-![[Pasted image 20250515230224.png]]
-There are 4 types of Set operations in SQL
-1. Union
-2. Union All
-3. Intersect
-4. Except 
-![[Pasted image 20250515230529.png|320]]
-Union and Union All - Combines and returns Results of both the tables , Where Union removes the duplicates and Union All includes duplicates as well .
-![[Pasted image 20250515230756.png|350]]
-Intersect - Returns the common records from both the tables .
-![[Pasted image 20250515230855.png|350]]
-Except - Returns the records from both the tables which are not common among them .
+downloadcontent_copy
 
-> The main condition for using SET operator is that the number of columns used in the queries should match each other and should be same .
+expand_less
 
-![[Pasted image 20250515231522.png]]
-**Recursive CTE**
-![[Pasted image 20250521225035.png]]
-In the above mentioned Hierarchical data how to find a level 1 employee . level 2 employee and so on . We use recursive CTE for such process .
+    `![[Pasted image 20250514224716.png|450]]  **Scheduling Jobs in SqlServer** : - ![[Pasted image 20250514224858.png|240]]  ![[Pasted image 20250514225759.png |440]] ![[Pasted image 20250514230016.png|430]] ![[Pasted image 20250514230225.png|430]] ![[Pasted image 20250514230312.png|430]] ![[Pasted image 20250514230429.png|430]] ![[Pasted image 20250514230522.png|430]] ![[Pasted image 20250514230719.png|430]] ![[Pasted image 20250514230758.png|430]] ![[Pasted image 20250514230951.png]] **Normalization** : - ![[Pasted image 20250515223733.png]] ![[Pasted image 20250515223758.png]] ![[Pasted image 20250515223836.png]] ![[Pasted image 20250515224032.png]] ![[Pasted image 20250515224056.png]] ![[Pasted image 20250515224225.png]] The following Normal Forms are available for achieving this normalization.  ![[Pasted image 20250515224251.png|430]] ![[Pasted image 20250515224442.png]] ![[Pasted image 20250515225122.png]] ![[Pasted image 20250515225223.png]] ![[Pasted image 20250515225235.png]] ![[Pasted image 20250515225705.png]] ![[Pasted image 20250515225803.png]] ![[Pasted image 20250515225858.png]] **Set Operations** ![[Pasted image 20250515230224.png]] There are 4 types of Set operations in SQL 1. Union 2. Union All 3. Intersect 4. Except  ![[Pasted image 20250515230529.png|320]] Union and Union All - Combines and returns Results of both the tables , Where Union removes the duplicates and Union All includes duplicates as well . ![[Pasted image 20250515230756.png|350]] Intersect - Returns the common records from both the tables . ![[Pasted image 20250515230855.png|350]] Except - Returns the records from both the tables which are not common among them .  > The main condition for using SET operator is that the number of columns used in the queries should match each other and should be same .  ![[Pasted image 20250515231522.png]] **Recursive CTE** ![[Pasted image 20250521225035.png]] In the above mentioned Hierarchical data how to find a level 1 employee . level 2 employee and so on . We use recursive CTE for such process .  > CTE is an temporary result set .  ![[Pasted image 20250521225219.png|300]] ![[Pasted image 20250521225300.png|300]]`
+  
 
-> CTE is an temporary result set .
-
-![[Pasted image 20250521225219.png|300]]
-![[Pasted image 20250521225300.png|300]]
-```
-WITH generative_numbers AS(
-	SELECT 1 AS number UNION ALL
-	SELECT number + 1 FROM generative_numbers
-	WHERE number < 50)
+WITH generative_numbers AS(  
+SELECT 1 AS number UNION ALL  
+SELECT number + 1 FROM generative_numbers  
+WHERE number < 50)  
 SELECT * FROM generative_numbers;
-```
-```
-WITH generative_numbers AS(
-	SELECT 1 AS number UNION ALL
-	SELECT number + 1 FROM generative_numbers
-	WHERE number < 200)
-SELECT * FROM generative_numbers OPTION (
-	MAXRECURSION 250
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+WITH generative_numbers AS(  
+SELECT 1 AS number UNION ALL  
+SELECT number + 1 FROM generative_numbers  
+WHERE number < 200)  
+SELECT * FROM generative_numbers OPTION (  
+MAXRECURSION 250  
 );
 
 -- Default limit is 100 and max limit is 32767
-```
-```
-WITH generate_date AS(
-	SELECT CAST('2025-01-01' AS DATE) AS dateCreated
-	UNION ALL
-	SELECT DATEADD(DAY,1,dateCreated) FROM generate_date
-	WHERE dateCreated < '2025-03-01'
-)
+
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+WITH generate_date AS(  
+SELECT CAST('2025-01-01' AS DATE) AS dateCreated  
+UNION ALL  
+SELECT DATEADD(DAY,1,dateCreated) FROM generate_date  
+WHERE dateCreated < '2025-03-01'  
+)  
 SELECT * FROM generate_date;
-```
-![[Pasted image 20250521231229.png]]
 
-**Dynamic SQL Queries** : -
-![[Pasted image 20250603231845.png]]
->  Changing the query during the runtime , based  on requirements is known as ==dynamic query ==
+code Code
 
-![[Pasted image 20250603232016.png]]
-```
+downloadcontent_copy
+
+expand_less
+
+    `![[Pasted image 20250521231229.png]]  **Dynamic SQL Queries** : - ![[Pasted image 20250603231845.png]] >  Changing the query during the runtime , based  on requirements is known as ==dynamic query ==  ![[Pasted image 20250603232016.png]]`
+  
+
 -- sp_executesql is an default sp for executing queries .
 
 EXEC sp_executesql N'SELECT * FROM employees';
-```
 
-```
-DECLARE @sql NVARCHAR(MAX)
-SET @sql = 'SELECT * FROM employees'
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+DECLARE @sql NVARCHAR(MAX)  
+SET @sql = 'SELECT * FROM employees'  
 EXEC sp_executesql @sql;
-```
 
-```
-DECLARE @sql2 NVARCHAR(MAX)
-DECLARE @emp_id INT
-SET @emp_id = 105
-SET @sql2 = 'SELECT * FROM employees WHERE employee_id = '+CAST(@emp_id AS VARCHAR)
--- SELECT @sql2
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+DECLARE @sql2 NVARCHAR(MAX)  
+DECLARE @emp_id INT  
+SET @emp_id = 105  
+SET @sql2 = 'SELECT * FROM employees WHERE employee_id = '+CAST(@emp_id AS VARCHAR)  
+-- SELECT @sql2  
 EXEC sp_executesql @sql2;
-```
 
-```
-DECLARE @sql3 NVARCHAR(MAX)
-DECLARE @emp_name VARCHAR(100)
-SET @emp_name = '''Chris Green'''
-SET @sql3 = 'SELECT * FROM employees WHERE employee_name = '+@emp_name
--- SELECT @sql3
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+DECLARE @sql3 NVARCHAR(MAX)  
+DECLARE @emp_name VARCHAR(100)  
+SET @emp_name = '''Chris Green'''  
+SET @sql3 = 'SELECT * FROM employees WHERE employee_name = '+@emp_name  
+-- SELECT @sql3  
 EXEC sp_executesql @sql3;
-```
 
-```
-DECLARE @sql4 NVARCHAR(MAX)
-DECLARE @employee_name VARCHAR(100)
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+DECLARE @sql4 NVARCHAR(MAX)  
+DECLARE @employee_name VARCHAR(100)  
 DECLARE @columns NVARCHAR(MAX)
 
-SET @employee_name = 'John Doe'
-SET @columns = 'employee_name, department_id'
-SET @sql4 = 'SELECT '+ @columns +' FROM employees WHERE employee_name = '''+ @employee_name+ ''''
+SET @employee_name = 'John Doe'  
+SET @columns = 'employee_name, department_id'  
+SET @sql4 = 'SELECT '+ @columns +' FROM employees WHERE employee_name = '''+ @employee_name+ ''''  
 EXEC sp_executesql @sql4;
-```
 
--- Tech with hema
+code Code
 
----
+downloadcontent_copy
 
-# 📘 **MySQL Functions — Complete Notes (Obsidian-Friendly)**
+expand_less
 
----
+    `-- Tech with hema  ---  # 📘 **MySQL Functions — Complete Notes (Obsidian-Friendly)**  ---  ## ## 🧩 **What is a Function in MySQL?**  A **function** in MySQL is a stored program that:  * Accepts **input parameters** * Performs **calculations or operations** * Returns **exactly one value** (scalar)  🔔 **Important:** Unlike SQL Server or PostgreSQL, **MySQL does NOT support table-valued functions**. MySQL UDFs (User Defined Functions) can only return a **scalar** value. Returning a table is **not possible** from a MySQL FUNCTION.  If table-like results are needed → use:  * Views * Stored procedures (with SELECT result sets) * JSON returning functions  ---  # ## ⭐ **Advantages of Functions in MySQL**  * ✔ Can be used **inside SQL queries** (SELECT, WHERE, ORDER BY) * ✔ Increases code reusability * ✔ Improves maintainability * ✔ Useful for **business rules**, **calculations**, **data formatting** * ✔ Executes faster for repetitive logic * ✔ Helps maintain consistent logic across the system  ---  # ## 🧨 **Function Limitations in MySQL**  * ❌ Cannot perform **DML** (INSERT / UPDATE / DELETE) * ❌ Cannot return a **table** * ❌ Cannot use transactions (COMMIT/ROLLBACK) * ❌ No OUT parameters * ✔ Only **IN parameters** are allowed * ✔ Must return **ONE scalar value**  ---  # ## 🔄 Functions & DML Statements  MySQL functions **cannot** modify data.  ```sql -- ❌ Not allowed inside a FUNCTION INSERT INTO ... UPDATE ... DELETE ... CREATE TABLE ...`
+  
 
-## ## 🧩 **What is a Function in MySQL?**
-
-A **function** in MySQL is a stored program that:
-
-* Accepts **input parameters**
-* Performs **calculations or operations**
-* Returns **exactly one value** (scalar)
-
-🔔 **Important:**
-Unlike SQL Server or PostgreSQL, **MySQL does NOT support table-valued functions**.
-MySQL UDFs (User Defined Functions) can only return a **scalar** value.
-Returning a table is **not possible** from a MySQL FUNCTION.
-
-If table-like results are needed → use:
-
-* Views
-* Stored procedures (with SELECT result sets)
-* JSON returning functions
-
----
-
-# ## ⭐ **Advantages of Functions in MySQL**
-
-* ✔ Can be used **inside SQL queries** (SELECT, WHERE, ORDER BY)
-* ✔ Increases code reusability
-* ✔ Improves maintainability
-* ✔ Useful for **business rules**, **calculations**, **data formatting**
-* ✔ Executes faster for repetitive logic
-* ✔ Helps maintain consistent logic across the system
-
----
-
-# ## 🧨 **Function Limitations in MySQL**
-
-* ❌ Cannot perform **DML** (INSERT / UPDATE / DELETE)
-* ❌ Cannot return a **table**
-* ❌ Cannot use transactions (COMMIT/ROLLBACK)
-* ❌ No OUT parameters
-* ✔ Only **IN parameters** are allowed
-* ✔ Must return **ONE scalar value**
-
----
-
-# ## 🔄 Functions & DML Statements
-
-MySQL functions **cannot** modify data.
-
-```sql
--- ❌ Not allowed inside a FUNCTION
-INSERT INTO ...
-UPDATE ...
-DELETE ...
-CREATE TABLE ...
-```
-
-Why?
+Why?  
 Functions must be **deterministic** and safe to be used inside queries.
 
 ---
@@ -1404,20 +1531,30 @@ Functions must be **deterministic** and safe to be used inside queries.
 
 MySQL functions:
 
-* ❌ do NOT support OUT parameters
-* ❌ do NOT support returning multiple values
-* ✔ You can only return **one scalar value**
+- ❌ do NOT support OUT parameters
+    
+- ❌ do NOT support returning multiple values
+    
+- ✔ You can only return **one scalar value**
+    
 
 To simulate multiple values:
 
-* return a JSON string
-* return a delimited string
+- return a JSON string
+    
+- return a delimited string
+    
 
 Example:
 
-```sql
-RETURN JSON_OBJECT('name', v_name, 'age', v_age);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `RETURN JSON_OBJECT('name', v_name, 'age', v_age);`
+  
 
 ---
 
@@ -1429,9 +1566,14 @@ Built-in MySQL functions:
 
 Examples:
 
-```sql
-SELECT NOW(), CONCAT('hi',' there'), ABS(-5), ROUND(3.14);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT NOW(), CONCAT('hi',' there'), ABS(-5), ROUND(3.14);`
+  
 
 ---
 
@@ -1441,20 +1583,25 @@ Created by users; must return **one value**.
 
 Example function:
 
-```sql
-CREATE FUNCTION add_tax(price DECIMAL(10,2))
-RETURNS DECIMAL(10,2)
-DETERMINISTIC
-BEGIN
-    RETURN price * 1.18;
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE FUNCTION add_tax(price DECIMAL(10,2)) RETURNS DECIMAL(10,2) DETERMINISTIC BEGIN     RETURN price * 1.18; END;`
+  
 
 Use:
 
-```sql
-SELECT add_tax(100);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT add_tax(100);`
+  
 
 ---
 
@@ -1462,11 +1609,14 @@ SELECT add_tax(100);
 
 You can use scalar functions anywhere a column expression is allowed:
 
-```sql
-SELECT id, name, add_tax(price) AS price_with_tax
-FROM products
-WHERE add_tax(price) > 500;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT id, name, add_tax(price) AS price_with_tax FROM products WHERE add_tax(price) > 500;`
+  
 
 ---
 
@@ -1474,52 +1624,47 @@ WHERE add_tax(price) > 500;
 
 ### ### **Basic Function Example**
 
-```sql
-DELIMITER $$
+code SQL
 
-CREATE FUNCTION grade(marks INT)
-RETURNS VARCHAR(10)
-DETERMINISTIC
-BEGIN
-    DECLARE result VARCHAR(10);
+downloadcontent_copy
 
-    IF marks >= 90 THEN
-        SET result = 'A';
-    ELSEIF marks >= 75 THEN
-        SET result = 'B';
-    ELSE
-        SET result = 'C';
-    END IF;
+expand_less
 
-    RETURN result;
-END $$
-
-DELIMITER ;
-```
+    `DELIMITER $$  CREATE FUNCTION grade(marks INT) RETURNS VARCHAR(10) DETERMINISTIC BEGIN     DECLARE result VARCHAR(10);      IF marks >= 90 THEN         SET result = 'A';     ELSEIF marks >= 75 THEN         SET result = 'B';     ELSE         SET result = 'C';     END IF;      RETURN result; END $$  DELIMITER ;`
+  
 
 Use:
 
-```sql
-SELECT grade(88);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT grade(88);`
+  
 
 ---
 
 # ## 🔁 **Altering a Function**
 
-MySQL does NOT support `ALTER FUNCTION` directly.
+MySQL does NOT support ALTER FUNCTION directly.
 
 To alter:
 
 1. Drop the function
+    
 2. Recreate it
+    
 
-```sql
-DROP FUNCTION IF EXISTS grade;
+code SQL
 
-CREATE FUNCTION grade(...)
-...
-```
+downloadcontent_copy
+
+expand_less
+
+    `DROP FUNCTION IF EXISTS grade;  CREATE FUNCTION grade(...) ...`
+  
 
 ---
 
@@ -1527,17 +1672,23 @@ CREATE FUNCTION grade(...)
 
 ### ### 🚫 MySQL does **NOT** support:
 
-* Inline table-valued functions
-* Multi-statement table-valued functions
-* Returning table variables
+- Inline table-valued functions
+    
+- Multi-statement table-valued functions
+    
+- Returning table variables
+    
 
 These exist in SQL Server, not in MySQL.
 
 ### ✔ MySQL alternatives:
 
-* Views (static)
-* Stored procedures (return result sets)
-* JSON-returning functions
+- Views (static)
+    
+- Stored procedures (return result sets)
+    
+- JSON-returning functions
+    
 
 ---
 
@@ -1545,22 +1696,25 @@ These exist in SQL Server, not in MySQL.
 
 ### MySQL workaround: Stored Procedure with parameters
 
-```sql
-DELIMITER $$
+code SQL
 
-CREATE PROCEDURE get_orders_by_customer(IN cid INT)
-BEGIN
-    SELECT * FROM orders WHERE customer_id = cid;
-END $$
+downloadcontent_copy
 
-DELIMITER ;
-```
+expand_less
+
+    `DELIMITER $$  CREATE PROCEDURE get_orders_by_customer(IN cid INT) BEGIN     SELECT * FROM orders WHERE customer_id = cid; END $$  DELIMITER ;`
+  
 
 Call:
 
-```sql
-CALL get_orders_by_customer(5);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CALL get_orders_by_customer(5);`
+  
 
 ---
 
@@ -1568,46 +1722,52 @@ CALL get_orders_by_customer(5);
 
 Example:
 
-```sql
-CREATE FUNCTION get_discount(price DECIMAL(10,2))
-RETURNS DECIMAL(10,2)
-DETERMINISTIC
-BEGIN
-    RETURN price * 0.10;
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE FUNCTION get_discount(price DECIMAL(10,2)) RETURNS DECIMAL(10,2) DETERMINISTIC BEGIN     RETURN price * 0.10; END;`
+  
 
 Create second function:
 
-```sql
-CREATE FUNCTION final_price(price DECIMAL(10,2))
-RETURNS DECIMAL(10,2)
-DETERMINISTIC
-BEGIN
-    RETURN price - get_discount(price); -- calling another function
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE FUNCTION final_price(price DECIMAL(10,2)) RETURNS DECIMAL(10,2) DETERMINISTIC BEGIN     RETURN price - get_discount(price); -- calling another function END;`
+  
 
 Use:
 
-```sql
-SELECT final_price(100);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT final_price(100);`
+  
 
 ---
 
 # # ⚔️ **MySQL Functions vs Stored Procedures**
 
-| Feature             | Function               | Stored Procedure                    |
-| ------------------- | ---------------------- | ----------------------------------- |
-| Return value        | ✔ Must return 1 scalar | ✔ Can return 0, 1, many result sets |
-| Output parameters   | ❌ Not allowed          | ✔ IN, OUT, INOUT                    |
-| DML allowed         | ❌ No                   | ✔ Yes                               |
-| Use in SELECT       | ✔ Yes                  | ❌ No                                |
-| Transaction control | ❌ No                   | ✔ Yes                               |
-| Return table        | ❌ No                   | ✔ Yes (via SELECT)                  |
-| Error handling      | Limited                | Advanced                            |
-| Use case            | Simple calculations    | Complex business logic              |
+|   |   |   |
+|---|---|---|
+|Feature|Function|Stored Procedure|
+|Return value|✔ Must return 1 scalar|✔ Can return 0, 1, many result sets|
+|Output parameters|❌ Not allowed|✔ IN, OUT, INOUT|
+|DML allowed|❌ No|✔ Yes|
+|Use in SELECT|✔ Yes|❌ No|
+|Transaction control|❌ No|✔ Yes|
+|Return table|❌ No|✔ Yes (via SELECT)|
+|Error handling|Limited|Advanced|
+|Use case|Simple calculations|Complex business logic|
 
 ---
 
@@ -1615,44 +1775,49 @@ SELECT final_price(100);
 
 ### ### 1️⃣ Function — scalar calculation
 
-```sql
-CREATE FUNCTION calc_bonus(salary DECIMAL(10,2))
-RETURNS DECIMAL(10,2)
-DETERMINISTIC
-BEGIN
-    RETURN salary * 0.20;
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE FUNCTION calc_bonus(salary DECIMAL(10,2)) RETURNS DECIMAL(10,2) DETERMINISTIC BEGIN     RETURN salary * 0.20; END;`
+  
 
 Use:
 
-```sql
-SELECT name, calc_bonus(salary) FROM employee;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT name, calc_bonus(salary) FROM employee;`
+  
 
 ---
 
 ### ### 2️⃣ Stored Procedure — return table + perform logic
 
-```sql
-DELIMITER $$
+code SQL
 
-CREATE PROCEDURE employee_bonus_report()
-BEGIN
-    SELECT name,
-           salary,
-           (salary * 0.20) AS bonus
-    FROM employee;
-END $$
+downloadcontent_copy
 
-DELIMITER ;
-```
+expand_less
+
+    `DELIMITER $$  CREATE PROCEDURE employee_bonus_report() BEGIN     SELECT name,            salary,            (salary * 0.20) AS bonus     FROM employee; END $$  DELIMITER ;`
+  
 
 Use:
 
-```sql
-CALL employee_bonus_report();
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CALL employee_bonus_report();`
+  
 
 ---
 
@@ -1660,113 +1825,80 @@ CALL employee_bonus_report();
 
 ### Tax calculation + JSON multi-value return
 
-```sql
-DELIMITER $$
+code SQL
 
-CREATE FUNCTION product_summary(pid INT)
-RETURNS JSON
-DETERMINISTIC
-BEGIN
-    DECLARE p_name VARCHAR(100);
-    DECLARE p_price DECIMAL(10,2);
-    DECLARE p_tax DECIMAL(10,2);
+downloadcontent_copy
 
-    SELECT name, price INTO p_name, p_price
-    FROM products
-    WHERE id = pid;
+expand_less
 
-    SET p_tax = p_price * 0.18;
-
-    RETURN JSON_OBJECT(
-        'name', p_name,
-        'price', p_price,
-        'tax', p_tax,
-        'price_with_tax', p_price + p_tax
-    );
-END $$
-
-DELIMITER ;
-```
+    `DELIMITER $$  CREATE FUNCTION product_summary(pid INT) RETURNS JSON DETERMINISTIC BEGIN     DECLARE p_name VARCHAR(100);     DECLARE p_price DECIMAL(10,2);     DECLARE p_tax DECIMAL(10,2);      SELECT name, price INTO p_name, p_price     FROM products     WHERE id = pid;      SET p_tax = p_price * 0.18;      RETURN JSON_OBJECT(         'name', p_name,         'price', p_price,         'tax', p_tax,         'price_with_tax', p_price + p_tax     ); END $$  DELIMITER ;`
+  
 
 Use:
 
-```sql
-SELECT product_summary(3);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT product_summary(3);`
+  
 
 ---
 
 # # 🧱 Full Example: Professional Stored Procedure (Parameterized View)
 
-```sql
-DELIMITER $$
+code SQL
 
-CREATE PROCEDURE sales_report(
-    IN start_date DATE,
-    IN end_date DATE,
-    IN min_amount DECIMAL(10,2)
-)
-BEGIN
-    SELECT order_id, customer_id, total_amount, order_date
-    FROM sales
-    WHERE order_date BETWEEN start_date AND end_date
-      AND total_amount >= min_amount
-    ORDER BY order_date DESC;
-END $$
+downloadcontent_copy
 
-DELIMITER ;
-```
+expand_less
+
+    `DELIMITER $$  CREATE PROCEDURE sales_report(     IN start_date DATE,     IN end_date DATE,     IN min_amount DECIMAL(10,2) ) BEGIN     SELECT order_id, customer_id, total_amount, order_date     FROM sales     WHERE order_date BETWEEN start_date AND end_date       AND total_amount >= min_amount     ORDER BY order_date DESC; END $$  DELIMITER ;`
+  
 
 Call:
 
-```sql
-CALL sales_report('2024-01-01','2024-01-31', 500);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CALL sales_report('2024-01-01','2024-01-31', 500);`
+  
 
 ---
 
 # # 📘 Summary (Copy-Paste Friendly for Obsidian)
 
-```
-## MySQL Functions Summary
+code Code
 
-### Key Points
-- Return only 1 value
-- No DML statements
-- No OUT parameters
-- Can be used in SELECT
-- Cannot return tables
+downloadcontent_copy
 
-### Types
-- System Functions
-- User Defined Scalar Functions
+expand_less
 
-### Alternatives to Table-Valued Functions
-- Stored Procedures
-- Views
-- JSON returning functions
-
-### Function vs Procedure
-- Function → 1 value, no DML
-- Procedure → complex logic, tables, DML, OUT parameters
-```
+    `## MySQL Functions Summary  ### Key Points - Return only 1 value - No DML statements - No OUT parameters - Can be used in SELECT - Cannot return tables  ### Types - System Functions - User Defined Scalar Functions  ### Alternatives to Table-Valued Functions - Stored Procedures - Views - JSON returning functions  ### Function vs Procedure - Function → 1 value, no DML - Procedure → complex logic, tables, DML, OUT parameters`
+  
 
 ---
 
 If you want, I can also provide:
 
-✅ Flashcards for Obsidian
-✅ Complete cheat-sheet page
-✅ Folder structure for Obsidian vault
+✅ Flashcards for Obsidian  
+✅ Complete cheat-sheet page  
+✅ Folder structure for Obsidian vault  
 ✅ Notes for SQL Server equivalents
 
 Would you like those?
 
-
 Below are **two deliverables** exactly as you requested:
 
-1. **Obsidian Flashcards (using `==cloze==` + spaced-repetition syntax)**
+1. **Obsidian Flashcards (using ==cloze== + spaced-repetition syntax)**
+    
 2. **A Complete MySQL Functions Cheat-Sheet Page (Obsidian friendly)**
+    
 
 Everything is optimized for **Obsidian + Anki-style spaced repetition** and can be pasted directly into your vault.
 
@@ -1776,104 +1908,14 @@ Everything is optimized for **Obsidian + Anki-style spaced repetition** and can 
 
 Format uses the Obsidian/Anki plugin syntax:
 
-```
-## MySQL Functions — Flashcards
+code Code
 
-### What is a MySQL function?
-What is a MySQL function?  
-<!--SR-->  
-A stored program that takes input and returns **one scalar value**.  
+downloadcontent_copy
 
+expand_less
 
-### Can MySQL functions return multiple values?
-Can MySQL functions return multiple values?  
-<!--SR-->  
-==No==, only one scalar value is allowed.  
-
-
-### Can MySQL functions perform DML (INSERT/UPDATE/DELETE)?
-Can MySQL functions perform DML?  
-<!--SR-->  
-==No==, DML is not allowed in MySQL functions.  
-
-
-### Can functions be used in SELECT statements?
-Can MySQL functions be used in SELECT?  
-<!--SR-->  
-==Yes==, they work like column expressions.  
-
-
-### Can stored procedures be used inside SELECT?
-Can stored procedures be used inside SELECT queries?  
-<!--SR-->  
-==No==, procedures cannot be used in SELECT.  
-
-
-### Difference: Function vs Procedure — return values
-Function vs Procedure: return values?  
-<!--SR-->  
-Function → ==must return 1 value==  
-Procedure → ==0 or many result sets==  
-
-
-### Difference: Function vs Procedure — DML
-Which supports DML (INSERT/UPDATE/DELETE)?  
-<!--SR-->  
-==Stored procedure only==  
-
-
-### Output parameters
-Do MySQL functions support IN, OUT, INOUT parameters?  
-<!--SR-->  
-==Only IN==; OUT/INOUT not allowed.  
-
-
-### MySQL table-valued functions support
-Does MySQL support table-valued functions?  
-<!--SR-->  
-==No==, only scalar functions.  
-
-### Alternatives to table-valued functions
-Alternatives to table-valued functions in MySQL?  
-<!--SR-->  
-==Stored procedures==, ==views==, ==JSON returning functions==  
-
-
-### BEGIN / END usage in functions
-BEGIN/END allowed in MySQL functions?  
-<!--SR-->  
-==Yes==, functions can use BEGIN, DECLARE, IF, CASE, etc.  
-
-
-### Function calling another function
-Can one MySQL function call another?  
-<!--SR-->  
-==Yes==, functions can call other functions.  
-
-
-### ALTER FUNCTION in MySQL
-How do you modify a MySQL function?  
-<!--SR-->  
-==DROP and CREATE== (no direct ALTER FUNCTION).  
-
-
-### Deterministic keyword
-What does DETERMINISTIC mean in a function?  
-<!--SR-->  
-The function always returns the ==same output for the same input==.  
-
-
-### System functions
-Examples of system functions?  
-<!--SR-->  
-==NOW() , CONCAT(), ABS(), ROUND()==  
-
-
-### User-defined functions
-What must a user-defined function return?  
-<!--SR-->  
-==One scalar value==.  
-```
+    `## MySQL Functions — Flashcards  ### What is a MySQL function? What is a MySQL function?   <!--SR-->   A stored program that takes input and returns **one scalar value**.     ### Can MySQL functions return multiple values? Can MySQL functions return multiple values?   <!--SR-->   ==No==, only one scalar value is allowed.     ### Can MySQL functions perform DML (INSERT/UPDATE/DELETE)? Can MySQL functions perform DML?   <!--SR-->   ==No==, DML is not allowed in MySQL functions.     ### Can functions be used in SELECT statements? Can MySQL functions be used in SELECT?   <!--SR-->   ==Yes==, they work like column expressions.     ### Can stored procedures be used inside SELECT? Can stored procedures be used inside SELECT queries?   <!--SR-->   ==No==, procedures cannot be used in SELECT.     ### Difference: Function vs Procedure — return values Function vs Procedure: return values?   <!--SR-->   Function → ==must return 1 value==   Procedure → ==0 or many result sets==     ### Difference: Function vs Procedure — DML Which supports DML (INSERT/UPDATE/DELETE)?   <!--SR-->   ==Stored procedure only==     ### Output parameters Do MySQL functions support IN, OUT, INOUT parameters?   <!--SR-->   ==Only IN==; OUT/INOUT not allowed.     ### MySQL table-valued functions support Does MySQL support table-valued functions?   <!--SR-->   ==No==, only scalar functions.    ### Alternatives to table-valued functions Alternatives to table-valued functions in MySQL?   <!--SR-->   ==Stored procedures==, ==views==, ==JSON returning functions==     ### BEGIN / END usage in functions BEGIN/END allowed in MySQL functions?   <!--SR-->   ==Yes==, functions can use BEGIN, DECLARE, IF, CASE, etc.     ### Function calling another function Can one MySQL function call another?   <!--SR-->   ==Yes==, functions can call other functions.     ### ALTER FUNCTION in MySQL How do you modify a MySQL function?   <!--SR-->   ==DROP and CREATE== (no direct ALTER FUNCTION).     ### Deterministic keyword What does DETERMINISTIC mean in a function?   <!--SR-->   The function always returns the ==same output for the same input==.     ### System functions Examples of system functions?   <!--SR-->   ==NOW() , CONCAT(), ABS(), ROUND()==     ### User-defined functions What must a user-defined function return?   <!--SR-->   ==One scalar value==.`
+  
 
 ---
 
@@ -1881,134 +1923,64 @@ What must a user-defined function return?
 
 Perfect for your vault as a structured reference guide.
 
-````
-# MySQL Functions — Complete Cheat-Sheet
+code Code
 
----
+downloadcontent_copy
 
-## 📌 Overview
-MySQL functions are stored programs that **accept input and return exactly one value**.  
-They are commonly used for **calculations, formatting, validation**, and can be used inside queries.
+expand_less
 
----
-
-## ✔ Advantages
-- Reusable business logic  
-- Can be used in SELECT, WHERE, ORDER BY  
-- Performance benefits for repeated logic  
-- Ensures consistent computations  
-
----
-
-## ❌ Limitations
-- No INSERT, UPDATE, DELETE  
-- No OUT/INOUT parameters  
-- No transactions  
-- No multiple return values  
-- Cannot return a table  
-- Must return exactly ONE value  
-
----
-
-## 🧪 Types of Functions
-
-### 1️⃣ System Functions (Built-In)
-Examples:
-- `NOW()`
-- `CONCAT()`
-- `ABS()`
-- `CEIL()`
-- `LOWER()`
-
-### 2️⃣ User-Defined Functions (UDF)
-- Created with `CREATE FUNCTION`
-- Must return one scalar value
-- Can contain logic (IF/ELSE/CASE)
-
----
-
-## 🧱 Function Syntax Template
-
-```sql
-DELIMITER $$
-
-CREATE FUNCTION function_name(param datatype)
-RETURNS return_datatype
-DETERMINISTIC
-BEGIN
-    -- variable declarations
-    -- logic
-    RETURN value;
-END $$
-
-DELIMITER ;
-````
+    ``# MySQL Functions — Complete Cheat-Sheet  ---  ## 📌 Overview MySQL functions are stored programs that **accept input and return exactly one value**.   They are commonly used for **calculations, formatting, validation**, and can be used inside queries.  ---  ## ✔ Advantages - Reusable business logic   - Can be used in SELECT, WHERE, ORDER BY   - Performance benefits for repeated logic   - Ensures consistent computations    ---  ## ❌ Limitations - No INSERT, UPDATE, DELETE   - No OUT/INOUT parameters   - No transactions   - No multiple return values   - Cannot return a table   - Must return exactly ONE value    ---  ## 🧪 Types of Functions  ### 1️⃣ System Functions (Built-In) Examples: - `NOW()` - `CONCAT()` - `ABS()` - `CEIL()` - `LOWER()`  ### 2️⃣ User-Defined Functions (UDF) - Created with `CREATE FUNCTION` - Must return one scalar value - Can contain logic (IF/ELSE/CASE)  ---  ## 🧱 Function Syntax Template  ```sql DELIMITER $$  CREATE FUNCTION function_name(param datatype) RETURNS return_datatype DETERMINISTIC BEGIN     -- variable declarations     -- logic     RETURN value; END $$  DELIMITER ;``
+  
 
 ---
 
 ## ✨ Basic Example: Scalar Function
 
-```sql
-CREATE FUNCTION add_tax(price DECIMAL(10,2))
-RETURNS DECIMAL(10,2)
-DETERMINISTIC
-BEGIN
-    RETURN price * 1.18;
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE FUNCTION add_tax(price DECIMAL(10,2)) RETURNS DECIMAL(10,2) DETERMINISTIC BEGIN     RETURN price * 1.18; END;`
+  
 
 Usage:
 
-```sql
-SELECT add_tax(100);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT add_tax(100);`
+  
 
 ---
 
 ## ⚙ BEGIN / DECLARE / IF Example
 
-```sql
-DELIMITER $$
+code SQL
 
-CREATE FUNCTION grade(marks INT)
-RETURNS VARCHAR(5)
-DETERMINISTIC
-BEGIN
-    DECLARE result VARCHAR(5);
+downloadcontent_copy
 
-    IF marks >= 90 THEN
-        SET result = 'A';
-    ELSEIF marks >= 75 THEN
-        SET result = 'B';
-    ELSE
-        SET result = 'C';
-    END IF;
+expand_less
 
-    RETURN result;
-END $$
-
-DELIMITER ;
-```
+    `DELIMITER $$  CREATE FUNCTION grade(marks INT) RETURNS VARCHAR(5) DETERMINISTIC BEGIN     DECLARE result VARCHAR(5);      IF marks >= 90 THEN         SET result = 'A';     ELSEIF marks >= 75 THEN         SET result = 'B';     ELSE         SET result = 'C';     END IF;      RETURN result; END $$  DELIMITER ;`
+  
 
 ---
 
 ## 🔁 Calling a Function from Another Function
 
-```sql
-CREATE FUNCTION discount(price DECIMAL(10,2))
-RETURNS DECIMAL(10,2)
-DETERMINISTIC
-BEGIN
-    RETURN price * 0.10;
-END;
+code SQL
 
-CREATE FUNCTION final_price(price DECIMAL(10,2))
-RETURNS DECIMAL(10,2)
-DETERMINISTIC
-BEGIN
-    RETURN price - discount(price);
-END;
-```
+downloadcontent_copy
+
+expand_less
+
+    `CREATE FUNCTION discount(price DECIMAL(10,2)) RETURNS DECIMAL(10,2) DETERMINISTIC BEGIN     RETURN price * 0.10; END;  CREATE FUNCTION final_price(price DECIMAL(10,2)) RETURNS DECIMAL(10,2) DETERMINISTIC BEGIN     RETURN price - discount(price); END;`
+  
 
 ---
 
@@ -2018,46 +1990,38 @@ MySQL does **not** support TVFs (unlike SQL Server).
 
 ### Alternatives:
 
-* Stored procedures (return result sets)
-* Views
-* JSON-returning scalar functions
+- Stored procedures (return result sets)
+    
+- Views
+    
+- JSON-returning scalar functions
+    
 
 ---
 
 ## JSON Return Example (emulating multi-value output)
 
-```sql
-DELIMITER $$
+code SQL
 
-CREATE FUNCTION product_summary(pid INT)
-RETURNS JSON
-DETERMINISTIC
-BEGIN
-    DECLARE pname VARCHAR(100);
-    DECLARE pprice DECIMAL(10,2);
+downloadcontent_copy
 
-    SELECT name, price INTO pname, pprice
-    FROM products WHERE id = pid;
+expand_less
 
-    RETURN JSON_OBJECT(
-        'name', pname,
-        'price', pprice,
-        'price_with_tax', pprice * 1.18
-    );
-END $$
-
-DELIMITER ;
-```
+    `DELIMITER $$  CREATE FUNCTION product_summary(pid INT) RETURNS JSON DETERMINISTIC BEGIN     DECLARE pname VARCHAR(100);     DECLARE pprice DECIMAL(10,2);      SELECT name, price INTO pname, pprice     FROM products WHERE id = pid;      RETURN JSON_OBJECT(         'name', pname,         'price', pprice,         'price_with_tax', pprice * 1.18     ); END $$  DELIMITER ;`
+  
 
 ---
 
 ## 🔨 How to Modify a Function (No ALTER)
 
-```
-DROP FUNCTION IF EXISTS grade;
+code Code
 
-CREATE FUNCTION grade(...) ...
-```
+downloadcontent_copy
+
+expand_less
+
+    `DROP FUNCTION IF EXISTS grade;  CREATE FUNCTION grade(...) ...`
+  
 
 ---
 
@@ -2065,82 +2029,89 @@ CREATE FUNCTION grade(...) ...
 
 ### ✔ When to Use Functions
 
-* Formatting values
-* Calculation logic
-* Reusable rules
-* Query expressions
+- Formatting values
+    
+- Calculation logic
+    
+- Reusable rules
+    
+- Query expressions
+    
 
 ### ✔ When to Use Stored Procedures
 
-* Multiple SQL statements
-* DML operations
-* Returning tables
-* Business workflows
-* Using OUT/INOUT params
+- Multiple SQL statements
+    
+- DML operations
+    
+- Returning tables
+    
+- Business workflows
+    
+- Using OUT/INOUT params
+    
 
 ---
 
 ## 🧩 Comparison Table
 
-| Feature        | Function  | Procedure    |
-| -------------- | --------- | ------------ |
-| Return value   | ONE value | None or Many |
-| DML allowed    | ❌ No      | ✔ Yes        |
-| OUT parameters | ❌ No      | ✔ Yes        |
-| Use in SELECT  | ✔ Yes     | ❌ No         |
-| Transactions   | ❌ No      | ✔ Yes        |
-| Return table   | ❌ No      | ✔ Yes        |
+|   |   |   |
+|---|---|---|
+|Feature|Function|Procedure|
+|Return value|ONE value|None or Many|
+|DML allowed|❌ No|✔ Yes|
+|OUT parameters|❌ No|✔ Yes|
+|Use in SELECT|✔ Yes|❌ No|
+|Transactions|❌ No|✔ Yes|
+|Return table|❌ No|✔ Yes|
 
 ---
 
 ## 📌 Stored Procedure Example (TVF Alternative)
 
-```sql
-DELIMITER $$
+code SQL
 
-CREATE PROCEDURE get_orders_by_customer(IN cid INT)
-BEGIN
-    SELECT * FROM orders WHERE customer_id = cid;
-END $$
+downloadcontent_copy
 
-DELIMITER ;
-```
+expand_less
+
+    `DELIMITER $$  CREATE PROCEDURE get_orders_by_customer(IN cid INT) BEGIN     SELECT * FROM orders WHERE customer_id = cid; END $$  DELIMITER ;`
+  
 
 Usage:
 
-```sql
-CALL get_orders_by_customer(5);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CALL get_orders_by_customer(5);`
+  
 
 ---
 
 ## 📘 Production-Level Example
 
-```sql
-DELIMITER $$
+code SQL
 
-CREATE FUNCTION calc_employee_rating(attendance INT, sales INT)
-RETURNS VARCHAR(20)
-DETERMINISTIC
-BEGIN
-    IF sales >= 500 AND attendance > 95 THEN
-        RETURN 'Excellent';
-    ELSEIF sales >= 300 THEN
-        RETURN 'Good';
-    ELSE
-        RETURN 'Average';
-    END IF;
-END $$
+downloadcontent_copy
 
-DELIMITER ;
-```
+expand_less
+
+    `DELIMITER $$  CREATE FUNCTION calc_employee_rating(attendance INT, sales INT) RETURNS VARCHAR(20) DETERMINISTIC BEGIN     IF sales >= 500 AND attendance > 95 THEN         RETURN 'Excellent';     ELSEIF sales >= 300 THEN         RETURN 'Good';     ELSE         RETURN 'Average';     END IF; END $$  DELIMITER ;`
+  
 
 Usage:
 
-```sql
-SELECT employee_name, calc_employee_rating(attendance, sales)
-FROM employees;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT employee_name, calc_employee_rating(attendance, sales) FROM employees;`
+  
 
 ---
 
@@ -2172,22 +2143,25 @@ It prevents others from viewing or reverse-engineering business logic stored ins
 
 ### 🔹 Creating an Encrypted Stored Procedure
 
-```sql
-CREATE PROCEDURE GetEmployeeSalary
-WITH ENCRYPTION
-AS
-BEGIN
-    SELECT EmployeeId, Salary
-    FROM Employees;
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE PROCEDURE GetEmployeeSalary WITH ENCRYPTION AS BEGIN     SELECT EmployeeId, Salary     FROM Employees; END;`
+  
 
 📌 After encryption:
 
-```sql
-sp_helptext GetEmployeeSalary;
--- Result: The text is encrypted and cannot be displayed
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `sp_helptext GetEmployeeSalary; -- Result: The text is encrypted and cannot be displayed`
+  
 
 ---
 
@@ -2229,59 +2203,40 @@ A **CTE** is a **temporary named result set** used to simplify **complex queries
 
 ### 🔹 Basic CTE Example Inside SP
 
-```sql
-CREATE PROCEDURE GetHighSalaryEmployees
-AS
-BEGIN
-    WITH HighSalaryCTE AS (
-        SELECT EmployeeId, Name, Salary
-        FROM Employees
-        WHERE Salary > 70000
-    )
-    SELECT * FROM HighSalaryCTE;
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE PROCEDURE GetHighSalaryEmployees AS BEGIN     WITH HighSalaryCTE AS (         SELECT EmployeeId, Name, Salary         FROM Employees         WHERE Salary > 70000     )     SELECT * FROM HighSalaryCTE; END;`
+  
 
 ---
 
 ### 🔹 CTE with Aggregation
 
-```sql
-CREATE PROCEDURE GetDepartmentWiseSalary
-AS
-BEGIN
-    WITH DeptCTE AS (
-        SELECT DepartmentId, SUM(Salary) AS TotalSalary
-        FROM Employees
-        GROUP BY DepartmentId
-    )
-    SELECT * FROM DeptCTE;
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE PROCEDURE GetDepartmentWiseSalary AS BEGIN     WITH DeptCTE AS (         SELECT DepartmentId, SUM(Salary) AS TotalSalary         FROM Employees         GROUP BY DepartmentId     )     SELECT * FROM DeptCTE; END;`
+  
 
 ---
 
 ### 🔹 Recursive CTE in Stored Procedure (Hierarchy)
 
-```sql
-CREATE PROCEDURE GetEmployeeHierarchy
-AS
-BEGIN
-    WITH EmployeeCTE AS (
-        SELECT EmployeeId, ManagerId, Name
-        FROM Employees
-        WHERE ManagerId IS NULL
+code SQL
 
-        UNION ALL
+downloadcontent_copy
 
-        SELECT e.EmployeeId, e.ManagerId, e.Name
-        FROM Employees e
-        INNER JOIN EmployeeCTE c
-        ON e.ManagerId = c.EmployeeId
-    )
-    SELECT * FROM EmployeeCTE;
-END;
-```
+expand_less
+
+    `CREATE PROCEDURE GetEmployeeHierarchy AS BEGIN     WITH EmployeeCTE AS (         SELECT EmployeeId, ManagerId, Name         FROM Employees         WHERE ManagerId IS NULL          UNION ALL          SELECT e.EmployeeId, e.ManagerId, e.Name         FROM Employees e         INNER JOIN EmployeeCTE c         ON e.ManagerId = c.EmployeeId     )     SELECT * FROM EmployeeCTE; END;`
+  
 
 📌 **Very commonly asked in interviews**
 
@@ -2306,8 +2261,9 @@ A **Function** is a database object that:
 
 ### 🔹 Types of Functions
 
-|Type|Description|
+|   |   |
 |---|---|
+|Type|Description|
 |Scalar Function|Returns single value|
 |Table-Valued Function|Returns table|
 |Inline TVF|Lightweight, optimized|
@@ -2316,48 +2272,57 @@ A **Function** is a database object that:
 
 ## 🔹 Scalar Function Example
 
-```sql
-CREATE FUNCTION dbo.CalculateTax (@Salary DECIMAL)
-RETURNS DECIMAL
-AS
-BEGIN
-    RETURN @Salary * 0.10;
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE FUNCTION dbo.CalculateTax (@Salary DECIMAL) RETURNS DECIMAL AS BEGIN     RETURN @Salary * 0.10; END;`
+  
 
 Usage:
 
-```sql
-SELECT Name, dbo.CalculateTax(Salary) AS Tax
-FROM Employees;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT Name, dbo.CalculateTax(Salary) AS Tax FROM Employees;`
+  
 
 ---
 
 ## 🔹 Table-Valued Function Example
 
-```sql
-CREATE FUNCTION dbo.GetEmployeesByDept (@DeptId INT)
-RETURNS TABLE
-AS
-RETURN
-(
-    SELECT * FROM Employees WHERE DepartmentId = @DeptId
-);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE FUNCTION dbo.GetEmployeesByDept (@DeptId INT) RETURNS TABLE AS RETURN (     SELECT * FROM Employees WHERE DepartmentId = @DeptId );`
+  
 
 Usage:
 
-```sql
-SELECT * FROM dbo.GetEmployeesByDept(2);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT * FROM dbo.GetEmployeesByDept(2);`
+  
 
 ---
 
 ### ⚠ Function vs SP (Interview Table)
 
-|Feature|Function|Stored Procedure|
+|   |   |   |
 |---|---|---|
+|Feature|Function|Stored Procedure|
 |Returns value|✅ Mandatory|❌ Optional|
 |Can modify data|❌|✅|
 |Can use TRY/CATCH|❌|✅|
@@ -2378,15 +2343,14 @@ A Stored Procedure **can return multiple result sets** using multiple SELECT sta
 
 ### 🔹 Example
 
-```sql
-CREATE PROCEDURE GetDashboardData
-AS
-BEGIN
-    SELECT * FROM Customers;
-    SELECT * FROM Orders;
-    SELECT * FROM Products;
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE PROCEDURE GetDashboardData AS BEGIN     SELECT * FROM Customers;     SELECT * FROM Orders;     SELECT * FROM Products; END;`
+  
 
 📌 Very common for **dashboard APIs**
 
@@ -2413,45 +2377,27 @@ END;
 
 ### 🔹 Example: SELECT + UPDATE + DELETE
 
-```sql
-CREATE PROCEDURE ManageOrders
-    @OrderId INT
-AS
-BEGIN
-    BEGIN TRANSACTION;
+code SQL
 
-    SELECT * FROM Orders WHERE OrderId = @OrderId;
+downloadcontent_copy
 
-    UPDATE Orders
-    SET Status = 'Processed'
-    WHERE OrderId = @OrderId;
+expand_less
 
-    DELETE FROM OrderLogs
-    WHERE OrderId = @OrderId;
-
-    COMMIT TRANSACTION;
-END;
-```
+    `CREATE PROCEDURE ManageOrders     @OrderId INT AS BEGIN     BEGIN TRANSACTION;      SELECT * FROM Orders WHERE OrderId = @OrderId;      UPDATE Orders     SET Status = 'Processed'     WHERE OrderId = @OrderId;      DELETE FROM OrderLogs     WHERE OrderId = @OrderId;      COMMIT TRANSACTION; END;`
+  
 
 ---
 
 ## 🧪 6. TRY…CATCH & Error Handling in SP
 
-```sql
-CREATE PROCEDURE SafeUpdate
-AS
-BEGIN
-    BEGIN TRY
-        BEGIN TRANSACTION;
-        UPDATE Accounts SET Balance = Balance - 100 WHERE Id = 1;
-        COMMIT;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK;
-        THROW;
-    END CATCH
-END;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE PROCEDURE SafeUpdate AS BEGIN     BEGIN TRY         BEGIN TRANSACTION;         UPDATE Accounts SET Balance = Balance - 100 WHERE Id = 1;         COMMIT;     END TRY     BEGIN CATCH         ROLLBACK;         THROW;     END CATCH END;`
+  
 
 ---
 
@@ -2459,31 +2405,14 @@ END;
 
 ### 🔥 Example: Business Dashboard SP
 
-```sql
-CREATE PROCEDURE GetBusinessDashboard
-    @StartDate DATE,
-    @EndDate DATE
-AS
-BEGIN
-    -- Customers
-    SELECT COUNT(*) AS TotalCustomers FROM Customers;
+code SQL
 
-    -- Revenue
-    SELECT SUM(Amount) AS TotalRevenue
-    FROM Orders
-    WHERE OrderDate BETWEEN @StartDate AND @EndDate;
+downloadcontent_copy
 
-    -- Top Products
-    SELECT TOP 5 ProductId, COUNT(*) AS Sales
-    FROM Orders
-    GROUP BY ProductId
-    ORDER BY Sales DESC;
+expand_less
 
-    -- Update audit
-    UPDATE DashboardAudit
-    SET LastGenerated = GETDATE();
-END;
-```
+    `CREATE PROCEDURE GetBusinessDashboard     @StartDate DATE,     @EndDate DATE AS BEGIN     -- Customers     SELECT COUNT(*) AS TotalCustomers FROM Customers;      -- Revenue     SELECT SUM(Amount) AS TotalRevenue     FROM Orders     WHERE OrderDate BETWEEN @StartDate AND @EndDate;      -- Top Products     SELECT TOP 5 ProductId, COUNT(*) AS Sales     FROM Orders     GROUP BY ProductId     ORDER BY Sales DESC;      -- Update audit     UPDATE DashboardAudit     SET LastGenerated = GETDATE(); END;`
+  
 
 📌 **Perfect real-world SP example**
 
@@ -2511,6 +2440,7 @@ END;
 > **Yes**, a Stored Procedure can execute **multiple SELECT queries across different tables**, along with **multiple UPDATE and DELETE operations**, inside a **single transaction**, making it ideal for **complex business workflows**.
 
 ---
+
 # 🚀 Title: Stored Procedure Performance Tuning
 
 ## Index Usage • Deadlocks • Isolation Levels
@@ -2581,27 +2511,29 @@ SQL Server:
 
 ## 🔹 Example: SP WITHOUT Index (Slow)
 
-```sql
-CREATE PROCEDURE GetOrdersByCustomer
-    @CustomerId INT
-AS
-BEGIN
-    SELECT *
-    FROM Orders
-    WHERE CustomerId = @CustomerId;
-END;
-```
+code SQL
 
-🚨 If `Orders.CustomerId` is **not indexed** → **Table Scan**
+downloadcontent_copy
+
+expand_less
+
+    `CREATE PROCEDURE GetOrdersByCustomer     @CustomerId INT AS BEGIN     SELECT *     FROM Orders     WHERE CustomerId = @CustomerId; END;`
+  
+
+🚨 If Orders.CustomerId is **not indexed** → **Table Scan**
 
 ---
 
 ## 🔹 Add Proper Index (Huge Improvement)
 
-```sql
-CREATE INDEX IX_Orders_CustomerId
-ON Orders(CustomerId);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE INDEX IX_Orders_CustomerId ON Orders(CustomerId);`
+  
 
 ✅ Result:
 
@@ -2616,29 +2548,38 @@ ON Orders(CustomerId);
 
 ## 🔹 Composite Index (Production-Ready)
 
-```sql
-CREATE INDEX IX_Orders_Customer_Date
-ON Orders(CustomerId, OrderDate);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE INDEX IX_Orders_Customer_Date ON Orders(CustomerId, OrderDate);`
+  
 
 Best for queries like:
 
-```sql
-SELECT *
-FROM Orders
-WHERE CustomerId = @CustomerId
-AND OrderDate >= '2024-01-01';
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT * FROM Orders WHERE CustomerId = @CustomerId AND OrderDate >= '2024-01-01';`
+  
 
 ---
 
 ## 🔹 Covering Index (Advanced)
 
-```sql
-CREATE INDEX IX_Orders_Cover
-ON Orders(CustomerId)
-INCLUDE (OrderDate, Amount, Status);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE INDEX IX_Orders_Cover ON Orders(CustomerId) INCLUDE (OrderDate, Amount, Status);`
+  
 
 📌 Prevents **Key Lookup**  
 📌 Extremely important for high-traffic SPs
@@ -2647,8 +2588,9 @@ INCLUDE (OrderDate, Amount, Status);
 
 ## ❌ Common Index Mistakes in SPs
 
-|Mistake|Impact|
+|   |   |
 |---|---|
+|Mistake|Impact|
 |SELECT *|Index ignored|
 |Functions in WHERE|Index not used|
 |CAST/CONVERT|Non-SARGable|
@@ -2658,16 +2600,25 @@ INCLUDE (OrderDate, Amount, Status);
 
 ## 🔹 Bad Query (Index Ignored)
 
-```sql
-WHERE YEAR(OrderDate) = 2024
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `WHERE YEAR(OrderDate) = 2024`
+  
 
 ### ✅ Optimized Query
 
-```sql
-WHERE OrderDate >= '2024-01-01'
-AND OrderDate < '2025-01-01'
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `WHERE OrderDate >= '2024-01-01' AND OrderDate < '2025-01-01'`
+  
 
 ---
 
@@ -2685,10 +2636,14 @@ SQL Server **uses first parameter value** passed to SP to generate execution pla
 
 ### 🔹 Example Problem
 
-```sql
-EXEC GetOrdersByCustomer @CustomerId = 1;     -- small data
-EXEC GetOrdersByCustomer @CustomerId = 9999; -- huge data
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `EXEC GetOrdersByCustomer @CustomerId = 1;     -- small data EXEC GetOrdersByCustomer @CustomerId = 9999; -- huge data`
+  
 
 Same plan reused → inefficient
 
@@ -2698,22 +2653,25 @@ Same plan reused → inefficient
 
 #### 🔹 OPTION (RECOMPILE)
 
-```sql
-SELECT *
-FROM Orders
-WHERE CustomerId = @CustomerId
-OPTION (RECOMPILE);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT * FROM Orders WHERE CustomerId = @CustomerId OPTION (RECOMPILE);`
+  
 
 #### 🔹 Local Variable Trick
 
-```sql
-DECLARE @LocalCustomerId INT = @CustomerId;
+code SQL
 
-SELECT *
-FROM Orders
-WHERE CustomerId = @LocalCustomerId;
-```
+downloadcontent_copy
+
+expand_less
+
+    `DECLARE @LocalCustomerId INT = @CustomerId;  SELECT * FROM Orders WHERE CustomerId = @LocalCustomerId;`
+  
 
 ---
 
@@ -2731,17 +2689,25 @@ A **deadlock** occurs when **two or more transactions wait for each other’s lo
 
 Transaction 1:
 
-```sql
-UPDATE Accounts SET Balance -= 100 WHERE Id = 1;
-UPDATE Accounts SET Balance += 100 WHERE Id = 2;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `UPDATE Accounts SET Balance -= 100 WHERE Id = 1; UPDATE Accounts SET Balance += 100 WHERE Id = 2;`
+  
 
 Transaction 2:
 
-```sql
-UPDATE Accounts SET Balance -= 50 WHERE Id = 2;
-UPDATE Accounts SET Balance += 50 WHERE Id = 1;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `UPDATE Accounts SET Balance -= 50 WHERE Id = 2; UPDATE Accounts SET Balance += 50 WHERE Id = 1;`
+  
 
 📌 Classic deadlock scenario
 
@@ -2762,11 +2728,14 @@ UPDATE Accounts SET Balance += 50 WHERE Id = 1;
 
 ### ✅ 1. Always Access Tables in Same Order
 
-```sql
--- Correct order everywhere
-UPDATE Accounts WHERE Id = 1;
-UPDATE Accounts WHERE Id = 2;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `-- Correct order everywhere UPDATE Accounts WHERE Id = 1; UPDATE Accounts WHERE Id = 2;`
+  
 
 ---
 
@@ -2774,19 +2743,25 @@ UPDATE Accounts WHERE Id = 2;
 
 ❌ BAD:
 
-```sql
-BEGIN TRAN
--- long business logic
-COMMIT
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `BEGIN TRAN -- long business logic COMMIT`
+  
 
 ✅ GOOD:
 
-```sql
-BEGIN TRAN
-UPDATE ...
-COMMIT
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `BEGIN TRAN UPDATE ... COMMIT`
+  
 
 ---
 
@@ -2800,16 +2775,14 @@ Indexes reduce lock duration
 
 ### ✅ 4. Use TRY/CATCH with Rollback
 
-```sql
-BEGIN TRY
-    BEGIN TRAN
-    -- statements
-    COMMIT
-END TRY
-BEGIN CATCH
-    ROLLBACK
-END CATCH
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `BEGIN TRY     BEGIN TRAN     -- statements     COMMIT END TRY BEGIN CATCH     ROLLBACK END CATCH`
+  
 
 ---
 
@@ -2825,8 +2798,9 @@ Isolation level defines **how and when data locks are applied** during transacti
 
 ## 🔹 SQL Server Isolation Levels
 
-|Level|Problems Allowed|
+|   |   |
 |---|---|
+|Level|Problems Allowed|
 |Read Uncommitted|Dirty Reads|
 |Read Committed|Default|
 |Repeatable Read|No non-repeatable|
@@ -2837,9 +2811,14 @@ Isolation level defines **how and when data locks are applied** during transacti
 
 ## 🔹 READ UNCOMMITTED (Fastest, Risky)
 
-```sql
-SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;`
+  
 
 - Allows dirty reads
     
@@ -2850,9 +2829,14 @@ SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
 ## 🔹 READ COMMITTED (Default)
 
-```sql
-SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SET TRANSACTION ISOLATION LEVEL READ COMMITTED;`
+  
 
 - No dirty reads
     
@@ -2863,13 +2847,23 @@ SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 
 ## 🔹 SNAPSHOT ISOLATION (Best for High Concurrency)
 
-```sql
-ALTER DATABASE MyDB SET ALLOW_SNAPSHOT_ISOLATION ON;
-```
+code SQL
 
-```sql
-SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
-```
+downloadcontent_copy
+
+expand_less
+
+    `ALTER DATABASE MyDB SET ALLOW_SNAPSHOT_ISOLATION ON;`
+  
+
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SET TRANSACTION ISOLATION LEVEL SNAPSHOT;`
+  
 
 📌 Uses row versioning  
 📌 Avoids blocking & deadlocks  
@@ -2879,35 +2873,14 @@ SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
 
 ## 6️⃣ Production-Ready Stored Procedure (All Concepts)
 
-```sql
-CREATE PROCEDURE TransferMoney
-    @FromAccount INT,
-    @ToAccount INT,
-    @Amount DECIMAL(10,2)
-AS
-BEGIN
-    SET NOCOUNT ON;
-    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+code SQL
 
-    BEGIN TRY
-        BEGIN TRANSACTION;
+downloadcontent_copy
 
-        UPDATE Accounts
-        SET Balance = Balance - @Amount
-        WHERE AccountId = @FromAccount;
+expand_less
 
-        UPDATE Accounts
-        SET Balance = Balance + @Amount
-        WHERE AccountId = @ToAccount;
-
-        COMMIT;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK;
-        THROW;
-    END CATCH
-END;
-```
+    `CREATE PROCEDURE TransferMoney     @FromAccount INT,     @ToAccount INT,     @Amount DECIMAL(10,2) AS BEGIN     SET NOCOUNT ON;     SET TRANSACTION ISOLATION LEVEL READ COMMITTED;      BEGIN TRY         BEGIN TRANSACTION;          UPDATE Accounts         SET Balance = Balance - @Amount         WHERE AccountId = @FromAccount;          UPDATE Accounts         SET Balance = Balance + @Amount         WHERE AccountId = @ToAccount;          COMMIT;     END TRY     BEGIN CATCH         ROLLBACK;         THROW;     END CATCH END;`
+  
 
 ✔ Indexed  
 ✔ Deadlock-safe order  
@@ -2927,8 +2900,10 @@ END;
 - **Snapshot isolation reduces blocking**
     
 - **Parameter sniffing causes inconsistent performance**
+    
 
 ---
+
 Below is a **complete, interview-ready + production-ready guide** on **TEMP TABLES in SQL Server**, written the same way senior backend / database interviews expect.
 
 This is **concept → why → when → how → performance → comparisons → production patterns**.
@@ -2966,11 +2941,14 @@ Temp tables are used when:
 
 ## 3️⃣ Where Temp Tables Are Stored?
 
-```
-System Databases
- └── tempdb
-     └── Temporary Tables
-```
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `System Databases  └── tempdb      └── Temporary Tables`
+  
 
 ✔ Physically stored in **tempdb**  
 ✔ Managed automatically by SQL Server
@@ -2983,12 +2961,14 @@ System Databases
 
 ## 🔹 Method 1: SELECT INTO (Quick & Easy)
 
-```sql
-SELECT *
-INTO #TempOrders
-FROM Orders
-WHERE OrderDate >= '2024-01-01';
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT * INTO #TempOrders FROM Orders WHERE OrderDate >= '2024-01-01';`
+  
 
 ✅ Automatically creates table  
 ❌ No control over data types  
@@ -2998,24 +2978,25 @@ WHERE OrderDate >= '2024-01-01';
 
 ## 🔹 Method 2: CREATE TABLE (Production Preferred)
 
-```sql
-CREATE TABLE #TempOrders
-(
-    OrderId INT,
-    CustomerId INT,
-    OrderDate DATE,
-    Amount DECIMAL(10,2)
-);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE TABLE #TempOrders (     OrderId INT,     CustomerId INT,     OrderDate DATE,     Amount DECIMAL(10,2) );`
+  
 
 Then insert data:
 
-```sql
-INSERT INTO #TempOrders
-SELECT OrderId, CustomerId, OrderDate, Amount
-FROM Orders
-WHERE OrderDate >= '2024-01-01';
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `INSERT INTO #TempOrders SELECT OrderId, CustomerId, OrderDate, Amount FROM Orders WHERE OrderDate >= '2024-01-01';`
+  
 
 ✔ Full control  
 ✔ Best for production
@@ -3026,10 +3007,14 @@ WHERE OrderDate >= '2024-01-01';
 
 ### ▶ From Stored Procedure Output
 
-```sql
-INSERT INTO #TempOrders
-EXEC GetOrdersByDate '2024-01-01';
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `INSERT INTO #TempOrders EXEC GetOrdersByDate '2024-01-01';`
+  
 
 ---
 
@@ -3069,11 +3054,16 @@ Each session has a **unique SPID**.
 
 ---
 
-## 🔹 Local Temp Table (`#Temp`)
+## 🔹 Local Temp Table (#Temp)
 
-```sql
-CREATE TABLE #MyTempTable (...);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE TABLE #MyTempTable (...);`
+  
 
 ### Scope:
 
@@ -3090,26 +3080,29 @@ CREATE TABLE #MyTempTable (...);
 
 ## 🔹 Example
 
-```sql
-CREATE PROCEDURE TestTemp
-AS
-BEGIN
-    CREATE TABLE #Temp (Id INT);
-END;
-```
+code SQL
 
-➡ `#Temp` disappears after SP execution
+downloadcontent_copy
+
+expand_less
+
+    `CREATE PROCEDURE TestTemp AS BEGIN     CREATE TABLE #Temp (Id INT); END;`
+  
+
+➡ #Temp disappears after SP execution
 
 ---
 
-## 🔹 Global Temp Table (`##Temp`)
+## 🔹 Global Temp Table (##Temp)
 
-```sql
-CREATE TABLE ##GlobalTemp
-(
-    Id INT
-);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE TABLE ##GlobalTemp (     Id INT );`
+  
 
 ### Scope:
 
@@ -3128,10 +3121,14 @@ CREATE TABLE ##GlobalTemp
 
 ### 🔹 ALTER Temp Table
 
-```sql
-ALTER TABLE #TempOrders
-ADD Status VARCHAR(20);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `ALTER TABLE #TempOrders ADD Status VARCHAR(20);`
+  
 
 ✔ Allowed  
 ✔ Common in complex flows
@@ -3140,9 +3137,14 @@ ADD Status VARCHAR(20);
 
 ### 🔹 Drop Temp Table
 
-```sql
-DROP TABLE #TempOrders;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `DROP TABLE #TempOrders;`
+  
 
 📌 Optional — SQL Server auto-cleans, but **explicit DROP is best practice**
 
@@ -3187,20 +3189,27 @@ Especially useful when:
 
 ### 🔹 Example Without Index (Slow)
 
-```sql
-SELECT *
-FROM #TempOrders
-WHERE CustomerId = 100;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT * FROM #TempOrders WHERE CustomerId = 100;`
+  
 
 ---
 
 ### 🔹 Add Index
 
-```sql
-CREATE INDEX IX_TempOrders_CustomerId
-ON #TempOrders(CustomerId);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `CREATE INDEX IX_TempOrders_CustomerId ON #TempOrders(CustomerId);`
+  
 
 📈 Massive performance improvement
 
@@ -3208,10 +3217,14 @@ ON #TempOrders(CustomerId);
 
 ## 🔹 Unique / Primary Key Constraint
 
-```sql
-ALTER TABLE #TempOrders
-ADD CONSTRAINT PK_TempOrders PRIMARY KEY (OrderId);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `ALTER TABLE #TempOrders ADD CONSTRAINT PK_TempOrders PRIMARY KEY (OrderId);`
+  
 
 ### Benefits:
 
@@ -3235,19 +3248,22 @@ ADD CONSTRAINT PK_TempOrders PRIMARY KEY (OrderId);
 CTE = Common Table Expression  
 It is **not stored** physically.
 
-```sql
-WITH OrderCTE AS (
-    SELECT * FROM Orders WHERE Amount > 1000
-)
-SELECT * FROM OrderCTE;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `WITH OrderCTE AS (     SELECT * FROM Orders WHERE Amount > 1000 ) SELECT * FROM OrderCTE;`
+  
 
 ---
 
 ## 🔥 Key Differences
 
-|Feature|Temp Table|CTE|
+|   |   |   |
 |---|---|---|
+|Feature|Temp Table|CTE|
 |Stored physically|✅ Yes|❌ No|
 |Index allowed|✅ Yes|❌ No|
 |Reusable|✅ Yes|❌ No|
@@ -3284,13 +3300,14 @@ CTE is better when:
 
 ### ❌ Normal Join (Expensive)
 
-```sql
-SELECT *
-FROM Orders o
-JOIN OrderItems oi ON o.Id = oi.OrderId
-JOIN Products p ON oi.ProductId = p.Id
-WHERE o.OrderDate >= '2024-01-01';
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT * FROM Orders o JOIN OrderItems oi ON o.Id = oi.OrderId JOIN Products p ON oi.ProductId = p.Id WHERE o.OrderDate >= '2024-01-01';`
+  
 
 ➡ Recalculates joins every time
 
@@ -3298,19 +3315,14 @@ WHERE o.OrderDate >= '2024-01-01';
 
 ### ✅ Using Temp Table (Optimized)
 
-```sql
-SELECT o.Id, o.CustomerId, o.OrderDate
-INTO #TempOrders
-FROM Orders o
-WHERE o.OrderDate >= '2024-01-01';
+code SQL
 
-CREATE INDEX IX_TempOrders_Id ON #TempOrders(Id);
+downloadcontent_copy
 
-SELECT *
-FROM #TempOrders t
-JOIN OrderItems oi ON t.Id = oi.OrderId
-JOIN Products p ON oi.ProductId = p.Id;
-```
+expand_less
+
+    `SELECT o.Id, o.CustomerId, o.OrderDate INTO #TempOrders FROM Orders o WHERE o.OrderDate >= '2024-01-01';  CREATE INDEX IX_TempOrders_Id ON #TempOrders(Id);  SELECT * FROM #TempOrders t JOIN OrderItems oi ON t.Id = oi.OrderId JOIN Products p ON oi.ProductId = p.Id;`
+  
 
 📈 Faster  
 📈 Reduced IO  
@@ -3354,32 +3366,14 @@ JOIN Products p ON oi.ProductId = p.Id;
 
 ## 1️⃣4️⃣ Production-Ready Temp Table Example
 
-```sql
-CREATE PROCEDURE GetCustomerSummary
-AS
-BEGIN
-    CREATE TABLE #CustomerOrders
-    (
-        CustomerId INT PRIMARY KEY,
-        TotalOrders INT,
-        TotalAmount DECIMAL(12,2)
-    );
+code SQL
 
-    INSERT INTO #CustomerOrders
-    SELECT 
-        CustomerId,
-        COUNT(*),
-        SUM(Amount)
-    FROM Orders
-    GROUP BY CustomerId;
+downloadcontent_copy
 
-    SELECT *
-    FROM #CustomerOrders
-    WHERE TotalAmount > 10000;
+expand_less
 
-    DROP TABLE #CustomerOrders;
-END;
-```
+    `CREATE PROCEDURE GetCustomerSummary AS BEGIN     CREATE TABLE #CustomerOrders     (         CustomerId INT PRIMARY KEY,         TotalOrders INT,         TotalAmount DECIMAL(12,2)     );      INSERT INTO #CustomerOrders     SELECT          CustomerId,         COUNT(*),         SUM(Amount)     FROM Orders     GROUP BY CustomerId;      SELECT *     FROM #CustomerOrders     WHERE TotalAmount > 10000;      DROP TABLE #CustomerOrders; END;`
+  
 
 ✔ Indexed  
 ✔ Aggregated  
@@ -3414,7 +3408,7 @@ END;
 - Pagination using temp tables
     
 - SP + temp table best practices
-
+    
 
 ✅ **CTE document is now fully generated** in the canvas with:
 
@@ -3435,6 +3429,7 @@ END;
 - ✅ Lifetime, use-cases, when to use & when not to use
     
 - ✅ Final **one-paragraph interview summary**
+    
 
 ---
 
@@ -3472,48 +3467,53 @@ This structure forms a **tree-like hierarchy**.
 
 Usually using a **self-referencing table**.
 
-### Example Table: `Employees`
+### Example Table: Employees
 
-```sql
-CREATE TABLE Employees (
-    EmployeeId INT PRIMARY KEY,
-    EmployeeName VARCHAR(100),
-    ManagerId INT NULL
-);
-```
+code SQL
 
-👉 `ManagerId` refers to **EmployeeId of the same table**
+downloadcontent_copy
+
+expand_less
+
+    `CREATE TABLE Employees (     EmployeeId INT PRIMARY KEY,     EmployeeName VARCHAR(100),     ManagerId INT NULL );`
+  
+
+👉 ManagerId refers to **EmployeeId of the same table**
 
 ### Sample Data
 
-```sql
-INSERT INTO Employees VALUES
-(1, 'CEO', NULL),
-(2, 'CTO', 1),
-(3, 'CFO', 1),
-(4, 'Engineering Manager', 2),
-(5, 'Developer', 4),
-(6, 'Accountant', 3);
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `INSERT INTO Employees VALUES (1, 'CEO', NULL), (2, 'CTO', 1), (3, 'CFO', 1), (4, 'Engineering Manager', 2), (5, 'Developer', 4), (6, 'Accountant', 3);`
+  
 
 ### Visual Hierarchy
 
-```
-CEO
-├── CTO
-│   └── Engineering Manager
-│       └── Developer
-└── CFO
-    └── Accountant
-```
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `CEO ├── CTO │   └── Engineering Manager │       └── Developer └── CFO     └── Accountant`
+  
 
 ---
 
 ## ❌ Why Normal SELECT Fails for Hierarchies
 
-```sql
-SELECT * FROM Employees;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT * FROM Employees;`
+  
 
 🚫 This only returns **flat rows**, not parent–child relationships.
 
@@ -3536,31 +3536,14 @@ To traverse hierarchy → **Recursive Query is required**.
 
 ## 🔹 Basic Recursive CTE Example
 
-```sql
-WITH EmployeeHierarchy AS (
-    -- Anchor member (root)
-    SELECT
-        EmployeeId,
-        EmployeeName,
-        ManagerId,
-        0 AS Level
-    FROM Employees
-    WHERE ManagerId IS NULL
+code SQL
 
-    UNION ALL
+downloadcontent_copy
 
-    -- Recursive member
-    SELECT
-        e.EmployeeId,
-        e.EmployeeName,
-        e.ManagerId,
-        eh.Level + 1
-    FROM Employees e
-    INNER JOIN EmployeeHierarchy eh
-        ON e.ManagerId = eh.EmployeeId
-)
-SELECT * FROM EmployeeHierarchy;
-```
+expand_less
+
+    `WITH EmployeeHierarchy AS (     -- Anchor member (root)     SELECT         EmployeeId,         EmployeeName,         ManagerId,         0 AS Level     FROM Employees     WHERE ManagerId IS NULL      UNION ALL      -- Recursive member     SELECT         e.EmployeeId,         e.EmployeeName,         e.ManagerId,         eh.Level + 1     FROM Employees e     INNER JOIN EmployeeHierarchy eh         ON e.ManagerId = eh.EmployeeId ) SELECT * FROM EmployeeHierarchy;`
+  
 
 ---
 
@@ -3568,17 +3551,27 @@ SELECT * FROM EmployeeHierarchy;
 
 ### 1️⃣ Anchor Query
 
-```sql
-WHERE ManagerId IS NULL
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `WHERE ManagerId IS NULL`
+  
 
 ✔ Gets the **root node (CEO)**
 
 ### 2️⃣ Recursive Query
 
-```sql
-e.ManagerId = eh.EmployeeId
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `e.ManagerId = eh.EmployeeId`
+  
 
 ✔ Fetches **children of previous level**
 
@@ -3594,8 +3587,9 @@ e.ManagerId = eh.EmployeeId
 
 ## 📊 Output Example
 
-|EmployeeId|EmployeeName|ManagerId|Level|
+|   |   |   |   |
 |---|---|---|---|
+|EmployeeId|EmployeeName|ManagerId|Level|
 |1|CEO|NULL|0|
 |2|CTO|1|1|
 |3|CFO|1|1|
@@ -3609,36 +3603,38 @@ e.ManagerId = eh.EmployeeId
 
 ### Get all employees under CTO
 
-```sql
-WITH CTE AS (
-    SELECT * FROM Employees WHERE EmployeeId = 2
-    UNION ALL
-    SELECT e.* FROM Employees e
-    INNER JOIN CTE c ON e.ManagerId = c.EmployeeId
-)
-SELECT * FROM CTE;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `WITH CTE AS (     SELECT * FROM Employees WHERE EmployeeId = 2     UNION ALL     SELECT e.* FROM Employees e     INNER JOIN CTE c ON e.ManagerId = c.EmployeeId ) SELECT * FROM CTE;`
+  
 
 ---
 
 ## 🔹 Hierarchy with Indentation (Readable)
 
-```sql
-SELECT
-    REPLICATE('---', Level) + EmployeeName AS HierarchyView
-FROM EmployeeHierarchy;
-```
+code SQL
+
+downloadcontent_copy
+
+expand_less
+
+    `SELECT     REPLICATE('---', Level) + EmployeeName AS HierarchyView FROM EmployeeHierarchy;`
+  
 
 Output:
 
-```
-CEO
----CTO
-------Engineering Manager
----------Developer
----CFO
-------Accountant
-```
+code Code
+
+downloadcontent_copy
+
+expand_less
+
+    `CEO ---CTO ------Engineering Manager ---------Developer ---CFO ------Accountant`
+  
 
 ---
 
@@ -3671,6 +3667,9 @@ CEO
     
 - Temp tables only when hierarchy reused multiple times
     
-- Max recursion default = **100 levels** (`OPTION (MAXRECURSION n)`)
+- Max recursion default = **100 levels** (OPTION (MAXRECURSION n))
+    
 
 ---
+
+fix this formatting issue
