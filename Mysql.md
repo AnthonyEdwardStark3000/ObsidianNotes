@@ -1331,7 +1331,6 @@ SET @sql4 = 'SELECT '+ @columns +' FROM employees WHERE employee_name = '''+ @em
 EXEC sp_executesql @sql4;
 ```
 
-
 -- Tech with hema
 
 ---
