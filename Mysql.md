@@ -2143,16 +2143,3 @@ SELECT employee_name, calc_employee_rating(attendance, sales)
 FROM employees;
 ```
 
-```
-
----
-
-If you'd like, I can also generate:
-
-📌 A **mind-map style** overview  
-📌 A **visual diagram** (ASCII or Mermaid)  
-📌 A **folder layout for your Obsidian vault**  
-📌 Additional flashcards for Stored Procedures  
-
-Want me to add these?
-```
