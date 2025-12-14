@@ -2324,7 +2324,7 @@ CEO
 
 ## 🎯 Interview-Ready Definition
 
-> **Hierarchical data** is data organized in a parent–child relationship where records form a tree structure. In SQL Server, hierarchical data is efficiently retrieved using **recursive Common Table Expressions (CTEs)**, which repeatedly join a table to itself until the full hierarchy is traversed.
+**Hierarchical data** is data organized in a parent–child relationship where records form a tree structure. In SQL Server, hierarchical data is efficiently retrieved using **recursive Common Table Expressions (CTEs)**, which repeatedly join a table to itself until the full hierarchy is traversed.
 
 ---
 
