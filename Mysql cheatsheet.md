@@ -1,8 +1,6 @@
 
 -- Tech with hema
-
 ---
-
 # 📘 **MySQL Functions — Complete Notes (Obsidian-Friendly)**
 
 ---
