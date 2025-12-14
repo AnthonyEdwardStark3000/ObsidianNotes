@@ -2143,3 +2143,387 @@ SELECT employee_name, calc_employee_rating(attendance, sales)
 FROM employees;
 ```
 
+---
+
+# 🔐 Title: Advanced Stored Procedures Concepts (Encryption, CTE, Functions & More)
+
+## 🔐 1. Encryption in Stored Procedures
+
+### ✅ Definition (Interview-Ready)
+
+**Encryption in Stored Procedures** is used to **hide the internal SQL logic** of the procedure from users.  
+It prevents others from viewing or reverse-engineering business logic stored inside the database.
+
+> Encryption protects **intellectual property**, **business rules**, and **security-sensitive queries**.
+
+---
+
+### 🔹 Why Encrypt Stored Procedures?
+
+- 🔒 Protect business logic
+    
+- 🛡 Prevent unauthorized access
+    
+- 📦 Hide complex calculations
+    
+- 🧠 Prevent accidental modification
+    
+
+---
+
+### 🔹 Creating an Encrypted Stored Procedure
+
+```sql
+CREATE PROCEDURE GetEmployeeSalary
+WITH ENCRYPTION
+AS
+BEGIN
+    SELECT EmployeeId, Salary
+    FROM Employees;
+END;
+```
+
+📌 After encryption:
+
+```sql
+sp_helptext GetEmployeeSalary;
+-- Result: The text is encrypted and cannot be displayed
+```
+
+---
+
+### ⚠ Important Interview Notes
+
+- Encryption is **not strong cryptography**
+    
+- SQL Server encrypts metadata, **not runtime data**
+    
+- Once encrypted → **cannot be decrypted**
+    
+- Always keep **source code backup**
+    
+
+---
+
+## 🔁 2. CTE (Common Table Expression) Inside Stored Procedures
+
+---
+
+### ✅ Definition
+
+A **CTE** is a **temporary named result set** used to simplify **complex queries**, improve **readability**, and support **recursive logic**.
+
+---
+
+### 🔹 Why Use CTE in Stored Procedures?
+
+- Replace complex subqueries
+    
+- Improve readability
+    
+- Perform hierarchical / recursive queries
+    
+- Reuse result inside the SP
+    
+
+---
+
+### 🔹 Basic CTE Example Inside SP
+
+```sql
+CREATE PROCEDURE GetHighSalaryEmployees
+AS
+BEGIN
+    WITH HighSalaryCTE AS (
+        SELECT EmployeeId, Name, Salary
+        FROM Employees
+        WHERE Salary > 70000
+    )
+    SELECT * FROM HighSalaryCTE;
+END;
+```
+
+---
+
+### 🔹 CTE with Aggregation
+
+```sql
+CREATE PROCEDURE GetDepartmentWiseSalary
+AS
+BEGIN
+    WITH DeptCTE AS (
+        SELECT DepartmentId, SUM(Salary) AS TotalSalary
+        FROM Employees
+        GROUP BY DepartmentId
+    )
+    SELECT * FROM DeptCTE;
+END;
+```
+
+---
+
+### 🔹 Recursive CTE in Stored Procedure (Hierarchy)
+
+```sql
+CREATE PROCEDURE GetEmployeeHierarchy
+AS
+BEGIN
+    WITH EmployeeCTE AS (
+        SELECT EmployeeId, ManagerId, Name
+        FROM Employees
+        WHERE ManagerId IS NULL
+
+        UNION ALL
+
+        SELECT e.EmployeeId, e.ManagerId, e.Name
+        FROM Employees e
+        INNER JOIN EmployeeCTE c
+        ON e.ManagerId = c.EmployeeId
+    )
+    SELECT * FROM EmployeeCTE;
+END;
+```
+
+📌 **Very commonly asked in interviews**
+
+---
+
+## 🧮 3. Functions vs Stored Procedures
+
+---
+
+### ✅ Definition
+
+A **Function** is a database object that:
+
+- Always returns a value
+    
+- Can be used inside SELECT
+    
+- Cannot modify data (generally)
+    
+
+---
+
+### 🔹 Types of Functions
+
+|Type|Description|
+|---|---|
+|Scalar Function|Returns single value|
+|Table-Valued Function|Returns table|
+|Inline TVF|Lightweight, optimized|
+
+---
+
+## 🔹 Scalar Function Example
+
+```sql
+CREATE FUNCTION dbo.CalculateTax (@Salary DECIMAL)
+RETURNS DECIMAL
+AS
+BEGIN
+    RETURN @Salary * 0.10;
+END;
+```
+
+Usage:
+
+```sql
+SELECT Name, dbo.CalculateTax(Salary) AS Tax
+FROM Employees;
+```
+
+---
+
+## 🔹 Table-Valued Function Example
+
+```sql
+CREATE FUNCTION dbo.GetEmployeesByDept (@DeptId INT)
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT * FROM Employees WHERE DepartmentId = @DeptId
+);
+```
+
+Usage:
+
+```sql
+SELECT * FROM dbo.GetEmployeesByDept(2);
+```
+
+---
+
+### ⚠ Function vs SP (Interview Table)
+
+|Feature|Function|Stored Procedure|
+|---|---|---|
+|Returns value|✅ Mandatory|❌ Optional|
+|Can modify data|❌|✅|
+|Can use TRY/CATCH|❌|✅|
+|Can use Transactions|❌|✅|
+|Can return multiple result sets|❌|✅|
+
+---
+
+## 🔁 4. Multiple Result Sets in Stored Procedure
+
+---
+
+### ✅ Definition
+
+A Stored Procedure **can return multiple result sets** using multiple SELECT statements.
+
+---
+
+### 🔹 Example
+
+```sql
+CREATE PROCEDURE GetDashboardData
+AS
+BEGIN
+    SELECT * FROM Customers;
+    SELECT * FROM Orders;
+    SELECT * FROM Products;
+END;
+```
+
+📌 Very common for **dashboard APIs**
+
+---
+
+## 🔄 5. Multiple Operations in One Stored Procedure
+
+### ✅ Interview Answer
+
+**Yes**, a Stored Procedure can contain:
+
+- Multiple SELECTs
+    
+- INSERT
+    
+- UPDATE
+    
+- DELETE
+    
+- All inside one transaction
+    
+
+---
+
+### 🔹 Example: SELECT + UPDATE + DELETE
+
+```sql
+CREATE PROCEDURE ManageOrders
+    @OrderId INT
+AS
+BEGIN
+    BEGIN TRANSACTION;
+
+    SELECT * FROM Orders WHERE OrderId = @OrderId;
+
+    UPDATE Orders
+    SET Status = 'Processed'
+    WHERE OrderId = @OrderId;
+
+    DELETE FROM OrderLogs
+    WHERE OrderId = @OrderId;
+
+    COMMIT TRANSACTION;
+END;
+```
+
+---
+
+## 🧪 6. TRY…CATCH & Error Handling in SP
+
+```sql
+CREATE PROCEDURE SafeUpdate
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        UPDATE Accounts SET Balance = Balance - 100 WHERE Id = 1;
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK;
+        THROW;
+    END CATCH
+END;
+```
+
+---
+
+## 🚀 7. Production-Ready Complex Stored Procedure
+
+### 🔥 Example: Business Dashboard SP
+
+```sql
+CREATE PROCEDURE GetBusinessDashboard
+    @StartDate DATE,
+    @EndDate DATE
+AS
+BEGIN
+    -- Customers
+    SELECT COUNT(*) AS TotalCustomers FROM Customers;
+
+    -- Revenue
+    SELECT SUM(Amount) AS TotalRevenue
+    FROM Orders
+    WHERE OrderDate BETWEEN @StartDate AND @EndDate;
+
+    -- Top Products
+    SELECT TOP 5 ProductId, COUNT(*) AS Sales
+    FROM Orders
+    GROUP BY ProductId
+    ORDER BY Sales DESC;
+
+    -- Update audit
+    UPDATE DashboardAudit
+    SET LastGenerated = GETDATE();
+END;
+```
+
+📌 **Perfect real-world SP example**
+
+---
+
+## 🎯 Interview One-Liners (Very Important)
+
+- **CTE improves readability and recursion**
+    
+- **Encrypted SP hides business logic**
+    
+- **Functions return values, SPs perform actions**
+    
+- **SPs can handle transactions**
+    
+- **Multiple SELECTs = multiple result sets**
+    
+- **SPs are pre-compiled → better performance**
+    
+
+---
+
+## 🧠 Final Interview Answer (Direct)
+
+> **Yes**, a Stored Procedure can execute **multiple SELECT queries across different tables**, along with **multiple UPDATE and DELETE operations**, inside a **single transaction**, making it ideal for **complex business workflows**.
+
+---
+
+If you want next:
+
+- ✅ **SP + Dapper (.NET) execution**
+    
+- ✅ **SP performance tuning**
+    
+- ✅ **Index usage inside SP**
+    
+- ✅ **Deadlocks & isolation levels**
+    
+- ✅ **MySQL version of all examples**
+    
+
+Just say **next topic** 👌
