@@ -392,7 +392,7 @@ CALL sales_report('2024-01-01','2024-01-31', 500);
 
 # # 📘 Summary (Copy-Paste Friendly for Obsidian)
 
-```
+``
 ## MySQL Functions Summary
 
 ### Key Points
