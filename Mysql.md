@@ -59,6 +59,7 @@ TCL (Transaction Control Language) : -
 		 Mostly used by administrators for providing and removing accesses .
 		 GRANT - For providing database access .
 		 REVOKE - For removing database access .![[Pasted image 20250413192855.png]]
+
 Basic usage of common SQL commands : -
 ```
 -- create database
