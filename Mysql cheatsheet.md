@@ -440,7 +440,6 @@ Everything is optimized for **Obsidian + Anki-style spaced repetition** and can 
 # 🧠 **1. Obsidian Flashcards (Ready-to-Paste)**
 
 Format uses the Obsidian/Anki plugin syntax:
-
 ```
 ## MySQL Functions — Flashcards
 
