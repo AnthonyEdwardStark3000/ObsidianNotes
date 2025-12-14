@@ -2513,17 +2513,428 @@ END;
 
 ---
 
-If you want next:
+Below is a **deep-dive, interview-ready + production-ready guide** on **Stored Procedure Performance Tuning**, **Index Usage inside SP**, and **Deadlocks & Isolation Levels**.
 
-- ✅ **SP + Dapper (.NET) execution**
+I’ve written this exactly the way **senior .NET / SQL interviewers expect**, with **why, how, examples, mistakes, and best practices**.
+
+---
+
+# 🚀 Title: Stored Procedure Performance Tuning
+
+## Index Usage • Deadlocks • Isolation Levels
+
+---
+
+## 1️⃣ Stored Procedure Performance Tuning
+
+### ✅ What is SP Performance Tuning? (Interview Definition)
+
+**Stored Procedure performance tuning** is the process of **optimizing execution time, CPU usage, memory usage, and I/O cost** of stored procedures by improving **query design, indexing, parameter usage, and execution plans**.
+
+---
+
+## 🔥 Why SPs Can Become Slow?
+
+Common real-world reasons:
+
+- ❌ Missing or wrong indexes
     
-- ✅ **SP performance tuning**
+- ❌ Parameter sniffing issues
     
-- ✅ **Index usage inside SP**
+- ❌ SELECT *
     
-- ✅ **Deadlocks & isolation levels**
+- ❌ Non-SARGable queries
     
-- ✅ **MySQL version of all examples**
+- ❌ Large result sets
+    
+- ❌ Poor transaction handling
+    
+- ❌ Blocking & deadlocks
     
 
-Just say **next topic** 👌
+---
+
+## 2️⃣ Index Usage Inside Stored Procedures
+
+---
+
+### ✅ What is an Index? (Quick Definition)
+
+An **index** is a database structure that **speeds up data retrieval** by reducing full table scans.
+
+> Indexes are the **#1 performance factor** in stored procedures.
+
+---
+
+## 🔹 How SQL Uses Indexes Inside SP
+
+SQL Server:
+
+1. Compiles SP
+    
+2. Creates **Execution Plan**
+    
+3. Chooses indexes based on:
+    
+    - WHERE clause
+        
+    - JOIN conditions
+        
+    - ORDER BY
+        
+    - GROUP BY
+        
+
+---
+
+## 🔹 Example: SP WITHOUT Index (Slow)
+
+```sql
+CREATE PROCEDURE GetOrdersByCustomer
+    @CustomerId INT
+AS
+BEGIN
+    SELECT *
+    FROM Orders
+    WHERE CustomerId = @CustomerId;
+END;
+```
+
+🚨 If `Orders.CustomerId` is **not indexed** → **Table Scan**
+
+---
+
+## 🔹 Add Proper Index (Huge Improvement)
+
+```sql
+CREATE INDEX IX_Orders_CustomerId
+ON Orders(CustomerId);
+```
+
+✅ Result:
+
+- Index Seek
+    
+- Faster execution
+    
+- Lower CPU & IO
+    
+
+---
+
+## 🔹 Composite Index (Production-Ready)
+
+```sql
+CREATE INDEX IX_Orders_Customer_Date
+ON Orders(CustomerId, OrderDate);
+```
+
+Best for queries like:
+
+```sql
+SELECT *
+FROM Orders
+WHERE CustomerId = @CustomerId
+AND OrderDate >= '2024-01-01';
+```
+
+---
+
+## 🔹 Covering Index (Advanced)
+
+```sql
+CREATE INDEX IX_Orders_Cover
+ON Orders(CustomerId)
+INCLUDE (OrderDate, Amount, Status);
+```
+
+📌 Prevents **Key Lookup**  
+📌 Extremely important for high-traffic SPs
+
+---
+
+## ❌ Common Index Mistakes in SPs
+
+|Mistake|Impact|
+|---|---|
+|SELECT *|Index ignored|
+|Functions in WHERE|Index not used|
+|CAST/CONVERT|Non-SARGable|
+|LIKE '%abc'|Index scan|
+
+---
+
+## 🔹 Bad Query (Index Ignored)
+
+```sql
+WHERE YEAR(OrderDate) = 2024
+```
+
+### ✅ Optimized Query
+
+```sql
+WHERE OrderDate >= '2024-01-01'
+AND OrderDate < '2025-01-01'
+```
+
+---
+
+## 3️⃣ Parameter Sniffing (Very Important)
+
+---
+
+### ✅ What is Parameter Sniffing?
+
+SQL Server **uses first parameter value** passed to SP to generate execution plan and **reuses it** for future executions.
+
+📌 This can cause **performance degradation**.
+
+---
+
+### 🔹 Example Problem
+
+```sql
+EXEC GetOrdersByCustomer @CustomerId = 1;     -- small data
+EXEC GetOrdersByCustomer @CustomerId = 9999; -- huge data
+```
+
+Same plan reused → inefficient
+
+---
+
+### ✅ Solutions
+
+#### 🔹 OPTION (RECOMPILE)
+
+```sql
+SELECT *
+FROM Orders
+WHERE CustomerId = @CustomerId
+OPTION (RECOMPILE);
+```
+
+#### 🔹 Local Variable Trick
+
+```sql
+DECLARE @LocalCustomerId INT = @CustomerId;
+
+SELECT *
+FROM Orders
+WHERE CustomerId = @LocalCustomerId;
+```
+
+---
+
+## 4️⃣ Deadlocks in Stored Procedures
+
+---
+
+### ✅ What is a Deadlock? (Interview Definition)
+
+A **deadlock** occurs when **two or more transactions wait for each other’s locked resources indefinitely**, and SQL Server kills one transaction automatically.
+
+---
+
+### 🔥 Real-World Deadlock Example
+
+Transaction 1:
+
+```sql
+UPDATE Accounts SET Balance -= 100 WHERE Id = 1;
+UPDATE Accounts SET Balance += 100 WHERE Id = 2;
+```
+
+Transaction 2:
+
+```sql
+UPDATE Accounts SET Balance -= 50 WHERE Id = 2;
+UPDATE Accounts SET Balance += 50 WHERE Id = 1;
+```
+
+📌 Classic deadlock scenario
+
+---
+
+## 🔹 How SQL Resolves Deadlock?
+
+- SQL Server chooses **deadlock victim**
+    
+- Rolls back one transaction
+    
+- Throws error 1205
+    
+
+---
+
+## 🛡 How to Prevent Deadlocks (Production Rules)
+
+### ✅ 1. Always Access Tables in Same Order
+
+```sql
+-- Correct order everywhere
+UPDATE Accounts WHERE Id = 1;
+UPDATE Accounts WHERE Id = 2;
+```
+
+---
+
+### ✅ 2. Keep Transactions Short
+
+❌ BAD:
+
+```sql
+BEGIN TRAN
+-- long business logic
+COMMIT
+```
+
+✅ GOOD:
+
+```sql
+BEGIN TRAN
+UPDATE ...
+COMMIT
+```
+
+---
+
+### ✅ 3. Use Proper Indexes
+
+Indexes reduce lock duration  
+➡ Faster execution  
+➡ Less blocking
+
+---
+
+### ✅ 4. Use TRY/CATCH with Rollback
+
+```sql
+BEGIN TRY
+    BEGIN TRAN
+    -- statements
+    COMMIT
+END TRY
+BEGIN CATCH
+    ROLLBACK
+END CATCH
+```
+
+---
+
+## 5️⃣ Isolation Levels (VERY IMPORTANT)
+
+---
+
+### ✅ What is Isolation Level?
+
+Isolation level defines **how and when data locks are applied** during transactions.
+
+---
+
+## 🔹 SQL Server Isolation Levels
+
+|Level|Problems Allowed|
+|---|---|
+|Read Uncommitted|Dirty Reads|
+|Read Committed|Default|
+|Repeatable Read|No non-repeatable|
+|Serializable|Full isolation|
+|Snapshot|Version-based|
+
+---
+
+## 🔹 READ UNCOMMITTED (Fastest, Risky)
+
+```sql
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+```
+
+- Allows dirty reads
+    
+- Used for reports
+    
+
+---
+
+## 🔹 READ COMMITTED (Default)
+
+```sql
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+```
+
+- No dirty reads
+    
+- Allows blocking
+    
+
+---
+
+## 🔹 SNAPSHOT ISOLATION (Best for High Concurrency)
+
+```sql
+ALTER DATABASE MyDB SET ALLOW_SNAPSHOT_ISOLATION ON;
+```
+
+```sql
+SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
+```
+
+📌 Uses row versioning  
+📌 Avoids blocking & deadlocks  
+📌 Excellent for APIs
+
+---
+
+## 6️⃣ Production-Ready Stored Procedure (All Concepts)
+
+```sql
+CREATE PROCEDURE TransferMoney
+    @FromAccount INT,
+    @ToAccount INT,
+    @Amount DECIMAL(10,2)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        UPDATE Accounts
+        SET Balance = Balance - @Amount
+        WHERE AccountId = @FromAccount;
+
+        UPDATE Accounts
+        SET Balance = Balance + @Amount
+        WHERE AccountId = @ToAccount;
+
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK;
+        THROW;
+    END CATCH
+END;
+```
+
+✔ Indexed  
+✔ Deadlock-safe order  
+✔ Transaction safe  
+✔ Production ready
+
+---
+
+## 🎯 Interview One-Line Answers
+
+- **Indexes are the biggest performance factor in SPs**
+    
+- **Deadlocks occur due to conflicting locks**
+    
+- **Isolation level controls concurrency behavior**
+    
+- **Snapshot isolation reduces blocking**
+    
+- **Parameter sniffing causes inconsistent performance**
+    
+
+---
