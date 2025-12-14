@@ -1330,7 +1330,7 @@ SET @columns = 'employee_name, department_id'
 SET @sql4 = 'SELECT '+ @columns +' FROM employees WHERE employee_name = '''+ @employee_name+ ''''
 EXEC sp_executesql @sql4;
 ```
-``
+
 -- Tech with hema
 
 ---
