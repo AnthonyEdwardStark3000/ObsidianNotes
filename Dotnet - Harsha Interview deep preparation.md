@@ -22147,3 +22147,818 @@ Because enterprises need:
 Built-in DI cannot do this.
 
 ---
+Below is a **complete, Obsidian-friendly, structured explanation** of **MySQL Functions** including **advantages, DML rules, parameters, return values, system vs user-defined functions, scalar vs table-valued (with MySQL-specific clarification), BEGIN/DECLARE/IF**, altering functions, functions calling functions, **functions vs stored procedures**, and **multiple fully-commented code examples from beginner to production level**.
+
+---
+
+# 📘 **MySQL Functions — Complete Notes (Obsidian-Friendly)**
+
+---
+
+## ## 🧩 **What is a Function in MySQL?**
+
+A **function** in MySQL is a stored program that:
+
+* Accepts **input parameters**
+* Performs **calculations or operations**
+* Returns **exactly one value** (scalar)
+
+🔔 **Important:**
+Unlike SQL Server or PostgreSQL, **MySQL does NOT support table-valued functions**.
+MySQL UDFs (User Defined Functions) can only return a **scalar** value.
+Returning a table is **not possible** from a MySQL FUNCTION.
+
+If table-like results are needed → use:
+
+* Views
+* Stored procedures (with SELECT result sets)
+* JSON returning functions
+
+---
+
+# ## ⭐ **Advantages of Functions in MySQL**
+
+* ✔ Can be used **inside SQL queries** (SELECT, WHERE, ORDER BY)
+* ✔ Increases code reusability
+* ✔ Improves maintainability
+* ✔ Useful for **business rules**, **calculations**, **data formatting**
+* ✔ Executes faster for repetitive logic
+* ✔ Helps maintain consistent logic across the system
+
+---
+
+# ## 🧨 **Function Limitations in MySQL**
+
+* ❌ Cannot perform **DML** (INSERT / UPDATE / DELETE)
+* ❌ Cannot return a **table**
+* ❌ Cannot use transactions (COMMIT/ROLLBACK)
+* ❌ No OUT parameters
+* ✔ Only **IN parameters** are allowed
+* ✔ Must return **ONE scalar value**
+
+---
+
+# ## 🔄 Functions & DML Statements
+
+MySQL functions **cannot** modify data.
+
+```sql
+-- ❌ Not allowed inside a FUNCTION
+INSERT INTO ...
+UPDATE ...
+DELETE ...
+CREATE TABLE ...
+```
+
+Why?
+Functions must be **deterministic** and safe to be used inside queries.
+
+---
+
+# ## 🎯 Output Parameters & Multiple Return Values
+
+MySQL functions:
+
+* ❌ do NOT support OUT parameters
+* ❌ do NOT support returning multiple values
+* ✔ You can only return **one scalar value**
+
+To simulate multiple values:
+
+* return a JSON string
+* return a delimited string
+
+Example:
+
+```sql
+RETURN JSON_OBJECT('name', v_name, 'age', v_age);
+```
+
+---
+
+# ## 🧪 **System Functions vs User-Defined Functions (UDF)**
+
+### ### 1️⃣ **System Functions**
+
+Built-in MySQL functions:
+
+Examples:
+
+```sql
+SELECT NOW(), CONCAT('hi',' there'), ABS(-5), ROUND(3.14);
+```
+
+---
+
+### ### 2️⃣ **User-Defined Functions (UDF) — Scalar**
+
+Created by users; must return **one value**.
+
+Example function:
+
+```sql
+CREATE FUNCTION add_tax(price DECIMAL(10,2))
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    RETURN price * 1.18;
+END;
+```
+
+Use:
+
+```sql
+SELECT add_tax(100);
+```
+
+---
+
+# ## 🪄 Scalar Functions Used Like Columns
+
+You can use scalar functions anywhere a column expression is allowed:
+
+```sql
+SELECT id, name, add_tax(price) AS price_with_tax
+FROM products
+WHERE add_tax(price) > 500;
+```
+
+---
+
+# ## 🔧 BEGIN / DECLARE / IF ELSE in MySQL Functions
+
+### ### **Basic Function Example**
+
+```sql
+DELIMITER $$
+
+CREATE FUNCTION grade(marks INT)
+RETURNS VARCHAR(10)
+DETERMINISTIC
+BEGIN
+    DECLARE result VARCHAR(10);
+
+    IF marks >= 90 THEN
+        SET result = 'A';
+    ELSEIF marks >= 75 THEN
+        SET result = 'B';
+    ELSE
+        SET result = 'C';
+    END IF;
+
+    RETURN result;
+END $$
+
+DELIMITER ;
+```
+
+Use:
+
+```sql
+SELECT grade(88);
+```
+
+---
+
+# ## 🔁 **Altering a Function**
+
+MySQL does NOT support `ALTER FUNCTION` directly.
+
+To alter:
+
+1. Drop the function
+2. Recreate it
+
+```sql
+DROP FUNCTION IF EXISTS grade;
+
+CREATE FUNCTION grade(...)
+...
+```
+
+---
+
+# # ❗ **About Table-Valued Functions in MySQL**
+
+### ### 🚫 MySQL does **NOT** support:
+
+* Inline table-valued functions
+* Multi-statement table-valued functions
+* Returning table variables
+
+These exist in SQL Server, not in MySQL.
+
+### ✔ MySQL alternatives:
+
+* Views (static)
+* Stored procedures (return result sets)
+* JSON-returning functions
+
+---
+
+# ## 🧵 **Table-Valued Function Equivalent (Parameterized View)**
+
+### MySQL workaround: Stored Procedure with parameters
+
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE get_orders_by_customer(IN cid INT)
+BEGIN
+    SELECT * FROM orders WHERE customer_id = cid;
+END $$
+
+DELIMITER ;
+```
+
+Call:
+
+```sql
+CALL get_orders_by_customer(5);
+```
+
+---
+
+# # 🧩 **Function Calling Another Function in MySQL**
+
+Example:
+
+```sql
+CREATE FUNCTION get_discount(price DECIMAL(10,2))
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    RETURN price * 0.10;
+END;
+```
+
+Create second function:
+
+```sql
+CREATE FUNCTION final_price(price DECIMAL(10,2))
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    RETURN price - get_discount(price); -- calling another function
+END;
+```
+
+Use:
+
+```sql
+SELECT final_price(100);
+```
+
+---
+
+# # ⚔️ **MySQL Functions vs Stored Procedures**
+
+| Feature             | Function               | Stored Procedure                    |
+| ------------------- | ---------------------- | ----------------------------------- |
+| Return value        | ✔ Must return 1 scalar | ✔ Can return 0, 1, many result sets |
+| Output parameters   | ❌ Not allowed          | ✔ IN, OUT, INOUT                    |
+| DML allowed         | ❌ No                   | ✔ Yes                               |
+| Use in SELECT       | ✔ Yes                  | ❌ No                                |
+| Transaction control | ❌ No                   | ✔ Yes                               |
+| Return table        | ❌ No                   | ✔ Yes (via SELECT)                  |
+| Error handling      | Limited                | Advanced                            |
+| Use case            | Simple calculations    | Complex business logic              |
+
+---
+
+# ## 📘 Example: Function vs Stored Procedure
+
+### ### 1️⃣ Function — scalar calculation
+
+```sql
+CREATE FUNCTION calc_bonus(salary DECIMAL(10,2))
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    RETURN salary * 0.20;
+END;
+```
+
+Use:
+
+```sql
+SELECT name, calc_bonus(salary) FROM employee;
+```
+
+---
+
+### ### 2️⃣ Stored Procedure — return table + perform logic
+
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE employee_bonus_report()
+BEGIN
+    SELECT name,
+           salary,
+           (salary * 0.20) AS bonus
+    FROM employee;
+END $$
+
+DELIMITER ;
+```
+
+Use:
+
+```sql
+CALL employee_bonus_report();
+```
+
+---
+
+# # 🚀 Production-Level Function Example
+
+### Tax calculation + JSON multi-value return
+
+```sql
+DELIMITER $$
+
+CREATE FUNCTION product_summary(pid INT)
+RETURNS JSON
+DETERMINISTIC
+BEGIN
+    DECLARE p_name VARCHAR(100);
+    DECLARE p_price DECIMAL(10,2);
+    DECLARE p_tax DECIMAL(10,2);
+
+    SELECT name, price INTO p_name, p_price
+    FROM products
+    WHERE id = pid;
+
+    SET p_tax = p_price * 0.18;
+
+    RETURN JSON_OBJECT(
+        'name', p_name,
+        'price', p_price,
+        'tax', p_tax,
+        'price_with_tax', p_price + p_tax
+    );
+END $$
+
+DELIMITER ;
+```
+
+Use:
+
+```sql
+SELECT product_summary(3);
+```
+
+---
+
+# # 🧱 Full Example: Professional Stored Procedure (Parameterized View)
+
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE sales_report(
+    IN start_date DATE,
+    IN end_date DATE,
+    IN min_amount DECIMAL(10,2)
+)
+BEGIN
+    SELECT order_id, customer_id, total_amount, order_date
+    FROM sales
+    WHERE order_date BETWEEN start_date AND end_date
+      AND total_amount >= min_amount
+    ORDER BY order_date DESC;
+END $$
+
+DELIMITER ;
+```
+
+Call:
+
+```sql
+CALL sales_report('2024-01-01','2024-01-31', 500);
+```
+
+---
+
+# # 📘 Summary (Copy-Paste Friendly for Obsidian)
+
+```
+## MySQL Functions Summary
+
+### Key Points
+- Return only 1 value
+- No DML statements
+- No OUT parameters
+- Can be used in SELECT
+- Cannot return tables
+
+### Types
+- System Functions
+- User Defined Scalar Functions
+
+### Alternatives to Table-Valued Functions
+- Stored Procedures
+- Views
+- JSON returning functions
+
+### Function vs Procedure
+- Function → 1 value, no DML
+- Procedure → complex logic, tables, DML, OUT parameters
+```
+
+---
+
+If you want, I can also provide:
+
+✅ Flashcards for Obsidian
+✅ Complete cheat-sheet page
+✅ Folder structure for Obsidian vault
+✅ Notes for SQL Server equivalents
+
+Would you like those?
+
+
+Below are **two deliverables** exactly as you requested:
+
+1. **Obsidian Flashcards (using `==cloze==` + spaced-repetition syntax)**
+2. **A Complete MySQL Functions Cheat-Sheet Page (Obsidian friendly)**
+
+Everything is optimized for **Obsidian + Anki-style spaced repetition** and can be pasted directly into your vault.
+
+---
+
+# 🧠 **1. Obsidian Flashcards (Ready-to-Paste)**
+
+Format uses the Obsidian/Anki plugin syntax:
+
+```
+## MySQL Functions — Flashcards
+
+### What is a MySQL function?
+What is a MySQL function?  
+<!--SR-->  
+A stored program that takes input and returns **one scalar value**.  
+
+
+### Can MySQL functions return multiple values?
+Can MySQL functions return multiple values?  
+<!--SR-->  
+==No==, only one scalar value is allowed.  
+
+
+### Can MySQL functions perform DML (INSERT/UPDATE/DELETE)?
+Can MySQL functions perform DML?  
+<!--SR-->  
+==No==, DML is not allowed in MySQL functions.  
+
+
+### Can functions be used in SELECT statements?
+Can MySQL functions be used in SELECT?  
+<!--SR-->  
+==Yes==, they work like column expressions.  
+
+
+### Can stored procedures be used inside SELECT?
+Can stored procedures be used inside SELECT queries?  
+<!--SR-->  
+==No==, procedures cannot be used in SELECT.  
+
+
+### Difference: Function vs Procedure — return values
+Function vs Procedure: return values?  
+<!--SR-->  
+Function → ==must return 1 value==  
+Procedure → ==0 or many result sets==  
+
+
+### Difference: Function vs Procedure — DML
+Which supports DML (INSERT/UPDATE/DELETE)?  
+<!--SR-->  
+==Stored procedure only==  
+
+
+### Output parameters
+Do MySQL functions support IN, OUT, INOUT parameters?  
+<!--SR-->  
+==Only IN==; OUT/INOUT not allowed.  
+
+
+### MySQL table-valued functions support
+Does MySQL support table-valued functions?  
+<!--SR-->  
+==No==, only scalar functions.  
+
+### Alternatives to table-valued functions
+Alternatives to table-valued functions in MySQL?  
+<!--SR-->  
+==Stored procedures==, ==views==, ==JSON returning functions==  
+
+
+### BEGIN / END usage in functions
+BEGIN/END allowed in MySQL functions?  
+<!--SR-->  
+==Yes==, functions can use BEGIN, DECLARE, IF, CASE, etc.  
+
+
+### Function calling another function
+Can one MySQL function call another?  
+<!--SR-->  
+==Yes==, functions can call other functions.  
+
+
+### ALTER FUNCTION in MySQL
+How do you modify a MySQL function?  
+<!--SR-->  
+==DROP and CREATE== (no direct ALTER FUNCTION).  
+
+
+### Deterministic keyword
+What does DETERMINISTIC mean in a function?  
+<!--SR-->  
+The function always returns the ==same output for the same input==.  
+
+
+### System functions
+Examples of system functions?  
+<!--SR-->  
+==NOW() , CONCAT(), ABS(), ROUND()==  
+
+
+### User-defined functions
+What must a user-defined function return?  
+<!--SR-->  
+==One scalar value==.  
+```
+
+---
+
+# 📘 **2. Complete MySQL Functions Cheat-Sheet (Obsidian Page)**
+
+Perfect for your vault as a structured reference guide.
+
+````
+# MySQL Functions — Complete Cheat-Sheet
+
+---
+
+## 📌 Overview
+MySQL functions are stored programs that **accept input and return exactly one value**.  
+They are commonly used for **calculations, formatting, validation**, and can be used inside queries.
+
+---
+
+## ✔ Advantages
+- Reusable business logic  
+- Can be used in SELECT, WHERE, ORDER BY  
+- Performance benefits for repeated logic  
+- Ensures consistent computations  
+
+---
+
+## ❌ Limitations
+- No INSERT, UPDATE, DELETE  
+- No OUT/INOUT parameters  
+- No transactions  
+- No multiple return values  
+- Cannot return a table  
+- Must return exactly ONE value  
+
+---
+
+## 🧪 Types of Functions
+
+### 1️⃣ System Functions (Built-In)
+Examples:
+- `NOW()`
+- `CONCAT()`
+- `ABS()`
+- `CEIL()`
+- `LOWER()`
+
+### 2️⃣ User-Defined Functions (UDF)
+- Created with `CREATE FUNCTION`
+- Must return one scalar value
+- Can contain logic (IF/ELSE/CASE)
+
+---
+
+## 🧱 Function Syntax Template
+
+```sql
+DELIMITER $$
+
+CREATE FUNCTION function_name(param datatype)
+RETURNS return_datatype
+DETERMINISTIC
+BEGIN
+    -- variable declarations
+    -- logic
+    RETURN value;
+END $$
+
+DELIMITER ;
+````
+
+---
+
+## ✨ Basic Example: Scalar Function
+
+```sql
+CREATE FUNCTION add_tax(price DECIMAL(10,2))
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    RETURN price * 1.18;
+END;
+```
+
+Usage:
+
+```sql
+SELECT add_tax(100);
+```
+
+---
+
+## ⚙ BEGIN / DECLARE / IF Example
+
+```sql
+DELIMITER $$
+
+CREATE FUNCTION grade(marks INT)
+RETURNS VARCHAR(5)
+DETERMINISTIC
+BEGIN
+    DECLARE result VARCHAR(5);
+
+    IF marks >= 90 THEN
+        SET result = 'A';
+    ELSEIF marks >= 75 THEN
+        SET result = 'B';
+    ELSE
+        SET result = 'C';
+    END IF;
+
+    RETURN result;
+END $$
+
+DELIMITER ;
+```
+
+---
+
+## 🔁 Calling a Function from Another Function
+
+```sql
+CREATE FUNCTION discount(price DECIMAL(10,2))
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    RETURN price * 0.10;
+END;
+
+CREATE FUNCTION final_price(price DECIMAL(10,2))
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    RETURN price - discount(price);
+END;
+```
+
+---
+
+## ❌ Table-Valued Functions in MySQL
+
+MySQL does **not** support TVFs (unlike SQL Server).
+
+### Alternatives:
+
+* Stored procedures (return result sets)
+* Views
+* JSON-returning scalar functions
+
+---
+
+## JSON Return Example (emulating multi-value output)
+
+```sql
+DELIMITER $$
+
+CREATE FUNCTION product_summary(pid INT)
+RETURNS JSON
+DETERMINISTIC
+BEGIN
+    DECLARE pname VARCHAR(100);
+    DECLARE pprice DECIMAL(10,2);
+
+    SELECT name, price INTO pname, pprice
+    FROM products WHERE id = pid;
+
+    RETURN JSON_OBJECT(
+        'name', pname,
+        'price', pprice,
+        'price_with_tax', pprice * 1.18
+    );
+END $$
+
+DELIMITER ;
+```
+
+---
+
+## 🔨 How to Modify a Function (No ALTER)
+
+```
+DROP FUNCTION IF EXISTS grade;
+
+CREATE FUNCTION grade(...) ...
+```
+
+---
+
+## ⚔️ Functions vs Stored Procedures
+
+### ✔ When to Use Functions
+
+* Formatting values
+* Calculation logic
+* Reusable rules
+* Query expressions
+
+### ✔ When to Use Stored Procedures
+
+* Multiple SQL statements
+* DML operations
+* Returning tables
+* Business workflows
+* Using OUT/INOUT params
+
+---
+
+## 🧩 Comparison Table
+
+| Feature        | Function  | Procedure    |
+| -------------- | --------- | ------------ |
+| Return value   | ONE value | None or Many |
+| DML allowed    | ❌ No      | ✔ Yes        |
+| OUT parameters | ❌ No      | ✔ Yes        |
+| Use in SELECT  | ✔ Yes     | ❌ No         |
+| Transactions   | ❌ No      | ✔ Yes        |
+| Return table   | ❌ No      | ✔ Yes        |
+
+---
+
+## 📌 Stored Procedure Example (TVF Alternative)
+
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE get_orders_by_customer(IN cid INT)
+BEGIN
+    SELECT * FROM orders WHERE customer_id = cid;
+END $$
+
+DELIMITER ;
+```
+
+Usage:
+
+```sql
+CALL get_orders_by_customer(5);
+```
+
+---
+
+## 📘 Production-Level Example
+
+```sql
+DELIMITER $$
+
+CREATE FUNCTION calc_employee_rating(attendance INT, sales INT)
+RETURNS VARCHAR(20)
+DETERMINISTIC
+BEGIN
+    IF sales >= 500 AND attendance > 95 THEN
+        RETURN 'Excellent';
+    ELSEIF sales >= 300 THEN
+        RETURN 'Good';
+    ELSE
+        RETURN 'Average';
+    END IF;
+END $$
+
+DELIMITER ;
+```
+
+Usage:
+
+```sql
+SELECT employee_name, calc_employee_rating(attendance, sales)
+FROM employees;
+```
+
+```
+
+---
+
+```
