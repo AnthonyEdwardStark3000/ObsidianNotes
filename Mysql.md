@@ -1335,8 +1335,6 @@ EXEC sp_executesql @sql4;
 
 -- Tech with hema
 
-Below is a **complete, Obsidian-friendly, structured explanation** of **MySQL Functions** including **advantages, DML rules, parameters, return values, system vs user-defined functions, scalar vs table-valued (with MySQL-specific clarification), BEGIN/DECLARE/IF**, altering functions, functions calling functions, **functions vs stored procedures**, and **multiple fully-commented code examples from beginner to production level**.
-
 ---
 
 # 📘 **MySQL Functions — Complete Notes (Obsidian-Friendly)**
