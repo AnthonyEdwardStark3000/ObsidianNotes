@@ -101,7 +101,7 @@ Operators used in where clause
  = , <> , < , > , <= , >= , BETWEEN , IN , LIKE
 
 ```
-#### Where Clause
+## Where Clause
 ```
 SELECT TOP (1000) [AddressID]
       ,[AddressLine1]
