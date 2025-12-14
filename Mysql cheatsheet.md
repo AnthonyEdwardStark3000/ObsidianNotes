@@ -411,23 +411,11 @@ CALL sales_report('2024-01-01','2024-01-31', 500);
 - Views
 - JSON returning functions
 
-### Function vs Procedure
+# Function vs Procedure
+
 - Function → 1 value, no DML
 - Procedure → complex logic, tables, DML, OUT parameters
-```
-
----
-
-If you want, I can also provide:
-
-✅ Flashcards for Obsidian
-✅ Complete cheat-sheet page
-✅ Folder structure for Obsidian vault
-✅ Notes for SQL Server equivalents
-
-Would you like those?
-
-
+``
 Below are **two deliverables** exactly as you requested:
 
 1. **Obsidian Flashcards (using ==cloze== + spaced-repetition syntax)**
