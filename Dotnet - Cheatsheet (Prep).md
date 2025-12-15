@@ -864,12 +864,6 @@ var activeUsers = users
 > LINQ provides a unified, type-safe, and declarative way to query data across multiple sources such as objects, databases, XML, and JSON, with deferred execution and rich transformation capabilities.
 
 ---
-
-Perfect 👍  
-Let’s treat this as **a separate, standalone topic**, fully **interview-focused**, **deep**, and **practical**.
-
----
-
 # 🔹 Topic: LINQ Deep Dive – Interview Questions & Performance Pitfalls
 
 This topic is **not beginner-level**.  
@@ -1266,10 +1260,391 @@ A **strong .NET developer**:
 
 ---
 
-If you want next 👇  
-✅ LINQ **real-world project scenarios**  
-✅ LINQ **complex joins & grouping problems**  
-✅ LINQ **vs Java Streams (interview comparison)**  
-✅ LINQ **coding round problems with solutions**
+Perfect 👍  
+Below is a **new, separate, advanced topic**, written exactly the way **interviewers expect**, but explained **clearly and practically** for someone with your **.NET + MySQL + Dapper** background.
 
-Just say the word 💪
+---
+
+# 🔹 ADVANCED LINQ — GROUPING, JOINS, DAPPER USE CASES & INTERVIEW CHALLENGES
+
+This topic is **real-world + interview-oriented**, not tutorial fluff.
+
+---
+
+# PART 1️⃣ — LINQ COMPLEX GROUPING PROBLEMS
+
+---
+
+## 1️⃣ Basic Grouping (Recap)
+
+### Scenario
+
+Group employees by department.
+
+```csharp
+var grouped = employees.GroupBy(e => e.Department);
+```
+
+### Result Type
+
+```csharp
+IEnumerable<IGrouping<string, Employee>>
+```
+
+---
+
+## 2️⃣ Grouping with Aggregates (Very Common Interview Question)
+
+### Scenario
+
+Get total salary per department.
+
+```csharp
+var result = employees
+    .GroupBy(e => e.Department)
+    .Select(g => new
+    {
+        Department = g.Key,
+        TotalSalary = g.Sum(e => e.Salary),
+        EmployeeCount = g.Count(),
+        AvgSalary = g.Average(e => e.Salary)
+    });
+```
+
+📌 Equivalent SQL:
+
+```sql
+SELECT Department, SUM(Salary), COUNT(*), AVG(Salary)
+FROM Employees
+GROUP BY Department;
+```
+
+---
+
+## 3️⃣ Nested Grouping (Advanced)
+
+### Scenario
+
+Department → Role → Employees
+
+```csharp
+var result = employees
+    .GroupBy(e => e.Department)
+    .Select(dept => new
+    {
+        Department = dept.Key,
+        Roles = dept.GroupBy(e => e.Role)
+                    .Select(role => new
+                    {
+                        Role = role.Key,
+                        Employees = role.ToList()
+                    })
+    });
+```
+
+📌 Used in dashboards & reports.
+
+---
+
+## 4️⃣ GroupBy with Ordering (Top N per group)
+
+### Scenario
+
+Top 2 highest-paid employees per department.
+
+```csharp
+var result = employees
+    .GroupBy(e => e.Department)
+    .Select(g => new
+    {
+        Department = g.Key,
+        TopEmployees = g
+            .OrderByDescending(e => e.Salary)
+            .Take(2)
+            .ToList()
+    });
+```
+
+⚠️ **Interview Note**:  
+This is NOT possible directly in simple SQL without window functions.
+
+---
+
+# PART 2️⃣ — LINQ JOINS (INNER, LEFT, GROUP JOIN)
+
+---
+
+## Data Setup
+
+```csharp
+var employees = new List<Employee>
+{
+    new Employee { Id = 1, Name = "A", DeptId = 1 },
+    new Employee { Id = 2, Name = "B", DeptId = 2 },
+    new Employee { Id = 3, Name = "C", DeptId = 3 }
+};
+
+var departments = new List<Department>
+{
+    new Department { Id = 1, Name = "HR" },
+    new Department { Id = 2, Name = "IT" }
+};
+```
+
+---
+
+## 1️⃣ Inner Join
+
+### Meaning
+
+Only matching records.
+
+```csharp
+var result = employees.Join(
+    departments,
+    e => e.DeptId,
+    d => d.Id,
+    (e, d) => new
+    {
+        e.Name,
+        Department = d.Name
+    });
+```
+
+📌 SQL:
+
+```sql
+SELECT e.Name, d.Name
+FROM Employees e
+INNER JOIN Departments d ON e.DeptId = d.Id;
+```
+
+---
+
+## 2️⃣ Left Join (VERY IMPORTANT)
+
+### Meaning
+
+All employees + matching departments (if any).
+
+### Query Syntax (recommended)
+
+```csharp
+var result =
+    from e in employees
+    join d in departments
+        on e.DeptId equals d.Id into temp
+    from d in temp.DefaultIfEmpty()
+    select new
+    {
+        e.Name,
+        Department = d?.Name
+    };
+```
+
+📌 Interview Favorite  
+✔ Tests understanding of `GroupJoin`  
+✔ Tests `DefaultIfEmpty`
+
+---
+
+## 3️⃣ Group Join
+
+### Meaning
+
+One-to-many relationship.
+
+```csharp
+var result = departments.GroupJoin(
+    employees,
+    d => d.Id,
+    e => e.DeptId,
+    (d, emps) => new
+    {
+        Department = d.Name,
+        Employees = emps.ToList()
+    });
+```
+
+📌 Used for hierarchical data.
+
+---
+
+## 4️⃣ Join with Multiple Keys (Advanced)
+
+```csharp
+var result = orders.Join(customers,
+    o => new { o.CustomerId, o.Country },
+    c => new { c.Id, c.Country },
+    (o, c) => new { o.OrderId, c.Name });
+```
+
+---
+
+# PART 3️⃣ — REAL PROJECT USE CASES WITH DAPPER + LINQ
+
+⚠️ **Golden Rule**
+
+> Use SQL for filtering & joining, LINQ for shaping & business logic.
+
+---
+
+## 1️⃣ Pagination (API Scenario)
+
+### SQL
+
+```sql
+SELECT * FROM Users
+ORDER BY Id
+LIMIT @Skip, @Take;
+```
+
+### LINQ Mapping
+
+```csharp
+var users = conn.Query<User>(sql, new { Skip = 20, Take = 10 })
+                .Select(u => new UserDto
+                {
+                    u.Id,
+                    u.Name
+                })
+                .ToList();
+```
+
+---
+
+## 2️⃣ Dashboard Aggregation
+
+### SQL (basic)
+
+```sql
+SELECT * FROM Orders;
+```
+
+### LINQ (complex logic)
+
+```csharp
+var summary = orders
+    .GroupBy(o => o.Status)
+    .Select(g => new
+    {
+        Status = g.Key,
+        TotalOrders = g.Count(),
+        Revenue = g.Sum(o => o.Amount)
+    });
+```
+
+---
+
+## 3️⃣ Role-based Filtering (Authorization)
+
+```csharp
+var allowedUsers = users
+    .Where(u => roles.Contains(u.Role))
+    .Select(u => new UserView
+    {
+        u.Id,
+        u.Name
+    });
+```
+
+---
+
+## 4️⃣ Lookup Optimization (Performance)
+
+```csharp
+var userLookup = users.ToDictionary(u => u.Id);
+
+var orderUsers = orders
+    .Select(o => userLookup[o.UserId]);
+```
+
+📌 Avoids nested LINQ loops.
+
+---
+
+# PART 4️⃣ — LINQ CODING INTERVIEW CHALLENGES (WITH SOLUTIONS)
+
+---
+
+## Challenge 1️⃣
+
+**Find duplicate elements**
+
+```csharp
+var duplicates = nums
+    .GroupBy(n => n)
+    .Where(g => g.Count() > 1)
+    .Select(g => g.Key);
+```
+
+---
+
+## Challenge 2️⃣
+
+**Second highest number**
+
+```csharp
+var secondMax = nums
+    .Distinct()
+    .OrderByDescending(n => n)
+    .Skip(1)
+    .First();
+```
+
+---
+
+## Challenge 3️⃣
+
+**Employees with no department**
+
+```csharp
+var result =
+    from e in employees
+    join d in departments
+        on e.DeptId equals d.Id into temp
+    from d in temp.DefaultIfEmpty()
+    where d == null
+    select e;
+```
+
+---
+
+## Challenge 4️⃣
+
+**Flatten nested collections**
+
+```csharp
+var allItems = orders.SelectMany(o => o.Items);
+```
+
+---
+
+## Challenge 5️⃣
+
+**Top customer by total purchase**
+
+```csharp
+var topCustomer = orders
+    .GroupBy(o => o.CustomerId)
+    .Select(g => new
+    {
+        CustomerId = g.Key,
+        Total = g.Sum(o => o.Amount)
+    })
+    .OrderByDescending(x => x.Total)
+    .First();
+```
+
+---
+
+# 🔚 FINAL INTERVIEW SUMMARY (MEMORIZE THIS)
+
+✔ GroupBy returns hierarchical data  
+✔ GroupJoin = one-to-many  
+✔ Left join uses `DefaultIfEmpty()`  
+✔ LINQ complements SQL, not replaces it  
+✔ Use LINQ for business logic, not heavy DB work  
+✔ Dapper + LINQ = performance + clarity
+
+---
