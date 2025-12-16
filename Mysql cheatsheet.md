@@ -3721,7 +3721,6 @@ This should be part of:
 Indexes transform data access from linear scanning into logarithmic searching by leveraging B-Tree structures. Features like covering indexes eliminate unnecessary table lookups, while selectivity and cardinality determine whether an index is effective. In real-world .NET + Dapper applications, indexing strategies must align with query patterns, joins, ordering, and pagination to achieve optimal performance.
 
 ---
-Perfect 👍  
 Below is **another completely separate, advanced topic**, written in a **senior / architect-level explanation style**, with **deep reasoning, internals, EXPLAIN-based tuning, and production patterns**.  
 No one-liners. Every concept is explained as you would **speak in an interview or design review**.
 
@@ -3745,7 +3744,7 @@ A **B-Tree index** is a **balanced tree structure** used by MySQL (InnoDB) for i
     
 - Supports:
     
-    - `=`
+    - ``=`
         
     - `<`, `>`
         
