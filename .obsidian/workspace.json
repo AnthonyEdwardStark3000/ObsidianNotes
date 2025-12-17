@@ -63,7 +63,8 @@
               "title": "Dotnet - Cheatsheet (Prep)"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -213,15 +214,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "710a72a408af2f52",
+  "active": "f0b926ef9d370fe8",
   "lastOpenFiles": [
+    "Dotnet - Harsha Interview deep preparation.md",
+    "Dotnet - Cheatsheet (Prep).md",
     "Mysql cheatsheet.md",
     "Mysql.md",
-    "Dotnet - Cheatsheet (Prep).md",
     "Untitled 1.base",
     "Untitled.base",
     "SQL  Data with Baraa.md",
-    "Dotnet - Harsha Interview deep preparation.md",
     "images/Pasted image 20251124224917.png",
     "Dotnet - Harsha.md",
     "images/Pasted image 20250916230630.png",
