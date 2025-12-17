@@ -23201,25 +23201,462 @@ Repository
 
 ---
 
-I’ve converted the entire transcript into **clean, structured, Obsidian-friendly, interview-ready notes** in the canvas.
+# Custom Exceptions in C# – Domain-Specific Error Handling (Obsidian Notes)
 
-### What this document gives you
+---
 
-- ✅ **Clear definitions** (Exception, custom exception, domain-specific exception)
+## 1. What is an Exception in C#?
+
+An **exception** is a runtime error that disrupts the normal flow of program execution.
+
+In C#, all exceptions ultimately derive from:
+
+```csharp
+System.Exception
+```
+
+Common built-in exceptions include:
+
+- `ArgumentException`
     
-- ✅ **Why custom exceptions are needed** in large-scale systems
+- `ArgumentNullException`
     
-- ✅ **What `: base()` means** (very common interview question)
+- `InvalidOperationException`
     
-- ✅ **Why Microsoft recommends exactly 3 constructors**
+- `NullReferenceException`
     
-- ✅ **Complete production-ready code samples**
+- `SqlException`
     
-- ✅ **Service-layer usage + ASP.NET Core middleware handling**
+
+These are **general-purpose exceptions**.
+
+---
+
+## 2. Why Custom Exceptions?
+
+### Problem with General Exceptions
+
+In large-scale applications:
+
+- Hundreds of services
     
-- ✅ **Execution flow explanation (request → middleware → service → exception)**
+- Thousands of methods
     
-- ✅ **Interview-ready summary paragraph**
+- Multiple parameters per method
+    
+
+If you throw only:
+
+```csharp
+throw new ArgumentException();
+```
+
+👉 When you see this in logs, you **cannot easily identify**:
+
+- Which module failed
+    
+- Which business rule failed
+    
+- Which table or entity was involved
+    
+
+---
+
+### Solution: Domain-Specific Custom Exceptions
+
+A **custom exception** represents a **specific business or domain error**.
+
+Examples:
+
+- `InvalidPersonIdException`
+    
+- `OrderAlreadyCompletedException`
+    
+- `InsufficientBalanceException`
+    
+- `DuplicateEmailException`
+    
+
+📌 When you see the exception type in logs, the cause is **self-explanatory**.
+
+---
+
+## 3. What is a Domain-Specific Exception?
+
+A **domain-specific exception**:
+
+- Represents a **business rule violation**
+    
+- Is meaningful in your application context
+    
+- Is more descriptive than system exceptions
+    
+
+### Example Domain
+
+**Person Management System**
+
+Business rule:
+
+> A person must exist before updating
+
+Violation:
+
+> PersonId does not exist
+
+Instead of:
+
+```csharp
+ArgumentException
+```
+
+Use:
+
+```csharp
+InvalidPersonIdException
+```
+
+---
+
+## 4. Inheritance Hierarchy of Exceptions
+
+```text
+System.Exception
+   ├── ArgumentException
+   │      ├── ArgumentNullException
+   │      └── InvalidPersonIdException (custom)
+   └── InvalidOperationException
+```
+
+📌 You can derive your custom exception from:
+
+- `Exception` (most generic)
+    
+- `ArgumentException` (invalid arguments)
+    
+- `InvalidOperationException` (invalid state)
+    
+- Any other built-in exception
+    
+
+---
+
+## 5. What does `: base()` Mean?
+
+### Example:
+
+```csharp
+public InvalidPersonIdException()
+    : base()
+{
+}
+```
+
+### Explanation:
+
+- `base()` calls the **constructor of the parent class** (`ArgumentException`)
+    
+- It ensures proper initialization of the base exception
+    
+- Equivalent to calling:
+    
+    ```csharp
+    ArgumentException()
+    ```
+    
+
+📌 Without calling `base()`, the parent exception may not be initialized correctly.
+
+---
+
+## 6. Microsoft Recommended Constructors (VERY IMPORTANT)
+
+Microsoft recommends **at least three constructors** for custom exceptions.
+
+### Why?
+
+Different scenarios require different initialization:
+
+- Sometimes only exception type matters
+    
+- Sometimes message matters
+    
+- Sometimes inner exception matters (exception chaining)
+    
+
+---
+
+## 7. Custom Exception – Complete Implementation
+
+### Example: `InvalidPersonIdException`
+
+```csharp
+using System;
+
+namespace Exceptions
+{
+    public class InvalidPersonIdException : ArgumentException
+    {
+        // 1️⃣ Parameter-less constructor
+        public InvalidPersonIdException()
+            : base()
+        {
+        }
+
+        // 2️⃣ Constructor with message
+        public InvalidPersonIdException(string message)
+            : base(message)
+        {
+        }
+
+        // 3️⃣ Constructor with message + inner exception
+        public InvalidPersonIdException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+    }
+}
+```
+
+---
+
+## 8. Purpose of Each Constructor
+
+### 1️⃣ Parameter-less Constructor
+
+```csharp
+throw new InvalidPersonIdException();
+```
+
+✔ Used when:
+
+- Exception type alone is sufficient
+    
+- Message is logged elsewhere
+    
+- You want a default behavior
+    
+
+---
+
+### 2️⃣ Constructor with Message
+
+```csharp
+throw new InvalidPersonIdException("Person ID does not exist");
+```
+
+✔ Used when:
+
+- You want a **clear error message**
+    
+- Message is user-facing or log-facing
+    
+
+---
+
+### 3️⃣ Constructor with Message + Inner Exception
+
+```csharp
+try
+{
+    // Database call
+}
+catch (SqlException ex)
+{
+    throw new InvalidPersonIdException(
+        "Failed while validating person ID",
+        ex
+    );
+}
+```
+
+✔ Used when:
+
+- One exception is caused by another
+    
+- You want **exception chaining**
+    
+- Very important for debugging production issues
+    
+
+📌 `InnerException` preserves the original root cause.
+
+---
+
+## 9. Why Create a Separate Exceptions Class Library?
+
+### Benefits
+
+✔ Reusable across layers  
+✔ Clean architecture  
+✔ No circular dependencies  
+✔ Shared between:
+
+- ASP.NET Core project
+    
+- Services layer
+    
+- Background jobs
+    
+
+---
+
+### Steps Recap
+
+1. Create **Class Library** (e.g., `Exceptions`)
+    
+2. Target same .NET version (e.g., .NET 6)
+    
+3. Add custom exception classes
+    
+4. Add project reference to:
+    
+    - Services project
+        
+    - Web (ASP.NET Core) project
+        
+
+---
+
+## 10. Using Custom Exception in Service Layer
+
+### Before (Bad Practice)
+
+```csharp
+if (person == null)
+{
+    throw new ArgumentException("Invalid person id");
+}
+```
+
+---
+
+### After (Best Practice)
+
+```csharp
+if (person == null)
+{
+    throw new InvalidPersonIdException("Given Person ID does not exist");
+}
+```
+
+✔ Clear  
+✔ Traceable  
+✔ Domain-driven
+
+---
+
+## 11. Exception Handling Middleware (ASP.NET Core)
+
+### Why Middleware?
+
+- Centralized exception handling
+    
+- Avoids try-catch everywhere
+    
+- Consistent error responses
+    
+
+---
+
+### Example Middleware
+
+```csharp
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var exceptionHandlerPathFeature =
+            context.Features.Get<IExceptionHandlerPathFeature>();
+
+        var ex = exceptionHandlerPathFeature?.Error;
+
+        if (ex is InvalidPersonIdException)
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsync(ex.Message);
+        }
+        else
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await context.Response.WriteAsync("An unexpected error occurred");
+        }
+    });
+});
+```
+
+---
+
+## 12. Execution Flow (High Level)
+
+```text
+Request
+ → Exception Handling Middleware
+ → Controller
+ → Service
+ → Repository
+ → ❌ Exception Thrown
+ → Middleware Catch
+ → Response Returned
+```
+
+📌 Exception bubbles up automatically until middleware catches it.
+
+---
+
+## 13. Why Not Use Try-Catch Everywhere?
+
+❌ Bad Practice:
+
+- Code duplication
+    
+- Hard to maintain
+    
+- Hides real issues
+    
+
+✔ Best Practice:
+
+- Throw exceptions where error occurs
+    
+- Handle them centrally (middleware)
+    
+
+---
+
+## 14. When Should You Create Custom Exceptions?
+
+Create custom exceptions when:
+
+- Business rules are violated
+    
+- Error has domain meaning
+    
+- Logs must be clear and searchable
+    
+- Application is medium to large scale
+    
+
+❌ Avoid custom exceptions for:
+
+- Simple null checks
+    
+- Very trivial errors
+    
+
+---
+
+## 15. Summary (Interview-Ready)
+
+> Custom exceptions in C# allow developers to represent domain-specific and scenario-specific errors instead of relying on generic system exceptions. They improve readability, debugging, logging, and maintainability in large-scale applications. Microsoft recommends implementing at least three constructors—parameter-less, message-only, and message-with-inner-exception—to support different error-handling scenarios. Custom exceptions are best handled centrally using ASP.NET Core exception-handling middleware.
+
+---
+
+## 16. Further Reading
+
+🔗 Microsoft Docs:  
+**Best Practices for Exceptions in C#**  
+(search this title on learn.microsoft.com)
 
 ---
 
