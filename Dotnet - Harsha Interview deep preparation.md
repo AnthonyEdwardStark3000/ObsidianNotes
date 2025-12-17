@@ -23199,7 +23199,10 @@ Service (business logs)
 Repository
 ```
 
-	---
+---
+
+I’ve converted the entire transcript into **clean, structured, Obsidian-friendly, interview-ready notes** in the canvas.
+
 ### What this document gives you
 
 - ✅ **Clear definitions** (Exception, custom exception, domain-specific exception)
