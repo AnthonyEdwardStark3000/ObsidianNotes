@@ -63,8 +63,7 @@
               "title": "Dotnet - Cheatsheet (Prep)"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -214,11 +213,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "f0b926ef9d370fe8",
+  "active": "710a72a408af2f52",
   "lastOpenFiles": [
+    "Mysql cheatsheet.md",
     "Dotnet - Harsha Interview deep preparation.md",
     "Dotnet - Cheatsheet (Prep).md",
-    "Mysql cheatsheet.md",
     "Mysql.md",
     "Untitled 1.base",
     "Untitled.base",
