@@ -24224,3 +24224,110 @@ Once injected, we can use it to drive environment-specific logic. For example, w
 > 
 > Use IWebHostEnvironment for web-related path information. If you are building a non-web app (like a Worker Service), use IHostEnvironment instead.
 
+# The `<environment>` Tag Helper in Razor Views
+
+In ASP.NET Core, the **Environment Tag Helper** allows you to conditionally render HTML content based on the application's current hosting environment. This is useful for loading debug-only scripts, showing staging tools, or hiding development-only UI in production.
+
+---
+
+## 🛠️ Step 1: Enable Tag Helpers
+
+Add this to `_ViewImports.cshtml`:
+
+```cshtml
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+```
+
+> [!important]  
+> Without this line, the `<environment>` tag is treated as plain HTML and performs **no server‑side logic**.
+
+---
+
+## 📋 `include`, `names`, and `exclude`
+
+### ✔️ `include` / `names`
+
+Render content **only** in the listed environments.
+
+```cshtml
+<environment include="Development">
+    <div class="alert alert-info">
+        <strong>Dev Mode:</strong> Migrations/log viewers enabled.
+        <button class="btn-blue-back">Run Migration</button>
+    </div>
+</environment>
+```
+
+> Tip: `names` is just an alias for `include`.
+
+### 🚫 `exclude`
+
+Render content **only when the current environment is NOT** one of the listed values.
+
+```cshtml
+<environment exclude="Development">
+    <button class="btn-green-back">Report a Runtime Issue</button>
+</environment>
+```
+
+---
+
+## 💻 Environment‑Specific UI Example
+
+```cshtml
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <h1>Welcome to the App</h1>
+
+    <environment include="Development">
+        <section style="border:2px dashed blue; padding:10px;">
+            <h3>🛠 Developer Tools</h3>
+            <p>You are seeing this because ASPNETCORE_ENVIRONMENT is 'Development'.</p>
+            <button class="button blue-back">View System Logs</button>
+        </section>
+    </environment>
+
+    <environment include="Staging,Production">
+        <section style="border:2px solid green; padding:10px;">
+            <h3>✅ Official Release</h3>
+            <p>Welcome to the stable version of our application.</p>
+            <button class="button green-back">Contact Support</button>
+        </section>
+    </environment>
+</div>
+```
+
+---
+
+## 🔍 Key Behavior Notes
+
+- You can target multiple values: `include="Development,Staging"`.
+    
+- Case‑insensitive (`Development` == `development`).
+    
+- Content excluded server‑side is **never sent to the browser**.
+    
+- Changing `ASPNETCORE_ENVIRONMENT` requires an app restart.
+    
+
+---
+
+## 🎓 Interview‑Ready Answer
+
+> The Environment Tag Helper conditionally renders Razor content based on `IWebHostEnvironment.EnvironmentName`. We commonly use `include`/`exclude` to load unminified assets in Development and optimized CDN assets in Production — without changing code between deployments.
+
+---
+
+## 📝 Quick Reference (Obsidian‑Friendly)
+
+|Attribute|Behavior|Use For|
+|---|---|---|
+|**`include`**|Render only when a match exists|Debug tools, dev‑only UI|
+|**`exclude`**|Render when no match exists|Hide dev banners from users|
+|**`names`**|Alias for `include`|General environment targeting|
+
+---
+
