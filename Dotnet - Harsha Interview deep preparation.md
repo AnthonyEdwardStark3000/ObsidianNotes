@@ -24331,3 +24331,119 @@ Render content **only when the current environment is NOT** one of the listed va
 
 ---
 
+# Process-Level Environments (Non-Development Servers)
+
+In local development, we rely on `launchSettings.json` to manage environment variables. However, **`launchSettings.json` is only for development.** When you deploy your application to a Staging or Production server, this file is not used.
+
+Instead, you must set the environment at the **Operating System** or **Process** level.
+
+---
+
+## 🚀 Running Without `launchSettings.json`
+
+When you run an application on a server using the .NET CLI, the application defaults to **Production** if no other environment is specified.
+
+### Using the `--no-launch-profile` Flag
+
+To simulate a server environment on your machine (ignoring your local settings), use this command in your terminal:
+
+PowerShell
+
+```
+dotnet run --no-launch-profile
+```
+
+- **Default Port:** The app will typically run on `http://localhost:5000`.
+    
+- **Default Environment:** ASP.NET Core will default to `Production`.
+    
+
+---
+
+## 🔐 Setting Process-Level Variables
+
+A "Process-Level" environment variable is one that exists only within the lifetime of that specific terminal window (PowerShell or Command Prompt). This is highly secure because it doesn't affect the entire system or other applications.
+
+### 1. Using Windows PowerShell (Recommended)
+
+In PowerShell, variables are accessed via the `$Env:` scope.
+
+**To set the environment to Staging:**
+
+PowerShell
+
+```
+$Env:ASPNETCORE_ENVIRONMENT = "Staging"
+```
+
+**To verify and run:**
+
+PowerShell
+
+```
+# 1. Set the variable
+$Env:ASPNETCORE_ENVIRONMENT = "Staging"
+
+# 2. Run the app without development profiles
+dotnet run --no-launch-profile
+```
+
+### 2. Using Standard Command Prompt (CMD)
+
+If you are using the traditional Windows CMD, the syntax is slightly different:
+
+DOS
+
+```
+set ASPNETCORE_ENVIRONMENT=Staging
+dotnet run --no-launch-profile
+```
+
+---
+
+## 📁 Summary of Environment Variable Syntax
+
+|**Tool**|**Command**|**Example**|
+|---|---|---|
+|**PowerShell**|`$Env:Key = "Value"`|`$Env:ASPNETCORE_ENVIRONMENT = "Production"`|
+|**Windows CMD**|`set Key=Value`|`set ASPNETCORE_ENVIRONMENT=Production`|
+|**Linux/Bash**|`export Key=Value`|`export ASPNETCORE_ENVIRONMENT=Production`|
+
+---
+
+## 🔍 Why is this used on Servers?
+
+On a production server (like a Windows Server with IIS or a Linux Server with Nginx), you don't have Visual Studio. Your deployment process usually follows these steps:
+
+1. **Publish** the app to a folder.
+    
+2. **Set** the environment variable on the server (via System Properties or a Startup Script).
+    
+3. **Execute** the compiled `.dll` using the `dotnet` command.
+    
+
+---
+
+## 🎓 Interview Friendly Explanation
+
+**Question:** _How do you configure the environment name on a production server where `launchSettings.json` isn't available?_
+
+Answer:
+
+"launchSettings.json is a development-time tool only. On a staging or production server, we set the environment variable at the Operating System level or the Process level. For a Windows-based server using PowerShell, we use the $Env:ASPNETCORE_ENVIRONMENT = "Production" command before starting the host. This ensures the application knows its context (Production) and correctly selects the right appsettings.json file and security middleware. In a professional CI/CD pipeline, these variables are often injected automatically by the deployment agent (like Azure DevOps or GitHub Actions) so that no manual configuration is needed on the server itself."
+
+---
+
+## 📝 Obsidian Notes
+
+- **Topic:** Process-Level Environment Configuration
+    
+- **Key Command:** `dotnet run --no-launch-profile`
+    
+- **Variable Name:** `ASPNETCORE_ENVIRONMENT` (Note the "CORE" in the middle; omitting it is a common mistake).
+    
+
+> [!WARNING]
+> 
+> Common Error: If you set $Env:ASPNET_ENVIRONMENT (missing "CORE"), the framework will ignore it and default to Production. Always double-check the spelling!
+
