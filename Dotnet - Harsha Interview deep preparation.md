@@ -23869,15 +23869,6 @@ var app = builder.Build();
 ```
 
 ---
-
-### 💡 Pro Tips for Obsidian
-
-- **Don't check secrets into Git:** Use `appsettings.json` for structure, but use **User Secrets** for local development passwords and **Environment Variables** (or Azure Key Vault) for production secrets.
-    
-- **Visual Distinction:** In Obsidian, you can use the `==highlighting==` feature to mark which file you are currently editing in your notes.
-    
-
----
 ## Custom Environments in ASP.NET Core
 
 While `Development`, `Staging`, and `Production` are the standard defaults, ASP.NET Core allows you to define any environment name you wish (e.g., `QA`, `UAT`, `IntegrationTesting`). This is useful when your deployment pipeline has more stages than the standard three.
