@@ -24111,3 +24111,115 @@ In the `Program.cs` file, we use the `IWebHostEnvironment` interface to conditio
 * **Case Sensitivity:** Note that while the variable is usually PascalCase (`Development`), the check is **case-insensitive**.
 * **Overriding:** If you set both `DOTNET_ENVIRONMENT` and `ASPNETCORE_ENVIRONMENT`, the ASP.NET Core version is read last and **overrides** the generic .NET one.
 
+# Accessing Environments in Controllers and Services
+
+While `Program.cs` is the primary place to configure the application's pipeline based on the environment, you often need to access the environment name within your **Business Logic** (Controllers or Services). In ASP.NET Core, this is achieved through **Dependency Injection (DI)** using the `IWebHostEnvironment` interface.
+
+---
+
+## 💉 Injecting `IWebHostEnvironment`
+
+ASP.NET Core automatically registers `IWebHostEnvironment` in the built-in DI container. You can inject it into any class's constructor.
+
+### Implementation in a Controller
+
+C#
+
+```
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting; // Required for IWebHostEnvironment
+
+public class HomeController : Controller
+{
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    // 1. Inject the service via the constructor
+    public HomeController(IWebHostEnvironment webHostEnvironment)
+    {
+        _webHostEnvironment = webHostEnvironment;
+    }
+
+    public IActionResult Index()
+    {
+        // 2. Access properties or helper methods
+        ViewBag.CurrentEnvironment = _webHostEnvironment.EnvironmentName;
+        
+        // 3. Conditional Logic based on environment
+        if (_webHostEnvironment.IsDevelopment())
+        {
+            ViewBag.Message = "You are running in Debug mode. Additional logs are enabled.";
+        }
+        else if (_webHostEnvironment.IsEnvironment("Beta"))
+        {
+            ViewBag.Message = "Welcome to our Beta Testing portal!";
+        }
+
+        return View();
+    }
+}
+```
+
+### Displaying in the View (`Index.cshtml`)
+
+HTML
+
+```
+<div class="container">
+    <h2>Environment Details</h2>
+    <p>The current system environment is: <strong>@ViewBag.CurrentEnvironment</strong></p>
+    <p>System Note: @ViewBag.Message</p>
+</div>
+```
+
+---
+
+## 🔍 Key Members of `IWebHostEnvironment`
+
+When you have an instance of this service, you have access to the following:
+
+|**Member**|**Type**|**Description**|
+|---|---|---|
+|`EnvironmentName`|Property (string)|Returns the exact string set in `ASPNETCORE_ENVIRONMENT`.|
+|`ContentRootPath`|Property (string)|Returns the absolute path to the application's root folder.|
+|`IsDevelopment()`|Extension Method|Returns `true` if the environment is "Development".|
+|`IsStaging()`|Extension Method|Returns `true` if the environment is "Staging".|
+|`IsProduction()`|Extension Method|Returns `true` if the environment is "Production".|
+|`IsEnvironment("name")`|Extension Method|Returns `true` if the environment matches a **custom** name (e.g., "Beta").|
+
+---
+
+## ⚠️ Important Note: Application Restart
+
+When you change the environment variable in `launchSettings.json`, the changes **do not apply instantly** if the app is already running.
+
+- You must **stop** the application (close the Kestrel console window or stop debugging in Visual Studio).
+    
+- **Restart** the application to allow the host to reload the new environment settings.
+    
+
+---
+
+## 🎓 Interview Friendly Explanation
+
+**Question:** _How do you access environment information inside a Controller or a Custom Service?_
+
+Answer:
+
+"To access environment details programmatically outside of Program.cs, we use Constructor Injection to request the IWebHostEnvironment interface. This interface is part of the Microsoft.AspNetCore.Hosting namespace and is registered by default by the framework.
+
+Once injected, we can use it to drive environment-specific logic. For example, we might only want to trigger certain third-party logging SDKs or connect to a mock payment gateway if `_env.IsDevelopment()` or `_env.IsEnvironment("QA")` is true. It also provides the `ContentRootPath`, which is essential if the service needs to locate physical files on the server relative to the application's root."
+
+---
+
+## 📝 Obsidian Notes Tagging & Organization
+
+- **Path:** `Core/Environment/Injection`
+    
+- **Tags:** #dotnet #aspnetcore #dependency-injection #environments
+    
+- **Related:** [[launchSettings.json]], [[Program.cs Configuration]]
+    
+
+> [!TIP]
+> 
+> Use IWebHostEnvironment for web-related path information. If you are building a non-web app (like a Worker Service), use IHostEnvironment instead.
