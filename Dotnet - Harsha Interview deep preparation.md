@@ -25548,3 +25548,237 @@ services.AddTransient<IEmailService, EmailService>();
 > When a long-lived service (Singleton) depends on a shorter-lived service (Scoped/Transient), causing lifetime conflicts.
 
 ---
+Great — let’s make **Single Responsibility Principle (SRP)** crystal clear using **simple, real-world C# examples** (like you’d see in Web API).
+
+You can paste this into **Obsidian** — formatted as notes 👇
+
+---
+
+# 🧩 Single Responsibility Principle (SRP)
+
+> **A class should have only one reason to change.**  
+> Each class should handle **only one responsibility**.
+
+---
+
+## ❌ Bad Example — One Class Doing Everything
+
+This class:
+
+- Validates input
+    
+- Reads configuration
+    
+- Saves data
+    
+- Logs messages
+    
+
+👉 **Too many responsibilities.**
+
+```csharp
+public class UserManager
+{
+    public void CreateUser(User user)
+    {
+        // Validate user
+        if (string.IsNullOrEmpty(user.Email))
+            throw new Exception("Email is required");
+
+        // Read config
+        var connectionString = File.ReadAllText("appsettings.json");
+
+        // Save to DB (fake)
+        Console.WriteLine("Saving user to DB...");
+
+        // Log
+        File.WriteAllText("log.txt", "User created");
+    }
+}
+```
+
+### 🚨 Problems
+
+- Hard to maintain
+    
+- Hard to test
+    
+- Small change breaks multiple areas
+    
+- No separation of concerns
+    
+
+---
+
+## ✅ Good Example — Split Responsibilities
+
+### 1️⃣ Validation Class
+
+```csharp
+public class UserValidator
+{
+    public void Validate(User user)
+    {
+        if (string.IsNullOrEmpty(user.Email))
+            throw new Exception("Email is required");
+    }
+}
+```
+
+---
+
+### 2️⃣ Configuration Reader
+
+```csharp
+public class ConfigReader
+{
+    public string GetConnectionString()
+    {
+        return File.ReadAllText("appsettings.json");
+    }
+}
+```
+
+---
+
+### 3️⃣ Repository (Data Access)
+
+```csharp
+public class UserRepository
+{
+    public void Save(User user)
+    {
+        Console.WriteLine("Saving user to DB...");
+    }
+}
+```
+
+---
+
+### 4️⃣ Logger
+
+```csharp
+public class AppLogger
+{
+    public void Log(string message)
+    {
+        Console.WriteLine(message);
+    }
+}
+```
+
+---
+
+### 5️⃣ Service (Business Logic Only)
+
+```csharp
+public class UserService
+{
+    private readonly UserValidator _validator;
+    private readonly UserRepository _repository;
+    private readonly AppLogger _logger;
+
+    public UserService(
+        UserValidator validator,
+        UserRepository repository,
+        AppLogger logger)
+    {
+        _validator = validator;
+        _repository = repository;
+        _logger = logger;
+    }
+
+    public void CreateUser(User user)
+    {
+        _validator.Validate(user);
+        _repository.Save(user);
+        _logger.Log("User created successfully");
+    }
+}
+```
+
+👉 Notice:
+
+- Service = **business rules only**
+    
+- No database logic
+    
+- No validation logic
+    
+- No logging implementation
+    
+
+SRP achieved 🎯
+
+---
+
+## 📌 SRP in Real Web API
+
+```csharp
+[ApiController]
+[Route("api/users")]
+public class UsersController : ControllerBase
+{
+    private readonly UserService _service;
+
+    public UsersController(UserService service)
+    {
+        _service = service;
+    }
+
+    [HttpPost]
+    public IActionResult Create(User user)
+    {
+        _service.CreateUser(user);
+        return Ok();
+    }
+}
+```
+
+Controller does:
+
+✔ Handle HTTP request
+
+Service does:
+
+✔ Business logic only
+
+Other classes handle:
+
+✔ Validation  
+✔ Logging  
+✔ Data access
+
+---
+
+## 🎯 Quick Diagram (Conceptually)
+
+```
+Controller  ──► Service (Business Logic)
+                    ├── Validator
+                    ├── Repository
+                    └── Logger
+```
+
+---
+
+## 🤔 Key Takeaways
+
+|Good Practice|Bad Practice|
+|---|---|
+|One responsibility per class|One class doing everything|
+|Easier testing|Changes break many features|
+|Clear responsibilities|Hard to understand|
+|Reusable components|Tight coupling|
+
+---
+
+## 🎤 Interview-Ready Answer
+
+> **Single Responsibility Principle means each class should have only one reason to change.**
+> 
+> For example, instead of one service handling validation, logging, and data access,  
+> we split them into separate classes.  
+> This makes code easier to maintain, test, and extend.
+
+---
