@@ -23658,10 +23658,6 @@ Create custom exceptions when:
 (search this title on learn.microsoft.com)
 
 ---
-Below are **Obsidian-friendly, interview-ready, professional notes** covering **all concepts** from your transcript.  
-They are written in **clean Markdown**, use **definitions, examples, diagrams (textual), and code**, and are suitable for **revision + interviews**.
-
----
 
 # 🌐 ASP.NET Core Error Handling
 
@@ -24148,19 +24144,6 @@ Custom middleware provides full control (logging, response shaping), while `UseE
     
 
 ---
-
-If you want, I can also provide:
-
-- 🔖 **One-page revision cheat sheet**
-    
-- 🧪 **Complete working sample project**
-    
-- 🎯 **MCQs + scenario-based interview questions**
-    
-- 🧠 **Comparison with filters (`IExceptionFilter`)**
-    
-
-Just tell me 👍
 # ASP.NET Core Environments
 
 An **Environment** in ASP.NET Core represents the specific system or context in which your application is currently running. Managing environments allows you to change the behavior of your application (like error reporting or database connections) depending on whether you are writing code or shipping it to customers.
