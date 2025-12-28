@@ -25292,3 +25292,259 @@ They turn **rigid, fragile code** into **structured, adaptable systems**.
 
 ---
 
+Awesome follow-up — this topic is **very important in real-world ASP.NET Core** and it’s a common interview question.  
+Below is a **clear Obsidian-style note** (Markdown), with **definitions, diagrams, and code examples**.
+
+You can paste it directly into Obsidian 👍
+
+---
+
+# 🔌 Dependency Injection — Lifetimes & Captive Dependency
+
+## 🎯 Goal
+
+Understand:
+
+- `Transient`, `Scoped`, `Singleton`
+    
+- When to choose each
+    
+- What a **Captive Dependency** is
+    
+- How to avoid it
+    
+
+---
+
+# 🧩 Service Lifetimes (Definitions + Examples)
+
+## 1️⃣ Transient
+
+> **A new instance is created every time it is requested.**
+
+✔ Best for **lightweight, stateless** services.
+
+```csharp
+services.AddTransient<IGuidService, GuidService>();
+
+public class GuidService : IGuidService
+{
+    public Guid Id { get; } = Guid.NewGuid();
+}
+```
+
+Every controller call gets **different objects**.
+
+---
+
+## 2️⃣ Scoped
+
+> **One instance per HTTP request (per scope).**
+
+✔ Best for **database operations, unit of work, services tied to the request**
+
+```csharp
+services.AddScoped<IUserService, UserService>();
+```
+
+During one API call:
+
+- All classes using `IUserService` share **the same instance**
+    
+- Next request → new instance
+    
+
+---
+
+## 3️⃣ Singleton
+
+> **A single instance for the entire application lifetime.**
+
+✔ Best for **stateless shared services** such as:
+
+- Caching
+    
+- Configuration providers
+    
+- Background scheduler services
+    
+
+```csharp
+services.AddSingleton<ILogService, LogService>();
+```
+
+⚠️ Singleton objects:
+
+- Stay alive **until app shutdown**
+    
+- Must be **thread-safe**
+    
+- Should NOT access per-request data
+    
+
+---
+
+# 🏗️ Visual Overview
+
+```mermaid
+graph TD
+A[Transient] -->|New every time| X
+B[Scoped] -->|One per request| Y
+C[Singleton] -->|One for app lifetime| Z
+```
+
+---
+
+# 🤔 When Do I Choose Scoped Over Singleton?
+
+### ❌ Avoid Singleton when:
+
+- The service **depends on DbContext**
+    
+- The service holds **user-specific data**
+    
+- The service changes per request
+    
+
+### ✅ Use Scoped instead when:
+
+- You need consistency **within one API call**
+    
+- You use `DbContext`
+    
+- You implement business logic tied to the request
+    
+
+Example (Correct):
+
+```csharp
+services.AddScoped<IOrderService, OrderService>();
+services.AddScoped<AppDbContext>();
+```
+
+Because:
+
+- `DbContext` is scoped
+    
+- `OrderService` should share same DB context per request
+    
+
+---
+
+# 🧨 Captive Dependency (Very Important)
+
+> A **captive dependency** happens when a longer-lifetime service depends on a shorter-lifetime service.
+
+### ❌ Bad Example
+
+Singleton service depending on Scoped service:
+
+```csharp
+services.AddSingleton<ReportService>();
+services.AddScoped<AppDbContext>();
+```
+
+```csharp
+public class ReportService
+{
+    private readonly AppDbContext _db;
+
+    public ReportService(AppDbContext db)
+    {
+        _db = db;
+    }
+}
+```
+
+### 🚨 Problem:
+
+- Singleton lives forever
+    
+- Scoped DbContext lives only one request
+    
+- After the request ends, the DbContext becomes **invalid**
+    
+
+This causes:
+
+- Random runtime errors
+    
+- Data leaks
+    
+- Threading issues
+    
+- Weird bugs
+    
+
+---
+
+# ✅ Fix: Match lifetimes OR depend on abstractions
+
+### Option 1 — Make both Scoped
+
+```csharp
+services.AddScoped<ReportService>();
+```
+
+### Option 2 — Move dynamic logic out of Singleton
+
+Singleton should depend only on:
+
+- caching
+    
+- logging
+    
+- configuration
+    
+- stateless helpers
+    
+
+---
+
+# 🎯 Simple Rule to Remember
+
+```
+Singleton  ➜ can depend ONLY on Singleton
+Scoped     ➜ can depend on Scoped or Singleton
+Transient  ➜ can depend on anything
+```
+
+---
+
+# 📌 Example: Correct Lifetime Usage
+
+```csharp
+services.AddSingleton<ICacheService, CacheService>();
+services.AddScoped<IOrderService, OrderService>();
+services.AddTransient<IEmailService, EmailService>();
+```
+
+✔ Cache shared globally  
+✔ Order logic scoped to request  
+✔ Email created when needed
+
+---
+
+# 🧪 Quick Interview Answers
+
+### What is Transient?
+
+> Creates a new instance every time it is requested.
+
+### What is Scoped?
+
+> One instance per HTTP request.
+
+### What is Singleton?
+
+> One instance for whole application lifetime.
+
+### When choose Scoped instead of Singleton?
+
+> Whenever the service deals with **request-specific data** (like DbContext, user session, etc.)
+
+### What is Captive Dependency?
+
+> When a long-lived service (Singleton) depends on a shorter-lived service (Scoped/Transient), causing lifetime conflicts.
+
+---
