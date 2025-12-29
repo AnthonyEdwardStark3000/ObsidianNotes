@@ -26344,3 +26344,4 @@ We **extended** the system safely — that’s OCP.
 
 ---
 
+![[Pasted image 20251229215404.png]]
