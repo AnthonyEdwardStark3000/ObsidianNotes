@@ -26803,3 +26803,168 @@ Works — but there is a risk:
 > **Inheritance = careful extension**
 
 ---
+Great — let’s clean this up and make it **simple, professional, and interview-ready**.
+
+We’ll cover:
+
+1️⃣ **Clear definition (interview answer)**  
+2️⃣ **Easy explanation**  
+3️⃣ **Bad example (violates LSP)**  
+4️⃣ **Correct example (follows LSP)**
+
+---
+
+# ✅ 1. Liskov Substitution Principle — Interview-Ready Definition
+
+> **Liskov Substitution Principle (LSP)** says:
+> 
+> _Objects of a child class should be replaceable for objects of the parent class **without changing the behavior of the program.**_
+> 
+> A derived class must **not**
+> 
+> - change expected behavior,
+>     
+> - return different results for the same inputs,
+>     
+> - add stricter rules,
+>     
+> - or throw new exceptions that the base class didn’t promise.
+>     
+
+If replacing a base class object with a derived object **breaks the application or changes logic**, the design **violates LSP**.
+
+---
+
+# 🧠 2. Simple Explanation
+
+Think of it like this:
+
+If code is written to work with:
+
+```csharp
+Shape shape = new Rectangle();
+```
+
+It should also work the same if we replace it with:
+
+```csharp
+Shape shape = new Square();
+```
+
+without surprising results.
+
+LSP prevents subclasses from **changing expected behavior**.
+
+---
+
+# ❌ 3. Example that VIOLATES LSP
+
+### Base class
+
+```csharp
+public class Calculator
+{
+    public virtual int Add(int a, int b)
+    {
+        return a + b;
+    }
+}
+```
+
+### Child class (WRONG)
+
+```csharp
+public class WeirdCalculator : Calculator
+{
+    public override int Add(int a, int b)
+    {
+        if (a < 0 || b < 0)
+            throw new ArgumentException("Negative numbers not allowed");
+
+        return a * b;   // returns multiplication instead of addition
+    }
+}
+```
+
+### Why this violates LSP?
+
+|Rule|What happened|
+|---|---|
+|Same input → same result|❌ returns multiplication instead of addition|
+|No unexpected exceptions|❌ throws extra exception|
+|Behavior consistent|❌ totally different behavior|
+
+Code written like this:
+
+```csharp
+Calculator calc = new WeirdCalculator();
+calc.Add(2, 3);
+```
+
+should still behave _like a calculator that adds_ — but it does not.
+
+So the subclass cannot safely substitute the base class.
+
+---
+
+# ✅ 4. Example that FOLLOWS LSP
+
+Let’s fix it.
+
+### Base class
+
+```csharp
+public class Calculator
+{
+    public virtual int Add(int a, int b)
+    {
+        return a + b;
+    }
+}
+```
+
+### Correct child class
+
+```csharp
+public class LoggingCalculator : Calculator
+{
+    public override int Add(int a, int b)
+    {
+        Console.WriteLine($"Adding {a} and {b}");
+        return base.Add(a, b);   // SAME behavior, only extended
+    }
+}
+```
+
+Now:
+
+```csharp
+Calculator calc = new LoggingCalculator();
+calc.Add(2, 3);   // Works exactly the same + logs info
+```
+
+We **extended**, but did not change behavior.
+
+That is LSP.
+
+---
+
+# 🏁 Practical Rule of Thumb
+
+A subclass must:
+
+✔ work everywhere its parent is expected  
+✔ not surprise other parts of the system  
+✔ not restrict inputs more than parent  
+✔ not add unexpected exceptions  
+✔ not change meaning of existing methods
+
+---
+
+# 🎤 Interview-Ready Answer
+
+> _“Liskov Substitution Principle states that a derived class must be fully substitutable for its base class without changing the behavior of the program.  
+> If the child class changes return values, adds stricter rules, or throws new exceptions, it breaks LSP.  
+> The goal is that code using the base type should work the same when a subclass is passed.”_
+
+---
