@@ -26473,3 +26473,175 @@ That’s why inheritance must be used carefully.
 
 ---
 
+Great follow-up — this is exactly the right question to ask 👍
+
+Let’s answer it **clearly, professionally, and interview-ready**.
+
+---
+
+# ✅ Short Answer (What to say in interviews)
+
+> **Using interfaces (composition) is usually better than inheritance for the Open/Closed Principle.**  
+> Interfaces allow adding new behavior without tightly coupling classes, while inheritance can easily introduce bugs and violate Liskov Substitution Principle.  
+> Inheritance should only be used when extending behavior within a natural “is-a” relationship.
+
+That’s the polished interview version — now let’s understand _why_.
+
+---
+
+# 🥇 1️⃣ OCP with Interface (Preferred — BEST PRACTICE)
+
+### ✔ Definition
+
+> We extend behavior by **adding new classes that implement an interface**, instead of modifying existing ones.
+
+This keeps classes **independent, testable, replaceable**, and avoids breaking existing code.
+
+---
+
+### 📌 Example: Payment Processing (real-world)
+
+We start with an interface:
+
+```csharp
+public interface IPaymentProcessor
+{
+    void Pay(decimal amount);
+}
+```
+
+First implementation:
+
+```csharp
+public class CreditCardPayment : IPaymentProcessor
+{
+    public void Pay(decimal amount)
+    {
+        Console.WriteLine("Paid using Credit Card");
+    }
+}
+```
+
+Later business requirement:
+
+> “Add UPI / PayPal / Wallet payments.”
+
+We **do NOT modify** existing code.  
+We just **add new classes**:
+
+```csharp
+public class UpiPayment : IPaymentProcessor
+{
+    public void Pay(decimal amount)
+    {
+        Console.WriteLine("Paid using UPI");
+    }
+}
+}
+```
+
+```csharp
+public class PayPalPayment : IPaymentProcessor
+{
+    public void Pay(decimal amount)
+    {
+        Console.WriteLine("Paid using PayPal");
+    }
+}
+```
+
+Client code remains unchanged:
+
+```csharp
+IPaymentProcessor processor = new PayPalPayment();
+processor.Pay(1000);
+```
+
+📌 **Existing code untouched.**  
+📌 **New behavior added safely.**
+
+➡ **This is ideal Open/Closed Principle.**
+
+---
+
+# 🥈 2️⃣ OCP with Inheritance (Works — but riskier)
+
+### ✔ Definition
+
+> We extend behavior by **creating a child class** and overriding specific methods.
+
+---
+
+### 📌 Example: Report Generation
+
+Base class:
+
+```csharp
+public class ReportService
+{
+    public virtual void GenerateReport()
+    {
+        Console.WriteLine("Generating FULL report...");
+    }
+}
+```
+
+New requirement: “Generate a compact report.”
+
+Instead of changing existing method, we extend:
+
+```csharp
+public class CompactReportService : ReportService
+{
+    public override void GenerateReport()
+    {
+        Console.WriteLine("Generating COMPACT report...");
+    }
+}
+```
+
+Client:
+
+```csharp
+ReportService service = new CompactReportService();
+service.GenerateReport();
+```
+
+Works — but there is a risk:
+
+❗ If behavior changes too much  
+❗ If child breaks expectations  
+❗ If base class wasn’t designed for extension
+
+➡ We **may violate Liskov Substitution Principle** and introduce bugs.
+
+---
+
+# ⚖️ Final Comparison (Interview Table)
+
+|Criteria|**Interfaces (BEST)**|**Inheritance**|
+|---|---|---|
+|Coupling|Loose|Tight|
+|Risk of breaking base class|Very low|High|
+|Supports multiple behaviors|Excellent|Limited|
+|Supports testing / mocking|Excellent|Harder|
+|LSP issues|Rare|Common|
+|Real-world recommendation|⭐ Preferred|Use carefully|
+
+---
+
+# 🎤 Interview-Ready Answer
+
+> **Both interfaces and inheritance can be used to implement the Open/Closed Principle, but interfaces are generally the better choice.**  
+> With interfaces, we extend functionality by adding new classes without touching existing ones, which keeps the design decoupled, testable, and easier to maintain.  
+> Inheritance can achieve OCP as well, but it tightly couples the child to the parent and may violate Liskov Substitution Principle if the behavior changes unexpectedly.  
+> So in real-world projects, I prefer **OCP through interfaces and composition**, and use inheritance only when there is a clear “is-a” relationship and the base class is intentionally designed for extension.
+
+---
+
+# 👍 Quick memory line
+
+> **Interfaces = safer extension**  
+> **Inheritance = careful extension**
+
+---
