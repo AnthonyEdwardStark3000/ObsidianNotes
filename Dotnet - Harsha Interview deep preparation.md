@@ -26345,3 +26345,131 @@ We **extended** the system safely — that’s OCP.
 ---
 
 ![[Pasted image 20251229215404.png]]
+
+---
+
+# ✅ 1️⃣ Definition — OCP with Inheritance (Interview-Ready)
+
+> **Open/Closed Principle (OCP)** says a class should be **open for extension but closed for modification**.  
+> With inheritance, we _extend_ an existing class by creating a **derived class** and **overriding behavior**, instead of modifying the original class.
+
+This allows us to add new functionality **without touching already-tested code**.
+
+---
+
+# 📦 2️⃣ When do we use inheritance for OCP?
+
+Use inheritance when:
+
+✔ the base class already contains reusable logic  
+✔ you only need to change _one or two behaviors_  
+✔ you want to override a specific method
+
+Prefer **interfaces + composition first**, but inheritance is useful when extending behavior safely.
+
+---
+
+# ❌ Problem (Violates OCP)
+
+We have a report generator that exports full Excel data:
+
+```csharp
+public class ReportService
+{
+    public virtual byte[] GenerateExcel()
+    {
+        // Generates detailed Excel with ALL columns
+    }
+}
+```
+
+Business change:
+
+> “We want another Excel version with fewer columns.”
+
+A bad developer would modify the method directly.  
+That risks breaking existing reports.
+
+---
+
+# ✅ 3️⃣ OCP Using Inheritance
+
+### Step 1: Mark method as `virtual`
+
+```csharp
+public class ReportService
+{
+    public virtual byte[] GenerateExcel()
+    {
+        // Original full report
+        Console.WriteLine("Generating FULL report...");
+        return Array.Empty<byte>();
+    }
+}
+```
+
+### Step 2: Create a derived class and override only what changed
+
+```csharp
+public class CompactReportService : ReportService
+{
+    public override byte[] GenerateExcel()
+    {
+        Console.WriteLine("Generating COMPACT report (few columns)...");
+        return Array.Empty<byte>();
+    }
+}
+```
+
+### Step 3: Use the new implementation without modifying the original
+
+```csharp
+ReportService service = new CompactReportService();
+service.GenerateExcel();
+```
+
+Existing features remain safe.  
+New functionality is added **by extension**.
+
+---
+
+# 🎙️ 4️⃣ Interview-Ready Explanation (Short + Strong)
+
+### Q1: **Explain OCP using inheritance**
+
+> We keep the original class closed to modification and create a derived class to override only the parts we need.  
+> This allows new behavior without rewriting tested code.
+
+---
+
+### Q2: **Why not always use inheritance for OCP?**
+
+> Inheritance can create tight coupling and may violate the Liskov Substitution Principle if the child behaves differently than expected.  
+> That’s why interfaces and composition are usually preferred unless inheritance is clearly appropriate.
+
+---
+
+### Q3: **When is OCP with inheritance appropriate?**
+
+> When you want to reuse most of the base class behavior and only customize a specific method, such as formatting, exporting, or calculation logic.
+
+---
+
+# ⚠️ 5️⃣ Important Warning — LSP Risk
+
+If the child class **changes expected behavior**, you break LSP:
+
+❌ throwing exceptions unexpectedly  
+❌ changing method meaning  
+❌ removing functionality clients rely on
+
+That’s why inheritance must be used carefully.
+
+---
+
+# 🧠 6️⃣ Simple Memory Line
+
+> **Inheritance + override = extend behavior without changing original class.**
+
+---
+
