@@ -26473,12 +26473,6 @@ That’s why inheritance must be used carefully.
 
 ---
 
-Great follow-up — this is exactly the right question to ask 👍
-
-Let’s answer it **clearly, professionally, and interview-ready**.
-
----
-
 # ✅ Short Answer (What to say in interviews)
 
 > **Using interfaces (composition) is usually better than inheritance for the Open/Closed Principle.**  
