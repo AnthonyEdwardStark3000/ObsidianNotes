@@ -26428,12 +26428,6 @@ ReportService service = new CompactReportService();
 service.GenerateExcel();
 ```
 
-Existing features remain safe.  
-New functionality is added **by extension**.
-
-Great — let’s switch to a **very simple, real-life example** and explain it step-by-step.
-
-We’ll use something everyone understands:
 
 # 📬 Example: Sending Notifications (SMS, Email, WhatsApp)
 
