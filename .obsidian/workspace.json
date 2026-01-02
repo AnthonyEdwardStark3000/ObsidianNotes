@@ -35,7 +35,8 @@
               "title": "Activity Tracker"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -109,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Dotnet - Harsha Interview deep preparation.md",
+                "file": "Activity Tracker.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +120,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Dotnet - Harsha Interview deep preparation"
+              "title": "Backlinks for Activity Tracker"
             }
           },
           {
@@ -185,15 +186,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "710a72a408af2f52",
+  "active": "3cdc08232f5752a4",
   "lastOpenFiles": [
+    "Dotnet - Harsha Interview deep preparation.md",
     "Activity Tracker.md",
     "Dotnet - Cheatsheet (Prep).md",
     "Untitled 2.base",
     "Mysql cheatsheet.md",
     "Mysql.md",
     "2026-01-02.md",
-    "Dotnet - Harsha Interview deep preparation.md",
     "images/Pasted image 20251229215404.png",
     "Untitled 1.base",
     "Untitled.base",
