@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Progress tracker.md",
+                "file": "Activity Tras.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Progress tracker"
+              "title": "Activity Tras"
             }
           },
           {
@@ -230,7 +230,7 @@
   "active": "b5dfe9cbb574d793",
   "lastOpenFiles": [
     "Dotnet - Harsha Interview deep preparation.md",
-    "Progress tracker.md",
+    "Activity Tras.md",
     "images/Pasted image 20251229215404.png",
     "Mysql cheatsheet.md",
     "Dotnet - Cheatsheet (Prep).md",
