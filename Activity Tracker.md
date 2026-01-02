@@ -9,19 +9,3 @@
 |**Day 25**- [ ] Learn .NET- [ ] Learn MySQL- [ ] Practice .NET|**Day 26**- [ ] Learn .NET- [ ] Learn MySQL- [ ] Practice MySQL|**Day 27**- [ ] Learn .NET- [ ] Learn MySQL- [ ] Mock Interview on .NET|**Day 28**- [ ] Learn .NET- [ ] Learn MySQL- [ ] Practice .NET|**Day 29**- [ ] Learn .NET- [ ] Learn MySQL- [ ] Practice MySQL|**Day 30**- [ ] Learn .NET- [ ] Learn MySQL- [ ] Mock Interview on MySQL||
 
 ---
-
-### If it _still_ looks off…
-
-Tell me:
-
-1️⃣ Your theme (Default, Minimal, etc.)  
-2️⃣ Whether **Tables**/**Tasks** plugins are installed  
-3️⃣ A screenshot description of how it appears
-
-I can then tailor it exactly — or even generate:
-
-✅ Tasks-plugin version  
-✅ Daily-note linked calendar  
-✅ Dataview tracking dashboard
-
-We’ll get it perfect 👍
