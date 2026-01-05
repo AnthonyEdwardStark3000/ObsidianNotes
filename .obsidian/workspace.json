@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Activity Tracker.md",
+                "file": "Mysql cheatsheet.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Activity Tracker"
+              "title": "Mysql cheatsheet"
             }
           }
         ],
@@ -68,7 +68,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "hema",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -110,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Activity Tracker.md",
+                "file": "Mysql cheatsheet.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -120,7 +120,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Activity Tracker"
+              "title": "Backlinks for Mysql cheatsheet"
             }
           },
           {
@@ -188,13 +188,13 @@
   },
   "active": "3cdc08232f5752a4",
   "lastOpenFiles": [
+    "Mysql.md",
+    "Activity Tracker.md",
     "Dotnet - Harsha Interview deep preparation.md",
     "images/Pasted image 20260105234617.png",
-    "Activity Tracker.md",
     "Dotnet - Cheatsheet (Prep).md",
     "Untitled 2.base",
     "Mysql cheatsheet.md",
-    "Mysql.md",
     "2026-01-02.md",
     "images/Pasted image 20251229215404.png",
     "Untitled 1.base",
