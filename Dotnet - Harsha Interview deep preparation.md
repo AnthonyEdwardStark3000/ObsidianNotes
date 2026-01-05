@@ -26968,3 +26968,202 @@ A subclass must:
 > The goal is that code using the base type should work the same when a subclass is passed.”_
 
 ---
+Great — here are the **clear, interview-ready “Rules of Liskov Substitution Principle (LSP)”** with short examples.
+
+---
+
+# ✅ LSP — Core Definition (Interview-Ready)
+
+> **Liskov Substitution Principle states:**  
+> _Objects of a derived class must be usable in place of objects of the base class — without changing the correctness or behavior of the program._
+
+If `B : A`, then replacing `A` with `B` **should not break anything** or surprise the caller.
+
+---
+
+# 📌 Rules of LSP (with simple explanations)
+
+### **Rule 1 — Subclasses must honor the contract of the base class**
+
+If the base class promises behavior, the subclass **must keep that behavior**.
+
+❌ Wrong: changes meaning
+
+```csharp
+public class FileStore
+{
+    public virtual void Save(string data) { /* saves to disk */ }
+}
+
+public class ReadOnlyFileStore : FileStore
+{
+    public override void Save(string data)
+    {
+        throw new NotSupportedException();   // breaks expectation
+    }
+}
+```
+
+A caller expecting `Save()` to work gets a surprise → **LSP violation**.
+
+---
+
+### **Rule 2 — A subclass must not strengthen preconditions**
+
+The subclass cannot demand **stricter input rules** than the base class.
+
+❌ Wrong:
+
+```csharp
+public class Calculator
+{
+    public virtual int Divide(int a, int b) => a / b;
+}
+
+public class SafeCalculator : Calculator
+{
+    public override int Divide(int a, int b)
+    {
+        if (b == 0) throw new ArgumentException(); // stricter than base
+        return a / b;
+    }
+}
+```
+
+The base class allowed `b` to be zero (runtime exception).  
+The child **adds new restrictions** → callers may break → **LSP violation**.
+
+---
+
+### **Rule 3 — A subclass must not weaken postconditions**
+
+The subclass cannot **return less, do less, or remove guarantees** promised by the base.
+
+❌ Wrong:
+
+```csharp
+public class OrderService
+{
+    public virtual bool PlaceOrder() => true;  // guarantees success flag
+}
+
+public class MockOrderService : OrderService
+{
+    public override bool PlaceOrder() => false;  // breaks expectation
+}
+```
+
+Code relying on successful orders now fails silently.
+
+---
+
+### **Rule 4 — Invariants must be preserved**
+
+The subclass must maintain the **rules and state validity** of the base class.
+
+❌ Wrong:
+
+```csharp
+public class BankAccount
+{
+    protected decimal Balance;
+}
+
+public class OverdraftAccount : BankAccount
+{
+    public void Withdraw(decimal amount)
+    {
+        Balance -= amount;   // allows negative (breaks invariant)
+    }
+}
+```
+
+If the base assumed “balance cannot be negative”, LSP is broken.
+
+---
+
+### **Rule 5 — Subclasses should not throw new unexpected exceptions**
+
+If the base method doesn’t throw in normal flow, the subclass shouldn’t either.
+
+❌ Wrong:
+
+```csharp
+public class Logger
+{
+    public virtual void Log(string m) { }
+}
+
+public class DatabaseLogger : Logger
+{
+    public override void Log(string m)
+    {
+        throw new TimeoutException(); // caller never expected this
+    }
+}
+```
+
+---
+
+### **Rule 6 — Method results should remain compatible**
+
+A subclass should return values that **make sense** to callers.
+
+❌ Wrong:
+
+```csharp
+public class Shape
+{
+    public virtual double Area() => 0;
+}
+
+public class Line : Shape
+{
+    public override double Area() => -1; // nonsense value
+}
+```
+
+Clients relying on area calculations break.
+
+---
+
+# ⭐ Simple OK example (follows LSP)
+
+```csharp
+public abstract class Bird
+{
+    public abstract void Fly();
+}
+
+public class Sparrow : Bird
+{
+    public override void Fly() { /* normal flying */ }
+}
+```
+
+`Sparrow` behaves like a `Bird`. No surprises. 👍
+
+---
+
+# ❌ Classic violation: forcing incompatible behavior
+
+```csharp
+public class Penguin : Bird
+{
+    public override void Fly()
+    {
+        throw new NotSupportedException();   // penguins can't fly
+    }
+}
+```
+
+Penguin is **not substitutable** for Bird → violates LSP.  
+(Proper design: split interfaces — `IFlyingBird`, `IBird` → leads to ISP.)
+
+---
+
+# 🎯 Summary (one-liner)
+
+> **LSP ensures subclasses behave like their base class — same rules, same expectations, no surprises.**
+
+---
