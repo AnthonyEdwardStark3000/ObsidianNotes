@@ -20,7 +20,7 @@
 
 - [x] Learn .NET 📅 2026-01-05 ✅ 2026-01-05
     
-- [ ] Learn MySQL 📅 2026-01-05
+- [x] Learn MySQL 📅 2026-01-05 ✅ 2026-01-05
     
 - [ ] Mock Interview on .NET 📅 2026-01-05
     
