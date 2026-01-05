@@ -27167,3 +27167,4 @@ Penguin is **not substitutable** for Bird → violates LSP.
 > **LSP ensures subclasses behave like their base class — same rules, same expectations, no surprises.**
 
 ---
+![[Pasted image 20260105234617.png]]
