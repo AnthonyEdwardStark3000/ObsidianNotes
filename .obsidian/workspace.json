@@ -35,8 +35,7 @@
               "title": "Mysql cheatsheet"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -68,7 +67,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "hema",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -94,7 +93,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "3ec1aa54122ae31f",
@@ -110,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Mysql cheatsheet.md",
+                "file": "Dotnet - Harsha Interview deep preparation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -120,7 +120,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Mysql cheatsheet"
+              "title": "Backlinks for Dotnet - Harsha Interview deep preparation"
             }
           },
           {
@@ -186,15 +186,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3cdc08232f5752a4",
+  "active": "710a72a408af2f52",
   "lastOpenFiles": [
+    "Mysql cheatsheet.md",
     "Mysql.md",
     "Activity Tracker.md",
     "Dotnet - Harsha Interview deep preparation.md",
     "images/Pasted image 20260105234617.png",
     "Dotnet - Cheatsheet (Prep).md",
     "Untitled 2.base",
-    "Mysql cheatsheet.md",
     "2026-01-02.md",
     "images/Pasted image 20251229215404.png",
     "Untitled 1.base",
