@@ -27568,3 +27568,5 @@ You can say:
 
 > N-Tier organizes code by layers, but it usually couples business logic to the database and frameworks.  
 > Clean Architecture organizes code around business rules and makes infrastructure replaceable. This gives much better testability, flexibility, and maintainability for long-term applications.
+
+![[Pasted image 20260107224854.png]]
