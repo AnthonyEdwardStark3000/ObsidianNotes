@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Activity Tracker.md",
+                "file": "Dotnet - Harsha Interview deep preparation.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Activity Tracker"
+              "title": "Dotnet - Harsha Interview deep preparation"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "mock ",
+                "query": "SOLID principles",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -95,7 +95,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Activity Tracker.md",
+                "file": "Dotnet - Harsha Interview deep preparation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +105,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Activity Tracker"
+              "title": "Backlinks for Dotnet - Harsha Interview deep preparation"
             }
           },
           {
@@ -173,6 +173,7 @@
   },
   "active": "734ec495102dc2ba",
   "lastOpenFiles": [
+    "Activity Tracker.md",
     "Dotnet - Harsha Interview deep preparation.md",
     "Dotnet Intermediate Topics.md",
     "Practice mocks.md",
@@ -183,7 +184,6 @@
     "Untitled 4.base",
     "Untitled 5.base",
     "Mysql.md",
-    "Activity Tracker.md",
     "images/Pasted image 20260105234617.png",
     "Untitled 2.base",
     "2026-01-02.md",
