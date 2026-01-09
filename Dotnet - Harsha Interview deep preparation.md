@@ -27570,3 +27570,18 @@ You can say:
 > Clean Architecture organizes code around business rules and makes infrastructure replaceable. This gives much better testability, flexibility, and maintainability for long-term applications.
 
 ![[Pasted image 20260107224854.png]]
+┌──────────────────────────────┐
+│        Presentation          │  (API / MVC / UI)
+└──────────────▲───────────────┘
+               │
+┌──────────────┴───────────────┐
+│        Application            │  (Use cases)
+└──────────────▲───────────────┘
+               │
+┌──────────────┴───────────────┐
+│          Domain               │  (Entities, Interfaces)
+└──────────────▲───────────────┘
+               │
+┌──────────────┴───────────────┐
+│       Infrastructure          │  (EF, Dapper, MySQL)
+└──────────────────────────────┘
