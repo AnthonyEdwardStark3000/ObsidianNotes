@@ -37,8 +37,7 @@
               "title": "Activity Tracker"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -188,11 +187,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9ebe1e8b1df98f23",
+  "active": "734ec495102dc2ba",
   "lastOpenFiles": [
+    "Activity Tracker.md",
     "Dotnet - Harsha Interview deep preparation.md",
     "images/Pasted image 20260107224854.png",
-    "Activity Tracker.md",
     "Dotnet Intermediate Topics.md",
     "Practice mocks.md",
     "Dotnet - Harsha.md",
