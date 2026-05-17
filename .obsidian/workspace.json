@@ -29,12 +29,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MY-SQL.md",
+                "file": "MY-SQL Code.io.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "MY-SQL"
+              "title": "MY-SQL Code.io"
             }
           }
         ],
@@ -190,7 +190,7 @@
   },
   "active": "54e2f08d0f3e3363",
   "lastOpenFiles": [
-    "MY-SQL.md",
+    "MY-SQL Code.io.md",
     "Dotnet - Harsha Interview deep preparation.md",
     "Untitled 6.base",
     "Activity Tracker.md",
