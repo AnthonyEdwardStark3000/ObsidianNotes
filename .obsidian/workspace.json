@@ -24,6 +24,18 @@
             }
           },
           {
+            "id": "bca50bd6e542eb12",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.11.4"
+              },
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.11.4"
+            }
+          },
+          {
             "id": "9ebe1e8b1df98f23",
             "type": "leaf",
             "state": {
@@ -37,7 +49,8 @@
               "title": "Activity Tracker"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -187,7 +200,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "734ec495102dc2ba",
+  "active": "bca50bd6e542eb12",
   "lastOpenFiles": [
     "Activity Tracker.md",
     "Dotnet - Harsha Interview deep preparation.md",
