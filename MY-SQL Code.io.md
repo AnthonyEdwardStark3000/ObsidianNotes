@@ -774,3 +774,785 @@ As a .NET backend developer, you will:
 ### Oracle
 
 - Enterprise-grade applications
+# SQL Interview Notes — Database Commands (Obsidian Friendly)
+
+---
+
+# SQL Command Categories
+
+SQL commands are mainly divided into 5 categories:
+
+|Category|Full Form|Purpose|
+|---|---|---|
+|DDL|Data Definition Language|Structure related operations|
+|DML|Data Manipulation Language|Data modification|
+|DQL|Data Query Language|Fetching data|
+|DCL|Data Control Language|Permissions and access|
+|TCL|Transaction Control Language|Transaction handling|
+
+---
+
+# 1. DDL — Data Definition Language
+
+Used to define or modify database structure.
+
+---
+
+# CREATE DATABASE
+
+Used to create a new database.
+
+```sql
+CREATE DATABASE stores;
+```
+
+## Similar Queries
+
+```sql
+CREATE DATABASE company;
+```
+
+```sql
+CREATE DATABASE employee_management;
+```
+
+---
+
+# USE DATABASE
+
+Selects the database for current operations.
+
+```sql
+USE stores;
+```
+
+## Similar Queries
+
+```sql
+USE company;
+```
+
+---
+
+# ALTER DATABASE
+
+Used to modify database properties.
+
+```sql
+ALTER DATABASE stores READ ONLY = 0;
+```
+
+## Meaning
+
+- `0` → Read and Write allowed
+    
+- `1` → Read-only mode
+    
+
+---
+
+# DROP DATABASE
+
+Deletes the entire database permanently.
+
+```sql
+DROP DATABASE stores;
+```
+
+## Similar Queries
+
+```sql
+DROP DATABASE company;
+```
+
+---
+
+# Important Interview Difference
+
+|Command|Purpose|
+|---|---|
+|DELETE|Deletes rows|
+|TRUNCATE|Removes all rows|
+|DROP|Deletes complete object|
+
+---
+
+# CREATE TABLE
+
+Used to create a table.
+
+```sql
+CREATE TABLE Employees(
+    _id INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Age INT,
+    Email VARCHAR(200)
+);
+```
+
+---
+
+# Important Datatypes
+
+|Datatype|Purpose|
+|---|---|
+|INT|Integer values|
+|VARCHAR|Variable-length string|
+|DATE|Stores date|
+|DECIMAL|Decimal numbers|
+
+---
+
+# Another CREATE TABLE Example
+
+```sql
+CREATE TABLE Employees(
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    salary DECIMAL(7,2),
+    join_date DATE
+);
+```
+
+---
+
+# ALTER TABLE
+
+Used to modify existing table structure.
+
+---
+
+# Rename Column
+
+```sql
+ALTER TABLE Employees
+RENAME COLUMN _id TO emp_id;
+```
+
+## Similar Query
+
+```sql
+ALTER TABLE Employees
+RENAME COLUMN Name TO emp_name;
+```
+
+---
+
+# Modify Column
+
+Used to change datatype or size.
+
+```sql
+ALTER TABLE Employees
+MODIFY COLUMN emp_name VARCHAR(50);
+```
+
+## Similar Queries
+
+```sql
+ALTER TABLE Employees
+MODIFY COLUMN salary DECIMAL(10,2);
+```
+
+```sql
+ALTER TABLE Employees
+MODIFY COLUMN Email VARCHAR(255);
+```
+
+---
+
+# DROP COLUMN
+
+Removes columns from table.
+
+```sql
+ALTER TABLE Employees
+DROP COLUMN Age,
+DROP COLUMN Email;
+```
+
+## Similar Queries
+
+```sql
+ALTER TABLE Employees
+DROP COLUMN salary;
+```
+
+---
+
+# ADD COLUMN
+
+Adds new columns.
+
+```sql
+ALTER TABLE Employees
+ADD COLUMN salary DECIMAL(7,2),
+ADD COLUMN join_date DATE;
+```
+
+## Similar Queries
+
+```sql
+ALTER TABLE Employees
+ADD COLUMN phone_number VARCHAR(15);
+```
+
+---
+
+# RENAME TABLE Using ALTER
+
+```sql
+ALTER TABLE Employees
+RENAME TO employees;
+```
+
+---
+
+# RENAME TABLE
+
+Alternative syntax.
+
+```sql
+RENAME TABLE employees TO family;
+```
+
+## Similar Queries
+
+```sql
+RENAME TABLE family TO employee_family;
+```
+
+---
+
+# DESCRIBE TABLE
+
+Displays table structure.
+
+```sql
+DESC Employees;
+```
+
+## Alternative Query
+
+```sql
+DESCRIBE Employees;
+```
+
+---
+
+# TRUNCATE TABLE
+
+Removes all rows from table.
+
+```sql
+TRUNCATE TABLE Employees;
+```
+
+## Important
+
+- Structure remains
+    
+- Faster than DELETE
+    
+- Cannot use WHERE clause
+    
+
+---
+
+# DROP TABLE
+
+Deletes entire table.
+
+```sql
+DROP TABLE Employees;
+```
+
+---
+
+# Interview Difference — DELETE vs TRUNCATE vs DROP
+
+|Feature|DELETE|TRUNCATE|DROP|
+|---|---|---|---|
+|Removes|Selected Rows|All Rows|Entire Table|
+|WHERE Allowed|Yes|No|No|
+|Rollback|Yes|Limited|No|
+|Structure Deleted|No|No|Yes|
+
+---
+
+# 2. DML — Data Manipulation Language
+
+Used to manipulate data inside tables.
+
+---
+
+# INSERT
+
+Adds records into table.
+
+```sql
+INSERT INTO family(emp_id, emp_name, salary, join_date)
+VALUES(1, 'Suresh', 50000.00, '2026-05-19');
+```
+
+## Multiple Insert
+
+```sql
+INSERT INTO family
+VALUES
+(2, 'Arun', 45000.00, '2026-01-10'),
+(3, 'Karthik', 60000.00, '2026-02-15');
+```
+
+---
+
+# UPDATE
+
+Modifies existing records.
+
+```sql
+UPDATE family
+SET salary = 70000
+WHERE emp_id = 1;
+```
+
+## Update Multiple Columns
+
+```sql
+UPDATE family
+SET emp_name = 'Suresh Babu',
+    salary = 80000
+WHERE emp_id = 1;
+```
+
+---
+
+# DELETE
+
+Deletes rows from table.
+
+```sql
+DELETE FROM family
+WHERE emp_id = 2;
+```
+
+## Delete All Rows
+
+```sql
+DELETE FROM family;
+```
+
+---
+
+# 3. DQL — Data Query Language
+
+Used to fetch/read data.
+
+---
+
+# SELECT
+
+Fetches data from table.
+
+```sql
+SELECT * FROM family;
+```
+
+---
+
+# Select Specific Columns
+
+```sql
+SELECT emp_name, salary
+FROM family;
+```
+
+---
+
+# WHERE Clause
+
+Filters records.
+
+```sql
+SELECT *
+FROM family
+WHERE salary > 50000;
+```
+
+---
+
+# ORDER BY
+
+Sorts data.
+
+```sql
+SELECT *
+FROM family
+ORDER BY salary DESC;
+```
+
+---
+
+# LIMIT
+
+Restricts number of rows.
+
+```sql
+SELECT *
+FROM family
+LIMIT 5;
+```
+
+---
+
+# DISTINCT
+
+Removes duplicates.
+
+```sql
+SELECT DISTINCT salary
+FROM family;
+```
+
+---
+
+# LIKE Operator
+
+Pattern matching.
+
+```sql
+SELECT *
+FROM family
+WHERE emp_name LIKE 'S%';
+```
+
+---
+
+# IN Operator
+
+Matches multiple values.
+
+```sql
+SELECT *
+FROM family
+WHERE emp_id IN (1,2,3);
+```
+
+---
+
+# BETWEEN Operator
+
+Range filtering.
+
+```sql
+SELECT *
+FROM family
+WHERE salary BETWEEN 30000 AND 70000;
+```
+
+---
+
+# Aggregate Functions
+
+---
+
+# COUNT
+
+```sql
+SELECT COUNT(*) FROM family;
+```
+
+---
+
+# SUM
+
+```sql
+SELECT SUM(salary) FROM family;
+```
+
+---
+
+# AVG
+
+```sql
+SELECT AVG(salary) FROM family;
+```
+
+---
+
+# MAX and MIN
+
+```sql
+SELECT MAX(salary), MIN(salary)
+FROM family;
+```
+
+---
+
+# GROUP BY
+
+Groups records.
+
+```sql
+SELECT salary, COUNT(*)
+FROM family
+GROUP BY salary;
+```
+
+---
+
+# HAVING
+
+Filters grouped records.
+
+```sql
+SELECT salary, COUNT(*)
+FROM family
+GROUP BY salary
+HAVING COUNT(*) > 1;
+```
+
+---
+
+# 4. TCL — Transaction Control Language
+
+Used to manage transactions.
+
+---
+
+# START TRANSACTION
+
+```sql
+START TRANSACTION;
+```
+
+---
+
+# COMMIT
+
+Permanently saves changes.
+
+```sql
+COMMIT;
+```
+
+---
+
+# ROLLBACK
+
+Undo changes before commit.
+
+```sql
+ROLLBACK;
+```
+
+---
+
+# SAVEPOINT
+
+Creates rollback checkpoint.
+
+```sql
+SAVEPOINT sp1;
+```
+
+---
+
+# 5. DCL — Data Control Language
+
+Used for permissions/security.
+
+---
+
+# GRANT
+
+Provides access.
+
+```sql
+GRANT SELECT, INSERT
+ON family
+TO 'user1';
+```
+
+---
+
+# REVOKE
+
+Removes access.
+
+```sql
+REVOKE INSERT
+ON family
+FROM 'user1';
+```
+
+---
+
+# Important Interview Notes
+
+---
+
+# DDL Commands
+
+Affect database structure.
+
+Examples:
+
+- CREATE
+    
+- ALTER
+    
+- DROP
+    
+- TRUNCATE
+    
+
+---
+
+# DML Commands
+
+Affect data inside tables.
+
+Examples:
+
+- INSERT
+    
+- UPDATE
+    
+- DELETE
+    
+
+---
+
+# DQL Commands
+
+Used to retrieve data.
+
+Examples:
+
+- SELECT
+    
+
+---
+
+# TCL Commands
+
+Manage transactions.
+
+Examples:
+
+- COMMIT
+    
+- ROLLBACK
+    
+- SAVEPOINT
+    
+
+---
+
+# DCL Commands
+
+Manage permissions.
+
+Examples:
+
+- GRANT
+    
+- REVOKE
+    
+
+---
+
+# Real-Time Backend Developer Usage
+
+As a .NET backend developer:
+
+- DDL → Table design & migrations
+    
+- DML → CRUD operations
+    
+- DQL → APIs and reporting queries
+    
+- TCL → Transaction handling
+    
+- DCL → User permissions
+    
+
+---
+
+# Common Interview Questions
+
+---
+
+# Why TRUNCATE is Faster than DELETE?
+
+Because:
+
+- TRUNCATE removes all rows directly
+    
+- Minimal logging
+    
+- Does not scan rows individually
+    
+
+---
+
+# Why Use PRIMARY KEY?
+
+- Ensures uniqueness
+    
+- Improves indexing
+    
+- Maintains entity integrity
+    
+
+---
+
+# Why Use FOREIGN KEY?
+
+- Maintains relationships
+    
+- Prevents invalid references
+    
+- Ensures referential integrity
+    
+
+---
+
+# Best Practices
+
+## Naming Convention
+
+Use:
+
+```sql
+snake_case
+```
+
+Example:
+
+```sql
+employee_details
+```
+
+Avoid:
+
+```sql
+EmployeeDetails
+```
+
+---
+
+# Professional SQL Practices
+
+- Use meaningful column names
+    
+- Always define Primary Keys
+    
+- Use indexes for frequently searched columns
+    
+- Avoid `SELECT *` in production
+    
+- Use transactions for critical operations
+    
+- Normalize tables properly
