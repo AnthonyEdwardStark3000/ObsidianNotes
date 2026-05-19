@@ -1,7 +1,3 @@
-# Database Interview Notes for .NET Backend Developer (2 Years Experience)
-
----
-
 # What is a Database?
 
 A database is an organized collection of data used to store, retrieve, update, and manage information efficiently.
