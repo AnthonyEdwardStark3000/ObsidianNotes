@@ -1557,5 +1557,393 @@ EmployeeDetails
     
 - Normalize tables properly
   
+# MySQL INSERT Statement — Obsidian Notes
 
+---
+
+# INSERT Statement in MySQL
+
+Used to add records (rows) into a table.
+
+Category:
+
+- DML (Data Manipulation Language)
+    
+
+---
+
+# Basic Syntax
+
+```sql
+INSERT INTO table_name(column1, column2)
+VALUES(value1, value2);
+```
+
+---
+
+# Example Table
+
+```sql
+CREATE TABLE family(
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    salary DECIMAL(7,2),
+    join_date DATE
+);
+```
+
+---
+
+# Insert Single Row
+
+```sql
+INSERT INTO family(emp_id, emp_name, salary, join_date)
+VALUES(1, 'Suresh', 50000.00, '2026-05-20');
+```
+
+---
+
+# Verify Data
+
+```sql
+SELECT * FROM family;
+```
+
+---
+
+# Insert Multiple Rows
+
+```sql
+INSERT INTO family(emp_id, emp_name, salary, join_date)
+VALUES
+(2, 'Arun', 45000.00, '2026-01-15'),
+(3, 'Karthik', 60000.00, '2026-02-10'),
+(4, 'Rahul', 55000.00, '2026-03-05');
+```
+
+---
+
+# Insert Without Column Names
+
+Possible only when values match exact table order.
+
+```sql
+INSERT INTO family
+VALUES(5, 'Vignesh', 65000.00, '2026-04-01');
+```
+
+---
+
+# Professional Best Practice
+
+Always specify column names.
+
+Recommended:
+
+```sql
+INSERT INTO family(emp_id, emp_name, salary, join_date)
+VALUES(6, 'Ajay', 70000.00, '2026-05-01');
+```
+
+Avoid:
+
+```sql
+INSERT INTO family
+VALUES(6, 'Ajay', 70000.00, '2026-05-01');
+```
+
+Reason:
+
+- Prevents errors if column order changes
+    
+- Improves readability
+    
+- Easier maintenance
+    
+
+---
+
+# Insert NULL Values
+
+```sql
+INSERT INTO family(emp_id, emp_name, salary, join_date)
+VALUES(7, 'Kumar', NULL, NULL);
+```
+
+---
+
+# Insert Current Date
+
+```sql
+INSERT INTO family(emp_id, emp_name, salary, join_date)
+VALUES(8, 'Ravi', 40000.00, CURDATE());
+```
+
+---
+
+# Insert Using SET Syntax
+
+Alternative syntax.
+
+```sql
+INSERT INTO family
+SET
+emp_id = 9,
+emp_name = 'Praveen',
+salary = 52000.00,
+join_date = '2026-05-21';
+```
+
+---
+
+# Insert Data from Another Table
+
+```sql
+INSERT INTO employee_backup(emp_id, emp_name)
+SELECT emp_id, emp_name
+FROM family;
+```
+
+---
+
+# AUTO_INCREMENT Example
+
+Automatically generates IDs.
+
+```sql
+CREATE TABLE employees(
+    emp_id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    salary DECIMAL(7,2)
+);
+```
+
+---
+
+# Insert with AUTO_INCREMENT
+
+```sql
+INSERT INTO employees(emp_name, salary)
+VALUES('Suresh', 50000.00);
+```
+
+Generated automatically:
+
+|emp_id|emp_name|salary|
+|---|---|---|
+|1|Suresh|50000|
+
+---
+
+# Common INSERT Errors
+
+---
+
+# Duplicate Primary Key
+
+```sql
+INSERT INTO family(emp_id, emp_name)
+VALUES(1, 'Duplicate');
+```
+
+Error:
+
+- Primary Key must be unique
+    
+
+---
+
+# Column Count Mismatch
+
+```sql
+INSERT INTO family
+VALUES(10, 'Arun');
+```
+
+Error:
+
+- Missing values for remaining columns
+    
+
+---
+
+# Datatype Mismatch
+
+```sql
+INSERT INTO family(emp_id, salary)
+VALUES('abc', 'xyz');
+```
+
+Error:
+
+- Invalid datatype conversion
+    
+
+---
+
+# INSERT IGNORE
+
+Skips duplicate errors.
+
+```sql
+INSERT IGNORE INTO family(emp_id, emp_name)
+VALUES(1, 'Suresh');
+```
+
+---
+
+# REPLACE INTO
+
+Deletes old row and inserts new row if key exists.
+
+```sql
+REPLACE INTO family(emp_id, emp_name)
+VALUES(1, 'Updated Name');
+```
+
+---
+
+# INSERT vs UPDATE
+
+|INSERT|UPDATE|
+|---|---|
+|Adds new row|Modifies existing row|
+|Creates record|Changes record|
+|Uses VALUES|Uses SET|
+
+---
+
+# Real-Time Backend Developer Usage
+
+In .NET backend development:
+
+- APIs insert records into database
+    
+- Registration forms
+    
+- Order creation
+    
+- Payment records
+    
+- Logging systems
+    
+
+Usually done using:
+
+- Dapper
+    
+- Entity Framework Core
+    
+- Stored Procedures
+    
+
+---
+
+# Dapper INSERT Example (.NET)
+
+```csharp
+string query = @"
+INSERT INTO family(emp_name, salary)
+VALUES(@Name, @Salary)";
+
+await connection.ExecuteAsync(query, new
+{
+    Name = "Suresh",
+    Salary = 50000
+});
+```
+
+---
+
+# Interview Questions
+
+---
+
+# Difference Between INSERT and UPDATE
+
+|INSERT|UPDATE|
+|---|---|
+|Creates new row|Modifies existing row|
+|Uses VALUES|Uses SET|
+|Adds data|Changes data|
+
+---
+
+# What Happens if Primary Key Already Exists?
+
+MySQL throws:
+
+- Duplicate Key Error
+    
+
+Unless:
+
+- `INSERT IGNORE`
+    
+- `REPLACE INTO`
+    
+- `ON DUPLICATE KEY UPDATE`
+    
+
+is used.
+
+---
+
+# ON DUPLICATE KEY UPDATE
+
+Used for UPSERT behavior.
+
+```sql
+INSERT INTO family(emp_id, emp_name, salary)
+VALUES(1, 'Suresh', 60000)
+ON DUPLICATE KEY UPDATE
+salary = 60000;
+```
+
+---
+
+# Best Practices
+
+- Always specify column names
+    
+- Use transactions for critical inserts
+    
+- Validate data before insert
+    
+- Use parameterized queries in backend
+    
+- Avoid hardcoded SQL values
+    
+- Use AUTO_INCREMENT for IDs when possible
+    
+
+---
+
+# Important Summary
+
+## INSERT
+
+- Adds rows into table
+    
+- DML command
+    
+
+## VALUES
+
+- Specifies row data
+    
+
+## AUTO_INCREMENT
+
+- Generates IDs automatically
+    
+
+## INSERT IGNORE
+
+- Skips duplicate errors
+    
+
+## ON DUPLICATE KEY UPDATE
+
+- Performs UPSERT operation
   
