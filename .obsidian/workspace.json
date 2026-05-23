@@ -36,21 +36,9 @@
               "icon": "lucide-file",
               "title": "MY-SQL Code.io"
             }
-          },
-          {
-            "id": "8c71d578907011e3",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.12.7"
-              },
-              "icon": "lucide-book-up",
-              "title": "Release Notes 1.12.7"
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -201,7 +189,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8c71d578907011e3",
+  "active": "54e2f08d0f3e3363",
   "lastOpenFiles": [
     "MY-SQL Code.io.md",
     "Dotnet - Harsha Interview deep preparation.md",
