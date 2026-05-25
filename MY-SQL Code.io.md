@@ -1947,3 +1947,708 @@ salary = 60000;
 
 - Performs UPSERT operation
   
+# MySQL UPDATE, DELETE, COMMIT & ROLLBACK Notes (Obsidian Friendly)
+
+---
+
+# UPDATE Query in MySQL
+
+Category:
+
+- DML (Data Manipulation Language)
+    
+
+Used to modify existing records in a table.
+
+---
+
+# Basic Syntax
+
+```sql
+UPDATE table_name
+SET column_name = value
+WHERE condition;
+```
+
+---
+
+# Example Table
+
+|emp_id|emp_name|salary|
+|---|---|---|
+|1|Suresh|50000|
+|2|Arun|45000|
+
+---
+
+# Update Single Column
+
+```sql
+UPDATE family
+SET salary = 60000
+WHERE emp_id = 1;
+```
+
+---
+
+# Before Update
+
+|emp_id|emp_name|salary|
+|---|---|---|
+|1|Suresh|50000|
+
+---
+
+# After Update
+
+|emp_id|emp_name|salary|
+|---|---|---|
+|1|Suresh|60000|
+
+---
+
+# Update Multiple Columns
+
+```sql
+UPDATE family
+SET
+emp_name = 'Suresh Babu',
+salary = 75000
+WHERE emp_id = 1;
+```
+
+---
+
+# Update All Rows
+
+```sql
+UPDATE family
+SET salary = 30000;
+```
+
+⚠️ Warning:
+
+- Updates every row
+    
+- Dangerous in production
+    
+
+---
+
+# DELETE Query in MySQL
+
+Category:
+
+- DML (Data Manipulation Language)
+    
+
+Used to remove rows from a table.
+
+---
+
+# Basic Syntax
+
+```sql
+DELETE FROM table_name
+WHERE condition;
+```
+
+---
+
+# Delete Specific Row
+
+```sql
+DELETE FROM family
+WHERE emp_id = 2;
+```
+
+---
+
+# Delete All Rows
+
+```sql
+DELETE FROM family;
+```
+
+⚠️ Deletes all records but table structure remains.
+
+---
+
+# UPDATE vs DELETE
+
+|UPDATE|DELETE|
+|---|---|
+|Modifies rows|Removes rows|
+|Uses SET|Uses DELETE FROM|
+|Data remains|Data removed|
+
+---
+
+# SQL_SAFE_UPDATES
+
+Important MySQL safety feature.
+
+Prevents accidental:
+
+- UPDATE without WHERE
+    
+- DELETE without WHERE
+    
+
+---
+
+# Example Error
+
+```sql
+UPDATE family
+SET salary = 10000;
+```
+
+May throw:
+
+> Error Code: 1175  
+> You are using safe update mode
+
+---
+
+# Check Current Setting
+
+```sql
+SELECT @@SQL_SAFE_UPDATES;
+```
+
+---
+
+# Disable SQL_SAFE_UPDATES
+
+```sql
+SET SQL_SAFE_UPDATES = 0;
+```
+
+---
+
+# Enable SQL_SAFE_UPDATES
+
+```sql
+SET SQL_SAFE_UPDATES = 1;
+```
+
+---
+
+# Best Practice
+
+Always use:
+
+```sql
+WHERE
+```
+
+clause in:
+
+- UPDATE
+    
+- DELETE
+    
+
+---
+
+# AUTOCOMMIT in MySQL
+
+By default, MySQL uses:
+
+```sql
+AUTOCOMMIT = ON
+```
+
+Meaning:
+
+- Every query is automatically saved permanently.
+    
+
+---
+
+# Example
+
+```sql
+UPDATE family
+SET salary = 80000
+WHERE emp_id = 1;
+```
+
+Immediately saved permanently.
+
+Cannot rollback later.
+
+---
+
+# Check AUTOCOMMIT Status
+
+```sql
+SELECT @@AUTOCOMMIT;
+```
+
+---
+
+# Disable AUTOCOMMIT
+
+```sql
+SET AUTOCOMMIT = 0;
+```
+
+Now changes are NOT saved automatically.
+
+---
+
+# What Happens After Disabling AUTOCOMMIT?
+
+Changes become temporary until:
+
+```sql
+COMMIT;
+```
+
+or
+
+```sql
+ROLLBACK;
+```
+
+is executed.
+
+---
+
+# Transaction Flow
+
+```sql
+SET AUTOCOMMIT = 0;
+
+UPDATE family
+SET salary = 90000
+WHERE emp_id = 1;
+
+ROLLBACK;
+```
+
+Result:
+
+- Changes undone
+    
+
+---
+
+# Another Example
+
+```sql
+SET AUTOCOMMIT = 0;
+
+UPDATE family
+SET salary = 90000
+WHERE emp_id = 1;
+
+COMMIT;
+```
+
+Result:
+
+- Changes saved permanently
+    
+
+---
+
+# COMMIT
+
+Category:
+
+- TCL (Transaction Control Language)
+    
+
+Used to permanently save transaction changes.
+
+---
+
+# Syntax
+
+```sql
+COMMIT;
+```
+
+---
+
+# How COMMIT Works
+
+When AUTOCOMMIT is OFF:
+
+MySQL stores changes temporarily in transaction session.
+
+COMMIT:
+
+- Finalizes changes
+    
+- Writes changes permanently
+    
+- Makes data visible to others
+    
+
+---
+
+# Real-World Example
+
+Bank Transfer:
+
+```sql
+SET AUTOCOMMIT = 0;
+
+UPDATE accounts
+SET balance = balance - 1000
+WHERE account_id = 1;
+
+UPDATE accounts
+SET balance = balance + 1000
+WHERE account_id = 2;
+
+COMMIT;
+```
+
+Both updates succeed together.
+
+---
+
+# ROLLBACK
+
+Category:
+
+- TCL (Transaction Control Language)
+    
+
+Used to undo transaction changes.
+
+---
+
+# Syntax
+
+```sql
+ROLLBACK;
+```
+
+---
+
+# How ROLLBACK Works
+
+If transaction not committed yet:
+
+- All changes are reverted
+    
+- Database returns to previous state
+    
+
+---
+
+# Example
+
+```sql
+SET AUTOCOMMIT = 0;
+
+DELETE FROM family
+WHERE emp_id = 1;
+
+ROLLBACK;
+```
+
+Result:
+
+- Deleted row restored
+    
+
+---
+
+# Important Rule
+
+ROLLBACK works only:
+
+- Before COMMIT
+    
+- With transactional storage engine like InnoDB
+    
+
+---
+
+# After COMMIT
+
+```sql
+COMMIT;
+```
+
+ROLLBACK cannot undo changes anymore.
+
+Because data already permanently saved.
+
+---
+
+# Transaction Lifecycle
+
+---
+
+# Step 1 — Disable AUTOCOMMIT
+
+```sql
+SET AUTOCOMMIT = 0;
+```
+
+---
+
+# Step 2 — Execute Queries
+
+```sql
+UPDATE family
+SET salary = 100000
+WHERE emp_id = 1;
+```
+
+---
+
+# Step 3A — Save Permanently
+
+```sql
+COMMIT;
+```
+
+OR
+
+# Step 3B — Undo Changes
+
+```sql
+ROLLBACK;
+```
+
+---
+
+# SAVEPOINT
+
+Creates checkpoint inside transaction.
+
+---
+
+# Example
+
+```sql
+SET AUTOCOMMIT = 0;
+
+SAVEPOINT before_delete;
+
+DELETE FROM family
+WHERE emp_id = 2;
+
+ROLLBACK TO before_delete;
+```
+
+---
+
+# Transaction Example (Professional Interview Example)
+
+```sql
+SET AUTOCOMMIT = 0;
+
+UPDATE accounts
+SET balance = balance - 500
+WHERE account_id = 1;
+
+UPDATE accounts
+SET balance = balance + 500
+WHERE account_id = 2;
+
+COMMIT;
+```
+
+Purpose:
+
+- Ensures money transfer consistency
+    
+
+If second query fails:
+
+```sql
+ROLLBACK;
+```
+
+No money loss occurs.
+
+---
+
+# ACID Properties Related to Transactions
+
+---
+
+# Atomicity
+
+Either:
+
+- Entire transaction succeeds  
+    OR
+    
+- Entire transaction fails
+    
+
+---
+
+# Consistency
+
+Database remains valid.
+
+---
+
+# Isolation
+
+Transactions do not interfere.
+
+---
+
+# Durability
+
+Committed data survives crashes.
+
+---
+
+# Important Interview Questions
+
+---
+
+# Difference Between DELETE and TRUNCATE
+
+|DELETE|TRUNCATE|
+|---|---|
+|Removes selected rows|Removes all rows|
+|WHERE allowed|WHERE not allowed|
+|Can rollback|Limited rollback|
+|Slower|Faster|
+
+---
+
+# Why Disable AUTOCOMMIT?
+
+To:
+
+- Group multiple queries
+    
+- Maintain consistency
+    
+- Prevent partial updates
+    
+
+Used in:
+
+- Banking
+    
+- Payments
+    
+- Inventory systems
+    
+
+---
+
+# What Happens If COMMIT Not Executed?
+
+When session closes:
+
+- MySQL automatically rolls back uncommitted changes
+    
+
+---
+
+# Can We ROLLBACK After COMMIT?
+
+❌ No
+
+Because COMMIT permanently saves data.
+
+---
+
+# Real-Time .NET Backend Usage
+
+In .NET applications:
+
+- Transactions used for critical operations
+    
+- Common with:
+    
+    - Dapper
+        
+    - Entity Framework Core
+        
+    - ADO.NET
+        
+
+---
+
+# Dapper Transaction Example
+
+```csharp
+using var transaction = connection.BeginTransaction();
+
+try
+{
+    await connection.ExecuteAsync(query1, transaction: transaction);
+
+    await connection.ExecuteAsync(query2, transaction: transaction);
+
+    transaction.Commit();
+}
+catch
+{
+    transaction.Rollback();
+}
+```
+
+---
+
+# Best Practices
+
+- Always use WHERE in UPDATE/DELETE
+    
+- Use transactions for critical operations
+    
+- Keep transactions short
+    
+- Commit quickly
+    
+- Avoid long-running locks
+    
+- Use InnoDB for transactional support
+    
+
+---
+
+# Important Summary
+
+## UPDATE
+
+- Modifies rows
+    
+
+## DELETE
+
+- Removes rows
+    
+
+## SQL_SAFE_UPDATES
+
+- Prevents accidental mass updates/deletes
+    
+
+## AUTOCOMMIT
+
+- Automatically saves changes
+    
+
+## COMMIT
+
+- Permanently saves transaction
+    
+
+## ROLLBACK
+
+- Undoes transaction before commit
+    
+
+## SAVEPOINT
+
+- Creates partial rollback point
