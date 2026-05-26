@@ -2652,3 +2652,556 @@ catch
 ## SAVEPOINT
 
 - Creates partial rollback point
+  
+# MySQL Constraints Notes — Obsidian Friendly
+
+---
+
+# What are Constraints in MySQL?
+
+Constraints are rules applied to table columns to enforce:
+
+- Data accuracy
+    
+- Data integrity
+    
+- Validations
+    
+- Relationships
+    
+
+---
+
+# Types of Constraints
+
+|Constraint|Purpose|
+|---|---|
+|PRIMARY KEY|Unique identifier|
+|FOREIGN KEY|Maintains relationships|
+|UNIQUE|Prevents duplicate values|
+|NOT NULL|Prevents NULL values|
+|CHECK|Validates conditions|
+|DEFAULT|Sets default value|
+|AUTO_INCREMENT|Automatically generates numbers|
+
+---
+
+# PRIMARY KEY Constraint
+
+Ensures:
+
+- Unique values
+    
+- No NULL values
+    
+
+---
+
+# Create Table with PRIMARY KEY
+
+```sql
+CREATE TABLE employees(
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50)
+);
+```
+
+---
+
+# Add PRIMARY KEY Using ALTER TABLE
+
+```sql
+ALTER TABLE employees
+ADD PRIMARY KEY(emp_id);
+```
+
+---
+
+# Remove PRIMARY KEY
+
+```sql
+ALTER TABLE employees
+DROP PRIMARY KEY;
+```
+
+---
+
+# UNIQUE Constraint
+
+Prevents duplicate values.
+
+---
+
+# UNIQUE While Creating Table
+
+```sql
+CREATE TABLE employees(
+    emp_id INT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE
+);
+```
+
+---
+
+# UNIQUE Using ALTER TABLE
+
+```sql
+ALTER TABLE employees
+ADD CONSTRAINT uq_email
+UNIQUE(email);
+```
+
+---
+
+# Remove UNIQUE Constraint
+
+## MySQL internally creates index
+
+```sql
+ALTER TABLE employees
+DROP INDEX uq_email;
+```
+
+---
+
+# Example
+
+Valid:
+
+|email|
+|---|
+|[abc@gmail.com](mailto:abc@gmail.com)|
+|[xyz@gmail.com](mailto:xyz@gmail.com)|
+
+Invalid:
+
+|email|
+|---|
+|[abc@gmail.com](mailto:abc@gmail.com)|
+|[abc@gmail.com](mailto:abc@gmail.com)|
+
+---
+
+# NOT NULL Constraint
+
+Prevents NULL values.
+
+---
+
+# NOT NULL While Creating Table
+
+```sql
+CREATE TABLE employees(
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL
+);
+```
+
+---
+
+# Add NOT NULL Using ALTER TABLE
+
+```sql
+ALTER TABLE employees
+MODIFY emp_name VARCHAR(50) NOT NULL;
+```
+
+---
+
+# Remove NOT NULL Constraint
+
+```sql
+ALTER TABLE employees
+MODIFY emp_name VARCHAR(50) NULL;
+```
+
+---
+
+# CHECK Constraint
+
+Validates conditions before inserting/updating data.
+
+---
+
+# CHECK While Creating Table
+
+```sql
+CREATE TABLE employees(
+    emp_id INT PRIMARY KEY,
+    age INT CHECK(age >= 18)
+);
+```
+
+---
+
+# CHECK Using ALTER TABLE
+
+```sql
+ALTER TABLE employees
+ADD CONSTRAINT chk_age
+CHECK(age >= 18);
+```
+
+---
+
+# Remove CHECK Constraint
+
+```sql
+ALTER TABLE employees
+DROP CHECK chk_age;
+```
+
+---
+
+# Example
+
+Valid:
+
+```sql
+INSERT INTO employees
+VALUES(1, 25);
+```
+
+Invalid:
+
+```sql
+INSERT INTO employees
+VALUES(2, 15);
+```
+
+---
+
+# DEFAULT Constraint
+
+Provides default value when no value supplied.
+
+---
+
+# DEFAULT While Creating Table
+
+```sql
+CREATE TABLE employees(
+    emp_id INT PRIMARY KEY,
+    country VARCHAR(50) DEFAULT 'India'
+);
+```
+
+---
+
+# DEFAULT Using ALTER TABLE
+
+```sql
+ALTER TABLE employees
+ALTER country
+SET DEFAULT 'India';
+```
+
+---
+
+# Remove DEFAULT Constraint
+
+```sql
+ALTER TABLE employees
+ALTER country
+DROP DEFAULT;
+```
+
+---
+
+# Example
+
+```sql
+INSERT INTO employees(emp_id)
+VALUES(1);
+```
+
+Automatically inserts:
+
+|emp_id|country|
+|---|---|
+|1|India|
+
+---
+
+# FOREIGN KEY Constraint
+
+Maintains relationship between tables.
+
+---
+
+# FOREIGN KEY While Creating Table
+
+```sql
+CREATE TABLE departments(
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50)
+);
+```
+
+```sql
+CREATE TABLE employees(
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    dept_id INT,
+    FOREIGN KEY(dept_id)
+    REFERENCES departments(dept_id)
+);
+```
+
+---
+
+# Add FOREIGN KEY Using ALTER TABLE
+
+```sql
+ALTER TABLE employees
+ADD CONSTRAINT fk_department
+FOREIGN KEY(dept_id)
+REFERENCES departments(dept_id);
+```
+
+---
+
+# Remove FOREIGN KEY
+
+```sql
+ALTER TABLE employees
+DROP FOREIGN KEY fk_department;
+```
+
+---
+
+# Purpose of FOREIGN KEY
+
+Prevents invalid references.
+
+Example:
+
+- Cannot assign employee to non-existing department
+    
+
+---
+
+# AUTO_INCREMENT Constraint
+
+Automatically generates sequential numbers.
+
+---
+
+# AUTO_INCREMENT While Creating Table
+
+```sql
+CREATE TABLE employees(
+    emp_id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_name VARCHAR(50)
+);
+```
+
+---
+
+# Insert Example
+
+```sql
+INSERT INTO employees(emp_name)
+VALUES('Suresh');
+```
+
+Generated automatically:
+
+|emp_id|emp_name|
+|---|---|
+|1|Suresh|
+
+---
+
+# Change AUTO_INCREMENT Starting Value
+
+```sql
+ALTER TABLE employees
+AUTO_INCREMENT = 100;
+```
+
+---
+
+# Composite PRIMARY KEY
+
+Combination of multiple columns.
+
+---
+
+# Example
+
+```sql
+CREATE TABLE student_courses(
+    student_id INT,
+    course_id INT,
+    PRIMARY KEY(student_id, course_id)
+);
+```
+
+---
+
+# Constraint Naming
+
+Professional practice:
+
+- Always give meaningful names
+    
+
+---
+
+# Example
+
+```sql
+ALTER TABLE employees
+ADD CONSTRAINT chk_salary
+CHECK(salary > 0);
+```
+
+---
+
+# Why Use Constraints?
+
+Constraints ensure:
+
+- Data integrity
+    
+- Data consistency
+    
+- Prevent invalid data
+    
+- Maintain relationships
+    
+
+---
+
+# Real-Time Backend Examples
+
+|Constraint|Real-Time Usage|
+|---|---|
+|PRIMARY KEY|User ID|
+|UNIQUE|Email|
+|NOT NULL|Username|
+|CHECK|Age >= 18|
+|DEFAULT|Country = India|
+|FOREIGN KEY|Department Mapping|
+|AUTO_INCREMENT|Auto-generated IDs|
+
+---
+
+# Important Interview Questions
+
+---
+
+# Difference Between PRIMARY KEY and UNIQUE
+
+|PRIMARY KEY|UNIQUE|
+|---|---|
+|Only one per table|Multiple allowed|
+|Cannot be NULL|Can allow NULL|
+|Main identifier|Alternate uniqueness|
+
+---
+
+# Difference Between NULL and NOT NULL
+
+|NULL|NOT NULL|
+|---|---|
+|Value may be missing|Value mandatory|
+
+---
+
+# Why Use CHECK Constraint?
+
+To enforce business rules.
+
+Example:
+
+- Salary > 0
+    
+- Age >= 18
+    
+
+---
+
+# Why Use DEFAULT Constraint?
+
+Provides fallback value automatically.
+
+---
+
+# Can Table Have Multiple UNIQUE Constraints?
+
+✅ Yes
+
+Example:
+
+- Email unique
+    
+- Phone unique
+    
+
+---
+
+# Can Table Have Multiple PRIMARY KEYS?
+
+❌ No
+
+But:  
+✅ Composite primary key possible.
+
+---
+
+# Best Practices
+
+- Always define PRIMARY KEY
+    
+- Use FOREIGN KEY for relationships
+    
+- Use NOT NULL for mandatory fields
+    
+- Use CHECK for validations
+    
+- Use UNIQUE for emails/usernames
+    
+- Use meaningful constraint names
+    
+- Prefer AUTO_INCREMENT for IDs
+    
+
+---
+
+# Professional Interview Summary
+
+## PRIMARY KEY
+
+- Unique + NOT NULL
+    
+
+## FOREIGN KEY
+
+- Maintains relationships
+    
+
+## UNIQUE
+
+- Prevents duplicates
+    
+
+## NOT NULL
+
+- Mandatory field
+    
+
+## CHECK
+
+- Validation rule
+    
+
+## DEFAULT
+
+- Automatic fallback value
+    
+
+## AUTO_INCREMENT
+
+- Automatic ID generation
