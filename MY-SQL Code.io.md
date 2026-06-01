@@ -3573,3 +3573,221 @@ Result:
 ```
 
 `t_id` is automatically generated, unique, and serves as the table's primary key.
+
+# MySQL PRIMARY KEY and AUTO_INCREMENT
+
+## Definition
+
+### PRIMARY KEY
+
+A **PRIMARY KEY** uniquely identifies each record in a table.
+
+Characteristics:
+
+- Cannot contain `NULL` values.
+    
+- Values must be unique.
+    
+- Only one primary key is allowed per table.
+    
+
+### AUTO_INCREMENT
+
+The **AUTO_INCREMENT** attribute automatically generates a unique number whenever a new row is inserted.
+
+Characteristics:
+
+- Typically used with integer columns.
+    
+- Commonly applied to primary key columns.
+    
+- Starts at `1` by default and increments by `1`.
+    
+
+---
+
+# Creating a Table with PRIMARY KEY and AUTO_INCREMENT
+
+```sql
+CREATE TABLE transactions(
+    t_id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(5,2)
+);
+```
+
+## Table Structure
+
+```sql
+DESC transactions;
+```
+
+Output:
+
+|Field|Type|Null|Key|Default|Extra|
+|---|---|---|---|---|---|
+|t_id|int|NO|PRI|NULL|auto_increment|
+|amount|decimal(5,2)|YES||NULL||
+
+---
+
+# Inserting Records
+
+Since `t_id` is auto-generated, it does not need to be included in the INSERT statement.
+
+```sql
+INSERT INTO transactions(amount)
+VALUES(112.60);
+```
+
+View the data:
+
+```sql
+SELECT * FROM transactions;
+```
+
+Output:
+
+|t_id|amount|
+|---|---|
+|1|112.60|
+
+The value `1` is automatically assigned to `t_id`.
+
+---
+
+# Dropping the Table
+
+```sql
+DROP TABLE transactions;
+```
+
+---
+
+# Adding PRIMARY KEY and AUTO_INCREMENT Using ALTER TABLE
+
+Suppose the table was created without constraints:
+
+```sql
+CREATE TABLE transactions(
+    t_id INT,
+    amount DECIMAL(5,2)
+);
+```
+
+## Step 1: Add Primary Key
+
+```sql
+ALTER TABLE transactions
+ADD CONSTRAINT PRIMARY KEY(t_id);
+```
+
+This makes `t_id` the primary key.
+
+---
+
+## Step 2: Add AUTO_INCREMENT
+
+```sql
+ALTER TABLE transactions
+MODIFY t_id INT AUTO_INCREMENT;
+```
+
+This enables automatic number generation for `t_id`.
+
+---
+
+## Step 3: Insert Data
+
+```sql
+INSERT INTO transactions(amount)
+VALUES(100.56);
+```
+
+View the result:
+
+```sql
+SELECT * FROM transactions;
+```
+
+Output:
+
+|t_id|amount|
+|---|---|
+|1|100.56|
+
+MySQL automatically generates the primary key value.
+
+---
+
+# Why Use PRIMARY KEY with AUTO_INCREMENT?
+
+## Advantages
+
+### Unique Identification
+
+Every record receives a unique ID.
+
+```text
+1
+2
+3
+4
+...
+```
+
+### No Manual ID Management
+
+Developers do not need to generate IDs manually.
+
+### Faster Searching
+
+Primary keys are automatically indexed, improving query performance.
+
+### Data Integrity
+
+Duplicate IDs are prevented automatically.
+
+---
+
+# Best Practice
+
+Use an integer primary key with AUTO_INCREMENT for transaction, customer, product, and employee tables.
+
+Example:
+
+```sql
+CREATE TABLE transactions(
+    t_id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(5,2)
+);
+```
+
+This is the most common and recommended approach in MySQL.
+
+---
+
+# Summary
+
+```sql
+CREATE TABLE transactions(
+    t_id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(5,2)
+);
+
+INSERT INTO transactions(amount)
+VALUES(112.60);
+
+SELECT * FROM transactions;
+```
+
+Result:
+
+```text
++------+--------+
+| t_id | amount |
++------+--------+
+| 1    | 112.60 |
++------+--------+
+```
+
+`t_id` is automatically generated, unique, and serves as the table's primary key.
