@@ -3574,199 +3574,158 @@ Result:
 
 `t_id` is automatically generated, unique, and serves as the table's primary key.
 
-# MySQL PRIMARY KEY and AUTO_INCREMENT
+# MySQL AUTO_INCREMENT Starting Value
 
 ## Definition
 
-### PRIMARY KEY
+The `AUTO_INCREMENT` attribute automatically generates sequential numeric values for a column.
 
-A **PRIMARY KEY** uniquely identifies each record in a table.
+By default, numbering starts at **1** and increases by **1** for each new record.
 
-Characteristics:
-
-- Cannot contain `NULL` values.
-    
-- Values must be unique.
-    
-- Only one primary key is allowed per table.
-    
-
-### AUTO_INCREMENT
-
-The **AUTO_INCREMENT** attribute automatically generates a unique number whenever a new row is inserted.
-
-Characteristics:
-
-- Typically used with integer columns.
-    
-- Commonly applied to primary key columns.
-    
-- Starts at `1` by default and increments by `1`.
-    
+MySQL allows you to change the next value that will be generated using the `AUTO_INCREMENT` table option.
 
 ---
 
-# Creating a Table with PRIMARY KEY and AUTO_INCREMENT
+## Syntax
 
 ```sql
-CREATE TABLE transactions(
-    t_id INT PRIMARY KEY AUTO_INCREMENT,
-    amount DECIMAL(5,2)
-);
+ALTER TABLE table_name
+AUTO_INCREMENT = starting_value;
 ```
-
-## Table Structure
-
-```sql
-DESC transactions;
-```
-
-Output:
-
-|Field|Type|Null|Key|Default|Extra|
-|---|---|---|---|---|---|
-|t_id|int|NO|PRI|NULL|auto_increment|
-|amount|decimal(5,2)|YES||NULL||
-
----
-
-# Inserting Records
-
-Since `t_id` is auto-generated, it does not need to be included in the INSERT statement.
-
-```sql
-INSERT INTO transactions(amount)
-VALUES(112.60);
-```
-
-View the data:
-
-```sql
-SELECT * FROM transactions;
-```
-
-Output:
-
-|t_id|amount|
-|---|---|
-|1|112.60|
-
-The value `1` is automatically assigned to `t_id`.
-
----
-
-# Dropping the Table
-
-```sql
-DROP TABLE transactions;
-```
-
----
-
-# Adding PRIMARY KEY and AUTO_INCREMENT Using ALTER TABLE
-
-Suppose the table was created without constraints:
-
-```sql
-CREATE TABLE transactions(
-    t_id INT,
-    amount DECIMAL(5,2)
-);
-```
-
-## Step 1: Add Primary Key
-
-```sql
-ALTER TABLE transactions
-ADD CONSTRAINT PRIMARY KEY(t_id);
-```
-
-This makes `t_id` the primary key.
-
----
-
-## Step 2: Add AUTO_INCREMENT
-
-```sql
-ALTER TABLE transactions
-MODIFY t_id INT AUTO_INCREMENT;
-```
-
-This enables automatic number generation for `t_id`.
-
----
-
-## Step 3: Insert Data
-
-```sql
-INSERT INTO transactions(amount)
-VALUES(100.56);
-```
-
-View the result:
-
-```sql
-SELECT * FROM transactions;
-```
-
-Output:
-
-|t_id|amount|
-|---|---|
-|1|100.56|
-
-MySQL automatically generates the primary key value.
-
----
-
-# Why Use PRIMARY KEY with AUTO_INCREMENT?
-
-## Advantages
-
-### Unique Identification
-
-Every record receives a unique ID.
-
-```text
-1
-2
-3
-4
-...
-```
-
-### No Manual ID Management
-
-Developers do not need to generate IDs manually.
-
-### Faster Searching
-
-Primary keys are automatically indexed, improving query performance.
-
-### Data Integrity
-
-Duplicate IDs are prevented automatically.
-
----
-
-# Best Practice
-
-Use an integer primary key with AUTO_INCREMENT for transaction, customer, product, and employee tables.
 
 Example:
 
 ```sql
+ALTER TABLE transactions
+AUTO_INCREMENT = 100;
+```
+
+This sets the next generated value of the auto-increment column to **100**.
+
+---
+
+## Example
+
+### Create Table
+
+```sql
 CREATE TABLE transactions(
     t_id INT PRIMARY KEY AUTO_INCREMENT,
     amount DECIMAL(5,2)
 );
 ```
 
-This is the most common and recommended approach in MySQL.
+### Set Starting Value
+
+```sql
+ALTER TABLE transactions
+AUTO_INCREMENT = 100;
+```
+
+### Insert Records
+
+```sql
+INSERT INTO transactions(amount)
+VALUES(250.50);
+
+INSERT INTO transactions(amount)
+VALUES(175.25);
+```
+
+### View Data
+
+```sql
+SELECT * FROM transactions;
+```
+
+Output:
+
+|t_id|amount|
+|---|---|
+|100|250.50|
+|101|175.25|
+
+The first generated ID starts at 100 instead of 1.
 
 ---
 
-# Summary
+## Important Notes
+
+### Must Be Greater Than Existing Values
+
+If the table already contains records, the new AUTO_INCREMENT value must be greater than the current maximum primary key value.
+
+Example:
+
+Current data:
+
+|t_id|
+|---|
+|1|
+|2|
+|3|
+
+Valid:
+
+```sql
+ALTER TABLE transactions
+AUTO_INCREMENT = 100;
+```
+
+Ignored/ineffective:
+
+```sql
+ALTER TABLE transactions
+AUTO_INCREMENT = 2;
+```
+
+MySQL will continue from the next available value after the maximum existing ID.
+
+---
+
+### Affects Future Inserts Only
+
+Changing the AUTO_INCREMENT value does not modify existing records.
+
+Example:
+
+Before:
+
+|t_id|
+|---|
+|1|
+|2|
+|3|
+
+After:
+
+```sql
+ALTER TABLE transactions
+AUTO_INCREMENT = 100;
+```
+
+Existing records remain unchanged.
+
+New records will receive IDs starting from 100.
+
+---
+
+## Use Cases
+
+- Custom invoice numbers
+    
+- Order tracking systems
+    
+- Employee IDs
+    
+- Migration of legacy data
+    
+- Reserving ID ranges for specific environments
+    
+
+---
+
+## Complete Example
 
 ```sql
 CREATE TABLE transactions(
@@ -3774,8 +3733,11 @@ CREATE TABLE transactions(
     amount DECIMAL(5,2)
 );
 
+ALTER TABLE transactions
+AUTO_INCREMENT = 100;
+
 INSERT INTO transactions(amount)
-VALUES(112.60);
+VALUES(500.00);
 
 SELECT * FROM transactions;
 ```
@@ -3786,8 +3748,8 @@ Result:
 +------+--------+
 | t_id | amount |
 +------+--------+
-| 1    | 112.60 |
+| 100  | 500.00 |
 +------+--------+
 ```
 
-`t_id` is automatically generated, unique, and serves as the table's primary key.
+The next automatically generated primary key value begins at **100**.
