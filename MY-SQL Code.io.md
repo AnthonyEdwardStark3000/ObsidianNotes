@@ -3205,3 +3205,154 @@ But:
 ## AUTO_INCREMENT
 
 - Automatic ID generation
+
+
+# MySQL DEFAULT Constraint
+
+## Definition
+
+The **DEFAULT constraint** is used to assign a default value to a column when no value is specified during an `INSERT` operation.
+
+If a value is not provided for the column, MySQL automatically inserts the default value.
+
+---
+
+## Creating a Table
+
+```sql
+CREATE TABLE products(
+    p_id INT,
+    p_name VARCHAR(100),
+    price DECIMAL(6,2)
+);
+```
+
+### Table Structure
+
+|Column|Data Type|
+|---|---|
+|p_id|INT|
+|p_name|VARCHAR(100)|
+|price|DECIMAL(6,2)|
+
+Initially, the `price` column has no default value.
+
+---
+
+## Adding a DEFAULT Constraint
+
+```sql
+ALTER TABLE products
+ALTER COLUMN price SET DEFAULT 15;
+```
+
+This statement sets the default value of the `price` column to **15.00**.
+
+---
+
+## Inserting Data Without Specifying Price
+
+```sql
+INSERT INTO products (p_id, p_name)
+VALUES (1, 'check');
+```
+
+Since no value is provided for `price`, MySQL automatically uses the default value.
+
+---
+
+## Result
+
+```sql
+SELECT * FROM products;
+```
+
+Output:
+
+|p_id|p_name|price|
+|---|---|---|
+|1|check|15.00|
+
+---
+
+## Inserting a Custom Price
+
+```sql
+INSERT INTO products
+VALUES (2, 'Pen', 25.50);
+```
+
+Output:
+
+|p_id|p_name|price|
+|---|---|---|
+|1|check|15.00|
+|2|Pen|25.50|
+
+The default value is ignored because a price was explicitly supplied.
+
+---
+
+## Benefits of DEFAULT Constraints
+
+- Prevents NULL values when a sensible default exists.
+    
+- Reduces the amount of data that must be supplied during inserts.
+    
+- Maintains consistency across records.
+    
+- Simplifies data entry.
+    
+
+---
+
+## Important Notes
+
+1. The default value is used **only when the column is omitted** from the `INSERT` statement.
+    
+2. If `NULL` is explicitly inserted, MySQL stores `NULL` (unless the column is defined as `NOT NULL`).
+    
+3. Existing records are not modified when a default constraint is added.
+    
+
+---
+
+## Example Summary
+
+```sql
+CREATE TABLE products(
+    p_id INT,
+    p_name VARCHAR(100),
+    price DECIMAL(6,2)
+);
+
+ALTER TABLE products
+ALTER COLUMN price SET DEFAULT 15;
+
+INSERT INTO products (p_id, p_name)
+VALUES (1, 'check');
+
+SELECT * FROM products;
+```
+
+Result:
+
+```text
++------+--------+-------+
+| p_id | p_name | price |
++------+--------+-------+
+| 1    | check  | 15.00 |
++------+--------+-------+
+```
+
+The value `15.00` is automatically inserted because of the DEFAULT constraint.
+
+One caveat: `ALTER COLUMN price SET DEFAULT 15` works in newer MySQL versions. In older versions, you may need:
+
+```sql
+ALTER TABLE products
+MODIFY price DECIMAL(6,2) DEFAULT 15;
+```
+
+Both approaches achieve the same goal: assigning a default value to the `price` column.
+
