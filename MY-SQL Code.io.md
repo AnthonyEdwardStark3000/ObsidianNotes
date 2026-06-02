@@ -3753,3 +3753,667 @@ Result:
 ```
 
 The next automatically generated primary key value begins at **100**.
+
+# MySQL Foreign Key Constraints
+
+## What is a Foreign Key?
+
+A **Foreign Key** is a column (or set of columns) in one table that refers to the **Primary Key** of another table.
+
+It establishes a relationship between two tables and enforces **referential integrity**.
+
+### Example
+
+**Customers Table**
+
+|c_id|c_name|
+|---|---|
+|1|Suresh|
+|2|Dinesh|
+
+**Transactions Table**
+
+|t_id|amount|customer_id|
+|---|---|---|
+|1|99.99|1|
+
+Here, `customer_id` in the `transactions` table references `c_id` in the `customers` table.
+
+---
+
+# Creating Parent Table
+
+```sql
+CREATE TABLE customers(
+    c_id INT PRIMARY KEY AUTO_INCREMENT,
+    c_name VARCHAR(100),
+    age INT
+);
+```
+
+Insert sample data:
+
+```sql
+INSERT INTO customers(c_name, age)
+VALUES
+('Suresh',25),
+('Dinesh',27);
+```
+
+---
+
+# Creating Child Table with Foreign Key
+
+```sql
+CREATE TABLE transactions(
+    t_id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(5,2),
+    customer_id INT,
+    FOREIGN KEY(customer_id)
+    REFERENCES customers(c_id)
+);
+```
+
+Relationship:
+
+```text
+customers
+---------
+c_id (PK)
+
+      |
+      |
+      V
+
+transactions
+------------
+customer_id (FK)
+```
+
+---
+
+# Why Are NULL Values Allowed in Foreign Keys?
+
+A foreign key enforces:
+
+> "If a value exists, it must exist in the parent table."
+
+It does **not** mean a value is mandatory.
+
+Example:
+
+```sql
+INSERT INTO transactions(amount)
+VALUES(10.00);
+```
+
+Since no customer is specified:
+
+```text
+customer_id = NULL
+```
+
+This is valid.
+
+Similarly:
+
+```sql
+INSERT INTO transactions(amount, customer_id)
+VALUES(10.00, NULL);
+```
+
+is also valid.
+
+### Reason
+
+Some records may legitimately have no related parent record yet.
+
+Examples:
+
+- Guest orders
+    
+- Unassigned employees
+    
+- Pending transactions
+    
+- Optional relationships
+    
+
+---
+
+# Making a Foreign Key NOT NULL
+
+If every transaction must belong to a customer:
+
+```sql
+CREATE TABLE transactions(
+    t_id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(5,2),
+    customer_id INT NOT NULL,
+    FOREIGN KEY(customer_id)
+    REFERENCES customers(c_id)
+);
+```
+
+Now this will fail:
+
+```sql
+INSERT INTO transactions(amount)
+VALUES(10.00);
+```
+
+Error:
+
+```text
+Column 'customer_id' cannot be null
+```
+
+---
+
+# Referential Integrity
+
+Valid:
+
+```sql
+INSERT INTO transactions(amount, customer_id)
+VALUES(99.99,1);
+```
+
+Because customer 1 exists.
+
+Invalid:
+
+```sql
+INSERT INTO transactions(amount, customer_id)
+VALUES(99.99,100);
+```
+
+Error:
+
+```text
+Cannot add or update a child row:
+a foreign key constraint fails
+```
+
+Because customer 100 does not exist.
+
+---
+
+# Adding a Foreign Key Using ALTER TABLE
+
+Suppose the table already exists.
+
+```sql
+CREATE TABLE transactions(
+    t_id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(5,2),
+    customer_id INT
+);
+```
+
+Add the foreign key later:
+
+```sql
+ALTER TABLE transactions
+ADD CONSTRAINT fk_c_id
+FOREIGN KEY(customer_id)
+REFERENCES customers(c_id);
+```
+
+### Components
+
+- `fk_c_id` → Constraint name
+    
+- `customer_id` → Foreign key column
+    
+- `customers(c_id)` → Referenced primary key
+    
+
+---
+
+# Viewing Foreign Key Information
+
+```sql
+SHOW CREATE TABLE transactions;
+```
+
+or
+
+```sql
+DESC transactions;
+```
+
+---
+
+# Dropping a Foreign Key
+
+First identify its name.
+
+Example:
+
+```sql
+SHOW CREATE TABLE transactions;
+```
+
+Output may show:
+
+```text
+transactions_ibfk_1
+```
+
+Drop it:
+
+```sql
+ALTER TABLE transactions
+DROP FOREIGN KEY transactions_ibfk_1;
+```
+
+If you named the constraint:
+
+```sql
+ALTER TABLE transactions
+DROP FOREIGN KEY fk_c_id;
+```
+
+---
+
+# Can a Table Have Multiple Foreign Keys?
+
+Yes.
+
+Example:
+
+```sql
+CREATE TABLE orders(
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    product_id INT,
+
+    FOREIGN KEY(customer_id)
+        REFERENCES customers(c_id),
+
+    FOREIGN KEY(product_id)
+        REFERENCES products(p_id)
+);
+```
+
+Relationship:
+
+```text
+orders
+ |
+ |---- customer_id --> customers
+ |
+ |---- product_id  --> products
+```
+
+A table can have many foreign keys.
+
+---
+
+# Can a Table Have Multiple Primary Keys?
+
+No.
+
+A table can have only **one PRIMARY KEY constraint**.
+
+Invalid:
+
+```sql
+CREATE TABLE test(
+    id INT PRIMARY KEY,
+    code INT PRIMARY KEY
+);
+```
+
+MySQL Error:
+
+```text
+Multiple primary key defined
+```
+
+---
+
+# Composite Primary Key
+
+Although only one PRIMARY KEY constraint is allowed, it can contain multiple columns.
+
+Example:
+
+```sql
+CREATE TABLE enrollments(
+    student_id INT,
+    course_id INT,
+
+    PRIMARY KEY(student_id, course_id)
+);
+```
+
+This is called a **Composite Primary Key**.
+
+Unique combinations:
+
+|student_id|course_id|
+|---|---|
+|1|101|
+|1|102|
+|2|101|
+
+---
+
+# Summary
+
+## Foreign Key
+
+- Creates relationships between tables.
+    
+- References a primary key in another table.
+    
+- Enforces referential integrity.
+    
+
+## NULL Foreign Keys
+
+Allowed by default because the relationship may be optional.
+
+## NOT NULL Foreign Keys
+
+Use when every child record must reference a parent record.
+
+```sql
+customer_id INT NOT NULL
+```
+
+## ALTER TABLE
+
+Add foreign key:
+
+```sql
+ALTER TABLE transactions
+ADD CONSTRAINT fk_c_id
+FOREIGN KEY(customer_id)
+REFERENCES customers(c_id);
+```
+
+Drop foreign key:
+
+```sql
+ALTER TABLE transactions
+DROP FOREIGN KEY fk_c_id;
+```
+
+## Key Facts
+
+- One table can have many foreign keys.
+    
+- One table can have only one primary key constraint.
+    
+- A primary key can contain multiple columns (composite primary key).
+    
+- Foreign key values must either:
+    
+    - Exist in the parent table, or
+        
+    - Be NULL (unless NOT NULL is specified).
+        
+
+A useful rule to remember:
+
+> **Primary Key = "Every row must have a unique identity."**  
+> **Foreign Key = "If a relationship is specified, it must point to a valid parent row."**
+
+# Deleting Parent Records and Foreign Key Constraints
+
+## Scenario
+
+Suppose we have the following tables:
+
+### Customers (Parent Table)
+
+|c_id|c_name|
+|---|---|
+|1|Suresh|
+|2|Dinesh|
+
+### Transactions (Child Table)
+
+|t_id|amount|customer_id|
+|---|---|---|
+|1|99.99|1|
+|2|999.90|1|
+
+Notice that `customer_id = 1` in the `transactions` table refers to customer `c_id = 1`.
+
+---
+
+## Attempting to Delete the Parent Record
+
+```sql
+DELETE FROM customers
+WHERE c_id = 1;
+```
+
+MySQL returns:
+
+```text
+Error Code: 1451
+
+Cannot delete or update a parent row:
+a foreign key constraint fails
+
+transactions,
+CONSTRAINT fk_c_id
+FOREIGN KEY (customer_id)
+REFERENCES customers (c_id)
+```
+
+---
+
+# Why Does This Error Occur?
+
+The foreign key constraint protects the relationship between the tables.
+
+If MySQL allowed the deletion:
+
+```text
+customers
+---------
+1  Suresh   <-- Deleted
+
+transactions
+------------
+1  99.99  customer_id = 1
+2 999.90  customer_id = 1
+```
+
+The transaction records would point to a customer that no longer exists.
+
+These records are called **orphan records**.
+
+To prevent data inconsistency, MySQL blocks the deletion.
+
+---
+
+# Parent Table vs Child Table
+
+```text
+customers
+   |
+   | Referenced By
+   V
+transactions
+```
+
+- `customers` = Parent table
+    
+- `transactions` = Child table
+    
+
+A parent row cannot be deleted while child rows are still referencing it.
+
+---
+
+# Solution 1: Delete Child Records First
+
+Delete the related transactions:
+
+```sql
+DELETE FROM transactions
+WHERE customer_id = 1;
+```
+
+Then delete the customer:
+
+```sql
+DELETE FROM customers
+WHERE c_id = 1;
+```
+
+This is the safest and most common approach.
+
+---
+
+# Solution 2: Set Foreign Keys to NULL
+
+If the foreign key column allows NULL values:
+
+```sql
+UPDATE transactions
+SET customer_id = NULL
+WHERE customer_id = 1;
+```
+
+Now the customer can be deleted:
+
+```sql
+DELETE FROM customers
+WHERE c_id = 1;
+```
+
+Result:
+
+|t_id|amount|customer_id|
+|---|---|---|
+|1|99.99|NULL|
+|2|999.90|NULL|
+
+The transactions remain, but are no longer associated with any customer.
+
+---
+
+# Solution 3: ON DELETE CASCADE
+
+MySQL can automatically delete child records when the parent is deleted.
+
+Create the foreign key like this:
+
+```sql
+CREATE TABLE transactions(
+    t_id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(5,2),
+    customer_id INT,
+
+    CONSTRAINT fk_c_id
+    FOREIGN KEY(customer_id)
+    REFERENCES customers(c_id)
+    ON DELETE CASCADE
+);
+```
+
+Now:
+
+```sql
+DELETE FROM customers
+WHERE c_id = 1;
+```
+
+MySQL automatically deletes:
+
+```text
+Customer 1
+AND
+All related transactions
+```
+
+---
+
+# Solution 4: ON DELETE SET NULL
+
+Instead of deleting child records, MySQL can automatically set the foreign key to NULL.
+
+```sql
+CREATE TABLE transactions(
+    t_id INT PRIMARY KEY AUTO_INCREMENT,
+    amount DECIMAL(5,2),
+    customer_id INT,
+
+    CONSTRAINT fk_c_id
+    FOREIGN KEY(customer_id)
+    REFERENCES customers(c_id)
+    ON DELETE SET NULL
+);
+```
+
+When customer 1 is deleted:
+
+Before:
+
+|t_id|amount|customer_id|
+|---|---|---|
+|1|99.99|1|
+
+After:
+
+|t_id|amount|customer_id|
+|---|---|---|
+|1|99.99|NULL|
+
+The transaction remains but loses its customer reference.
+
+---
+
+# Referential Integrity Rule
+
+A foreign key guarantees:
+
+> Every foreign key value must either:
+> 
+> - Match an existing primary key value in the parent table, or
+>     
+> - Be NULL (if NULLs are allowed).
+>     
+
+Because of this rule, MySQL prevents deleting parent rows that are still being referenced.
+
+---
+
+# Summary
+
+Without special options:
+
+```sql
+DELETE FROM customers
+WHERE c_id = 1;
+```
+
+fails if child rows exist.
+
+Possible solutions:
+
+|Method|Result|
+|---|---|
+|Delete child rows first|Parent can be deleted|
+|Set child foreign keys to NULL|Parent can be deleted|
+|ON DELETE CASCADE|Child rows deleted automatically|
+|ON DELETE SET NULL|Foreign keys become NULL automatically|
+
+This behavior exists to maintain **referential integrity** and prevent orphan records in the database.
+
+A useful way to think about it:
+
+- **Primary Key** = "I am the record being referenced."
+    
+- **Foreign Key** = "I depend on another record."
+    
+- **ON DELETE CASCADE** = "If the parent goes away, delete me too."
+
