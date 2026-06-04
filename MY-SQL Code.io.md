@@ -4972,3 +4972,752 @@ NATURAL JOIN-> Auto join on same column names
 
 > Rule to remember: "The table written before JOIN is the LEFT table, and the table written after JOIN is the RIGHT table."
 
+# MySQL Functions 
+---
+
+# Why Do Functions Exist?
+
+Functions exist to:
+
+1. **Avoid repeating logic**
+    
+2. **Improve readability**
+    
+3. **Encapsulate business rules**
+    
+4. **Transform data**
+    
+5. **Perform calculations**
+    
+6. **Handle NULL values**
+    
+7. **Reuse logic across queries**
+    
+
+Without functions:
+
+```sql
+SELECT salary * 12
+FROM employees;
+```
+
+With reusable function:
+
+```sql
+SELECT AnnualSalary(salary)
+FROM employees;
+```
+
+---
+
+# Types of Functions in MySQL
+
+## 1. Built-in Functions
+
+Already provided by MySQL.
+
+Examples:
+
+```sql
+COUNT()
+SUM()
+AVG()
+MAX()
+MIN()
+NOW()
+UPPER()
+LOWER()
+COALESCE()
+IFNULL()
+DATEDIFF()
+CONCAT()
+```
+
+---
+
+## 2. User Defined Functions (UDF)
+
+Functions created by developers.
+
+Example:
+
+```sql
+DELIMITER $$
+
+CREATE FUNCTION AnnualSalary(monthlySalary DECIMAL(10,2))
+RETURNS DECIMAL(12,2)
+
+BEGIN
+    RETURN monthlySalary * 12;
+END $$
+
+DELIMITER ;
+```
+
+Usage:
+
+```sql
+SELECT AnnualSalary(25000);
+```
+
+Output:
+
+```text
+300000
+```
+
+---
+
+# Built-in Functions Every .NET + MySQL Developer Should Know
+
+---
+
+# NULL Handling Functions
+
+## COALESCE()
+
+Returns first non-null value.
+
+```sql
+SELECT COALESCE(NULL,NULL,'John');
+```
+
+Output:
+
+```text
+John
+```
+
+---
+
+Example:
+
+```sql
+SELECT
+    employee_name,
+    COALESCE(phone,'Not Available')
+FROM employees;
+```
+
+### Why useful?
+
+Without COALESCE:
+
+```text
+NULL
+```
+
+With COALESCE:
+
+```text
+Not Available
+```
+
+---
+
+## IFNULL()
+
+MySQL specific.
+
+```sql
+SELECT IFNULL(NULL,'Unknown');
+```
+
+Output:
+
+```text
+Unknown
+```
+
+---
+
+Difference:
+
+```sql
+COALESCE(NULL,NULL,'A')
+```
+
+works with multiple values.
+
+```sql
+IFNULL(NULL,'A')
+```
+
+works with only two values.
+
+---
+
+# String Functions
+
+---
+
+## CONCAT()
+
+```sql
+SELECT CONCAT(first_name,' ',last_name);
+```
+
+Output:
+
+```text
+Tony Stark
+```
+
+---
+
+## UPPER()
+
+```sql
+SELECT UPPER('tony');
+```
+
+Output:
+
+```text
+TONY
+```
+
+---
+
+## LOWER()
+
+```sql
+SELECT LOWER('TONY');
+```
+
+Output:
+
+```text
+tony
+```
+
+---
+
+## LENGTH()
+
+```sql
+SELECT LENGTH('Tony');
+```
+
+Output:
+
+```text
+4
+```
+
+---
+
+## SUBSTRING()
+
+```sql
+SELECT SUBSTRING('Anthony',1,3);
+```
+
+Output:
+
+```text
+Ant
+```
+
+---
+
+## REPLACE()
+
+```sql
+SELECT REPLACE('Tony Stark','Tony','Ironman');
+```
+
+Output:
+
+```text
+Ironman Stark
+```
+
+---
+
+# Date Functions
+
+Very common in enterprise applications.
+
+---
+
+## NOW()
+
+Current date + time
+
+```sql
+SELECT NOW();
+```
+
+---
+
+## CURDATE()
+
+Current date
+
+```sql
+SELECT CURDATE();
+```
+
+---
+
+## YEAR()
+
+```sql
+SELECT YEAR('2025-01-10');
+```
+
+Output:
+
+```text
+2025
+```
+
+---
+
+## MONTH()
+
+```sql
+SELECT MONTH('2025-01-10');
+```
+
+Output:
+
+```text
+1
+```
+
+---
+
+## DATEDIFF()
+
+```sql
+SELECT DATEDIFF('2025-01-10','2025-01-01');
+```
+
+Output:
+
+```text
+9
+```
+
+---
+
+## TIMESTAMPDIFF()
+
+Age calculation interview favorite.
+
+```sql
+SELECT
+TIMESTAMPDIFF(YEAR,birth_date,CURDATE())
+AS age
+FROM employees;
+```
+
+---
+
+# Aggregate Functions
+
+Used with GROUP BY.
+
+---
+
+## COUNT()
+
+```sql
+SELECT COUNT(*)
+FROM employees;
+```
+
+---
+
+## SUM()
+
+```sql
+SELECT SUM(salary)
+FROM employees;
+```
+
+---
+
+## AVG()
+
+```sql
+SELECT AVG(salary)
+FROM employees;
+```
+
+---
+
+## MAX()
+
+```sql
+SELECT MAX(salary)
+FROM employees;
+```
+
+---
+
+## MIN()
+
+```sql
+SELECT MIN(salary)
+FROM employees;
+```
+
+---
+
+# Conditional Functions
+
+---
+
+## IF()
+
+```sql
+SELECT
+IF(salary > 50000,
+   'High',
+   'Low');
+```
+
+---
+
+## CASE
+
+Interview favorite.
+
+```sql
+SELECT
+employee_name,
+CASE
+    WHEN salary >= 50000 THEN 'Senior'
+    WHEN salary >= 30000 THEN 'Mid'
+    ELSE 'Junior'
+END AS category
+FROM employees;
+```
+
+---
+
+# Numeric Functions
+
+---
+
+## ROUND()
+
+```sql
+SELECT ROUND(123.456,2);
+```
+
+Output:
+
+```text
+123.46
+```
+
+---
+
+## CEIL()
+
+```sql
+SELECT CEIL(12.1);
+```
+
+Output:
+
+```text
+13
+```
+
+---
+
+## FLOOR()
+
+```sql
+SELECT FLOOR(12.9);
+```
+
+Output:
+
+```text
+12
+```
+
+---
+
+## ABS()
+
+```sql
+SELECT ABS(-100);
+```
+
+Output:
+
+```text
+100
+```
+
+---
+
+# User Defined Functions (UDF)
+
+---
+
+## Create Function
+
+```sql
+DELIMITER $$
+
+CREATE FUNCTION GetBonus
+(
+    salary DECIMAL(10,2)
+)
+RETURNS DECIMAL(10,2)
+
+BEGIN
+
+    RETURN salary * 0.10;
+
+END $$
+
+DELIMITER ;
+```
+
+---
+
+Usage:
+
+```sql
+SELECT GetBonus(50000);
+```
+
+Output:
+
+```text
+5000
+```
+
+---
+
+# Can a Function Exist Without Returning a Value?
+
+## In MySQL: NO
+
+Every function must return something.
+
+This is mandatory:
+
+```sql
+RETURNS datatype
+```
+
+and
+
+```sql
+RETURN value;
+```
+
+Example:
+
+```sql
+CREATE FUNCTION Test()
+RETURNS INT
+
+BEGIN
+
+END
+```
+
+❌ Invalid
+
+---
+
+Valid:
+
+```sql
+CREATE FUNCTION Test()
+RETURNS INT
+
+BEGIN
+
+    RETURN 1;
+
+END
+```
+
+✅ Valid
+
+---
+
+# Then How Do We Execute Logic Without Returning Anything?
+
+Use a **Stored Procedure**.
+
+---
+
+## Procedure Example
+
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE IncreaseSalary()
+BEGIN
+
+    UPDATE employees
+    SET salary = salary + 1000;
+
+END $$
+
+DELIMITER ;
+```
+
+Execute:
+
+```sql
+CALL IncreaseSalary();
+```
+
+Notice:
+
+```text
+Procedure -> May return nothing
+Function  -> Must return a value
+```
+
+---
+
+# Function vs Procedure
+
+|Feature|Function|Procedure|
+|---|---|---|
+|Must Return Value|✅ Yes|❌ No|
+|Can be used in SELECT|✅ Yes|❌ No|
+|Can return multiple result sets|❌ No|✅ Yes|
+|Mainly for calculations|✅ Yes|⚠️ Sometimes|
+|Business process execution|❌ Not ideal|✅ Ideal|
+
+---
+
+# How to Retrieve Function Return Value?
+
+### Directly
+
+```sql
+SELECT GetBonus(50000);
+```
+
+---
+
+### Alias
+
+```sql
+SELECT GetBonus(50000) AS Bonus;
+```
+
+---
+
+### Store in Variable
+
+```sql
+SET @bonus = GetBonus(50000);
+
+SELECT @bonus;
+```
+
+---
+
+# Real .NET Developer Use Cases
+
+### COALESCE
+
+Avoid nulls in APIs
+
+```sql
+SELECT
+COALESCE(email,'No Email')
+FROM customers;
+```
+
+---
+
+### CONCAT
+
+Full Name generation
+
+```sql
+SELECT CONCAT(first_name,' ',last_name)
+FROM employees;
+```
+
+---
+
+### CASE
+
+Status mapping
+
+```sql
+CASE
+WHEN status = 1 THEN 'Active'
+ELSE 'Inactive'
+END
+```
+
+---
+
+### DATEDIFF
+
+Order aging
+
+```sql
+SELECT DATEDIFF(CURDATE(),order_date);
+```
+
+---
+
+### COUNT
+
+Dashboard cards
+
+```sql
+SELECT COUNT(*)
+FROM customers;
+```
+
+---
+
+### SUM
+
+Revenue reports
+
+```sql
+SELECT SUM(amount)
+FROM transactions;
+```
+
+---
+
+# Interview One-Liners
+
+```text
+COALESCE()  -> First non-null value
+IFNULL()    -> Replace null with value
+CONCAT()    -> Join strings
+DATEDIFF()  -> Difference between dates
+COUNT()     -> Number of rows
+SUM()       -> Total
+AVG()       -> Average
+CASE        -> Conditional logic
+ROUND()     -> Decimal rounding
+NOW()       -> Current timestamp
+```
+
+```text
+Function:
+- Must return one value
+- Can be used inside SELECT
+
+Procedure:
+- May or may not return values
+- Executed using CALL
+- Used for business operations and data modifications
+```
