@@ -4417,3 +4417,558 @@ A useful way to think about it:
     
 - **ON DELETE CASCADE** = "If the parent goes away, delete me too."
 
+# SQL Joins — Interview Notes (Obsidian Friendly)
+
+## What is a JOIN?
+
+A **JOIN** is used to combine rows from two or more tables based on a related column between them.
+
+In your example:
+
+- **customers** → Left Table
+    
+- **transactions** → Right Table
+    
+- Common column:
+    
+    ```sql
+    customers.c_id = transactions.customer_id
+    ```
+    
+
+---
+
+# Sample Tables
+
+## customers
+
+|c_id|name|
+|---|---|
+|1|Alice|
+|2|Bob|
+|3|Charlie|
+|4|David|
+
+## transactions
+
+|transaction_id|customer_id|amount|
+|---|---|---|
+|101|1|500|
+|102|1|700|
+|103|2|300|
+|104|5|1000|
+
+---
+
+# 1. INNER JOIN
+
+## Definition
+
+Returns only matching records from both tables.
+
+```sql
+SELECT
+    c.*,
+    t.amount AS transfer
+FROM customers c
+INNER JOIN transactions t
+ON c.c_id = t.customer_id;
+```
+
+### Result
+
+|c_id|name|transfer|
+|---|---|---|
+|1|Alice|500|
+|1|Alice|700|
+|2|Bob|300|
+
+### Visualization
+
+```text
+Customers    Transactions
+
+   (A) ∩ (B)
+
+Only common records
+```
+
+### Interview Point
+
+Most commonly used join.
+
+Use when:
+
+- You only need matching data.
+    
+- Ignore orphan records.
+    
+
+Example:
+
+```sql
+Get customers who have made transactions.
+```
+
+---
+
+# 2. LEFT JOIN
+
+## Definition
+
+Returns:
+
+- All rows from left table
+    
+- Matching rows from right table
+    
+- NULL if no match
+    
+
+```sql
+SELECT
+    c.*,
+    t.amount AS transfer
+FROM customers c
+LEFT JOIN transactions t
+ON c.c_id = t.customer_id;
+```
+
+### Result
+
+|c_id|name|transfer|
+|---|---|---|
+|1|Alice|500|
+|1|Alice|700|
+|2|Bob|300|
+|3|Charlie|NULL|
+|4|David|NULL|
+
+### Visualization
+
+```text
+(A)
+
+All records from customers
++ matching transactions
+```
+
+### Use Cases
+
+Find customers who never purchased:
+
+```sql
+SELECT c.*
+FROM customers c
+LEFT JOIN transactions t
+ON c.c_id = t.customer_id
+WHERE t.customer_id IS NULL;
+```
+
+### Interview Question
+
+**Find customers without transactions.**
+
+```sql
+SELECT c.*
+FROM customers c
+LEFT JOIN transactions t
+ON c.c_id = t.customer_id
+WHERE t.customer_id IS NULL;
+```
+
+---
+
+# 3. RIGHT JOIN
+
+## Definition
+
+Returns:
+
+- All rows from right table
+    
+- Matching rows from left table
+    
+- NULL if no match
+    
+
+```sql
+SELECT
+    c.*,
+    t.amount AS transfer
+FROM customers c
+RIGHT JOIN transactions t
+ON c.c_id = t.customer_id;
+```
+
+### Result
+
+|c_id|name|transfer|
+|---|---|---|
+|1|Alice|500|
+|1|Alice|700|
+|2|Bob|300|
+|NULL|NULL|1000|
+
+(customer_id = 5 doesn't exist)
+
+### Visualization
+
+```text
+(B)
+
+All records from transactions
++ matching customers
+```
+
+### Use Cases
+
+Find invalid transactions:
+
+```sql
+SELECT t.*
+FROM customers c
+RIGHT JOIN transactions t
+ON c.c_id = t.customer_id
+WHERE c.c_id IS NULL;
+```
+
+---
+
+# 4. FULL OUTER JOIN
+
+## Definition
+
+Returns:
+
+- All rows from left table
+    
+- All rows from right table
+    
+- Matching where possible
+    
+
+### MySQL Note
+
+MySQL does **NOT** support FULL OUTER JOIN directly.
+
+Simulate using:
+
+```sql
+SELECT
+    c.*,
+    t.amount
+FROM customers c
+LEFT JOIN transactions t
+ON c.c_id = t.customer_id
+
+UNION
+
+SELECT
+    c.*,
+    t.amount
+FROM customers c
+RIGHT JOIN transactions t
+ON c.c_id = t.customer_id;
+```
+
+### Visualization
+
+```text
+(A) + (B)
+
+Everything from both tables
+```
+
+### Use Cases
+
+Data reconciliation.
+
+Example:
+
+```sql
+Compare customer records and transaction records.
+```
+
+---
+
+# 5. CROSS JOIN
+
+## Definition
+
+Returns Cartesian Product.
+
+Every row from first table joins every row from second table.
+
+```sql
+SELECT *
+FROM customers
+CROSS JOIN transactions;
+```
+
+### Formula
+
+```text
+Rows Returned
+
+= rows in table A × rows in table B
+```
+
+Example:
+
+```text
+4 customers × 4 transactions = 16 rows
+```
+
+### Use Cases
+
+Generate combinations.
+
+Example:
+
+```sql
+Products × Sizes
+Students × Subjects
+```
+
+---
+
+# 6. SELF JOIN
+
+## Definition
+
+A table joined with itself.
+
+Useful when rows relate to other rows in the same table.
+
+Example employee hierarchy:
+
+|emp_id|emp_name|manager_id|
+|---|---|---|
+|1|John|NULL|
+|2|Sam|1|
+|3|Mike|1|
+
+```sql
+SELECT
+    e.emp_name AS Employee,
+    m.emp_name AS Manager
+FROM employees e
+LEFT JOIN employees m
+ON e.manager_id = m.emp_id;
+```
+
+### Result
+
+|Employee|Manager|
+|---|---|
+|John|NULL|
+|Sam|John|
+|Mike|John|
+
+### Use Cases
+
+- Employee ↔ Manager
+    
+- Category ↔ Parent Category
+    
+- Referral Systems
+    
+
+---
+
+# 7. NATURAL JOIN
+
+## Definition
+
+Automatically joins columns with the same name.
+
+```sql
+SELECT *
+FROM customers
+NATURAL JOIN transactions;
+```
+
+### Warning ⚠️
+
+Rarely used in production.
+
+Reason:
+
+```text
+Schema changes can break queries unexpectedly.
+```
+
+Prefer:
+
+```sql
+INNER JOIN ... ON ...
+```
+
+---
+
+# JOIN Comparison Table
+
+|Join Type|Matching Records|Left Unmatched|Right Unmatched|
+|---|---|---|---|
+|INNER JOIN|✅|❌|❌|
+|LEFT JOIN|✅|✅|❌|
+|RIGHT JOIN|✅|❌|✅|
+|FULL OUTER JOIN|✅|✅|✅|
+|CROSS JOIN|Every Combination|N/A|N/A|
+|SELF JOIN|Same Table|Depends|Depends|
+|NATURAL JOIN|Auto Match Columns|Depends|Depends|
+
+---
+
+# Frequently Asked Interview Questions
+
+## Q1: Difference between INNER JOIN and LEFT JOIN?
+
+### INNER JOIN
+
+Returns only matching rows.
+
+```sql
+SELECT *
+FROM customers c
+INNER JOIN transactions t
+ON c.c_id = t.customer_id;
+```
+
+### LEFT JOIN
+
+Returns all customers even if transaction doesn't exist.
+
+```sql
+SELECT *
+FROM customers c
+LEFT JOIN transactions t
+ON c.c_id = t.customer_id;
+```
+
+---
+
+## Q2: How to find records that do not match?
+
+### Customers without transactions
+
+```sql
+SELECT c.*
+FROM customers c
+LEFT JOIN transactions t
+ON c.c_id = t.customer_id
+WHERE t.customer_id IS NULL;
+```
+
+---
+
+## Q3: How to find orphan transactions?
+
+```sql
+SELECT t.*
+FROM customers c
+RIGHT JOIN transactions t
+ON c.c_id = t.customer_id
+WHERE c.c_id IS NULL;
+```
+
+---
+
+## Q4: Which join is fastest?
+
+Generally:
+
+```text
+INNER JOIN
+    ↓
+LEFT/RIGHT JOIN
+    ↓
+FULL OUTER JOIN (simulated)
+    ↓
+CROSS JOIN
+```
+
+Actual performance depends on:
+
+- Indexes
+    
+- Table size
+    
+- Query plan
+    
+- Database engine
+    
+
+---
+
+# Real-World Examples
+
+## Banking
+
+```sql
+customers
+transactions
+```
+
+Find customer transaction history.
+
+```sql
+SELECT c.name, t.amount
+FROM customers c
+INNER JOIN transactions t
+ON c.c_id = t.customer_id;
+```
+
+---
+
+## E-Commerce
+
+```sql
+orders
+customers
+```
+
+Find order owner.
+
+```sql
+SELECT o.order_id, c.name
+FROM orders o
+JOIN customers c
+ON o.customer_id = c.customer_id;
+```
+
+---
+
+## HR Management
+
+```sql
+employees
+departments
+```
+
+Find employee department.
+
+```sql
+SELECT e.emp_name, d.department_name
+FROM employees e
+JOIN departments d
+ON e.department_id = d.department_id;
+```
+
+---
+
+# Interview One-Liner
+
+```text
+INNER JOIN  -> Only matching records
+LEFT JOIN   -> All left + matching right
+RIGHT JOIN  -> All right + matching left
+FULL JOIN   -> Everything from both tables
+CROSS JOIN  -> Every combination
+SELF JOIN   -> Table joined with itself
+NATURAL JOIN-> Auto join on same column names
+```
+
+> Rule to remember: "The table written before JOIN is the LEFT table, and the table written after JOIN is the RIGHT table."
+
