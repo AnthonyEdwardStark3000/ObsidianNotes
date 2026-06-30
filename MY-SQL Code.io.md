@@ -5721,3 +5721,287 @@ Procedure:
 - Executed using CALL
 - Used for business operations and data modifications
 ```
+## MySQL Self Join (Employee → Manager Mapping)
+
+> **Use case:** When a table references itself (hierarchical relationship like employee-manager, category-parent, mentor-student).
+
+---
+
+# Definition
+
+A **self join** is a regular join where a table is joined with itself.
+
+In MySQL, it is useful when one row depends on another row in the same table.
+
+### Example:
+
+An employee table where each employee has a `manager_id`, and that manager is also an employee.
+
+```sql
+employees
+```
+
+|emp_no|first_name|last_name|manager_id|
+|---|---|---|---|
+|1|test|employee|NULL|
+|2|test|employee2|1|
+|3|test|employee|2|
+|4|test|employee2|2|
+|6|Anthony Edward|Stark|6|
+
+---
+
+# Why Self Join?
+
+Because:
+
+- Employee data and manager data exist in the **same table**
+    
+- `manager_id` points to another employee's `emp_no`
+    
+
+Relationship:
+
+```text
+employee.manager_id → employee.emp_no
+```
+
+This is called a **recursive relationship**.
+
+---
+
+# Syntax Pattern
+
+```sql
+SELECT A.column, B.column
+FROM table_name A
+JOIN table_name B
+ON A.foreign_key = B.primary_key;
+```
+
+Think:
+
+- **A = child**
+    
+- **B = parent**
+    
+
+---
+
+# Your Query Explained
+
+Your query:
+
+```sql
+SELECT e1.first_name,
+       e1.last_name,
+       e1.emp_no AS employeeNumber,
+       e2.manager_id
+FROM employees e1
+JOIN employees e2
+ON e1.emp_no = e2.manager_id;
+```
+
+### Breakdown:
+
+```sql
+employees e1
+```
+
+→ First copy of employees (treated as employees)
+
+```sql
+employees e2
+```
+
+→ Second copy of employees (treated as managers)
+
+Condition:
+
+```sql
+e1.emp_no = e2.manager_id
+```
+
+Meaning:
+
+Find rows where employee number matches another row’s manager_id.
+
+---
+
+# Better Interview Version (More Practical)
+
+Usually interviewers expect:
+
+```sql
+SELECT 
+    e.emp_no AS employee_id,
+    e.first_name AS employee_name,
+    m.emp_no AS manager_id,
+    m.first_name AS manager_name
+FROM employees e
+LEFT JOIN employees m
+ON e.manager_id = m.emp_no;
+```
+
+### Why this is better:
+
+Because it directly answers:
+
+> “Who is this employee’s manager?”
+
+Example output:
+
+|employee_id|employee_name|manager_id|manager_name|
+|---|---|---|---|
+|2|test|1|test|
+|3|test|2|test|
+|4|test|2|test|
+
+---
+
+# LEFT JOIN vs INNER JOIN
+
+### INNER JOIN
+
+```sql
+JOIN
+```
+
+Returns only employees having managers.
+
+---
+
+### LEFT JOIN
+
+```sql
+LEFT JOIN
+```
+
+Returns all employees including top-level managers (CEO).
+
+Example:
+
+```sql
+SELECT e.first_name, m.first_name
+FROM employees e
+LEFT JOIN employees m
+ON e.manager_id = m.emp_no;
+```
+
+If no manager:
+
+```text
+manager_name = NULL
+```
+
+---
+
+# Real-world Examples
+
+## 1. Employee → Manager
+
+```text
+John → Mike
+Mike → Sarah
+```
+
+---
+
+## 2. Category Tree
+
+```text
+Electronics
+ ├── Phones
+ └── Laptops
+```
+
+---
+
+## 3. Comments Replies
+
+```text
+Comment 1
+ └── Reply 1
+```
+
+---
+
+# Interview Questions
+
+## Q1: Find employee with manager names
+
+```sql
+SELECT e.first_name, m.first_name
+FROM employees e
+LEFT JOIN employees m
+ON e.manager_id = m.emp_no;
+```
+
+---
+
+## Q2: Find employees under manager id = 2
+
+```sql
+SELECT *
+FROM employees
+WHERE manager_id = 2;
+```
+
+---
+
+## Q3: Find managers with their team size
+
+```sql
+SELECT 
+    manager_id,
+    COUNT(*) AS team_size
+FROM employees
+GROUP BY manager_id;
+```
+
+---
+
+## Q4: Find employees who are also managers
+
+```sql
+SELECT DISTINCT e.emp_no, e.first_name
+FROM employees e
+JOIN employees sub
+ON e.emp_no = sub.manager_id;
+```
+
+---
+
+# Important Interview Points
+
+✅ Self join uses aliases  
+✅ Same table joined twice  
+✅ Useful for hierarchical data  
+✅ Foreign key points to same table  
+✅ Alias names improve readability  
+✅ LEFT JOIN preserves root nodes
+
+---
+
+# Quick Memory Trick
+
+```text
+Self Join = Same table, different roles
+```
+
+Example:
+
+```text
+employees e  → employee
+employees m  → manager
+```
+
+Join:
+
+```text
+e.manager_id = m.emp_no
+```
+
+Remember:
+
+> Child points to Parent.
