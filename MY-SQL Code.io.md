@@ -6006,3 +6006,553 @@ Remember:
 
 > Child points to Parent.
 
+# MySQL Views (Obsidian Notes)
+
+> [!info] Definition  
+> A **View** is a **virtual table** created from the result of a SQL query.  
+> It **does not store data** (except in special cases like materialized views in other databases). Instead, it stores the SQL query and executes it whenever the view is accessed.
+
+---
+
+# What is a View?
+
+```sql
+CREATE VIEW employeeReportsTo AS
+SELECT
+    e1.first_name,
+    e1.last_name,
+    e1.emp_no AS employeeNumber,
+    e2.manager_id
+FROM employees e1
+JOIN employees e2
+ON e1.emp_no = e2.manager_id;
+```
+
+Now instead of writing the JOIN every time:
+
+```sql
+SELECT *
+FROM employeeReportsTo;
+```
+
+MySQL internally executes:
+
+```sql
+SELECT
+    e1.first_name,
+    e1.last_name,
+    e1.emp_no AS employeeNumber,
+    e2.manager_id
+FROM employees e1
+JOIN employees e2
+ON e1.emp_no = e2.manager_id;
+```
+
+---
+
+# View vs Temporary Table
+
+|Feature|View|Temporary Table|
+|---|---|---|
+|Stores data?|❌ No|✅ Yes|
+|Stores query?|✅ Yes|❌ No|
+|Lifetime|Permanent until dropped|Exists only during session|
+|Automatically reflects new data|✅ Yes|❌ No|
+|Takes storage|Very little|Uses disk/memory|
+
+## View
+
+```text
+Employees Table
+        ↓
+     SQL Query
+        ↓
+      View
+```
+
+The data always comes from the original table.
+
+---
+
+## Temporary Table
+
+```sql
+CREATE TEMPORARY TABLE tempEmployees AS
+SELECT *
+FROM employees
+WHERE salary > 50000;
+```
+
+This copies the data.
+
+If the employees table changes later,
+
+the temporary table **does NOT change**.
+
+---
+
+# Why use Views?
+
+## 1. Simplifies Complex Queries
+
+Instead of writing:
+
+```sql
+SELECT e.first_name,
+       e.last_name,
+       d.department_name
+FROM employees e
+JOIN departments d
+ON e.department_id = d.department_id;
+```
+
+Create a view:
+
+```sql
+CREATE VIEW employeeDepartment AS
+SELECT e.first_name,
+       e.last_name,
+       d.department_name
+FROM employees e
+JOIN departments d
+ON e.department_id = d.department_id;
+```
+
+Now simply:
+
+```sql
+SELECT *
+FROM employeeDepartment;
+```
+
+---
+
+## 2. Reusability
+
+Suppose 20 developers need the same query.
+
+Without a view:
+
+Everyone writes the same JOIN repeatedly.
+
+With a view:
+
+```sql
+SELECT *
+FROM employeeDepartment;
+```
+
+One query maintained in one place.
+
+---
+
+## 3. Security
+
+Suppose the employee table contains
+
+```text
+emp_no
+first_name
+salary
+ssn
+password
+```
+
+HR should see everything.
+
+Managers should only see names.
+
+Create a view:
+
+```sql
+CREATE VIEW employeeNames AS
+SELECT
+    emp_no,
+    first_name,
+    last_name
+FROM employees;
+```
+
+Managers receive permission only on
+
+```text
+employeeNames
+```
+
+They never see salary or SSN.
+
+---
+
+## 4. Data Abstraction
+
+Applications don't need to know database structure.
+
+Suppose today:
+
+```text
+employees
+departments
+```
+
+Tomorrow:
+
+You normalize into
+
+```text
+employees
+employee_department
+departments
+```
+
+Only the view changes.
+
+Applications still use
+
+```sql
+SELECT *
+FROM employeeDepartment;
+```
+
+No application code changes.
+
+---
+
+# Does a View Solve Data Inconsistency?
+
+## Short Answer
+
+**No.**
+
+Views **do not fix inconsistent data.**
+
+They only present data consistently.
+
+---
+
+Suppose
+
+Employees
+
+|emp_no|name|
+|---|---|
+|101|John|
+
+Orders
+
+|order_id|emp_no|
+|---|---|
+|1|999|
+
+Employee 999 doesn't exist.
+
+This is inconsistent.
+
+A View cannot repair it.
+
+It only displays what's already stored.
+
+---
+
+# Then why do people say Views help consistency?
+
+Because they ensure **consistent query logic.**
+
+Example
+
+Three developers.
+
+Developer A
+
+```sql
+SELECT *
+FROM employees
+WHERE salary > 50000;
+```
+
+Developer B
+
+```sql
+SELECT *
+FROM employees
+WHERE salary >= 50000;
+```
+
+Developer C
+
+```sql
+SELECT *
+FROM employees
+WHERE salary > 45000;
+```
+
+Everyone gets different reports.
+
+Now create
+
+```sql
+CREATE VIEW highSalaryEmployees AS
+SELECT *
+FROM employees
+WHERE salary > 50000;
+```
+
+Everyone uses
+
+```sql
+SELECT *
+FROM highSalaryEmployees;
+```
+
+Now everyone sees identical results.
+
+The **data didn't change**—only the way it is queried became consistent.
+
+---
+
+# Example 1 — High Salary Employees
+
+```sql
+CREATE VIEW highSalaryEmployees AS
+SELECT
+    emp_no,
+    first_name,
+    salary
+FROM employees
+WHERE salary > 60000;
+```
+
+Use
+
+```sql
+SELECT *
+FROM highSalaryEmployees;
+```
+
+---
+
+# Example 2 — Employees with Department
+
+```sql
+CREATE VIEW employeeDepartment AS
+SELECT
+    e.emp_no,
+    e.first_name,
+    d.department_name
+FROM employees e
+JOIN departments d
+ON e.department_id = d.department_id;
+```
+
+Query
+
+```sql
+SELECT *
+FROM employeeDepartment;
+```
+
+---
+
+# Example 3 — Customer Orders
+
+Tables
+
+Customers
+
+```text
+customer_id
+name
+```
+
+Orders
+
+```text
+order_id
+customer_id
+amount
+```
+
+View
+
+```sql
+CREATE VIEW customerOrders AS
+SELECT
+    c.customer_id,
+    c.name,
+    o.order_id,
+    o.amount
+FROM customers c
+JOIN orders o
+ON c.customer_id = o.customer_id;
+```
+
+Query
+
+```sql
+SELECT *
+FROM customerOrders;
+```
+
+---
+
+# Example 4 — Products in Stock
+
+```sql
+CREATE VIEW availableProducts AS
+SELECT
+    product_id,
+    product_name,
+    quantity
+FROM products
+WHERE quantity > 0;
+```
+
+Use
+
+```sql
+SELECT *
+FROM availableProducts;
+```
+
+---
+
+# Updating Through a View
+
+Simple views can be updated.
+
+View
+
+```sql
+CREATE VIEW employeeBasic AS
+SELECT
+    emp_no,
+    first_name,
+    salary
+FROM employees;
+```
+
+Update
+
+```sql
+UPDATE employeeBasic
+SET salary = 65000
+WHERE emp_no = 101;
+```
+
+This updates the original table.
+
+---
+
+Complex views containing
+
+- JOIN
+    
+- GROUP BY
+    
+- DISTINCT
+    
+- Aggregate functions
+    
+
+are usually **not updatable**.
+
+Example
+
+```sql
+CREATE VIEW departmentSalary AS
+SELECT
+    department_id,
+    AVG(salary)
+FROM employees
+GROUP BY department_id;
+```
+
+You cannot do
+
+```sql
+UPDATE departmentSalary
+SET AVG(salary) = 50000;
+```
+
+---
+
+# Advantages of Views
+
+- ✅ Simplifies complex SQL queries
+    
+- ✅ Reusable query definitions
+    
+- ✅ Hides complex JOIN logic
+    
+- ✅ Restricts access to sensitive columns (security)
+    
+- ✅ Provides a stable interface even if underlying tables change
+    
+- ✅ Ensures everyone uses the same business logic
+    
+- ✅ Always shows the latest data from base tables
+    
+
+---
+
+# Limitations of Views
+
+- ❌ Usually slower than querying a well-designed table directly for very complex views
+    
+- ❌ Do not store data themselves
+    
+- ❌ Do not improve inconsistent or invalid data
+    
+- ❌ Many complex views cannot be updated
+    
+- ❌ Nested views can become difficult to maintain
+    
+
+---
+
+# View vs Temporary Table (Quick Revision)
+
+|View|Temporary Table|
+|---|---|
+|Virtual table|Physical temporary table|
+|Stores SQL query|Stores copied data|
+|Always reflects latest base-table data|Snapshot at creation time (unless manually updated)|
+|Permanent until dropped|Automatically removed when the session ends|
+|Good for reusable reports and security|Good for intermediate processing and performance within a session|
+
+---
+
+# Interview Questions
+
+### What is a View?
+
+A virtual table defined by a stored SQL query. It presents data from one or more tables without storing the data itself.
+
+### Does a View store data?
+
+No. It stores only the query definition and retrieves data from the underlying tables when queried.
+
+### Why use a View?
+
+- Simplify complex queries
+    
+- Reuse business logic
+    
+- Restrict access to sensitive data
+    
+- Provide a consistent interface to applications
+    
+
+### Does a View solve data inconsistency?
+
+No. Views do not correct or validate stored data. They help ensure **consistent query results** by centralizing the query logic used to access the data.
+
+### When should you use a Temporary Table instead of a View?
+
+Use a temporary table when you need to:
+
+- Store intermediate results during a session
+    
+- Reuse a computed dataset multiple times without re-running expensive queries
+    
+- Modify the intermediate data independently of the original tables
+
