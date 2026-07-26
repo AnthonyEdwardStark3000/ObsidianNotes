@@ -6556,3 +6556,587 @@ Use a temporary table when you need to:
     
 - Modify the intermediate data independently of the original tables
 
+# MySQL Indexes (Obsidian Notes)
+
+> [!info] Definition  
+> An **Index** is a special data structure that allows MySQL to find rows **much faster** without scanning the entire table.
+> 
+> Think of it like the **index at the back of a textbook**. Instead of reading every page to find "Inheritance", you look it up in the index and jump directly to the page.
+
+---
+
+# Why do we need Indexes?
+
+Suppose you have an `employees` table with **1,000,000 records**.
+
+```text
+emp_no   first_name   last_name
+--------------------------------
+10001    John         Smith
+10002    David        Lee
+10003    Sarah        Wilson
+...
+1000000  Alice        Brown
+```
+
+You run:
+
+```sql
+SELECT *
+FROM employees
+WHERE first_name = 'Sarah';
+```
+
+### Without an Index
+
+MySQL performs a **Full Table Scan**.
+
+```text
+Row 1
+ ↓
+Row 2
+ ↓
+Row 3
+ ↓
+...
+ ↓
+Row 1,000,000
+```
+
+Every row is checked until "Sarah" is found.
+
+Time Complexity:
+
+```text
+O(n)
+```
+
+---
+
+### With an Index
+
+Suppose an index exists on `first_name`.
+
+```sql
+CREATE INDEX firstName_idx
+ON employees(first_name);
+```
+
+MySQL searches the index first.
+
+```text
+Index
+
+Alice  -----> Row 900000
+Bob    -----> Row 400
+David  -----> Row 200
+John   -----> Row 1
+Sarah  -----> Row 3
+```
+
+Instead of checking every row,
+
+MySQL jumps directly to Sarah's records.
+
+Time Complexity (roughly)
+
+```text
+O(log n)
+```
+
+---
+
+# How does an Index make searching faster?
+
+Internally, MySQL (InnoDB) stores indexes as a **B+ Tree**.
+
+Imagine this tree:
+
+```text
+                 M
+               /   \
+             G       T
+            / \     / \
+          C   J   P   Z
+```
+
+Searching for **Sarah**
+
+1. Compare with M
+    
+2. Go right
+    
+3. Compare with T
+    
+4. Go left
+    
+5. Reach Sarah
+    
+
+Only a few comparisons are needed.
+
+Without an index:
+
+```text
+Alice
+Bob
+Chris
+David
+Emma
+...
+Sarah
+```
+
+Every row must be checked.
+
+---
+
+# Creating an Index
+
+Single-column index
+
+```sql
+CREATE INDEX firstName_idx
+ON employees(first_name);
+```
+
+---
+
+Multiple-column (Composite) index
+
+```sql
+CREATE INDEX name_idx
+ON employees(first_name, last_name);
+```
+
+---
+
+Show indexes
+
+```sql
+SHOW INDEXES
+FROM employees;
+```
+
+---
+
+Drop an index
+
+```sql
+ALTER TABLE employees
+DROP INDEX name_idx;
+```
+
+or
+
+```sql
+DROP INDEX name_idx
+ON employees;
+```
+
+---
+
+# Composite Index
+
+```sql
+CREATE INDEX name_idx
+ON employees(first_name, last_name);
+```
+
+Index order:
+
+```text
+John Adams
+John Brown
+John Smith
+Sarah Lee
+Sarah Wilson
+```
+
+---
+
+Works efficiently for
+
+```sql
+WHERE first_name='John'
+```
+
+and
+
+```sql
+WHERE first_name='John'
+AND last_name='Smith'
+```
+
+Not efficient for
+
+```sql
+WHERE last_name='Smith'
+```
+
+because the index starts with `first_name`.
+
+This is called the **Leftmost Prefix Rule**.
+
+---
+
+# Types of Indexes
+
+## 1. Primary Index
+
+Automatically created for a Primary Key.
+
+```sql
+CREATE TABLE employees (
+    emp_no INT PRIMARY KEY,
+    first_name VARCHAR(50)
+);
+```
+
+Index automatically exists on
+
+```text
+emp_no
+```
+
+Characteristics:
+
+- Unique
+    
+- Cannot contain `NULL`
+    
+- Only one primary key per table
+    
+
+---
+
+## 2. Unique Index
+
+Ensures values are unique.
+
+```sql
+CREATE UNIQUE INDEX email_idx
+ON employees(email);
+```
+
+Cannot insert
+
+```text
+abc@gmail.com
+abc@gmail.com
+```
+
+---
+
+## 3. Normal (Non-Unique) Index
+
+Most commonly used.
+
+```sql
+CREATE INDEX salary_idx
+ON employees(salary);
+```
+
+Duplicates allowed.
+
+---
+
+## 4. Composite (Multi-Column) Index
+
+```sql
+CREATE INDEX employee_idx
+ON employees(first_name,last_name);
+```
+
+Useful when queries use multiple columns together.
+
+---
+
+## 5. Full-Text Index
+
+Used for searching large text.
+
+```sql
+CREATE FULLTEXT INDEX article_idx
+ON articles(content);
+```
+
+Example
+
+```sql
+SELECT *
+FROM articles
+WHERE MATCH(content)
+AGAINST('mysql indexes');
+```
+
+Better than
+
+```sql
+WHERE content LIKE '%mysql%'
+```
+
+for large text datasets.
+
+---
+
+## 6. Spatial Index
+
+Used for GIS/location data.
+
+```sql
+CREATE SPATIAL INDEX location_idx
+ON stores(location);
+```
+
+Useful for maps and coordinates.
+
+---
+
+# Constraints Related to Indexes
+
+## PRIMARY KEY
+
+Automatically creates a unique index.
+
+```sql
+CREATE TABLE employee(
+    emp_no INT PRIMARY KEY
+);
+```
+
+---
+
+## UNIQUE
+
+Creates a unique index.
+
+```sql
+CREATE TABLE employee(
+    email VARCHAR(100) UNIQUE
+);
+```
+
+---
+
+## FOREIGN KEY
+
+```sql
+CREATE TABLE orders(
+    customer_id INT,
+    FOREIGN KEY(customer_id)
+    REFERENCES customers(customer_id)
+);
+```
+
+In InnoDB, the referenced columns must be indexed, and MySQL also ensures the foreign key columns are indexed if needed to efficiently enforce referential integrity.
+
+---
+
+# Queries that benefit from Indexes
+
+Searching
+
+```sql
+SELECT *
+FROM employees
+WHERE emp_no=1001;
+```
+
+---
+
+Range search
+
+```sql
+SELECT *
+FROM employees
+WHERE salary BETWEEN 50000 AND 80000;
+```
+
+---
+
+Sorting
+
+```sql
+SELECT *
+FROM employees
+ORDER BY first_name;
+```
+
+---
+
+Grouping
+
+```sql
+SELECT department_id,
+COUNT(*)
+FROM employees
+GROUP BY department_id;
+```
+
+---
+
+Joining
+
+```sql
+SELECT *
+FROM employees e
+JOIN departments d
+ON e.department_id=d.department_id;
+```
+
+Indexes on the join columns can greatly reduce the work needed.
+
+---
+
+# When Indexes are NOT Helpful
+
+Searching every row
+
+```sql
+SELECT *
+FROM employees;
+```
+
+---
+
+Very small tables
+
+Reading every row may actually be faster.
+
+---
+
+Using functions on indexed columns
+
+```sql
+SELECT *
+FROM employees
+WHERE UPPER(first_name)='JOHN';
+```
+
+The regular index on `first_name` usually cannot be used because the function changes the indexed value.
+
+---
+
+Leading wildcard
+
+```sql
+WHERE first_name LIKE '%ohn'
+```
+
+The index generally cannot be used efficiently because the search does not start from the beginning of the indexed values.
+
+---
+
+# Advantages
+
+- ✅ Faster searching (`WHERE`)
+    
+- ✅ Faster joins
+    
+- ✅ Faster sorting (`ORDER BY`)
+    
+- ✅ Faster grouping (`GROUP BY`)
+    
+- ✅ Faster `MIN()` and `MAX()` on indexed columns
+    
+- ✅ Enforces uniqueness with `UNIQUE` indexes
+    
+
+---
+
+# Disadvantages
+
+- ❌ Uses additional disk space
+    
+- ❌ Slows `INSERT`
+    
+- ❌ Slows `UPDATE` on indexed columns
+    
+- ❌ Slows `DELETE`
+    
+- ❌ Too many indexes can reduce overall performance because each index must also be maintained
+    
+
+---
+
+# Real-Life Example
+
+Imagine a library.
+
+Without an index:
+
+```text
+Book 1
+Book 2
+Book 3
+...
+Book 100000
+```
+
+To find
+
+```text
+Database Systems
+```
+
+You search every book.
+
+---
+
+With an index:
+
+```text
+A → Shelf 1
+B → Shelf 4
+C → Shelf 7
+D → Shelf 10
+```
+
+You jump directly to the correct shelf.
+
+That is exactly what a database index does.
+
+---
+
+# Interview Questions
+
+### What is an Index?
+
+A data structure that improves the speed of data retrieval by allowing MySQL to locate rows without scanning the entire table.
+
+### Does an Index store another copy of the table?
+
+No. It stores indexed column values along with pointers to the corresponding table rows.
+
+### Which data structure does MySQL use?
+
+For the InnoDB storage engine, most indexes are implemented using **B+ Trees**. `FULLTEXT` indexes use specialized structures for text search.
+
+### Why are indexes faster?
+
+Instead of checking every row, MySQL traverses the B+ Tree to quickly locate the matching key and then accesses the required rows.
+
+### Which operations benefit most?
+
+- `WHERE`
+    
+- `JOIN`
+    
+- `ORDER BY`
+    
+- `GROUP BY`
+    
+- Range queries (`BETWEEN`, `<`, `>`)
+    
+
+### When should you avoid indexing?
+
+Avoid indexing columns that:
+
+- Change very frequently
+    
+- Have very low selectivity (for example, a column with only `Male`/`Female` values)
+    
+- Are rarely used in search, join, sort, or grouping conditions
+  
