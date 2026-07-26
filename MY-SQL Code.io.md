@@ -7140,3 +7140,648 @@ Avoid indexing columns that:
     
 - Are rarely used in search, join, sort, or grouping conditions
   
+# MySQL Subqueries (Obsidian Notes)
+
+> [!info] Definition  
+> A **Subquery** (also called an **Inner Query** or **Nested Query**) is a SQL query written **inside another SQL query**.
+> 
+> The **inner query executes first**, and its result is passed to the **outer query**.
+
+---
+
+# Syntax
+
+```sql
+SELECT column_name
+FROM table_name
+WHERE column_name operator (
+    SELECT column_name
+    FROM another_table
+);
+```
+
+Execution order:
+
+```text
+Inner Query
+     ↓
+Returns Result
+     ↓
+Outer Query
+     ↓
+Final Result
+```
+
+---
+
+# Why do we use Subqueries?
+
+Subqueries are useful when:
+
+- ✅ The outer query depends on the result of another query.
+    
+- ✅ You want to avoid writing multiple separate SQL statements.
+    
+- ✅ You need filtering based on calculated or aggregated values.
+    
+- ✅ You want cleaner SQL for complex conditions.
+    
+
+---
+
+# Example 1 - Find Employee by Name
+
+```sql
+SELECT *
+FROM employees
+WHERE emp_no = (
+    SELECT emp_no
+    FROM employees
+    WHERE first_name = 'Suresh'
+);
+```
+
+## How it works
+
+### Step 1
+
+Inner query executes first.
+
+```sql
+SELECT emp_no
+FROM employees
+WHERE first_name = 'Suresh';
+```
+
+Result
+
+```text
+emp_no
+------
+1005
+```
+
+### Step 2
+
+Outer query becomes
+
+```sql
+SELECT *
+FROM employees
+WHERE emp_no = 1005;
+```
+
+Result
+
+```text
+1005  Suresh  Kumar  65000
+```
+
+---
+
+# Visual Representation
+
+```text
+Outer Query
+
+SELECT *
+FROM employees
+WHERE emp_no =
+                ↑
+          Inner Query
+```
+
+Execution
+
+```text
+Inner Query
+      ↓
+Returns 1005
+      ↓
+Outer Query
+      ↓
+Returns employee details
+```
+
+---
+
+# Example 2 - Employees earning above average salary
+
+Suppose
+
+```text
+Employees
+
+John      50000
+David     70000
+Sarah     90000
+Alice     40000
+```
+
+Find employees earning above average salary.
+
+```sql
+SELECT *
+FROM employees
+WHERE salary >
+(
+    SELECT AVG(salary)
+    FROM employees
+);
+```
+
+Inner query
+
+```sql
+SELECT AVG(salary)
+FROM employees;
+```
+
+Result
+
+```text
+62500
+```
+
+Outer query
+
+```sql
+SELECT *
+FROM employees
+WHERE salary > 62500;
+```
+
+Returns
+
+```text
+David
+Sarah
+```
+
+---
+
+# Example 3 - Employees in the Sales Department
+
+Departments
+
+```text
+department_id
+--------------
+1  HR
+2  Sales
+3  IT
+```
+
+Employees
+
+```text
+John    2
+Sarah   3
+David   2
+```
+
+Query
+
+```sql
+SELECT *
+FROM employees
+WHERE department_id =
+(
+    SELECT department_id
+    FROM departments
+    WHERE department_name='Sales'
+);
+```
+
+Inner query
+
+```text
+2
+```
+
+Outer query
+
+```sql
+SELECT *
+FROM employees
+WHERE department_id=2;
+```
+
+---
+
+# Example 4 - Products Costlier than Average
+
+```sql
+SELECT *
+FROM products
+WHERE price >
+(
+    SELECT AVG(price)
+    FROM products
+);
+```
+
+---
+
+# Example 5 - Customers with Orders
+
+```sql
+SELECT *
+FROM customers
+WHERE customer_id IN
+(
+    SELECT customer_id
+    FROM orders
+);
+```
+
+Explanation
+
+Inner query
+
+```text
+101
+102
+104
+```
+
+Outer query
+
+```sql
+SELECT *
+FROM customers
+WHERE customer_id IN (101,102,104);
+```
+
+---
+
+# Example 6 - Employees with Maximum Salary
+
+```sql
+SELECT *
+FROM employees
+WHERE salary =
+(
+    SELECT MAX(salary)
+    FROM employees
+);
+```
+
+Inner query
+
+```text
+95000
+```
+
+Outer query
+
+```sql
+SELECT *
+FROM employees
+WHERE salary=95000;
+```
+
+---
+
+# Example 7 - Departments Without Employees
+
+```sql
+SELECT *
+FROM departments
+WHERE department_id NOT IN
+(
+    SELECT department_id
+    FROM employees
+);
+```
+
+Useful for finding unused departments.
+
+---
+
+# Types of Subqueries
+
+## 1. Single-Row Subquery
+
+Returns only one value.
+
+```sql
+SELECT *
+FROM employees
+WHERE salary >
+(
+    SELECT AVG(salary)
+    FROM employees
+);
+```
+
+Returns
+
+```text
+65000
+```
+
+One value only.
+
+---
+
+## 2. Multiple-Row Subquery
+
+Returns multiple values.
+
+```sql
+SELECT *
+FROM employees
+WHERE department_id IN
+(
+    SELECT department_id
+    FROM departments
+    WHERE location='Chennai'
+);
+```
+
+Returns
+
+```text
+1
+3
+5
+```
+
+Uses
+
+```sql
+IN
+```
+
+instead of
+
+```sql
+=
+```
+
+---
+
+## 3. Correlated Subquery
+
+The inner query depends on each row processed by the outer query.
+
+Example
+
+```sql
+SELECT e1.first_name,
+       e1.salary
+FROM employees e1
+WHERE salary >
+(
+    SELECT AVG(e2.salary)
+    FROM employees e2
+    WHERE e1.department_id = e2.department_id
+);
+```
+
+Explanation
+
+For each employee,
+
+MySQL calculates the average salary of **that employee's department**.
+
+If the employee earns more than the department average,
+
+the employee is returned.
+
+This executes many times (once per outer row), so it can be slower than other approaches.
+
+---
+
+## 4. Subquery in FROM Clause (Derived Table)
+
+A subquery can also act like a temporary result set.
+
+```sql
+SELECT AVG(avg_salary)
+FROM
+(
+    SELECT department_id,
+           AVG(salary) AS avg_salary
+    FROM employees
+    GROUP BY department_id
+) AS dept_avg;
+```
+
+Here,
+
+the inner query creates a temporary derived table.
+
+The outer query uses it like a normal table.
+
+---
+
+# Subqueries with EXISTS
+
+Find customers who placed at least one order.
+
+```sql
+SELECT *
+FROM customers c
+WHERE EXISTS
+(
+    SELECT 1
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+);
+```
+
+`EXISTS` returns `TRUE` if the subquery finds at least one matching row.
+
+---
+
+# Subqueries with NOT EXISTS
+
+Find customers with no orders.
+
+```sql
+SELECT *
+FROM customers c
+WHERE NOT EXISTS
+(
+    SELECT 1
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+);
+```
+
+---
+
+# Subquery vs JOIN
+
+### Subquery
+
+```sql
+SELECT *
+FROM employees
+WHERE department_id =
+(
+    SELECT department_id
+    FROM departments
+    WHERE department_name='Sales'
+);
+```
+
+### JOIN
+
+```sql
+SELECT e.*
+FROM employees e
+JOIN departments d
+ON e.department_id=d.department_id
+WHERE d.department_name='Sales';
+```
+
+Both produce the same result.
+
+**General guideline:**
+
+- Use a **subquery** when one query naturally depends on the result of another.
+    
+- Use a **JOIN** when you need to combine columns from multiple tables. Joins are often more efficient for retrieving related data.
+    
+
+---
+
+# Advantages
+
+- ✅ Makes complex logic easier to express
+    
+- ✅ Eliminates the need for multiple separate SQL statements
+    
+- ✅ Works well with aggregate functions (`AVG`, `MAX`, `MIN`, `SUM`)
+    
+- ✅ Can be used in `SELECT`, `FROM`, `WHERE`, and `HAVING`
+    
+- ✅ Useful for filtering based on dynamic results
+    
+
+---
+
+# Disadvantages
+
+- ❌ Correlated subqueries can be slow because they may execute once per outer row
+    
+- ❌ Deeply nested subqueries can be difficult to read and maintain
+    
+- ❌ In many cases, a well-written `JOIN` is more efficient
+    
+
+---
+
+# Common Operators with Subqueries
+
+## `=`
+
+```sql
+SELECT *
+FROM employees
+WHERE emp_no =
+(
+    SELECT emp_no
+    FROM employees
+    WHERE first_name='Suresh'
+);
+```
+
+---
+
+## `IN`
+
+```sql
+SELECT *
+FROM employees
+WHERE department_id IN
+(
+    SELECT department_id
+    FROM departments
+    WHERE location='Mumbai'
+);
+```
+
+---
+
+## `ANY`
+
+Returns rows where the condition is true for **at least one** value.
+
+```sql
+SELECT *
+FROM employees
+WHERE salary > ANY
+(
+    SELECT salary
+    FROM employees
+    WHERE department_id=2
+);
+```
+
+---
+
+## `ALL`
+
+Returns rows where the condition is true for **every** value.
+
+```sql
+SELECT *
+FROM employees
+WHERE salary > ALL
+(
+    SELECT salary
+    FROM employees
+    WHERE department_id=2
+);
+```
+
+---
+
+## `EXISTS`
+
+```sql
+SELECT *
+FROM customers c
+WHERE EXISTS
+(
+    SELECT 1
+    FROM orders o
+    WHERE o.customer_id=c.customer_id
+);
+```
+
+---
+
+# Interview Questions
+
+### What is a subquery?
+
+A query nested inside another SQL query. The inner query executes first, and its result is used by the outer query.
+
+### Where can subqueries be used?
+
+- `SELECT`
+    
+- `FROM`
+    
+- `WHERE`
+    
+- `HAVING`
+    
+
+### What is a correlated subquery?
+
+A subquery that references columns from the outer query and is evaluated once for each row processed by the outer query.
+
+### Which is faster: JOIN or subquery?
+
+There is no universal answer. For many relational lookups, **JOINs are often optimized better**, but modern MySQL can optimize many non-correlated subqueries as well. The best choice depends on the query and execution plan.
+
+### When should you use `IN` instead of `=`?
+
+Use `=` when the subquery returns **exactly one value**. Use `IN` when the subquery can return **multiple values**.
+
