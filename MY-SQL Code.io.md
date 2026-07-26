@@ -6005,3 +6005,4 @@ e.manager_id = m.emp_no
 Remember:
 
 > Child points to Parent.
+
